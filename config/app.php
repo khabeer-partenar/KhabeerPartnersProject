@@ -175,8 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-        Yajra\Oci8\Oci8ServiceProvider::class,
-        Yajra\DataTables\DataTablesServiceProvider::class,
+//        Yajra\Oci8\Oci8ServiceProvider::class,
+//        Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*
