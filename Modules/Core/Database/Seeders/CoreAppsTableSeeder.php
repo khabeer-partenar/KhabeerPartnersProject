@@ -1,20 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+namespace Modules\Core\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Entities\App;
 use Carbon\Carbon;
 
-class AddDefaultCoreApps extends Migration
+class CoreAppsTableSeeder extends Seeder
 {
     /**
-     * Run the migrations.
+     * Run the database seeds.
      *
      * @return void
      */
-    public function up()
+    public function run()
     {
+        Model::unguard();
+        
         $topParentId = App::create([
             'resource_name' => 'Modules', 'name' => 'التطبيقات', 'is_main_root' => 1,
             'icon' => 'fa fa-folder-o', 'sort' => 1, 'parent_id' => 0, 'frontend_path' => 'index',
@@ -26,7 +29,8 @@ class AddDefaultCoreApps extends Migration
                 'icon' => 'fa fa-folder-o','sort' => 1, 'parent_id' => $topParentId, 'frontend_path' => 'core', 'is_main_root' => 0,
                 'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
-      
+
+        // AppsController
         $coreAppsId = App::create([
             'resource_name' => 'Modules\Core\Http\Controllers\AppsController', 'name' => 'إدارة التطبيقات',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/apps', 'is_main_root' => 0,
@@ -63,6 +67,7 @@ class AddDefaultCoreApps extends Migration
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
       
+        // GroupsController
         $groupsId = App::create([
             'resource_name' => 'Modules\Core\Http\Controllers\GroupsController', 'name' => 'المجموعات',
             'icon' => 'fa fa-folder-o','sort' => 3, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
@@ -123,6 +128,7 @@ class AddDefaultCoreApps extends Migration
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        // UsersController
         $usersId = App::create([
             'resource_name' => 'Modules\Core\Http\Controllers\UsersController', 'name' => 'المستخدمين',
             'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/users', 'is_main_root' => 0,
@@ -134,13 +140,26 @@ class AddDefaultCoreApps extends Migration
             'icon' => 'fa fa-users','sort' => 1, 'parent_id' => $usersId, 'frontend_path' => 'core/users', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
+
+        App::create([
+            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@store', 'name' => 'اضافة مستخدم جديد',
+            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $usersId, 'frontend_path' => 'core/users', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
         
         App::create([
             'resource_name' => 'Modules\Core\Http\Controllers\UsersController@upgrateToSuperAdmin', 'name' => 'تحديث المستخدم الى ادمن',
-            'icon' => '-', 'sort' => 2, 'parent_id' => $usersId, 'frontend_path' => 'core/users/upgrate_to_super_admin/:id', 'is_main_root' => 0,
+            'icon' => '-', 'sort' => 3, 'parent_id' => $usersId, 'frontend_path' => 'core/users/upgrate_to_super_admin/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@groups', 'name' => 'عرض الادوار الوظيقية',
+            'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $usersId, 'frontend_path' => 'core/users/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
      
+        // PermissionsController
         $permissionsId = App::create([
             'resource_name' => 'Modules\Core\Http\Controllers\PermissionsController', 'name' => 'الصلاحيات',
             'icon' => 'fa fa-folder-o','sort' => 5, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/permissions', 'is_main_root' => 0,
@@ -165,15 +184,17 @@ class AddDefaultCoreApps extends Migration
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
-    }
+        // DepartmentsController
+        $departmentsId = App::create([
+            'resource_name' => 'Modules\Core\Http\Controllers\DepartmentsController', 'name' => 'الادارات',
+            'icon' => 'fa fa-folder-o','sort' => 6, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/departments', 'is_main_root' => 0,
+            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //App::truncate();
+        App::create([
+            'resource_name' => 'Modules\Core\Http\Controllers\DepartmentsController@loadDepartmentsTypesByParentId', 'name' => 'عرض الادارات',
+            'icon' => 'fa fa-folder-o','sort' => 1, 'parent_id' => $departmentsId, 'frontend_path' => 'core/departments/:parentID', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
     }
 }

@@ -15,7 +15,7 @@
 
                 @if(auth()->user()->hasPermissionWithAccess(false, false, 'create'))
                     <div class="btn-group btn-group-devided" data-toggle="buttons">
-                        <a href="{{ route('groups.create') }}" class="btn btn-primary">{{ __('core::groups.action_add')}}</a>
+                        <a href="{{ route('core.groups.create') }}" class="btn btn-primary">{{ __('core::groups.action_add')}}</a>
                     </div>
                 @endif
 

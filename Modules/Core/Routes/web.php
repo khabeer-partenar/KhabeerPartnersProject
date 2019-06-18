@@ -14,7 +14,7 @@
 
 header('Vary:X-Requested-With');
 
-Route::group(['middleware' => 'web', 'prefix' => 'core'], function()
+Route::group(['middleware' => 'web', 'as' => 'core.', 'prefix' => 'core'], function()
 {
     // Apps Routes
     Route::get('/apps', 'AppsController@index')->name('apps.index');
@@ -33,12 +33,16 @@ Route::group(['middleware' => 'web', 'prefix' => 'core'], function()
     Route::get('/groups/{id}/users', 'GroupsController@users')->name('group_users');
 
     // User Routes
-    Route::get('/users', 'UsersController@index')->name('users.index');
     Route::get('/users/search', 'UsersController@search')->name('users.search');
-    Route::get('/users/upgrate_to_super_admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
-
+    Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
+    Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
+    Route::resource('/users', 'UsersController')->only(['index', 'store', 'update', 'destroy']);
 
     // Permissions Routes
     Route::post('/{permissionable}/{permissionableId}/permissions', 'PermissionsController@store');
     Route::delete('/permissions/{id}', 'PermissionsController@destroy');
+
+
+    // Departments Routes
+    Route::get('/departments/{parentId}', 'DepartmentsController@loadDepartmentsTypesByParentId')->name('departments.load_departments_types_by_parent_id');
 });

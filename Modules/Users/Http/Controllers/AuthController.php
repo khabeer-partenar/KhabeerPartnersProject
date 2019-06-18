@@ -38,8 +38,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'national_id' => 'required',
-            'password'    => 'required'
+            'national_id' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -53,7 +52,7 @@ class AuthController extends Controller
 
         $userData = User::where(['national_id' => $request->national_id])->first();
 
-        if ($userData != false && Hash::check($request->password, $userData->password)) {
+        if ($userData != false) {
             auth()->login($userData, true);
 
             if($request->call_type == 'api') {

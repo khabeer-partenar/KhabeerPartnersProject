@@ -44,9 +44,9 @@
                     <div class="row">
                         <attach-user-to-group
                             group-id="{{ $group->id }}"
-                            attach-url="{{ route('attach_user_to_group', $group->id) }}"
-                            detach-url="{{ route('detach_user_to_group', ['id' => $group->id, 'userId' => ""]) }}"
-                            users-url="{{ route('group_users', $group->id)  }}">
+                            attach-url="{{ route('core.attach_user_to_group', $group->id) }}"
+                            detach-url="{{ route('core.detach_user_to_group', ['id' => $group->id, 'userId' => ""]) }}"
+                            users-url="{{ route('core.group_users', $group->id)  }}">
                         </attach-user-to-group>
                     </div>
                 

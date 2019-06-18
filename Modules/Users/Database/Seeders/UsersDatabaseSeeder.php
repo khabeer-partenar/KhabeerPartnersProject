@@ -4,7 +4,7 @@ namespace Modules\Users\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Users\Database\Seeders\SeedFakeUsersTableSeeder;
+use Modules\Users\Database\Seeders\FakeUsersTableSeeder;
 
 class UsersDatabaseSeeder extends Seeder
 {
@@ -17,6 +17,6 @@ class UsersDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(SeedFakeUsersTableSeeder::class);
+        $this->call(FakeUsersTableSeeder::class);
     }
 }

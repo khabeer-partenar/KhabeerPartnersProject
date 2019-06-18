@@ -7,12 +7,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Core\Traits\AuthorizeUser;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
-
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens, AuthorizeUser, \Modules\Core\Traits\SharedModel;
+    use Notifiable, HasApiTokens, AuthorizeUser, SoftDeletes, \Modules\Core\Traits\SharedModel;
 
     protected $table = 'users';
 
@@ -22,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'national_id', 'email', 'password', 'is_super_admin'
+        'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'is_super_admin'
     ];
 
     /**
@@ -31,7 +31,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'remember_token',
     ];
 
     /**
@@ -65,9 +65,11 @@ class User extends Authenticatable
      */
     public static function search($query)
     {
-        return self::where('name', 'LIKE', '%'.$query.'%')
+        return self::where('id', 'LIKE', '%'.$query.'%')
+                  ->orWhere('name', 'LIKE', '%'.$query.'%')
                   ->orWhere('national_id', 'LIKE', '%'.$query.'%')
-                  ->orWhere('email', 'LIKE', '%'.$query.'%');
+                  ->orWhere('email', 'LIKE', '%'.$query.'%')
+                  ->orWhere('phone_number', 'LIKE', '%'.$query.'%');
     }
 
 }

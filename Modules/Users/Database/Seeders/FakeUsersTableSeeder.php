@@ -4,10 +4,9 @@ namespace Modules\Users\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
 use Modules\Users\Entities\User;
 
-class SeedFakeUsersTableSeeder extends Seeder
+class FakeUsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -23,12 +22,14 @@ class SeedFakeUsersTableSeeder extends Seeder
         for($i=1; $i<=30; $i++) {
             $name       = 'user'. $i;
             $nationalID = $nationalID+1;
+            $phoneNumber = 0500000000 + $i;
 
             User::create([
                 'name' => $name,
                 'national_id' => $nationalID,
                 'email' => $name .'@mu.edu.sa',
-                'password' => Hash::make($nationalID),
+                'phone_number' => $phoneNumber,
+                'direct_department_id' => 3,
                 'is_super_admin' => $i <= 10 ? true : false,
             ]);
 

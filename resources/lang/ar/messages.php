@@ -15,4 +15,7 @@ return [
     // messages
     'login_error_message' => 'رقم الهوية أو الرقم السري غير صحيح',
     'updatedـsuccessfully' => 'تم تحديث البيانات بنجاح.',
+
+
+    'save' => 'حفظ',
 ];

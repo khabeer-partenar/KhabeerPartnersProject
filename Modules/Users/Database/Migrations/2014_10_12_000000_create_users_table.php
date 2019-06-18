@@ -18,11 +18,14 @@ class CreateUsersTable extends Migration
             $table->bigInteger('national_id')->unique();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone_number')->unique();
+            $table->integer('direct_department_id');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            //$table->string('password');
             $table->rememberToken();
             $table->boolean('is_super_admin')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

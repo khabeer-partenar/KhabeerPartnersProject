@@ -67,7 +67,7 @@ class GroupsController extends UserBaseController
         }
       
         $group = Group::create($request->all());
-        return redirect()->route('groups.show', ['id' => $group->id ]);
+        return redirect()->route('core.groups.show', ['id' => $group->id ]);
     }
 
     /**
@@ -132,7 +132,7 @@ class GroupsController extends UserBaseController
         $group->users()->detach();
         $group->delete();
 
-        return redirect()->route('groups.index');
+        return redirect()->route('core.groups.index');
     }
   
     /**

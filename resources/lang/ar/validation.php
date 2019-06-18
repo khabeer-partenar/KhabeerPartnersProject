@@ -168,5 +168,11 @@ return [
         'time'                  => 'الوقت',
         'available'             => 'مُتاح',
         'size'                  => 'الحجم',
+
+        'main_department_id'    => 'نوع الجهة',
+        'parent_department_id'  => 'اسم الجهة',
+        'direct_department_id'  => 'الإدارة',
+        'phone_number'          => 'رقم الجوال',
+        'job_role_id'           => 'الدور الوظيفي',
     ],
 ];
