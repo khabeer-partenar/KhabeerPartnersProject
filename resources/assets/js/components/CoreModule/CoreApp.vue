@@ -81,6 +81,8 @@ export default {
         },
         
         isSelected() {
+            console.log(this.sharedData.selectedApp.id);
+            console.log(this.model.id);
             return this.sharedData.selectedApp.id == this.model.id;
         },
 

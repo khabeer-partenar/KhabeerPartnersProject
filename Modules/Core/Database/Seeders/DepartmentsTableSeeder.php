@@ -4,6 +4,7 @@ namespace Modules\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Modules\Core\Entities\Department;
 use Carbon\Carbon;
 
@@ -17,7 +18,9 @@ class DepartmentsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        
+
+        DB::table('departments')->truncate();
+
         $bodiesId = Department::create([
             'parent_id' => 0, 'name' => 'هيئات', 'type' => '1', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;

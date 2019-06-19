@@ -1965,6 +1965,8 @@ __webpack_require__.r(__webpack_exports__);
       return this.isSelected && this.isPermission != "true";
     },
     isSelected: function isSelected() {
+      console.log(this.sharedData.selectedApp.id);
+      console.log(this.model.id);
       return this.sharedData.selectedApp.id == this.model.id;
     },
     hasPermission: function hasPermission() {
