@@ -16,7 +16,7 @@ var language = {
   }
 };
 
-if ($('#table-ajax').attr('data-url')) {
+if ($('#table-ajax-with-search').attr('data-url')) {
   var fields = jQuery.parseJSON($('#table-ajax').attr('data-fields'));
   var datatableFields = [];
   $(fields).each(function(i, v) {
@@ -37,7 +37,7 @@ if ($('#table-ajax').attr('data-url')) {
     }
   });
 
-  $('#table-ajax').DataTable({
+  $('#table-ajax-with-search').DataTable({
     processing: true,
     serverSide: true,
     ajax: {
@@ -52,6 +52,45 @@ if ($('#table-ajax').attr('data-url')) {
     "language": language
   });
 }
+
+if ($('#table-ajax').attr('data-url')) {
+    var fields = jQuery.parseJSON($('#table-ajax').attr('data-fields'));
+    var datatableFields = [];
+    $(fields).each(function(i, v) {
+  
+      if (v.searchable == 'false') {
+        datatableFields.push({
+          title: v.title,
+          data: v.data,
+          searchable: false,
+          sortable: false
+        });
+      } else {
+        datatableFields.push({
+          title: v.title,
+          data: v.data,
+          render: $.fn.dataTable.render.text()
+        });
+      }
+    });
+  
+    $('#table-ajax').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: {
+        url: $('#table-ajax').attr('data-url'),
+        type: 'get'
+      },
+      columns: datatableFields,
+      order: [
+        [0, "asc"]
+      ],
+      "ordering": false,
+      "searching": false,
+      "lengthChange": false,
+      "language": language
+    });
+  }
 
 if ($('#table')) {
   $('#table').DataTable({

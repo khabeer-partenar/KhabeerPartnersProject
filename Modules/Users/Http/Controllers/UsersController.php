@@ -21,9 +21,15 @@ class UsersController extends UserBaseController
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->ajax()) {
-            $users = User::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin');
+            $users = User::allUsers();
 
             return Datatables::of($users)
+               ->addColumn('deptname', function ($user) {
+                return @$user->directDepartment->name;
+               })
+               ->addColumn('job_role', function ($user) {
+                return @$user->jobRole->name;
+               })
                ->addColumn('action', function ($user) {
                    return '
                     <a href="'. route('users.upgrate_to_super_admin', $user->id) .'" class="btn btn-xs btn-'. ($user->is_super_admin == 1 ? 'danger' : 'primary') .' confirm-message">
@@ -31,16 +37,16 @@ class UsersController extends UserBaseController
                     </a>
 
                     <a href="'. route('users.edit', $user->id) .'" class="btn btn-xs btn-primary">
-                        <i class="fa fa-edit"></i> تعديل المتسخدم
+                        <i class="fa fa-edit"></i> '. __('users::users.edit_action') .'
                     </a>
 
                     <a href="'. route('users.destroy-confirmation', $user->id) .'" class="btn btn-xs btn-danger">
-                        <i class="fa fa-trash"></i> تعطيل المستخدم
+                        <i class="fa fa-trash"></i> '. __('users::users.delete_action') .'
                     </a>
 
                     ';
                })
-               ->make(true);
+               ->toJson();
         } else {
             return view('users::users.index');
         }
@@ -156,7 +162,7 @@ class UsersController extends UserBaseController
             'job_role_id'          => 'required|integer|exists:'. Group::table() .',id',
         ]);
 
-        $userData = $userData->update($request);
+        $userData = $userData->updateUser($request);
 
         if(!$userData) {
 
@@ -175,6 +181,33 @@ class UsersController extends UserBaseController
         }
         
         session()->flash('alert-success', __('users::users.userUpdated')); 
+        return redirect()->route('users.index');
+    }
+
+
+    /**
+     * Confirm the delete of user
+     */
+    public function destroyConfirmation(Request $request, $userID) 
+    {
+        $userData = User::findOrFail($userID);
+        return view('users::users.destroy', compact(['userData']));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     * @return Response
+     */
+    public function destroy(Request $request, $userID)
+    {
+        $userData = User::findOrFail($userID);
+        $userData->delete();
+
+        if($this->isApiCall) {
+            return response()->json(__('users::users.userDeleted'), 200);
+        }
+
+        session()->flash('alert-success', __('users::users.userDeleted')); 
         return redirect()->route('users.index');
     }
         
@@ -210,16 +243,4 @@ class UsersController extends UserBaseController
         return $groups;
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy(Request $request, $userID)
-    {
-        $userData = User::findOrFail($userID);
-        $userData->delete();
-
-        return response()->json(null, 200);
-    }
 }

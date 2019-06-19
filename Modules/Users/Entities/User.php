@@ -9,6 +9,7 @@ use Laravel\Passport\HasApiTokens;
 use Modules\Core\Traits\AuthorizeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
+use Modules\Users\Entities\Department;
 
 class User extends Authenticatable
 {
@@ -45,6 +46,23 @@ class User extends Authenticatable
 
 
     /**
+     * get Job role name
+     */
+    public function jobRole()
+    {
+        return $this->hasOne(Group::class, 'id', 'job_role_id');
+
+    }
+
+    /**
+     * get Job role name
+     */
+    public function directDepartment()
+    {
+        return $this->belongsTo(Department::class, 'direct_department_id');
+    }
+
+    /**
     * Get user groups
     */
     public function groups()
@@ -73,12 +91,35 @@ class User extends Authenticatable
     }
 
     /**
+     * Return all users data
+     */
+    public static function scopeAllUsers($query)
+    {
+        return $query->select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')->with('jobRole', 'directDepartment');
+    }
+
+    /**
      * Create new User
      */
     public static function createNewUser($request) 
     {
         $userData = self::create($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
         $userData->groups()->attach($request->job_role_id);
+        return $userData;
+    }
+
+    /**
+     * Update current user
+     */
+    public function updateUser($request)
+    {
+        if($this->job_role_id != $request->job_role_id) {
+            // detach user
+            $this->groups()->detach($this->job_role_id);
+            $this->groups()->attach($request->job_role_id);
+        }
+
+        $userData  = $this->update($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
         return $userData;
     }
 }

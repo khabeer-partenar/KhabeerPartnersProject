@@ -10,6 +10,7 @@ return [
     'backBtn' => 'تراجع',
 
     'name' => 'الاسم',
+    'deptname' => 'الإدارة',
     'email' => 'البريد الإلكتروني',
     'national_id' => 'رقم الهوية',
     'password' => 'الرقم السري',
@@ -20,7 +21,10 @@ return [
     'updatedـsuccessfully' => 'تم تحديث البيانات بنجاح.',
     'error_message' => 'الرجاء مراجعة الأخطاء',
 
+    'destroyـconfirmation' => 'هل انت متأكد من عملية الحذف؟',
+
     'add' => 'اضافة',
     'save' => 'حفظ',
     'goBack' => 'تراجع',
+    'delete' => 'حذف',
 ];
