@@ -24,6 +24,17 @@ class Department extends Model
 
 
     /**
+     * Scopes
+     *
+     * Here you should add Scopes
+     */
+
+    public static function scopeGetDepartments($query)
+    {
+        return $query->mainDepartments($query)->pluck('name', 'id');
+    }
+
+    /**
      * Get main departments where parent id equal to 0 and type equal to 1
      */
     public static function scopeMainDepartments($query)

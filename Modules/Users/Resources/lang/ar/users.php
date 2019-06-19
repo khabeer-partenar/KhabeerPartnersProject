@@ -10,4 +10,9 @@ return [
     'userCreated' => 'تم انشاء المستخدم بنجاح',
     'userNotUpdated' => 'حدث خطأ محاولة تحديث المستخدم',
     'userUpdated' => 'تم تحديث المستخدم',
+    // Co-ordinators
+    'coordinatorNotCreated' => 'حدث خطأ اثناء محاولة انشاء المنسق',
+    'coordinatorCreated' => 'تم انشاء المنسق بنجاح',
+    'coordinatorNotUpdated' => 'حدث خطأ محاولة تحديث المنسق',
+    'coordinatorUpdated' => 'تم تحديث المنسق',
 ];

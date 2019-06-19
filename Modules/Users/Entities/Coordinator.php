@@ -3,7 +3,6 @@
 namespace Modules\Users\Entities;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -16,6 +15,5 @@ class Coordinator extends Authenticatable
     protected $fillable = [
         'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id'
     ];
-
 
 }
