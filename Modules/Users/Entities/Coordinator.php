@@ -14,7 +14,7 @@ class Coordinator extends Authenticatable
     use Notifiable, HasApiTokens, AuthorizeUser,SoftDeletes;
 
     protected $fillable = [
-        'name', 'national_id', 'email', 'phone_number', 'direct_department_id'
+        'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id'
     ];
 
 

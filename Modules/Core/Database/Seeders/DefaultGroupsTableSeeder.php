@@ -18,8 +18,8 @@ class DefaultGroupsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
-        DB::table('core_groups')->truncate();
+        
+        DB::table(Group::table())->truncate();
 
         Group::create([
             'parent_id' => 0, 'name' => 'مكتب معالي الرئيس', 'key' => 'office_of_the_president', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()

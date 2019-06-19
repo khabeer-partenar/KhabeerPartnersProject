@@ -17,8 +17,8 @@ class FakeUsersTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
-        DB::table('users')->truncate();
+        
+        DB::table(User::table())->truncate();
 
         $nationalID = 1000000000;
 
@@ -34,6 +34,7 @@ class FakeUsersTableSeeder extends Seeder
                 'phone_number' => $phoneNumber,
                 'direct_department_id' => 3,
                 'is_super_admin' => $i <= 10 ? true : false,
+                'job_role_id' => rand(1,12),
             ]);
 
         }

@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Core\Database\Seeders;
+namespace Modules\Users\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Modules\Core\Entities\Department;
+use Modules\Users\Entities\Department;
 use Carbon\Carbon;
 
 class DepartmentsTableSeeder extends Seeder
@@ -18,8 +18,8 @@ class DepartmentsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-
-        DB::table('departments')->truncate();
+        
+        DB::table(Department::table())->truncate();
 
         $bodiesId = Department::create([
             'parent_id' => 0, 'name' => 'هيئات', 'type' => '1', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()

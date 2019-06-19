@@ -112,6 +112,10 @@ return [
     'uploaded'             => 'فشل في تحميل الـ :attribute.',
     'url'                  => 'صيغة الرابط :attribute غير صحيحة.',
     'uuid'                 => ':attribute يجب أن يكون بصيغة UUID سليمة.',
+    'national_id'          => ':attribute غير صحيح',
+    'phone_number'         => ':attribute غير صحيح',
+    'filter_string'        => ':attribute لا يمكن ان يحتوني على رموز',
+    'gov_email'            => ':attribute يجب ان ينتهي بإمتداد gov.sa',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
