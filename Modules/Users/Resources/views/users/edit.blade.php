@@ -7,29 +7,29 @@
 
             <div class="caption">
                 <i class="fa fa-user"></i>
-                <span class="caption-subject sbold">{{ __('core::users.action_add') }}</span>
+                <span class="caption-subject sbold">{{ __('users::users.action_edit') }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('core.users.index') }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('users.index') }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
 
         <div class="portlet-body form">
             
-            {{ Form::open(['route' => 'core.users.store', 'method' => 'POST']) }}
+            {{ Form::model($userData, ['route' => ['users.update', $userData->id], 'method' => 'PUT']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
                 @endif
 
                 <div class="form-body">
-                    @include('core::users.form')
+                    @include('users::users.form')
                 </div>
 
                 <div class="form-actions">
-                    {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn blue']) }}
+                    {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue']) }}
                 </div>
 
             {{ Form::close() }}

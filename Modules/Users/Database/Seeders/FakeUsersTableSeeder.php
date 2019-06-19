@@ -4,6 +4,7 @@ namespace Modules\Users\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Modules\Users\Entities\User;
 
 class FakeUsersTableSeeder extends Seeder
@@ -17,6 +18,8 @@ class FakeUsersTableSeeder extends Seeder
     {
         Model::unguard();
         
+        DB::table(User::table())->truncate();
+
         $nationalID = 1000000000;
 
         for($i=1; $i<=30; $i++) {

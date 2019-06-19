@@ -7,17 +7,17 @@
 
             <div class="caption">
                 <i class="fa fa-users"></i>
-                <span class="caption-subject sbold">{{ __('core::users.title') }}</span>
+                <span class="caption-subject sbold">{{ __('users::users.title') }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('core.users.create') }}" class="btn btn-primary">{{ __('core::users.action_add') }}</a>
+                <a href="{{ route('users.create') }}" class="btn btn-primary">{{ __('users::users.action_add') }}</a>
             </div>
         
         </div>
 
         <div class="portlet-body">
-            <table id="table-ajax" class="table" data-url="/core/users"
+            <table id="table-ajax" class="table" data-url="/users"
                 data-fields='[
                     {"data": "id","title":"ID","searchable":"true"},
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"true"},
