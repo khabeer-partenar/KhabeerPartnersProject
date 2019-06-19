@@ -113,6 +113,9 @@ $(document).ready(function () {
       form.submit();
     }
   });
+  $('.confirm-message').on('click', function (e) {
+    return confirm('هل انت متأكد؟');
+  });
   /* Multi input */
 
   $(".add-more").click(function () {

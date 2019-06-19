@@ -31,6 +31,7 @@ class FakeUsersTableSeeder extends Seeder
                 'phone_number' => $phoneNumber,
                 'direct_department_id' => 3,
                 'is_super_admin' => $i <= 10 ? true : false,
+                'job_role_id' => rand(1,12),
             ]);
 
         }

@@ -36,7 +36,8 @@ Route::group(['middleware' => 'web', 'as' => 'core.', 'prefix' => 'core'], funct
     Route::get('/users/search', 'UsersController@search')->name('users.search');
     Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
     Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
-    Route::resource('/users', 'UsersController')->only(['index', 'store', 'update', 'destroy']);
+    Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
+    Route::resource('/users', 'UsersController');
 
     // Permissions Routes
     Route::post('/{permissionable}/{permissionableId}/permissions', 'PermissionsController@store');
