@@ -4,6 +4,10 @@ namespace Modules\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\DB;
+>>>>>>> origin/master
 use Modules\Core\Entities\App;
 use Carbon\Carbon;
 
@@ -17,7 +21,13 @@ class CoreAppsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+<<<<<<< HEAD
         
+=======
+
+        DB::table(App::table())->truncate();
+
+>>>>>>> origin/master
         $topParentId = App::create([
             'resource_name' => 'Modules', 'name' => 'التطبيقات', 'is_main_root' => 1,
             'icon' => 'fa fa-folder-o', 'sort' => 1, 'parent_id' => 0, 'frontend_path' => 'index',
@@ -130,32 +140,72 @@ class CoreAppsTableSeeder extends Seeder
 
         // UsersController
         $usersId = App::create([
+<<<<<<< HEAD
             'resource_name' => 'Modules\Core\Http\Controllers\UsersController', 'name' => 'المستخدمين',
             'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/users', 'is_main_root' => 0,
+=======
+            'resource_name' => 'Modules\Users\Http\Controllers\UsersController', 'name' => 'إدارة المستخدمين',
+            'icon' => 'fa fa-users', 'sort' => 2, 'parent_id' => $topParentId, 'frontend_path' => 'users', 'is_main_root' => 1,
+            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        $entityUsersId = App::create([
+            'resource_name' => 'Modules\Users\Http\Controllers\UsersController@index', 'name' => 'إدارة موظفين الهيئة',
+            'icon' => 'fa fa-users','sort' => 1, 'parent_id' => $usersId, 'frontend_path' => 'users', 'is_main_root' => 0,
+            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        $manageKhabeerCommittees = App::create([
+            'resource_name' => 'Modules\Users\Http\Controllers\KhabeerPartnersController', 'name' => 'إسناد لجان شركاء خبير',
+            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $usersId, 'frontend_path' => 'users/khabeer-partners', 'is_main_root' => 0,
+            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        $manageCoordinators = App::create([
+            'resource_name' => 'Modules\Users\Http\Controllers\CoordinatorController', 'name' => 'إدارة المنسقين',
+            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $usersId, 'frontend_path' => 'users/coordinators', 'is_main_root' => 0,
+>>>>>>> origin/master
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         App::create([
+<<<<<<< HEAD
             'resource_name' => 'Modules\Core\Http\Controllers\UsersController@index', 'name' => 'قراءة الكل',
             'icon' => 'fa fa-users','sort' => 1, 'parent_id' => $usersId, 'frontend_path' => 'core/users', 'is_main_root' => 0,
+=======
+            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@readAll', 'name' => 'قراءة الكل',
+            'icon' => 'fa fa-users','sort' => 1, 'parent_id' => $entityUsersId, 'frontend_path' => 'core/users', 'is_main_root' => 0,
+>>>>>>> origin/master
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
             'resource_name' => 'Modules\Core\Http\Controllers\UsersController@store', 'name' => 'اضافة مستخدم جديد',
+<<<<<<< HEAD
             'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $usersId, 'frontend_path' => 'core/users', 'is_main_root' => 0,
+=======
+            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $entityUsersId, 'frontend_path' => 'core/users/create', 'is_main_root' => 0,
+>>>>>>> origin/master
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
         
         App::create([
             'resource_name' => 'Modules\Core\Http\Controllers\UsersController@upgrateToSuperAdmin', 'name' => 'تحديث المستخدم الى ادمن',
+<<<<<<< HEAD
             'icon' => '-', 'sort' => 3, 'parent_id' => $usersId, 'frontend_path' => 'core/users/upgrate_to_super_admin/:id', 'is_main_root' => 0,
+=======
+            'icon' => '-', 'sort' => 3, 'parent_id' => $entityUsersId, 'frontend_path' => 'core/users/upgrate_to_super_admin/:id', 'is_main_root' => 0,
+>>>>>>> origin/master
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
             'resource_name' => 'Modules\Core\Http\Controllers\UsersController@groups', 'name' => 'عرض الادوار الوظيقية',
+<<<<<<< HEAD
             'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $usersId, 'frontend_path' => 'core/users/groups', 'is_main_root' => 0,
+=======
+            'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $entityUsersId, 'frontend_path' => 'core/users/groups', 'is_main_root' => 0,
+>>>>>>> origin/master
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
      
@@ -197,4 +247,8 @@ class CoreAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

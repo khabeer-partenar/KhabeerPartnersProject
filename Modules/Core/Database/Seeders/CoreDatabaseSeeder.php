@@ -6,7 +6,10 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Database\Seeders\CoreAppsTableSeeder;
 use Modules\Core\Database\Seeders\DefaultGroupsTableSeeder;
+<<<<<<< HEAD
 use Modules\Core\Database\Seeders\DepartmentsTableSeeder;
+=======
+>>>>>>> origin/master
 
 class CoreDatabaseSeeder extends Seeder
 {
@@ -21,6 +24,9 @@ class CoreDatabaseSeeder extends Seeder
 
         $this->call(CoreAppsTableSeeder::class);
         $this->call(DefaultGroupsTableSeeder::class);
+<<<<<<< HEAD
         $this->call(DepartmentsTableSeeder::class);
+=======
+>>>>>>> origin/master
     }
 }

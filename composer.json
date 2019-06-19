@@ -15,8 +15,14 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8.0",
         "nwidart/laravel-modules": "^5.0",
+<<<<<<< HEAD
         "rap2hpoutre/laravel-log-viewer": "^1.2"
 
+=======
+        "rap2hpoutre/laravel-log-viewer": "^1.2",
+        "yajra/laravel-datatables-oracle": "~9.0",
+        "yajra/laravel-oci8": "5.8.*"
+>>>>>>> origin/master
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

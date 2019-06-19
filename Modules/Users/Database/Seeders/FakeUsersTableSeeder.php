@@ -4,6 +4,10 @@ namespace Modules\Users\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\DB;
+>>>>>>> origin/master
 use Modules\Users\Entities\User;
 
 class FakeUsersTableSeeder extends Seeder
@@ -17,6 +21,11 @@ class FakeUsersTableSeeder extends Seeder
     {
         Model::unguard();
         
+<<<<<<< HEAD
+=======
+        DB::table(User::table())->truncate();
+
+>>>>>>> origin/master
         $nationalID = 1000000000;
 
         for($i=1; $i<=30; $i++) {
@@ -31,6 +40,10 @@ class FakeUsersTableSeeder extends Seeder
                 'phone_number' => $phoneNumber,
                 'direct_department_id' => 3,
                 'is_super_admin' => $i <= 10 ? true : false,
+<<<<<<< HEAD
+=======
+                'job_role_id' => rand(1,12),
+>>>>>>> origin/master
             ]);
 
         }

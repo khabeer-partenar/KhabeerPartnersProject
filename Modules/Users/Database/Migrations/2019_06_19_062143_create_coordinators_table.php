@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateCoordinatorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('coordinators', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('national_id')->unique();
             $table->string('name');
@@ -22,14 +22,10 @@ class CreateUsersTable extends Migration
             $table->integer('direct_department_id');
             $table->timestamp('email_verified_at')->nullable();
             //$table->string('password');
-            $table->rememberToken();
-            $table->boolean('is_super_admin')->default(false);
-<<<<<<< HEAD
-=======
-            $table->integer('job_role_id')->references('id')->on('khabeer_core_groups');
->>>>>>> origin/master
-            $table->timestamps();
             $table->softDeletes();
+            $table->integer('job_role_id')->references('id')->on('khabeer_core_groups');
+            $table->rememberToken();
+            $table->timestamps();
         });
     }
 
@@ -40,6 +36,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('coordinators');
     }
 }

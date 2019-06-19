@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "b731d263c87a037d3ed29a160eb37414",
+=======
+    "content-hash": "375ef3b7861f70d3fa3cf1474a27a16d",
+>>>>>>> origin/master
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -759,6 +763,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v5.8.23",
             "source": {
                 "type": "git",
@@ -769,6 +774,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/02d242212348bddd048702f5dee8dab693ac830b",
                 "reference": "02d242212348bddd048702f5dee8dab693ac830b",
+=======
+            "version": "v5.8.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "c78796cc1159c8dc63c45a2011ddc4af17059cb4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/c78796cc1159c8dc63c45a2011ddc4af17059cb4",
+                "reference": "c78796cc1159c8dc63c45a2011ddc4af17059cb4",
+>>>>>>> origin/master
                 "shasum": ""
             },
             "require": {
@@ -902,7 +919,11 @@
                 "framework",
                 "laravel"
             ],
+<<<<<<< HEAD
             "time": "2019-06-13T21:08:56+00:00"
+=======
+            "time": "2019-06-05T00:13:05+00:00"
+>>>>>>> origin/master
         },
         {
             "name": "laravel/passport",
@@ -1451,6 +1472,7 @@
         },
         {
             "name": "nesbot/carbon",
+<<<<<<< HEAD
             "version": "2.19.2",
             "source": {
                 "type": "git",
@@ -1461,6 +1483,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/adcad3f3af52d0ad4ad7b05f43aa58243b6ca67b",
                 "reference": "adcad3f3af52d0ad4ad7b05f43aa58243b6ca67b",
+=======
+            "version": "2.19.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/briannesbitt/Carbon.git",
+                "reference": "5cf102d1476fdf92f1f991bd1a1a0d93c65755ca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/5cf102d1476fdf92f1f991bd1a1a0d93c65755ca",
+                "reference": "5cf102d1476fdf92f1f991bd1a1a0d93c65755ca",
+>>>>>>> origin/master
                 "shasum": ""
             },
             "require": {
@@ -1507,7 +1541,11 @@
                 "datetime",
                 "time"
             ],
+<<<<<<< HEAD
             "time": "2019-06-07T09:56:45+00:00"
+=======
+            "time": "2019-06-04T20:07:46+00:00"
+>>>>>>> origin/master
         },
         {
             "name": "nikic/php-parser",
@@ -3865,6 +3903,7 @@
         },
         {
             "name": "vlucas/phpdotenv",
+<<<<<<< HEAD
             "version": "v3.4.0",
             "source": {
                 "type": "git",
@@ -3875,6 +3914,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/5084b23845c24dbff8ac6c204290c341e4776c92",
                 "reference": "5084b23845c24dbff8ac6c204290c341e4776c92",
+=======
+            "version": "v3.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vlucas/phpdotenv.git",
+                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/dbcc609971dd9b55f48b8008b553d79fd372ddde",
+                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde",
+>>>>>>> origin/master
                 "shasum": ""
             },
             "require": {
@@ -3888,7 +3939,11 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
+<<<<<<< HEAD
                     "dev-master": "3.4-dev"
+=======
+                    "dev-master": "3.3-dev"
+>>>>>>> origin/master
                 }
             },
             "autoload": {
@@ -3913,7 +3968,184 @@
                 "env",
                 "environment"
             ],
+<<<<<<< HEAD
             "time": "2019-06-15T22:40:20+00:00"
+=======
+            "time": "2019-03-06T09:39:45+00:00"
+        },
+        {
+            "name": "yajra/laravel-datatables-oracle",
+            "version": "v9.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yajra/laravel-datatables.git",
+                "reference": "ac37f93026b6b607d1bb56789d147a4efd8d97d9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/ac37f93026b6b607d1bb56789d147a4efd8d97d9",
+                "reference": "ac37f93026b6b607d1bb56789d147a4efd8d97d9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "5.8.*",
+                "illuminate/filesystem": "5.8.*",
+                "illuminate/http": "5.8.*",
+                "illuminate/support": "5.8.*",
+                "illuminate/view": "5.8.*",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.8"
+            },
+            "suggest": {
+                "yajra/laravel-datatables-buttons": "Plugin for server-side exporting of dataTables.",
+                "yajra/laravel-datatables-editor": "Plugin to use DataTables Editor (requires a license).",
+                "yajra/laravel-datatables-fractal": "Plugin for server-side response using Fractal.",
+                "yajra/laravel-datatables-html": "Plugin for server-side HTML builder of dataTables."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "9.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Yajra\\DataTables\\DataTablesServiceProvider"
+                    ],
+                    "aliases": {
+                        "DataTables": "Yajra\\DataTables\\Facades\\DataTables"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yajra\\DataTables\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arjay Angeles",
+                    "email": "aqangeles@gmail.com"
+                }
+            ],
+            "description": "jQuery DataTables API for Laravel 4|5",
+            "keywords": [
+                "datatables",
+                "jquery",
+                "laravel"
+            ],
+            "time": "2019-06-12T05:06:59+00:00"
+        },
+        {
+            "name": "yajra/laravel-oci8",
+            "version": "v5.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yajra/laravel-oci8.git",
+                "reference": "0318976c23e06f20212f57ac162b4ec8af963c6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yajra/laravel-oci8/zipball/0318976c23e06f20212f57ac162b4ec8af963c6c",
+                "reference": "0318976c23e06f20212f57ac162b4ec8af963c6c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-oci8": ">=2.0.0",
+                "illuminate/database": "5.8.*",
+                "illuminate/support": "5.8.*",
+                "php": "^7.1.3",
+                "yajra/laravel-pdo-via-oci8": "^1.3.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~7.0",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.8-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Yajra\\Oci8\\Oci8ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "Yajra\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arjay Angeles",
+                    "email": "aqangeles@gmail.com"
+                }
+            ],
+            "description": "Oracle DB driver for Laravel 4|5 via OCI8",
+            "keywords": [
+                "laravel",
+                "laravel4",
+                "laravel5",
+                "oci8",
+                "oracle",
+                "pdo_oci"
+            ],
+            "time": "2019-04-24T03:45:54+00:00"
+        },
+        {
+            "name": "yajra/laravel-pdo-via-oci8",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yajra/pdo-via-oci8.git",
+                "reference": "91598cf82bf67b0e006e40be11af9ba33a802a44"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yajra/pdo-via-oci8/zipball/91598cf82bf67b0e006e40be11af9ba33a802a44",
+                "reference": "91598cf82bf67b0e006e40be11af9ba33a802a44",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yajra\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arjay Angeles",
+                    "email": "aqangeles@gmail.com"
+                }
+            ],
+            "description": "PDO userspace driver proxying calls to PHP OCI8 driver",
+            "time": "2019-05-09T02:45:31+00:00"
+>>>>>>> origin/master
         },
         {
             "name": "zendframework/zend-diactoros",
@@ -4821,6 +5053,7 @@
         },
         {
             "name": "phpspec/prophecy",
+<<<<<<< HEAD
             "version": "1.8.1",
             "source": {
                 "type": "git",
@@ -4831,6 +5064,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpspec/prophecy/zipball/1927e75f4ed19131ec9bcc3b002e07fb1173ee76",
                 "reference": "1927e75f4ed19131ec9bcc3b002e07fb1173ee76",
+=======
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpspec/prophecy.git",
+                "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
+                "reference": "4ba436b55987b4bf311cb7c6ba82aa528aac0a06",
+>>>>>>> origin/master
                 "shasum": ""
             },
             "require": {
@@ -4851,8 +5096,13 @@
                 }
             },
             "autoload": {
+<<<<<<< HEAD
                 "psr-4": {
                     "Prophecy\\": "src/Prophecy"
+=======
+                "psr-0": {
+                    "Prophecy\\": "src/"
+>>>>>>> origin/master
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4880,7 +5130,11 @@
                 "spy",
                 "stub"
             ],
+<<<<<<< HEAD
             "time": "2019-06-13T12:50:23+00:00"
+=======
+            "time": "2018-08-05T17:53:17+00:00"
+>>>>>>> origin/master
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5786,6 +6040,7 @@
         },
         {
             "name": "theseer/tokenizer",
+<<<<<<< HEAD
             "version": "1.1.3",
             "source": {
                 "type": "git",
@@ -5796,6 +6051,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/theseer/tokenizer/zipball/11336f6f84e16a720dae9d8e6ed5019efa85a0f9",
                 "reference": "11336f6f84e16a720dae9d8e6ed5019efa85a0f9",
+=======
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/theseer/tokenizer.git",
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/theseer/tokenizer/zipball/1c42705be2b6c1de5904f8afacef5895cab44bf8",
+                "reference": "1c42705be2b6c1de5904f8afacef5895cab44bf8",
+>>>>>>> origin/master
                 "shasum": ""
             },
             "require": {
@@ -5822,7 +6089,11 @@
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
+<<<<<<< HEAD
             "time": "2019-06-13T22:48:21+00:00"
+=======
+            "time": "2019-04-04T09:56:43+00:00"
+>>>>>>> origin/master
         },
         {
             "name": "webmozart/assert",

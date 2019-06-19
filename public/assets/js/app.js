@@ -2756,6 +2756,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/CoreModule/Users/AddUser.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/CoreModule/Users/AddUser.vue?vue&type=script&lang=js& ***!
@@ -3408,6 +3409,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+=======
+>>>>>>> origin/master
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/sideMenuItem.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/sideMenuItem.vue?vue&type=script&lang=js& ***!
@@ -23235,6 +23238,7 @@ var render = function() {
               ),
               _vm._v(" "),
               _vm._t("footer")
+<<<<<<< HEAD
             ],
             2
           )
@@ -23991,10 +23995,17 @@ var render = function() {
           },
           [_vm._v("تراجع")]
         )
+=======
+            ],
+            2
+          )
+        ])
+>>>>>>> origin/master
       ])
     ])
   ])
 }
+<<<<<<< HEAD
 var staticRenderFns = [
   function() {
     var _vm = this
@@ -24023,15 +24034,24 @@ var staticRenderFns = [
     ])
   }
 ]
+=======
+var staticRenderFns = []
+>>>>>>> origin/master
 render._withStripped = true
 
 
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/CoreModule/Users/EditUser.vue?vue&type=template&id=a7957a4e&":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/CoreModule/Users/EditUser.vue?vue&type=template&id=a7957a4e& ***!
+=======
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/CoreModule/PermissionForm.vue?vue&type=template&id=5df3fd50&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/CoreModule/PermissionForm.vue?vue&type=template&id=5df3fd50& ***!
+>>>>>>> origin/master
   \***********************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -24044,6 +24064,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+<<<<<<< HEAD
   return _c("div", { staticClass: "portlet light bordered" }, [
     _vm._m(0),
     _vm._v(" "),
@@ -24465,6 +24486,120 @@ var staticRenderFns = [
     ])
   }
 ]
+=======
+  return _c("transition", { attrs: { name: "modal" } }, [
+    _c("div", { staticClass: "modal", staticStyle: { display: "block" } }, [
+      _c(
+        "div",
+        { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+        [
+          _c("div", { staticClass: "modal-content" }, [
+            _c(
+              "div",
+              { staticClass: "modal-header" },
+              [
+                _c(
+                  "span",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.isLoading,
+                        expression: "isLoading"
+                      }
+                    ]
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-spinner fa-spin fa-3x fa-fw"
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._t("header"),
+                _vm._v(" "),
+                _vm.savedSuccessfully
+                  ? _c("div", { staticClass: "alert alert-success" }, [
+                      _vm._v("تم الحفظ بنجاح")
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.savingError
+                  ? _c("div", { staticClass: "alert alert-danger" }, [
+                      _vm._v("الرجاء مراجعة الأخطاء")
+                    ])
+                  : _vm._e()
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "modal-body" },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.savePermission()
+                        },
+                        keydown: function($event) {
+                          return _vm.form.errors.clear($event.target.name)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-1" }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-11" }, [
+                          _c("h4", [
+                            _vm._v("هل انت متأكد من عملية اضافة الصلاحيات؟")
+                          ])
+                        ])
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _vm._t("body")
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "modal-footer" },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    on: {
+                      click: function($event) {
+                        return _vm.savePermission()
+                      }
+                    }
+                  },
+                  [_vm._v("نعم")]
+                ),
+                _vm._v(" "),
+                _vm._t("footer")
+              ],
+              2
+            )
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+>>>>>>> origin/master
 render._withStripped = true
 
 
@@ -36877,10 +37012,13 @@ Vue.component('delete-core-app', __webpack_require__(/*! ./components/CoreModule
 Vue.component('attach-user-to-group', __webpack_require__(/*! ./components/CoreModule/AttachUserToGroup.vue */ "./resources/assets/js/components/CoreModule/AttachUserToGroup.vue")["default"]);
 Vue.component('permission-form', __webpack_require__(/*! ./components/CoreModule/PermissionForm.vue */ "./resources/assets/js/components/CoreModule/PermissionForm.vue")["default"]);
 Vue.component('delete-permission', __webpack_require__(/*! ./components/CoreModule/DeletePermission.vue */ "./resources/assets/js/components/CoreModule/DeletePermission.vue")["default"]);
+<<<<<<< HEAD
 Vue.component('core-users', __webpack_require__(/*! ./components/CoreModule/Users/Users.vue */ "./resources/assets/js/components/CoreModule/Users/Users.vue")["default"]);
 Vue.component('core-add-user', __webpack_require__(/*! ./components/CoreModule/Users/AddUser.vue */ "./resources/assets/js/components/CoreModule/Users/AddUser.vue")["default"]);
 Vue.component('core-edit-user', __webpack_require__(/*! ./components/CoreModule/Users/EditUser.vue */ "./resources/assets/js/components/CoreModule/Users/EditUser.vue")["default"]);
 Vue.component('core-disable-user', __webpack_require__(/*! ./components/CoreModule/Users/DisableUser.vue */ "./resources/assets/js/components/CoreModule/Users/DisableUser.vue")["default"]);
+=======
+>>>>>>> origin/master
 
 /***/ }),
 
@@ -37385,6 +37523,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./resources/assets/js/components/CoreModule/Users/AddUser.vue":
 /*!*********************************************************************!*\
   !*** ./resources/assets/js/components/CoreModule/Users/AddUser.vue ***!
@@ -37661,6 +37800,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+=======
+>>>>>>> origin/master
 /***/ "./resources/assets/js/components/sideMenuItem.vue":
 /*!*********************************************************!*\
   !*** ./resources/assets/js/components/sideMenuItem.vue ***!

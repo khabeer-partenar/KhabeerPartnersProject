@@ -113,6 +113,12 @@ $(document).ready(function () {
       form.submit();
     }
   });
+<<<<<<< HEAD
+=======
+  $('.confirm-message').on('click', function (e) {
+    return confirm('هل انت متأكد؟');
+  });
+>>>>>>> origin/master
   /* Multi input */
 
   $(".add-more").click(function () {

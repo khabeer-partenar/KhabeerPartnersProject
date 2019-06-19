@@ -4,6 +4,10 @@ namespace Modules\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Facades\DB;
+>>>>>>> origin/master
 use Modules\Core\Entities\Group;
 use Carbon\Carbon;
 
@@ -18,6 +22,11 @@ class DefaultGroupsTableSeeder extends Seeder
     {
         Model::unguard();
         
+<<<<<<< HEAD
+=======
+        DB::table(Group::table())->truncate();
+
+>>>>>>> origin/master
         Group::create([
             'parent_id' => 0, 'name' => 'مكتب معالي الرئيس', 'key' => 'office_of_the_president', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);

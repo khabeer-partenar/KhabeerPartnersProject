@@ -29,13 +29,21 @@ class PermissionsController extends UserBaseController
         else {
 
             $permissionableType = 'groups';
+<<<<<<< HEAD
             $typeShortcut = 'group_permissions';
             
+=======
+
+>>>>>>> origin/master
             return view('core::permissions.index')
                     ->with('permissionableType', $permissionableType)
                     ->with('permissionableId', $id)
                     ->with('model', $model)
+<<<<<<< HEAD
                     ->with('routeUrl', route($typeShortcut, ['id' => $id]));
+=======
+                    ->with('routeUrl', route('core.group_permissions', ['id' => $id]));
+>>>>>>> origin/master
         }
     }
 
