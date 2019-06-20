@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Department;
+use Modules\Users\Http\Requests\SaveCoordinatorRequest;
 use Yajra\DataTables\Facades\DataTables;
 
 class CoordinatorController extends Controller
@@ -60,9 +61,9 @@ class CoordinatorController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(SaveCoordinatorRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**
