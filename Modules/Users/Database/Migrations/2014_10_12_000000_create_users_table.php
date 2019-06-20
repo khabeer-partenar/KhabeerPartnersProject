@@ -24,10 +24,9 @@ class CreateUsersTable extends Migration
             //$table->string('password');
             $table->rememberToken();
             $table->boolean('is_super_admin')->default(false);
-<<<<<<< HEAD
-=======
+
             $table->integer('job_role_id')->references('id')->on('khabeer_core_groups');
->>>>>>> origin/master
+
             $table->timestamps();
             $table->softDeletes();
         });

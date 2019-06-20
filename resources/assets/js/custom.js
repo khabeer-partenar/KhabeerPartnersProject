@@ -23,13 +23,12 @@ $(document).ready(function() {
     }
   });
 
-<<<<<<< HEAD
-=======
+
   $('.confirm-message').on('click', function(e) {
       return confirm('هل انت متأكد؟');
   });
 
->>>>>>> origin/master
+
   /* Multi input */
   $(".add-more").click(function() {
     var html = $(".copy").html();

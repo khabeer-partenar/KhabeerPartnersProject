@@ -113,12 +113,9 @@ $(document).ready(function () {
       form.submit();
     }
   });
-<<<<<<< HEAD
-=======
   $('.confirm-message').on('click', function (e) {
     return confirm('هل انت متأكد؟');
   });
->>>>>>> origin/master
   /* Multi input */
 
   $(".add-more").click(function () {
@@ -462,7 +459,7 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/abdullahalqduiry/Desktop/projects/un/KhabeerPartners/resources/assets/js/custom.js */"./resources/assets/js/custom.js");
+module.exports = __webpack_require__(/*! C:\khaber\resources\assets\js\custom.js */"./resources/assets/js/custom.js");
 
 
 /***/ })

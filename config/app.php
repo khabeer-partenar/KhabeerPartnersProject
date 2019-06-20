@@ -175,13 +175,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
-<<<<<<< HEAD
         // Yajra\Oci8\Oci8ServiceProvider::class,
         // Yajra\DataTables\DataTablesServiceProvider::class,
-=======
-        Yajra\Oci8\Oci8ServiceProvider::class,
-        Yajra\DataTables\DataTablesServiceProvider::class,
->>>>>>> origin/master
+        // Yajra\Oci8\Oci8ServiceProvider::class,
+        // Yajra\DataTables\DataTablesServiceProvider::class,
     ],
 
     /*
@@ -234,11 +231,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-<<<<<<< HEAD
         // 'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-=======
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
->>>>>>> origin/master
+        // 'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];

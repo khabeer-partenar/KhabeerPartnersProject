@@ -163,7 +163,7 @@ Exemples :
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/abdullahalqduiry/Desktop/projects/un/KhabeerPartners/resources/assets/js/vendor/laravel-forms.js */"./resources/assets/js/vendor/laravel-forms.js");
+module.exports = __webpack_require__(/*! C:\khaber\resources\assets\js\vendor\laravel-forms.js */"./resources/assets/js/vendor/laravel-forms.js");
 
 
 /***/ })

@@ -19,9 +19,9 @@ Route::group(['middleware' => 'guest'], function()
 
 Route::group(['middleware' => 'auth'], function()
 {
-<<<<<<< HEAD
+
     Route::get('/logout', 'AuthController@logout')->name('logout');
-=======
+
 
     // Auth Controller
     Route::get('/logout', 'AuthController@logout')->name('logout');
@@ -32,5 +32,5 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
     Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
     Route::resource('/users', 'UsersController');
->>>>>>> origin/master
+
 });
