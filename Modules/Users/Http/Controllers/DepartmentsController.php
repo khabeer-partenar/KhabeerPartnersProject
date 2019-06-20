@@ -1,22 +1,26 @@
 <?php
 
-namespace Modules\Core\Http\Controllers;
+namespace Modules\Users\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\UserBaseController;
-use Modules\Core\Entities\Department;
+use Modules\Users\Entities\Department;
 
 class DepartmentsController extends UserBaseController
 {
     /**
      * Display a listing of the resource.
+     * @param Request $request
      * @return Response
      */
-    public function loadDepartmentsTypesByParentId(Request $request, $parentId)
+    public function loadDepartmentsByParentId(Request $request)
     {
-        $departments = Department::select('id', 'parent_id', 'name')->where('parent_id', $parentId)->get();
-        return $departments;
+        $parentId = $request->get('parentId');
+        if (!$parentId) {
+            abort(404);
+        }
+        $departments = Department::where('parent_id', $parentId)->get(['id', 'name'])->prepend(Department::getEmptyObjectForSelectAjax());
+        return response()->json($departments);
     }
-    
 }

@@ -22,7 +22,6 @@ class SaveCoordinatorRequest extends FormRequest
             'name'                 => 'required|filter_string|string',
             'phone_number'         => 'required|phone_number|unique:'. User::table(),
             'email'                => 'required|email|gov_email|unique:'. User::table(),
-            'job_role_id'          => 'required|integer|exists:'. Group::table() .',id',
         ];
     }
 

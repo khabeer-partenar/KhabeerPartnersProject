@@ -29,6 +29,9 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
     Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
 
+    // Departments Controller
+    Route::get('/departments', 'DepartmentsController@loadDepartmentsByParentId')->name('departments.children');
+
     Route::prefix('users')->group(function(){
         // Coordinator Controller
         Route::get('/coordinators/create', 'CoordinatorController@create')->name('coordinators.create');

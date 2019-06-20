@@ -9,10 +9,13 @@ use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Department;
 use Modules\Users\Http\Requests\SaveCoordinatorRequest;
+use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
 
 class CoordinatorController extends Controller
 {
+    use SessionFlash;
+
     /**
      * Display a listing of the resource.
      * @param Request $request
@@ -51,19 +54,21 @@ class CoordinatorController extends Controller
      */
     public function create()
     {
-        $mainDepartments   = Department::getDepartments();
+        $mainDepartments = Department::getDepartments();
         $coordinator = Group::where('key', 'coordinator')->pluck('name', 'id');
         return view('users::coordinators.create', compact('mainDepartments', 'coordinator'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param SaveCoordinatorRequest $request
      * @return Response
      */
     public function store(SaveCoordinatorRequest $request)
     {
-        dd($request);
+        Coordinator::createFromRequest($request);
+        self::sessionSuccess('coordinators.created');
+        return back();
     }
 
     /**
