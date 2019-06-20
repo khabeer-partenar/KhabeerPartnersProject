@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\UserBaseController;
 use Yajra\Datatables\Datatables;
+use Modules\Users\Http\Requests\SaveUserRequest;
+use Modules\Users\Http\Requests\UpdateUserRequest;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Permission;
 use Modules\Core\Entities\Group;
@@ -20,8 +22,21 @@ class UsersController extends UserBaseController
      */
     public function index(Request $request)
     {
+        
         if ($request->wantsJson() || $request->ajax()) {
-            $users = User::allUsers();
+            $users = User::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')->with('jobRole', 'directDepartment');
+
+            if((int)$request->user_id && $request->user_id > 0) {
+                $users = $users->where('id', $request->user_id);
+            }
+
+            if((int)$request->job_role_id && $request->job_role_id > 0) {
+                $users = $users->where('job_role_id', $request->job_role_id);
+            }
+
+            if((int)$request->direct_department_id && $request->direct_department_id > 0) {
+                $users = $users->where('direct_department_id', $request->direct_department_id);
+            }
 
             return Datatables::of($users)
                ->addColumn('deptname', function ($user) {
@@ -48,7 +63,12 @@ class UsersController extends UserBaseController
                })
                ->toJson();
         } else {
-            return view('users::users.index');
+
+            $userDatatableURL        = route('users.index') . '?user_id=' . $request->user_id . '&job_role_id=' . $request->job_role_id . '&direct_department_id' . $request->direct_department_id;
+            $directDepartments       = Department::where('type', 2)->pluck('name', 'id')->prepend('', '');
+            $rolesData               = Group::pluck('name', 'id')->prepend('', '');
+
+            return view('users::users.index', compact('userDatatableURL', 'directDepartments', 'rolesData'));
         }
     }
 
@@ -58,17 +78,17 @@ class UsersController extends UserBaseController
      */
     public function create()
     {
-        $mainDepartments   = Department::mainDepartments()->select('name', 'id')->get();
-        $parentDepartments = Department::parentDepartments($mainDepartments[0]->id)->select('name', 'id')->get();
-        $directDepartments = Department::directDepartments($parentDepartments[0]->id)->select('name', 'id')->get();
-        $rolesData         = Group::pluck('name', 'id')->prepend('', '');
+        $staffsDepartments       = Department::staffsDepartments()->select('name', 'id')->get();
+        $staffExpertsDepartments = Department::staffExpertsDepartments($staffsDepartments[0]->id)->select('name', 'id')->get();
+        $directDepartments       = Department::directDepartments($staffExpertsDepartments[0]->id)->select('name', 'id')->get();
+        $rolesData               = Group::pluck('name', 'id')->prepend('', '');
 
         // pluck query to be valid in laravelcollective
-        $mainDepartments   = $mainDepartments->pluck('name', 'id');
-        $parentDepartments = $parentDepartments->pluck('name', 'id');
-        $directDepartments = $directDepartments->pluck('name', 'id')->prepend('', '');
+        $staffsDepartments       = $staffsDepartments->pluck('name', 'id');
+        $staffExpertsDepartments = $staffExpertsDepartments->pluck('name', 'id');
+        $directDepartments       = $directDepartments->pluck('name', 'id')->prepend('', '');
 
-        return view('users::users.create', compact(['mainDepartments', 'parentDepartments', 'directDepartments', 'rolesData']));
+        return view('users::users.create', compact(['staffsDepartments', 'staffExpertsDepartments', 'directDepartments', 'rolesData']));
     }
 
     /**
@@ -76,19 +96,8 @@ class UsersController extends UserBaseController
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(SaveUserRequest $request)
     {
-        $request->validate([
-            // 'main_department_id'   => 'required|integer|exists:'. Department::table() .',id',
-            // 'parent_department_id' => 'required|integer|exists:'. Department::table() .',id',
-            'direct_department_id' => 'required|integer|exists:'. Department::table() .',id',
-            'national_id'          => 'required|national_id|unique:'. User::table(),
-            'name'                 => 'required|filter_string|string',
-            'phone_number'         => 'required|phone_number|unique:'. User::table(),
-            'email'                => 'required|email|gov_email|unique:'. User::table(),
-            'job_role_id'          => 'required|integer|exists:'. Group::table() .',id',
-        ]);
-        
         $userData = User::createNewUser($request);
 
         if($userData == null) {
@@ -129,17 +138,17 @@ class UsersController extends UserBaseController
     {
         $userData          = User::findOrFail($userID);
 
-        $mainDepartments   = Department::mainDepartments()->select('name', 'id')->get();
-        $parentDepartments = Department::parentDepartments($mainDepartments[0]->id)->select('name', 'id')->get();
-        $directDepartments = Department::directDepartments($parentDepartments[0]->id)->select('name', 'id')->get();
-        $rolesData         = Group::pluck('name', 'id')->prepend('', '');
+        $staffsDepartments       = Department::staffsDepartments()->select('name', 'id')->get();
+        $staffExpertsDepartments = Department::staffExpertsDepartments($staffsDepartments[0]->id)->select('name', 'id')->get();
+        $directDepartments       = Department::directDepartments($staffExpertsDepartments[0]->id)->select('name', 'id')->get();
+        $rolesData               = Group::pluck('name', 'id')->prepend('', '');
 
         // pluck query to be valid in laravelcollective
-        $mainDepartments   = $mainDepartments->pluck('name', 'id');
-        $parentDepartments = $parentDepartments->pluck('name', 'id');
-        $directDepartments = $directDepartments->pluck('name', 'id')->prepend('', '');
+        $staffsDepartments       = $staffsDepartments->pluck('name', 'id');
+        $staffExpertsDepartments = $staffExpertsDepartments->pluck('name', 'id');
+        $directDepartments       = $directDepartments->pluck('name', 'id')->prepend('', '');
 
-        return view('users::users.edit', compact(['userData', 'mainDepartments', 'parentDepartments', 'directDepartments', 'rolesData']));
+        return view('users::users.edit', compact(['userData', 'staffsDepartments', 'staffExpertsDepartments', 'directDepartments', 'rolesData']));
     }
 
     /**
@@ -147,7 +156,7 @@ class UsersController extends UserBaseController
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request,$userID)
+    public function update(Request $request, $userID)
     {
         $userData = User::findOrFail($userID);
 
@@ -155,10 +164,10 @@ class UsersController extends UserBaseController
             // 'main_department_id'   => 'required|integer|exists:'. Department::table() .',id',
             // 'parent_department_id' => 'required|integer|exists:'. Department::table() .',id',
             'direct_department_id' => 'required|integer|exists:'. Department::table() .',id',
-            'national_id'          => 'required|national_id|unique:'. User::table() . ',national_id,' . $userData->id,
-            'name'                 => 'required|filter_string|string',
-            'phone_number'         => 'required|phone_number|unique:'. User::table() . ',phone_number,' . $userData->id,
-            'email'                => 'required|email|gov_email|unique:'. User::table() . ',email,' . $userData->id,
+            'national_id'          => 'required|unique:'. User::table() . ',national_id,' . $userData->id,
+            'name'                 => 'required|string',
+            'phone_number'         => 'required|unique:'. User::table() . ',phone_number,' . $userData->id,
+            'email'                => 'required|email|unique:'. User::table() . ',email,' . $userData->id,
             'job_role_id'          => 'required|integer|exists:'. Group::table() .',id',
         ]);
 
@@ -217,8 +226,23 @@ class UsersController extends UserBaseController
      */
     public function search(Request $request)
     {
-        $usersData = User::search($request->input('search'))->select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin')->paginate(10);
+        $usersData = User::search($request->input('search'))->select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin')->get();
         return response()->json($usersData, 200);
+    }
+
+
+    /**
+     * search in users by name
+     */
+    public function searchByName(Request $request)
+    {
+        $usersData = [];
+        
+        if($request->input('search')) {
+            $usersData = User::where('name', 'LIKE', '%'. $request->input('search') .'%')->select('id', 'name as text')->get();
+        }
+
+        return response()->json(['results' => $usersData], 200);
     }
 
     /**

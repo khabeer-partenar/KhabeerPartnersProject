@@ -27,4 +27,5 @@ return [
     'save' => 'حفظ',
     'goBack' => 'تراجع',
     'delete' => 'حذف',
+    'search_btn' => 'بحث',
 ];

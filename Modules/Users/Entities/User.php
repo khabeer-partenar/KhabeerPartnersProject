@@ -91,14 +91,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Return all users data
-     */
-    public static function scopeAllUsers($query)
-    {
-        return $query->select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')->with('jobRole', 'directDepartment');
-    }
-
-    /**
      * Create new User
      */
     public static function createNewUser($request) 

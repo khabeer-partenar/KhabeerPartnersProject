@@ -39,14 +39,3 @@
 
     </div>
 @endsection
-
-
-@section('scripts_2')
-
-    <script>
-    $(document).ready(function() {
-        $('.select2').select2();
-    });
-</script>
-
-@endsection

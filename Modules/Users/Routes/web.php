@@ -25,6 +25,7 @@ Route::group(['middleware' => 'auth'], function()
 
     // Users Controller
     Route::get('/users/search', 'UsersController@search')->name('users.search');
+    Route::get('/users/search-by-name', 'UsersController@searchByName')->name('users.searchByName');
     Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
     Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
     Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');

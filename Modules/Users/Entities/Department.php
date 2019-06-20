@@ -55,4 +55,25 @@ class Department extends Model
             ['parent_id', $parentID]
         ]);
     }
+
+
+    /**
+     * Get staffs depts
+     */
+    public static function scopeStaffsDepartments($query)
+    {
+        return $query->mainDepartments($query)->where('key', 'staff');
+    }
+
+    /**
+     * Get staff experts depts
+     */
+    public static function scopeStaffExpertsDepartments($query, $parentID = 0)
+    {
+        if($parentID != 0) {
+            $query = $query->parentDepartments($parentID);
+        }
+        
+        return $query->where('key', 'staff_experts');
+    }
 }

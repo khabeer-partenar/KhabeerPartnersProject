@@ -17,7 +17,10 @@
         </div>
 
         <div class="portlet-body">
-            <table id="table-ajax" class="table" data-url="/users"
+
+            @include('users::users.search')
+
+            <table id="table-ajax" class="table" data-url="{{ $userDatatableURL }}"
                 data-fields='[
                     {"data": "id","title":"ID","searchable":"false"},
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"false"},
