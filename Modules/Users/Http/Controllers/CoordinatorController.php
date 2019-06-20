@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @author Mamdouh Magdy <mamdouh95@mu.edu.sa>
+ */
 namespace Modules\Users\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -27,23 +29,9 @@ class CoordinatorController extends Controller
             $userQuery = Coordinator::select('id', 'name', 'national_id', 'email', 'phone_number');
 
             return Datatables::of($userQuery)
-                ->addColumn('action', function ($user) {
-                    return '
-                    <a href="'. route('users.upgrate_to_super_admin', $user->id) .'" class="btn btn-xs btn-'. ($user->is_super_admin == 1 ? 'danger' : 'primary') .' confirm-message">
-                        <i class="fa fa-key"></i> Admin
-                    </a>
-
-                    <a href="'. route('users.edit', $user->id) .'" class="btn btn-xs btn-primary">
-                        <i class="fa fa-edit"></i> تعديل المتسخدم
-                    </a>
-
-                    <a href="'. route('users.destroy-confirmation', $user->id) .'" class="btn btn-xs btn-danger">
-                        <i class="fa fa-trash"></i> تعطيل المستخدم
-                    </a>
-
-                    ';
-                })
-                ->make(true);
+                ->addColumn('action', function ($coordinator) {
+                    return view('users::coordinators.actions', compact('coordinator'));
+                })->make(true);
         }
         return view('users::coordinators.index');
     }
@@ -73,41 +61,46 @@ class CoordinatorController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
+     * @param Coordinator $coordinator
      * @return Response
+     * @internal param int $id
      */
-    public function show($id)
+    public function show(Coordinator $coordinator)
     {
-        return view('coordinators::show');
+        return view('users::coordinators.show', compact('coordinator'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
+     * @param Coordinator $coordinator
      * @return Response
+     * @internal param int $id
      */
-    public function edit($id)
+    public function edit(Coordinator $coordinator)
     {
-        return view('coordinators::edit');
+
+        return view('users::coordinators.edit', compact($coordinator));
     }
 
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param int $id
+     * @param Coordinator $coordinator
      * @return Response
+     * @internal param int $id
      */
-    public function update(Request $request, $id)
+    public function update(SaveCoordinatorRequest $request, Coordinator $coordinator)
     {
-        //
+
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param Coordinator $coordinator
      * @return Response
+     * @internal param int $id
      */
-    public function destroy($id)
+    public function destroy(Coordinator $coordinator)
     {
         //
     }

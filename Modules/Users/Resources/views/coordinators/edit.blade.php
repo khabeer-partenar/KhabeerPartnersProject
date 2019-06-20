@@ -18,14 +18,14 @@
 
         <div class="portlet-body form">
             
-            {{ Form::model($userData, ['route' => ['users.update', $userData->id], 'method' => 'PUT']) }}
+            {{ Form::model($coordinator, ['route' => ['coordinators.update', $coordinator], 'method' => 'PUT']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
                 @endif
 
                 <div class="form-body">
-                    @include('users::users.form')
+                    @include('users::coordinators.form')
                 </div>
 
                 <div class="form-actions">

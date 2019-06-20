@@ -34,9 +34,7 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::prefix('users')->group(function(){
         // Coordinator Controller
-        Route::get('/coordinators/create', 'CoordinatorController@create')->name('coordinators.create');
-        Route::post('/coordinators', 'CoordinatorController@store')->name('coordinators.store');
-        Route::get('/coordinators', 'CoordinatorController@index')->name('coordinators.index');
+        Route::resource('/coordinators', 'CoordinatorController');
     });
 
 
