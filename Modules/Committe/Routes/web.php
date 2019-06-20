@@ -11,6 +11,11 @@
 |
 */
 
+use Modules\Committe\Entities\Committee;
+
 Route::prefix('committe')->group(function() {
-    Route::get('/', 'CommitteController@index');
+    Route::get('/',function (){
+      $commitee = Committee::where('id' , 1)->with('treatDests')->get();
+      dd($commitee);
+    });
 });

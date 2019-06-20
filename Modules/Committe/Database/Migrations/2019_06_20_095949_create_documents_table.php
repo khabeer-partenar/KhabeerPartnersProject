@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommitteConsultsTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateCommitteConsultsTable extends Migration
      */
     public function up()
     {
-        Schema::create('committe_consults', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('committee_consultant_name')->unique();
+            $table->integer('committees_id');
+            $table->string('document_name');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateCommitteConsultsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('committe_consults');
+        Schema::dropIfExists('documents');
     }
 }

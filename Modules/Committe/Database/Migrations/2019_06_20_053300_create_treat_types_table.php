@@ -15,7 +15,8 @@ class CreateTreatTypesTable extends Migration
     {
         Schema::create('treat_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('treat_type_name')->unique();
+            $table->integer('committees_id');
+            $table->string('treat_type_name');
             $table->timestamps();
         });
     }

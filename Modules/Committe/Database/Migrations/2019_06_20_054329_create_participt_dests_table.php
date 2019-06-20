@@ -15,7 +15,8 @@ class CreateParticiptDestsTable extends Migration
     {
         Schema::create('participt_dests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('participant_destination_name')->unique();
+            $table->integer('committees_id');
+            $table->string('participant_destination_name');
             $table->timestamps();
         });
     }

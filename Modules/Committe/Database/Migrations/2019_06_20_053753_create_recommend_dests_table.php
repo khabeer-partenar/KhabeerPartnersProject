@@ -15,7 +15,8 @@ class CreateRecommendDestsTable extends Migration
     {
         Schema::create('recommend_dests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('recommend_destination_name')->unique();
+            $table->integer('committees_id');
+            $table->string('recommend_destination_name');
             $table->timestamps();
         });
     }

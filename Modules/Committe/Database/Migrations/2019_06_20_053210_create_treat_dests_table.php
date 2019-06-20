@@ -15,7 +15,8 @@ class CreateTreatDestsTable extends Migration
     {
         Schema::create('treat_dests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('treat_destination_name')->unique();
+            $table->integer('committees_id');
+            $table->string('treat_destination_name');
             $table->timestamps();
         });
     }

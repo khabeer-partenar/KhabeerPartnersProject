@@ -15,7 +15,8 @@ class CreateTreatSpeedsTable extends Migration
     {
         Schema::create('treat_speeds', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('treat_speed_name')->unique();
+            $table->integer('committees_id');
+            $table->string('treat_speed_name');
             $table->timestamps();
         });
     }

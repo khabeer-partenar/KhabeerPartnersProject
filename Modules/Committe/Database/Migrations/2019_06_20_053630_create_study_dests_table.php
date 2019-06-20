@@ -15,7 +15,8 @@ class CreateStudyDestsTable extends Migration
     {
         Schema::create('study_dests', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('study_source_name')->unique();
+            $table->integer('committees_id');
+            $table->string('study_destination_name');
             $table->timestamps();
         });
     }

@@ -15,7 +15,8 @@ class CreateCommittePresidentsTable extends Migration
     {
         Schema::create('committe_presidents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('committee_president_name')->unique();
+            $table->integer('committees_id');
+            $table->string('committee_president_name');
             $table->timestamps();
         });
     }

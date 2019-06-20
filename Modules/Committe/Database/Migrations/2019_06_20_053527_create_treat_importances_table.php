@@ -15,7 +15,8 @@ class CreateTreatImportancesTable extends Migration
     {
         Schema::create('treat_importances', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('treat_importance_name')->unique();
+            $table->integer('committees_id');
+            $table->string('treat_importance_name');
             $table->timestamps();
         });
     }
