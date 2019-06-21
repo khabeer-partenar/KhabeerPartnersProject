@@ -64,7 +64,7 @@ class UsersController extends UserBaseController
                ->toJson();
         } else {
 
-            $userDatatableURL        = route('users.index') . '?user_id=' . $request->user_id . '&job_role_id=' . $request->job_role_id . '&direct_department_id' . $request->direct_department_id;
+            $userDatatableURL        = route('users.index') . '?user_id=' . $request->user_id . '&job_role_id=' . $request->job_role_id . '&direct_department_id=' . $request->direct_department_id;
             $directDepartments       = Department::where('type', 2)->pluck('name', 'id')->prepend('', '');
             $rolesData               = Group::pluck('name', 'id')->prepend('', '');
 

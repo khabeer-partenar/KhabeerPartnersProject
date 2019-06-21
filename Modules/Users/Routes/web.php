@@ -22,14 +22,6 @@ Route::group(['middleware' => 'auth'], function()
     // Auth Controller
     Route::get('/logout', 'AuthController@logout')->name('logout');
 
-    // Users Controller
-    Route::get('/users/search', 'UsersController@search')->name('users.search');
-    Route::get('/users/search-by-name', 'UsersController@searchByName')->name('users.searchByName');
-    Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
-    Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
-    Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
-    Route::resource('/users', 'UsersController');
-
 
     // Departments Controller
     Route::get('/departments', 'DepartmentsController@loadDepartmentsByParentId')->name('departments.children');
@@ -39,4 +31,12 @@ Route::group(['middleware' => 'auth'], function()
         Route::resource('/coordinators', 'CoordinatorController');
     });
 
+
+    // Users Controller
+    Route::get('/users/search', 'UsersController@search')->name('users.search');
+    Route::get('/users/search-by-name', 'UsersController@searchByName')->name('users.searchByName');
+    Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
+    Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
+    Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
+    Route::resource('/users', 'UsersController');
 });

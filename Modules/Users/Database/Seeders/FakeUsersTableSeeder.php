@@ -23,20 +23,21 @@ class FakeUsersTableSeeder extends Seeder
         $nationalID = 1000000000;
 
         for($i=1; $i<=30; $i++) {
-            $name       = 'user'. $i;
-            $nationalID = $nationalID+1;
+            $name        = 'user'. $i;
+            $nationalID  = $nationalID+1;
             $phoneNumber = 0500000000 + $i;
+            $jobRoleID   = rand(1,12);
 
-            User::create([
-                'name' => $name,
-                'national_id' => $nationalID,
-                'email' => $name .'@mu.edu.sa',
-                'phone_number' => $phoneNumber,
-                'direct_department_id' => 3,
-                'is_super_admin' => $i <= 10 ? true : false,
-                'job_role_id' => rand(1,12),
-            ]);
-
+            $userData = User::create([
+                            'name' => $name,
+                            'national_id' => $nationalID,
+                            'email' => $name .'@mu.edu.sa',
+                            'phone_number' => $phoneNumber,
+                            'direct_department_id' => rand(3,8),
+                            'is_super_admin' => $i <= 10 ? true : false,
+                            'job_role_id' => $jobRoleID,
+                        ]);
+            $userData->groups()->attach($jobRoleID);
         }
     }
 }
