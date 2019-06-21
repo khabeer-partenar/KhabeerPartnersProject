@@ -47,7 +47,19 @@ class Group extends Model
     {
         return $this->morphMany(Permission::class, 'permissionable');
     }
- 
+
+    /**
+     * Scopes
+     *
+     * Here you should write Scopes
+     *
+     */
+    public static function scopeGetAll($query)
+    {
+        return $query->pluck('name', 'id')->prepend('', '');
+    }
+
+
     /**
     * Get group users
     */

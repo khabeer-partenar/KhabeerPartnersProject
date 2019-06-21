@@ -24,4 +24,9 @@ return [
 
     'job_role_id' => 'الدور الوظيفي',
 
+    // Co-ordinators
+    'coordinatorNotCreated' => 'حدث خطأ اثناء محاولة انشاء المنسق',
+    'coordinatorCreated' => 'تم انشاء المنسق بنجاح',
+    'coordinatorNotUpdated' => 'حدث خطأ محاولة تحديث المنسق',
+    'coordinatorUpdated' => 'تم تحديث المنسق',
 ];

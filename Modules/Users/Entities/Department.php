@@ -22,6 +22,41 @@ class Department extends Model
      */
     protected $fillable = ['parent_id', 'name', 'type'];
 
+    /**
+     * Functions
+     *
+     * Here you should add Functions
+     */
+    public static function scopeGetParentDepartments($query, $parentId)
+    {
+        return $query->parentDepartments($parentId)->pluck('name', 'id');
+    }
+
+    public static function scopeGetDirectDepartments($query, $parentId)
+    {
+        return $query->directDepartments($parentId)->pluck('name', 'id');
+    }
+
+    public static function getEmptyObjectForSelectAjax()
+    {
+        return (['id' => '', 'name' => __('users::departments.choose a department')]);
+    }
+
+    public static function getEmptyObjectForSelect()
+    {
+        return (__('users::departments.choose a department'));
+    }
+
+    /**
+     * Scopes
+     *
+     * Here you should add Scopes
+     */
+
+    public static function scopeGetDepartments($query)
+    {
+        return $query->mainDepartments($query)->pluck('name', 'id')->toArray();
+    }
 
     /**
      * Get main departments where parent id equal to 0 and type equal to 1
