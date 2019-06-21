@@ -22,7 +22,6 @@ class UsersController extends UserBaseController
      */
     public function index(Request $request)
     {
-        
         if ($request->wantsJson() || $request->ajax()) {
             $users = User::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')->with('jobRole', 'directDepartment');
 
@@ -140,8 +139,6 @@ class UsersController extends UserBaseController
         $userData = User::findOrFail($userID);
 
         $request->validate([
-            // 'main_department_id'   => 'required|integer|exists:'. Department::table() .',id',
-            // 'parent_department_id' => 'required|integer|exists:'. Department::table() .',id',
             'direct_department_id' => 'required|integer|exists:'. Department::table() .',id',
             'national_id'          => 'required|unique:'. User::table() . ',national_id,' . $userData->id,
             'name'                 => 'required|string',
@@ -208,6 +205,10 @@ class UsersController extends UserBaseController
      */
     public function upgrateToSuperAdmin(Request $request, $userID) 
     {
+        if(User::where('is_super_admin')->count() == 1) {
+            return back();
+        }
+
         $userData = User::findOrFail($userID);
         $userData->is_super_admin = !$userData->is_super_admin;
         $userData->save();
