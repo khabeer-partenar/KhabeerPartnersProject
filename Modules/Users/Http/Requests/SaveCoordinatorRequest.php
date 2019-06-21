@@ -7,6 +7,11 @@ use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Department;
 use Modules\Users\Entities\User;
 
+use App\Rules\NationalIDRule;
+use App\Rules\FilterStringRule;
+use App\Rules\ValidationPhoneNumberRule;
+use App\Rules\ValidationGovEmailRule;
+
 class SaveCoordinatorRequest extends FormRequest
 {
     /**
@@ -17,11 +22,11 @@ class SaveCoordinatorRequest extends FormRequest
     public function rules()
     {
         return [
-            'direct_department_id' => 'required|integer|exists:'. Department::table() .',id',
-            'national_id'          => 'required|national_id|unique:'. User::table(),
-            'name'                 => 'required|filter_string|string',
-            'phone_number'         => 'required|phone_number|unique:'. User::table(),
-            'email'                => 'required|email|gov_email|unique:'. User::table(),
+            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id'],
+            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
+            'name'                 => ['required', new FilterStringRule, 'string'],
+            'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table()],
+            'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table()],
         ];
     }
 

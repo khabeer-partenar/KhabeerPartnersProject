@@ -22,8 +22,6 @@ class SaveUserRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'main_department_id'   => 'required|integer|exists:'. Department::table() .',id',
-            // 'parent_department_id' => 'required|integer|exists:'. Department::table() .',id',
             'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id'],
             'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
             'name'                 => ['required', new FilterStringRule, 'string'],
