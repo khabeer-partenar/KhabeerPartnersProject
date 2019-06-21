@@ -22,7 +22,6 @@ class UsersController extends UserBaseController
      */
     public function index(Request $request)
     {
-        
         if ($request->wantsJson() || $request->ajax()) {
             $users = User::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')->with('jobRole', 'directDepartment');
 
@@ -51,12 +50,12 @@ class UsersController extends UserBaseController
                         <i class="fa fa-key"></i> Admin
                     </a>
 
-                    <a href="'. route('users.edit', $user->id) .'" class="btn btn-xs btn-primary">
-                        <i class="fa fa-edit"></i> '. __('users::users.edit_action') .'
+                    <a href="'. route('users.show', $user->id) .'" class="btn btn-xs btn-primary">
+                        <i class="fa fa-eye"></i> '. __('users::users.information_btn') .'
                     </a>
 
                     <a href="'. route('users.destroy-confirmation', $user->id) .'" class="btn btn-xs btn-danger">
-                        <i class="fa fa-trash"></i> '. __('users::users.delete_action') .'
+                        <i class="fa fa-trash"></i> '. __('users::users.delete_btn') .'
                     </a>
 
                     ';
@@ -78,17 +77,9 @@ class UsersController extends UserBaseController
      */
     public function create()
     {
-        $staffsDepartments       = Department::staffsDepartments()->select('name', 'id')->get();
-        $staffExpertsDepartments = Department::staffExpertsDepartments($staffsDepartments[0]->id)->select('name', 'id')->get();
-        $directDepartments       = Department::directDepartments($staffExpertsDepartments[0]->id)->select('name', 'id')->get();
+        $departmentsDataForForms = Department::getDepartmentsDataForUsersForms();
         $rolesData               = Group::pluck('name', 'id')->prepend('', '');
-
-        // pluck query to be valid in laravelcollective
-        $staffsDepartments       = $staffsDepartments->pluck('name', 'id');
-        $staffExpertsDepartments = $staffExpertsDepartments->pluck('name', 'id');
-        $directDepartments       = $directDepartments->pluck('name', 'id')->prepend('', '');
-
-        return view('users::users.create', compact(['staffsDepartments', 'staffExpertsDepartments', 'directDepartments', 'rolesData']));
+        return view('users::users.create', compact(['departmentsDataForForms', 'rolesData']));
     }
 
     /**
@@ -109,25 +100,20 @@ class UsersController extends UserBaseController
      */
     public function show(Request $request, $userID)
     {
-        $userData = User::findOrFail($userID);
-        return view('users::users.show', compact('userData'));
+        $userData                = User::findOrFail($userID);
+        $departmentsDataForForms = $userData->getDepartmentsDataForForms();
+        $rolesData               = Group::pluck('name', 'id')->prepend('', '');
+
+        return view('users::users.show', compact(['userData', 'departmentsDataForForms', 'rolesData']));
     }
 
     public function edit(Request $request, $userID)
     {
-        $userData          = User::findOrFail($userID);
-
-        $staffsDepartments       = Department::staffsDepartments()->select('name', 'id')->get();
-        $staffExpertsDepartments = Department::staffExpertsDepartments($staffsDepartments[0]->id)->select('name', 'id')->get();
-        $directDepartments       = Department::directDepartments($staffExpertsDepartments[0]->id)->select('name', 'id')->get();
+        $userData                = User::findOrFail($userID);
+        $departmentsDataForForms = Department::getDepartmentsDataForUsersForms();
         $rolesData               = Group::pluck('name', 'id')->prepend('', '');
 
-        // pluck query to be valid in laravelcollective
-        $staffsDepartments       = $staffsDepartments->pluck('name', 'id');
-        $staffExpertsDepartments = $staffExpertsDepartments->pluck('name', 'id');
-        $directDepartments       = $directDepartments->pluck('name', 'id')->prepend('', '');
-
-        return view('users::users.edit', compact(['userData', 'staffsDepartments', 'staffExpertsDepartments', 'directDepartments', 'rolesData']));
+        return view('users::users.edit', compact(['userData', 'departmentsDataForForms', 'rolesData']));
     }
 
     /**
@@ -137,11 +123,11 @@ class UsersController extends UserBaseController
      */
     public function update(Request $request, $userID)
     {
+        // still working on it
+        exit;
         $userData = User::findOrFail($userID);
 
         $request->validate([
-            // 'main_department_id'   => 'required|integer|exists:'. Department::table() .',id',
-            // 'parent_department_id' => 'required|integer|exists:'. Department::table() .',id',
             'direct_department_id' => 'required|integer|exists:'. Department::table() .',id',
             'national_id'          => 'required|unique:'. User::table() . ',national_id,' . $userData->id,
             'name'                 => 'required|string',
@@ -155,7 +141,6 @@ class UsersController extends UserBaseController
 
         return redirect()->route('users.index');
     }
-
 
     /**
      * Confirm the delete of user
@@ -194,12 +179,7 @@ class UsersController extends UserBaseController
      */
     public function searchByName(Request $request)
     {
-        $usersData = [];
-        
-        if($request->input('search')) {
-            $usersData = User::where('name', 'LIKE', '%'. $request->input('search') .'%')->select('id', 'name as text')->get();
-        }
-
+        $usersData = User::where('name', 'LIKE', '%'. $request->input('search') .'%')->select('id', 'name as text')->get();
         return response()->json(['results' => $usersData], 200);
     }
 
@@ -208,6 +188,10 @@ class UsersController extends UserBaseController
      */
     public function upgrateToSuperAdmin(Request $request, $userID) 
     {
+        if(User::where('is_super_admin')->count() == 1) {
+            return back();
+        }
+
         $userData = User::findOrFail($userID);
         $userData->is_super_admin = !$userData->is_super_admin;
         $userData->save();
@@ -224,4 +208,36 @@ class UsersController extends UserBaseController
         $groups = Group::select('id', 'name')->get();
         return $groups;
     }
+
+    /**
+     * edit secretaries of user
+     */
+    public function editSecretaries(Request $request, $userID) 
+    {
+        $userData = User::with('secretaries')->findOrFail($userID);
+        if(!$userData->hasAdvisorsGroup()) {
+            return redirect()->route('users.index');
+        }
+
+        $secretariesIDs   = $userData->secretaries->pluck('secretary_user_id');
+        $secretariesUsers = Group::secretariesUsers()->pluck('name', 'id');
+        return view('users::users.edit-secretaries', compact(['userData', 'secretariesIDs', 'secretariesUsers']));
+    }
+
+    /**
+     * update secretaries of user
+     */
+    public function updateSecretaries(Request $request, $userID) 
+    {
+        $userData = User::findOrFail($userID);
+
+        if(!$userData->hasAdvisorsGroup()) {
+            return redirect()->route('users.index');
+        }
+
+        //$userData->secretaries()->syncSecretariesData($request->secretaries_ids);
+
+        return view('users::users.edit-secretaries', compact(['userData']));
+    }
+
 }

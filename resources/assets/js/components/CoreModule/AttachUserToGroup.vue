@@ -137,7 +137,7 @@ export default {
         },
     
         getOptions(search, loading) {
-            axios.get('/core/users/search', {query: search})
+            axios.get('/users/search', {query: search})
                 .then(resp => {
                     this.options = resp.data
                     loading(false)

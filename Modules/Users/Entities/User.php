@@ -10,6 +10,7 @@ use Modules\Core\Traits\AuthorizeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Department;
+use Modules\Users\Entities\UsersAdvisorsSecretaries;
 
 class User extends Authenticatable
 {
@@ -61,7 +62,7 @@ class User extends Authenticatable
      */
     public function directDepartment()
     {
-        return $this->belongsTo(Department::class, 'direct_department_id');
+        return $this->belongsTo(Department::class, 'direct_department_id', 'id');
     }
 
     /**
@@ -72,11 +73,125 @@ class User extends Authenticatable
         return $this->belongsToMany(Group::class, 'core_users_groups', 'user_id', 'core_group_id');
     }
 
+    /**
+     * Check if user has group
+     */
     public function checkInGroup($key = null)
     {
         return $this->groups()->where('key', '=', $key)->exists();
     }
 
+    /**
+     * Get advisors of current users
+     */
+    public function advisors()
+    {
+        return $this->hasMany(UsersAdvisorsSecretaries::class, 'secretary_user_id');
+    }
+
+    /**
+     * Get secretaries of current users
+     */
+    public function secretaries()
+    {
+        return $this->hasMany(UsersAdvisorsSecretaries::class, 'advisor_user_id');
+    }
+
+    /**
+     * check if user has president group
+     */
+    public function hasPresidentsGroup()
+    {
+        return $this->checkInGroup('office_of_the_president');
+    }
+
+    /**
+     * check if user has advisor group
+     */
+    public function hasAdvisorsGroup()
+    {
+        return $this->checkInGroup('advisor');
+    }
+
+    /**
+     * check if user has director of consultants office group
+     */
+    public function hasDirectorOfConsultantsGroup()
+    {
+        return $this->checkInGroup('director_of_consultants_offices');
+    }
+
+    /**
+     * check if user has secretaries group
+     */
+    public function hasSecretariesGroup()
+    {
+        return $this->checkInGroup('secretary');
+    }
+
+    /**
+     * check if user has associate consultants group
+     */
+    public function hasAssociateConsultantsGroup()
+    {
+        return $this->checkInGroup('associate_consultant');
+    }
+
+    /**
+     * check if user has portfolio managers group
+     */
+    public function hasPortfolioManagersGroup()
+    {
+        return $this->checkInGroup('portfolio_manager');
+    }
+
+    /**
+     * check if user has technical supports group
+     */
+    public function hasTechnicalSupportsGroup()
+    {
+        return $this->checkInGroup('technical_support');
+    }
+
+    /**
+     * check if user has ministers group
+     */
+    public function hasMinistersGroup()
+    {
+        return $this->checkInGroup('minister');
+    }
+
+    /**
+     * check if user has director of ministers office group
+     */
+    public function hasDirectorOfMinistersGroup()
+    {
+        return $this->checkInGroup('director_of_the_minister_office');
+    }
+
+    /**
+     * check if user has coordinators group
+     */
+    public function hasCoordinatorsGroup()
+    {
+        return $this->checkInGroup('coordinator');
+    }
+
+    /**
+     * check if user has delegates group
+     */
+    public function hasDelegatesGroup()
+    {
+        return $this->checkInGroup('delegate');
+    }
+
+    /**
+     * check if user has acting delegates group
+     */
+    public function hasActingDelegatesGroup()
+    {
+        return $this->checkInGroup('acting_delegate');
+    }
 
     /**
      * Search for user by query token
@@ -92,6 +207,18 @@ class User extends Authenticatable
                   ->orWhere('phone_number', 'LIKE', '%'.$query.'%');
     }
 
+
+    /**
+     * Get Departments data for forms
+     */
+    public function getDepartmentsDataForForms()
+    {
+        $staffsDepartments       = $this->directDepartment->parentDepartment->parentDepartment->getDepartmentObjectForSelect();
+        $staffExpertsDepartments = $this->directDepartment->parentDepartment->getDepartmentObjectForSelect();
+        $directDepartments       = $this->directDepartment->getDepartmentObjectForSelect();
+
+        return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
+    }
 
     /**
      * Create new User

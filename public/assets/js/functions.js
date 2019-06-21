@@ -19,4 +19,7 @@ $(document).ready(function() {
         minimumInputLength: 3,
     });
 
+
+    // disable all form fields
+    $('#diable-form-fields :input').prop('disabled', true);
 });

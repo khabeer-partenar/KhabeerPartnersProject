@@ -27,6 +27,15 @@ class Department extends Model
      *
      * Here you should add Functions
      */
+
+    /**
+     * get parent department
+     */
+    public function parentDepartment()
+    {
+        return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
+
     public static function scopeGetParentDepartments($query, $parentId)
     {
         return $query->parentDepartments($parentId)->pluck('name', 'id');
@@ -45,6 +54,11 @@ class Department extends Model
     public static function getEmptyObjectForSelect()
     {
         return (__('users::departments.choose a department'));
+    }
+
+    public function getDepartmentObjectForSelect()
+    {
+        return [@$this->id => @$this->name];
     }
 
     /**
@@ -110,5 +124,22 @@ class Department extends Model
         }
         
         return $query->where('key', 'staff_experts');
+    }
+
+
+    /**
+     * Get Departments data for users forms
+     */
+    public static function getDepartmentsDataForUsersForms()
+    {
+        $staffsDepartments       = self::staffsDepartments()->select('name', 'id')->get();
+        $staffExpertsDepartments = self::staffExpertsDepartments($staffsDepartments[0]->id)->select('name', 'id')->get();
+        $directDepartments       = self::directDepartments($staffExpertsDepartments[0]->id)->select('name', 'id')->get();
+
+        $staffsDepartments       = $staffsDepartments->pluck('name', 'id');
+        $staffExpertsDepartments = $staffExpertsDepartments->pluck('name', 'id');
+        $directDepartments       = $directDepartments->pluck('name', 'id')->prepend('', '');
+
+        return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
     }
 }

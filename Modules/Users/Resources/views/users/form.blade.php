@@ -6,7 +6,7 @@
             {!! Form::label('main_department_id', __('users::users.department_type'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::select('main_department_id', $staffsDepartments, null, ['id' => 'main_department_id', 'class' => 'form-control select2', 'disabled']) !!}
+                {!! Form::select('main_department_id', $departmentsDataForForms['staffsDepartments'], null, ['id' => 'main_department_id', 'class' => 'form-control select2', 'disabled']) !!}
                 
                 @if ($errors->has('main_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('main_department_id') }}</strong></span>
@@ -22,7 +22,7 @@
             {!! Form::label('parent_department_id', __('users::users.parent_department_id'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::select('parent_department_id', $staffExpertsDepartments, null, ['id' => 'parent_department_id', 'class' => 'form-control select2', 'disabled']) !!}
+                {!! Form::select('parent_department_id', $departmentsDataForForms['staffExpertsDepartments'], null, ['id' => 'parent_department_id', 'class' => 'form-control select2', 'disabled']) !!}
     
                 @if ($errors->has('parent_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('parent_department_id') }}</strong></span>
@@ -38,7 +38,7 @@
             {!! Form::label('direct_department_id', __('users::users.direct_department_id'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::select('direct_department_id', $directDepartments, null, ['id' => 'direct_department_id', 'class' => 'form-control select2']) !!}
+                {!! Form::select('direct_department_id', $departmentsDataForForms['directDepartments'], null, ['id' => 'direct_department_id', 'class' => 'form-control select2']) !!}
     
                 @if ($errors->has('direct_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('direct_department_id') }}</strong></span>
