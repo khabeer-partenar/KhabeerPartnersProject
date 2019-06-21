@@ -98,24 +98,7 @@ class UsersController extends UserBaseController
      */
     public function store(SaveUserRequest $request)
     {
-        $userData = User::createNewUser($request);
-
-        if($userData == null) {
-
-            if($this->isApiCall) {
-                return response()->json(__('users.userNotCreated'), 422);
-            }
-            else {
-                session()->flash('alert-danger', __('users.userNotCreated')); 
-                return redirect()->route('users.index');
-            }
-
-        }
-
-        if($this->isApiCall) {
-            return response()->json(__('users.userCreated'), 200);
-        }
-        
+        $userData = User::createNewUser($request);        
         session()->flash('alert-success', __('users.userCreated')); 
         return redirect()->route('users.index');
     }
@@ -172,24 +155,8 @@ class UsersController extends UserBaseController
         ]);
 
         $userData = $userData->updateUser($request);
-
-        if(!$userData) {
-
-            if($this->isApiCall) {
-                return response()->json(__('users::users.userNotUpdated'), 422);
-            }
-            else {
-                session()->flash('alert-danger', __('users::users.userNotUpdated')); 
-                return redirect()->back()->withInput($request->all());
-            }
-
-        }
-
-        if($this->isApiCall) {
-            return response()->json(__('users::users.userUpdated'), 200);
-        }
-        
         session()->flash('alert-success', __('users::users.userUpdated')); 
+
         return redirect()->route('users.index');
     }
 
@@ -211,11 +178,6 @@ class UsersController extends UserBaseController
     {
         $userData = User::findOrFail($userID);
         $userData->delete();
-
-        if($this->isApiCall) {
-            return response()->json(__('users::users.userDeleted'), 200);
-        }
-
         session()->flash('alert-success', __('users::users.userDeleted')); 
         return redirect()->route('users.index');
     }
