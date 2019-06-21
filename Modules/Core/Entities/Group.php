@@ -5,9 +5,9 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Permission;
 
-
 class Group extends Model
 {
+
     use \Modules\Core\Traits\SharedModel;
     
     /**
@@ -29,15 +29,7 @@ class Group extends Model
     *
     * @var array
     */
-    public static $unifiedGroups = [
-        'university' => 'es_university_group',
-        'govern_employees' => 'es_university_govern_employees_group',
-        'direct_managers' => 'es_univeristy_direct_managers',
-        'parent_managers' => 'es_univeristy_parent_managers',
-        'es_management_and_financial_group' => 'es_management_and_financial_group',
-        'parent_managers_and_deans_who_dont_have_emps' => 'parent_managers_and_deans_who_dont_have_emps',
-        'clearance_form_group' => 'clearance_form_group',
-    ];
+    public static $unifiedGroups = [];
 
 
     /**
@@ -65,17 +57,12 @@ class Group extends Model
     */
     public function users()
     {
-        return $this->belongsToMany(User::class, 'core_users_groups', 'core_group_id', 'user_id');
+        return $this->belongsToMany(User::class, 'core_users_groups', 'core_group_id', 'id');
     }
   
     public static function findByKey($key)
     {
-        return self::where('key', '=' ,$key)->first();
-    }
-    
-    public static function findUnifiedGroupByName($name)
-    {
-        return self::findByKey(self::$unifiedGroups[$name]);
+        return self::where('key', '=' ,$key)->with('users')->first();
     }
   
     public static function hasUserByKey($key, $user)
@@ -87,7 +74,7 @@ class Group extends Model
     public function hasUser($user)
     {
         $user = $this->users()
-                    ->where(User::table().'.user_id', '=', $user->user_id)
+                    ->where(User::table().'.id', '=', $user->id)
                     ->first();
         return ($user == null ? false : true);
     }

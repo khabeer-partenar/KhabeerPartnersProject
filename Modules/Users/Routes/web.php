@@ -28,6 +28,8 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
     Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
     Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
+    Route::resource('/users', 'UsersController');
+
 
     // Departments Controller
     Route::get('/departments', 'DepartmentsController@loadDepartmentsByParentId')->name('departments.children');
@@ -36,8 +38,5 @@ Route::group(['middleware' => 'auth'], function()
         // Coordinator Controller
         Route::resource('/coordinators', 'CoordinatorController');
     });
-
-
-    Route::resource('/users', 'UsersController');
 
 });
