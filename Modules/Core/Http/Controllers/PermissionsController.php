@@ -29,7 +29,6 @@ class PermissionsController extends UserBaseController
         else {
 
             $permissionableType = 'groups';
-
             return view('core::permissions.index')
                     ->with('permissionableType', $permissionableType)
                     ->with('permissionableId', $id)

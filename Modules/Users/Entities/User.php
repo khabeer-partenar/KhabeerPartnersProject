@@ -23,7 +23,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'is_super_admin', 'job_role_id'
+
+       'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'is_super_admin', 'job_role_id'
+
     ];
 
     /**
@@ -90,10 +92,11 @@ class User extends Authenticatable
                   ->orWhere('phone_number', 'LIKE', '%'.$query.'%');
     }
 
+
     /**
      * Create new User
      */
-    public static function createNewUser($request) 
+    public static function createNewUser($request)
     {
         $userData = self::create($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
         $userData->groups()->attach($request->job_role_id);

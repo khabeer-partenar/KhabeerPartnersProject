@@ -4,6 +4,7 @@ namespace Modules\Core\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Support\Facades\DB;
 use Modules\Core\Entities\Group;
 use Carbon\Carbon;
@@ -18,7 +19,8 @@ class DefaultGroupsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        
+
+
         DB::table(Group::table())->truncate();
 
         Group::create([
@@ -58,7 +60,7 @@ class DefaultGroupsTableSeeder extends Seeder
         ]);
 
         Group::create([
-            'parent_id' => 0, 'name' => 'المنسق', 'key' => 'coordinators', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => 0, 'name' => 'المنسق', 'key' => 'coordinator', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         Group::create([

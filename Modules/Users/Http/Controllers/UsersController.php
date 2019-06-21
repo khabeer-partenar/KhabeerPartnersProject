@@ -113,10 +113,6 @@ class UsersController extends UserBaseController
         return view('users::users.show', compact('userData'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
     public function edit(Request $request, $userID)
     {
         $userData          = User::findOrFail($userID);
@@ -228,5 +224,4 @@ class UsersController extends UserBaseController
         $groups = Group::select('id', 'name')->get();
         return $groups;
     }
-
 }
