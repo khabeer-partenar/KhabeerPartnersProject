@@ -81,5 +81,45 @@ class User extends Authenticatable
         return $this->groups()->where('key', '=', $key)->exists();
     }
 
-  
+
+    /**
+     * Search for user by query token
+     * @param $query token search
+     * @return Collection users
+     */
+    public static function search($query)
+    {
+        return self::where('id', 'LIKE', '%'.$query.'%')
+                  ->orWhere('name', 'LIKE', '%'.$query.'%')
+                  ->orWhere('national_id', 'LIKE', '%'.$query.'%')
+                  ->orWhere('email', 'LIKE', '%'.$query.'%')
+                  ->orWhere('phone_number', 'LIKE', '%'.$query.'%');
+    }
+
+
+
+    /**
+     * Create new User
+     */
+    public static function createNewUser($request)
+    {
+        $userData = self::create($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
+        $userData->groups()->attach($request->job_role_id);
+        return $userData;
+    }
+
+    /**
+     * Update current user
+     */
+    public function updateUser($request)
+    {
+        if($this->job_role_id != $request->job_role_id) {
+            // detach user
+            $this->groups()->detach($this->job_role_id);
+            $this->groups()->attach($request->job_role_id);
+        }
+
+        $userData  = $this->update($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
+        return $userData;
+    }
 }
