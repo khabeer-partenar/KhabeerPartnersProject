@@ -217,7 +217,7 @@ class UsersController extends UserBaseController
     }
 
     /**
-     * search in users
+     * search in users.
      */
     public function groups(Request $request)
     {
