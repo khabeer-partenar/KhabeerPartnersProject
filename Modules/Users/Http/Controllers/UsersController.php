@@ -39,26 +39,13 @@ class UsersController extends UserBaseController
 
             return Datatables::of($users)
                ->addColumn('deptname', function ($user) {
-                return @$user->directDepartment->name;
+                   return @$user->directDepartment->name;
                })
                ->addColumn('job_role', function ($user) {
-                return @$user->jobRole->name;
+                   return @$user->jobRole->name;
                })
                ->addColumn('action', function ($user) {
-                   return '
-                    <a href="'. route('users.upgrate_to_super_admin', $user->id) .'" class="btn btn-xs btn-'. ($user->is_super_admin == 1 ? 'danger' : 'primary') .' confirm-message">
-                        <i class="fa fa-key"></i> Admin
-                    </a>
-
-                    <a href="'. route('users.show', $user->id) .'" class="btn btn-xs btn-primary">
-                        <i class="fa fa-eye"></i> '. __('users::users.information_btn') .'
-                    </a>
-
-                    <a href="'. route('users.destroy-confirmation', $user->id) .'" class="btn btn-xs btn-danger">
-                        <i class="fa fa-trash"></i> '. __('users::users.delete_btn') .'
-                    </a>
-
-                    ';
+                    return view('users::users.actions', compact('user'));
                })
                ->toJson();
         } else {
@@ -103,8 +90,13 @@ class UsersController extends UserBaseController
         $userData                = User::findOrFail($userID);
         $departmentsDataForForms = $userData->getDepartmentsDataForForms();
         $rolesData               = Group::pluck('name', 'id')->prepend('', '');
+        $secretariesUsersData    = [];
 
-        return view('users::users.show', compact(['userData', 'departmentsDataForForms', 'rolesData']));
+        if($userData->hasAdvisorsGroup()) {
+            $secretariesUsersData = $userData->secretaries()->with('secretaryData')->get();
+        }
+
+        return view('users::users.show', compact(['userData', 'departmentsDataForForms', 'rolesData', 'secretariesUsersData']));
     }
 
     public function edit(Request $request, $userID)
@@ -188,12 +180,13 @@ class UsersController extends UserBaseController
      */
     public function upgrateToSuperAdmin(Request $request, $userID) 
     {
-        if(User::where('is_super_admin')->count() == 1) {
+        $userData = User::findOrFail($userID);
+        $userData->is_super_admin = !$userData->is_super_admin;
+
+        if(User::where('is_super_admin', 1)->count() == 1 && $userData->is_super_admin == 0) {
             return back();
         }
 
-        $userData = User::findOrFail($userID);
-        $userData->is_super_admin = !$userData->is_super_admin;
         $userData->save();
 
         session()->flash('alert-success', __('messages.updatedـsuccessfully')); 
@@ -209,6 +202,37 @@ class UsersController extends UserBaseController
         return $groups;
     }
 
+
+    /**
+     * secretaries of user
+     */
+    public function secretaries(Request $request, $userID) 
+    {
+        $userData = User::with('secretaries', 'secretaries.secretaryData', 'secretaries.secretaryData.directDepartment', 'secretaries.secretaryData.jobRole')->findOrFail($userID);
+        if(!$request->wantsJson() || !$request->ajax() || !$userData->hasAdvisorsGroup()) {
+            return redirect()->route('users.index');
+        }
+
+        return Datatables::of($userData->secretaries)
+                ->addColumn('name', function ($user) {
+                    return @$user->secretaryData->name;
+                })
+                ->addColumn('deptname', function ($user) {
+                    return @$user->secretaryData->directDepartment->name;
+                })
+                ->addColumn('email', function ($user) {
+                    return @$user->secretaryData->email;
+                })
+                ->addColumn('phone_number', function ($user) {
+                    return @$user->secretaryData->phone_number;
+                })
+                ->addColumn('job_role', function ($user) {
+                    return @$user->secretaryData->jobRole->name;
+                })
+                ->toJson();
+    }
+
+
     /**
      * edit secretaries of user
      */
@@ -221,7 +245,7 @@ class UsersController extends UserBaseController
 
         $secretariesIDs   = $userData->secretaries->pluck('secretary_user_id');
         $secretariesUsers = Group::secretariesUsers()->pluck('name', 'id');
-        return view('users::users.edit-secretaries', compact(['userData', 'secretariesIDs', 'secretariesUsers']));
+        return view('users::users.secretaries.edit', compact(['userData', 'secretariesIDs', 'secretariesUsers']));
     }
 
     /**
@@ -230,7 +254,6 @@ class UsersController extends UserBaseController
     public function updateSecretaries(Request $request, $userID) 
     {
         $userData = User::findOrFail($userID);
-
         if(!$userData->hasAdvisorsGroup()) {
             return redirect()->route('users.index');
         }

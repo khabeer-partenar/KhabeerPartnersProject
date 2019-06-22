@@ -7,7 +7,7 @@
 
             <div class="caption">
                 <i class="fa fa-edit"></i>
-                <span class="caption-subject sbold">{{ __('users::users.edit_secretaries_title') }}</span>
+                <span class="caption-subject sbold">{{ __('users::users.edit_secretaries_title') }}: {{ $userData->name }}</span>
             </div>
             
             <div class="actions">

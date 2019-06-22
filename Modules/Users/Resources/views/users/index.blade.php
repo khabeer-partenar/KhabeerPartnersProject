@@ -22,7 +22,6 @@
 
             <table id="table-ajax" class="table" data-url="{{ $userDatatableURL }}"
                 data-fields='[
-                    {"data": "id","title":"ID","searchable":"false"},
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"false"},
                     {"data": "deptname","title":"{{ __('messages.deptname') }}","searchable":"false"},
                     {"data": "email","title":"{{ __('messages.email') }}","searchable":"false"},
@@ -32,6 +31,7 @@
                 ]'
             >
             </table>
+
         </div>
        
 

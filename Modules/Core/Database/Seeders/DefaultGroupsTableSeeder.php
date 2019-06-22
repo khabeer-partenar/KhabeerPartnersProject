@@ -22,6 +22,8 @@ class DefaultGroupsTableSeeder extends Seeder
 
 
         DB::table(Group::table())->truncate();
+        DB::table('core_permissions')->truncate();
+        DB::table('core_users_groups')->truncate();
 
         Group::create([
             'parent_id' => 0, 'name' => 'مكتب معالي الرئيس', 'key' => 'office_of_the_president', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()

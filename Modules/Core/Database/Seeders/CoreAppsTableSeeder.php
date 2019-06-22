@@ -210,6 +210,24 @@ class CoreAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        App::create([
+            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@secretaries', 'name' => 'عرض السكرتاريين',
+            'icon' => 'fa fa-users','sort' => 6, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id/secretaries', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@editSecretaries', 'name' => 'تعديل السكرتاريين',
+            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id/edit/secretaries', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@updateSecretaries', 'name' => 'تحديث السكرتاريين',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id/edit/secretaries', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
         // KhabeerPartnersController
         $manageKhabeerCommittees = App::create([
             'resource_name' => 'Modules\Users\Http\Controllers\KhabeerPartnersController', 'name' => 'إسناد لجان شركاء خبير',

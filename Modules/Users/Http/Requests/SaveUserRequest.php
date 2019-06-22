@@ -24,7 +24,7 @@ class SaveUserRequest extends FormRequest
         return [
             'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id'],
             'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
-            'name'                 => ['required', new FilterStringRule, 'string'],
+            'name'                 => ['required', new FilterStringRule, 'string', 'max:255'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table()],
             'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table()],
             'job_role_id'          => ['required', 'integer', 'exists:'. Group::table() .',id'],

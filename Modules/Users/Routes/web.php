@@ -38,6 +38,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
     Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
     Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
+    Route::get('/users/{id}/secretaries', 'UsersController@secretaries')->name('users.secretaries');
     Route::get('/users/{id}/edit/secretaries', 'UsersController@editSecretaries')->name('users.edit_secretaries');
     Route::put('/users/{id}/edit/secretaries', 'UsersController@updateSecretaries')->name('users.update_secretaries');
     Route::resource('/users', 'UsersController');

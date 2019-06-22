@@ -3,6 +3,7 @@
 namespace Modules\Users\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Users\Entities\User;
 
 class UsersAdvisorsSecretaries extends Model
 {
@@ -19,6 +20,14 @@ class UsersAdvisorsSecretaries extends Model
         'advisor_user_id', 'secretary_user_id'
     ];
 
+
+    /**
+     * Get secretary user data
+     */
+    public function secretaryData()
+    {
+        return $this->hasOne(User::class, 'id', 'secretary_user_id');
+    }
 
     public function syncSecretariesData($secretariesIds)
     {
