@@ -2,6 +2,7 @@
 
 return [
     'title'      => 'المنسقين',
+    'manage' => 'إدارة المنسقين',
     'action_add' => 'اضافة',
     'action_edit' => 'تعديل',
     'department_type' => 'نوع الجهة',

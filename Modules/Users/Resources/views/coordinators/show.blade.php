@@ -21,7 +21,7 @@
             <table class="table table-striped table-responsive-md">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th style="width: 16.666%" scope="col">#</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>

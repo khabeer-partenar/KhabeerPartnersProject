@@ -6,6 +6,7 @@ namespace Modules\Users\Entities;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Core\Entities\Group;
@@ -50,11 +51,21 @@ class Coordinator extends Authenticatable
     {
         return $this->groups()->first();
     }
+
     /**
      * Scopes
      *
-     *
+     * Here add Scopes
+     * @param $query
+     * @param Request $request
      */
+    public static function scopeSearch($query, Request $request)
+    {
+        if ($request->has('name')) {
+            $query->where('name', 'LIKE', '%'.$request->name.'%');
+        }
+        return $query;
+    }
 
     /**
      * Relations

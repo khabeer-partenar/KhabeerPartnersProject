@@ -1,7 +1,22 @@
 <script>
     $(document).ready(function () {
         $('.select2').select2();
-
+        // Search
+        $('.search-table').click(function() {
+            let form = $(this).attr('data-form');
+            let dataTable = $('#table-ajax').DataTable();
+            let formData = $(form).serialize();
+            let path = dataTable.ajax.url() + '?' + formData;
+            $.ajax({
+                url: path,
+                success: function (response) {
+//                    dataTable.clear();
+//                    dataTable.rows.add(response);
+                    dataTable.draw();
+                }
+            })
+        });
+        // Load Department
         $('.load-departments').change(function () {
             let path = $(this).attr('data-url') + '?parentId=' + $(this).val();
             let child = $(this).attr('data-child');
