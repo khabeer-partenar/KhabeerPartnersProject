@@ -46,6 +46,10 @@ class Coordinator extends Authenticatable
         );
     }
 
+    public function job()
+    {
+        return $this->groups()->first();
+    }
     /**
      * Scopes
      *
@@ -60,5 +64,10 @@ class Coordinator extends Authenticatable
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'core_users_groups', 'user_id', 'core_group_id');
+    }
+
+    public function directDepartment()
+    {
+        return $this->belongsTo(Department::class, 'direct_department_id');
     }
 }

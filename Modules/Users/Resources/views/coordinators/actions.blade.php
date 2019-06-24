@@ -1,5 +1,9 @@
 @if ($coordinator)
-    <a href="{{ route('coordinators.edit', $coordinator) }}" class="btn btn-xs btn-primary">
+    <a href="{{ route('coordinators.show', $coordinator) }}" class="btn btn-xs btn-primary">
+        <i class="fa fa-eye"></i> {{ __('users::coordinators.show') }}
+    </a>
+
+    <a href="{{ route('coordinators.edit', $coordinator) }}" class="btn btn-xs btn-warning">
         <i class="fa fa-edit"></i> {{ __('users::coordinators.edit') }}
     </a>
 

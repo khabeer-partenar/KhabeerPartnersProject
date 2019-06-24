@@ -13,4 +13,6 @@ return [
     'deleted' => 'تم الحذف',
     'edit' => 'تعديل',
     'delete' => 'حذف',
+    'show' => 'عرض',
+    'information' => 'تفصايل المنسق'
 ];

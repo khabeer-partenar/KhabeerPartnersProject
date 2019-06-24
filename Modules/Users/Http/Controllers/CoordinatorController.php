@@ -95,7 +95,7 @@ class CoordinatorController extends Controller
     {
         $coordinator->updateFromRequest($request);
         self::sessionSuccess('coordinators.updated');
-        return back();
+        return redirect()->route('coordinators.index');
     }
 
     /**
