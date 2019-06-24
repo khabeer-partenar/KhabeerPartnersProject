@@ -33,3 +33,6 @@
 
     </div>
 @endsection
+
+@section('scripts_2')
+@endsection

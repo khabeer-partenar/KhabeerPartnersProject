@@ -178,5 +178,8 @@ return [
         'direct_department_id'  => 'الإدارة',
         'phone_number'          => 'رقم الجوال',
         'job_role_id'           => 'الدور الوظيفي',
+        'title'                 => 'اللقب',
+        'job_title'             => 'المسمي الوظيفي',
+        'department_reference'  => 'مرجعية الجهة',
     ],
 ];

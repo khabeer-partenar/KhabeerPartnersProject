@@ -11,6 +11,7 @@ use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Department;
 use Modules\Users\Http\Requests\SaveCoordinatorRequest;
+use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -43,8 +44,8 @@ class CoordinatorController extends Controller
     public function create()
     {
         $mainDepartments = Department::getDepartments();
-        $coordinator = Group::where('key', 'coordinator')->pluck('name', 'id');
-        return view('users::coordinators.create', compact('mainDepartments', 'coordinator'));
+        $coordinatorJob = Group::where('key', 'coordinator')->pluck('name', 'id');
+        return view('users::coordinators.create', compact('mainDepartments', 'coordinatorJob'));
     }
 
     /**
@@ -78,20 +79,23 @@ class CoordinatorController extends Controller
      */
     public function edit(Coordinator $coordinator)
     {
-
-        return view('users::coordinators.edit', compact($coordinator));
+        $mainDepartments = Department::getDepartments();
+        $coordinatorJob = Group::where('key', 'coordinator')->pluck('name', 'id');
+        return view('users::coordinators.edit', compact('coordinator',  'mainDepartments', 'coordinatorJob'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
+     * @param UpdateCoordinatorRequest $request
      * @param Coordinator $coordinator
      * @return Response
      * @internal param int $id
      */
-    public function update(SaveCoordinatorRequest $request, Coordinator $coordinator)
+    public function update(UpdateCoordinatorRequest $request, Coordinator $coordinator)
     {
-
+        $coordinator->updateFromRequest($request);
+        self::sessionSuccess('coordinators.updated');
+        return back();
     }
 
     /**
@@ -102,6 +106,7 @@ class CoordinatorController extends Controller
      */
     public function destroy(Coordinator $coordinator)
     {
-        //
+        $coordinator->delete();
+        return response()->json(['msg' => __('users::coordinators.deleted')]);
     }
 }

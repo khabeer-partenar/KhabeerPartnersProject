@@ -142,4 +142,22 @@ class Department extends Model
 
         return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
     }
+
+    public static function getDepartmentGrandParent($departmentId)
+    {
+        $department = self::find($departmentId);
+        if ($department && $parent = $department->parentDepartment) {
+            if ($parent && $GrandParent = $parent->parentDepartment) {
+                return $GrandParent->id;
+            }
+        }
+    }
+
+    public static function getDepartmentDirectParent($departmentId)
+    {
+        $department = self::find($departmentId);
+        if ($department && $parent = $department->parentDepartment) {
+            return $parent->id;
+        }
+    }
 }

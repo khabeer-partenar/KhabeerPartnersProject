@@ -1,5 +1,5 @@
 <div class="row">
-                            
+
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('main_department_id') ? ' has-error' : '' }}">
 
@@ -9,11 +9,15 @@
                 <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
                     data-url="{{ route('departments.children') }}" data-child="#parent_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
+                    @php $mainDepartment = old('main_department_id') @endphp
+                    @if(isset($coordinator))
+                        @php $mainDepartment = \Modules\Users\Entities\Department::getDepartmentGrandParent($coordinator->direct_department_id) @endphp
+                    @endif
                     @foreach($mainDepartments as $key => $department)
-                        <option value="{{ $key }}" {{ old('main_department_id') == $key ? 'selected':'' }}>{{ $department }}</option>
+                        <option value="{{ $key }}" {{ $mainDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
                     @endforeach
                 </select>
-                
+
                 @if ($errors->has('main_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('main_department_id') }}</strong></span>
                 @endif
@@ -31,12 +35,13 @@
                 <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments"
                         data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
-                    @if(old('parent_department_id') && old('main_department_id'))
-                        @php $parentDepartments = \Modules\Users\Entities\Department::getParentDepartments(old('main_department_id')) @endphp
-                        @foreach($parentDepartments as $key => $department)
-                            <option value="{{ $key }}" {{ old('parent_department_id') == $key ? 'selected':'' }}>{{ $department }}</option>
-                        @endforeach
+                    @php $chosenDepartment = old('parent_department_id') @endphp
+                    @if(isset($coordinator))
+                        @php $chosenDepartment = \Modules\Users\Entities\Department::getDepartmentDirectParent($coordinator->direct_department_id) @endphp
                     @endif
+                    @foreach(\Modules\Users\Entities\Department::getParentDepartments($mainDepartment) as $key => $department)
+                        <option value="{{ $key }}" {{ $chosenDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
+                    @endforeach
                 </select>
 
                 @if ($errors->has('parent_department_id'))
@@ -48,25 +53,82 @@
     </div>
 
     <div class="col-md-4">
+        <div class="form-group {{ $errors->has('department_reference') ? ' has-error' : '' }}">
+
+            {!! Form::label('department_reference', 'مرجعية الجهة', ['class' => 'col-md-4 control-label']) !!}
+
+            <div class="col-md-8">
+                {!! Form::text('department_reference', null, ['id' => 'department_reference', 'class' => 'form-control']) !!}
+
+                @if ($errors->has('department_reference'))
+                    <span class="help-block" ><strong>{{ $errors->first('department_reference') }}</strong></span>
+                @endif
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<br />
+
+
+<div class="row">
+
+    <div class="col-md-4">
         <div class="form-group {{ $errors->has('direct_department_id') ? ' has-error' : '' }}">
 
             {!! Form::label('direct_department_id', 'الإدارة', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                <select name="direct_department_id" id="direct_department_id" class="form-control select2 load-departments">
+                <select name="direct_department_id" id="direct_department_id" class="form-control select2">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
-                    @if(old('parent_department_id') && old('main_department_id'))
-                        @php $directDepartments = \Modules\Users\Entities\Department::getDirectDepartments(old('parent_department_id')) @endphp
-                        @foreach($directDepartments as $key => $department)
-                            <option value="{{ $key }}" {{ old('direct_department_id') == $key ? 'selected':'' }}>{{ $department }}</option>
-                        @endforeach
+                    @php
+                        $directDepartments = \Modules\Users\Entities\Department::getDirectDepartments($chosenDepartment);
+                        $directDepartment = old('direct_department_id');
+                    @endphp
+                    @if(isset($coordinator))
+                        @php $directDepartment = $coordinator->direct_department_id @endphp
                     @endif
+                    @foreach($directDepartments as $key => $department)
+                        <option value="{{ $key }}" {{ $directDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
+                    @endforeach
                 </select>
-
-
 
                 @if ($errors->has('direct_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('direct_department_id') }}</strong></span>
+                @endif
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group {{ $errors->has('job_title') ? ' has-error' : '' }}">
+
+            {!! Form::label('job_title', 'المسمي الوظيفي', ['class' => 'col-md-4 control-label']) !!}
+
+            <div class="col-md-8">
+                {!! Form::text('job_title', null, ['id' => 'job_title', 'class' => 'form-control']) !!}
+
+                @if ($errors->has('job_title'))
+                    <span class="help-block" ><strong>{{ $errors->first('job_title') }}</strong></span>
+                @endif
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group {{ $errors->has('title') ? ' has-error' : '' }}">
+
+            {!! Form::label('title', 'اللقب', ['class' => 'col-md-4 control-label']) !!}
+
+            <div class="col-md-8">
+                {!! Form::text('title', null, ['id' => 'title', 'class' => 'form-control']) !!}
+
+                @if ($errors->has('title'))
+                    <span class="help-block" ><strong>{{ $errors->first('title') }}</strong></span>
                 @endif
             </div>
 
@@ -77,9 +139,7 @@
 
 <br />
 
-
 <div class="row">
-                            
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('national_id') ? ' has-error' : '' }}">
 
@@ -103,7 +163,7 @@
 
             <div class="col-md-8">
                 {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) !!}
-    
+
                 @if ($errors->has('name'))
                     <span class="help-block" ><strong>{{ $errors->first('name') }}</strong></span>
                 @endif
@@ -119,7 +179,7 @@
 
             <div class="col-md-8">
                 {!! Form::text('phone_number', null, ['id' => 'phone_number', 'class' => 'form-control']) !!}
-    
+
                 @if ($errors->has('phone_number'))
                     <span class="help-block" ><strong>{{ $errors->first('phone_number') }}</strong></span>
                 @endif
@@ -127,13 +187,9 @@
 
         </div>
     </div>
-        
 </div>
 
-
-
 <br />
-
 
 <div class="row">
                             
@@ -159,7 +215,7 @@
             {!! Form::label('job_role_id', 'الدور الوظيفي', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::select('job_role_id', $coordinator, null, ['id' => 'job_role_id', 'class' => 'form-control select2', 'disabled']) !!}
+                {!! Form::select('job_role_id', $coordinatorJob, null, ['id' => 'job_role_id', 'class' => 'form-control select2', 'disabled']) !!}
     
                 @if ($errors->has('job_role_id'))
                     <span class="help-block" ><strong>{{ $errors->first('job_role_id') }}</strong></span>
@@ -170,3 +226,32 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.select2').select2();
+
+        $('.load-departments').change(function () {
+            let path = $(this).attr('data-url') + '?parentId=' + $(this).val();
+            let child = $(this).attr('data-child');
+            // Empty Children
+            $(child).empty();
+            if ($(child).hasClass('load-departments')) {
+                let childOfChild = $(child).attr('data-child');
+                $(childOfChild).empty();
+            }
+            if ($(this).val() != 0){
+                $.ajax({
+                    url: path,
+                    success: function (response) {
+                        let select = $(child)[0];
+                        let length = Object.keys(response).length;
+                        for (let index = 0; index < length; index++) {
+                            select.options[select.options.length] = new Option(response[index].name, response[index].id);
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
