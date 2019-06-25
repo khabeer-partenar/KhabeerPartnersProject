@@ -26,32 +26,32 @@ class DepartmentsTableSeeder extends Seeder
         ])->id;
 
         $BodyExpertsID = Department::create([
-            'parent_id' => $bodiesId, 'name' => 'هيئة￼￼￼ الخبراء', 'type' => '1', 'key' => 'staff_experts', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $bodiesId, 'name' => 'هيئة￼￼￼ الخبراء', 'type' => '2', 'key' => 'staff_experts', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         // Departments
         Department::create([
-            'parent_id' => $BodyExpertsID, 'name' => 'إدارة تقنية المعلومات', 'key' => 'it_department', 'type' => '2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $BodyExpertsID, 'name' => 'إدارة تقنية المعلومات', 'key' => 'it_department', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         Department::create([
-            'parent_id' => $BodyExpertsID, 'name' => 'مكتب معالي الرئيس - المستشار','key' => 'advisor', 'type' => '2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $BodyExpertsID, 'name' => 'مكتب معالي الرئيس - المستشار','key' => 'advisor', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         Department::create([
-            'parent_id' => $BodyExpertsID, 'name' => 'مدير مكاتب المستشارين','key' => 'director_of_consultants_offices', 'type' => '2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $BodyExpertsID, 'name' => 'مدير مكاتب المستشارين','key' => 'director_of_consultants_offices', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         Department::create([
-            'parent_id' => $BodyExpertsID, 'name' => 'السكرتير', 'key' => 'secretary', 'type' => '2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $BodyExpertsID, 'name' => 'السكرتير', 'key' => 'secretary', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         Department::create([
-            'parent_id' => $BodyExpertsID, 'name' => 'مدير المحافظ', 'key' => 'portfolio_Manager', 'type' => '2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $BodyExpertsID, 'name' => 'مدير المحافظ', 'key' => 'portfolio_Manager', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         Department::create([
-            'parent_id' => $BodyExpertsID, 'name' => 'الدعم التقني', 'key' => 'technical_support', 'type' => '2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $BodyExpertsID, 'name' => 'الدعم التقني', 'key' => 'technical_support', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         $magelsId = Department::create([
@@ -59,7 +59,15 @@ class DepartmentsTableSeeder extends Seeder
         ])->id;
 
         Department::create([
-            'parent_id' => $BodyExpertsID, 'name' => 'منسق', 'key' => 'coordinator', 'type' => '2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $BodyExpertsID, 'name' => 'منسق', 'key' => 'coordinator', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        $deanship = Department::create([
+            'parent_id' => $bodiesId, 'name' => 'هيئة العمادات', 'type' => '2', 'key' => 'staff_deanship', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        Department::create([
+            'parent_id' => $deanship, 'name' => 'العميد', 'key' => 'deanship_manager', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
     }

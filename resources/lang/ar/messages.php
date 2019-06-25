@@ -18,7 +18,8 @@ return [
     'password' => 'الرقم السري',
 
     'phone_number' => 'رقم الجوال',
-
+    'contact_options' => 'معلومات الاتصال',
+    'department_info' => 'معلومات الجهة التابع لها',
 
     // messages
     'login_error_message' => 'رقم الهوية أو الرقم السري غير صحيح',

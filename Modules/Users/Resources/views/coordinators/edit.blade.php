@@ -7,19 +7,19 @@
 
             <div class="caption">
                 <i class="fa fa-user"></i>
-                <span class="caption-subject sbold">{{ __('users::users.action_edit') }}</span>
+                <span class="caption-subject sbold">{{ __('users::coordinators.action_edit') }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('users.index') }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('coordinators.index') }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
 
         <div class="portlet-body form">
-            
+
             {{ Form::model($coordinator, ['route' => ['coordinators.update', $coordinator], 'method' => 'PUT']) }}
-                
+
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
                 @endif
@@ -42,11 +42,5 @@
 
 
 @section('scripts_2')
-
-    <script>
-    $(document).ready(function() {
-        $('.select2').select2();
-    });
-</script>
-
+    @include('users::coordinators.scripts')
 @endsection

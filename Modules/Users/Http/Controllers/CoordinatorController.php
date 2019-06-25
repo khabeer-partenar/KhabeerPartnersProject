@@ -11,6 +11,7 @@ use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Department;
 use Modules\Users\Http\Requests\SaveCoordinatorRequest;
+use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -22,18 +23,33 @@ class CoordinatorController extends Controller
      * Display a listing of the resource.
      * @param Request $request
      * @return Response
+     * @internal param Request $request
      */
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->ajax()) {
-            $userQuery = Coordinator::select('id', 'name', 'national_id', 'email', 'phone_number');
+            $coordinatorsQuery = Coordinator::with('mainDepartment', 'parentDepartment', 'directDepartment')
+                ->search($request);
 
-            return Datatables::of($userQuery)
+            return Datatables::of($coordinatorsQuery)
+                ->addColumn('department_info', function ($coordinator) {
+                    $data = [
+                        $coordinator->mainDepartment->name,
+                        $coordinator->parentDepartment->name,
+                        $coordinator->directDepartment->name
+                    ];
+                    return view('users::coordinators.commas_separated_data', ['data' => $data]);
+                })
+                ->addColumn('contact_options', function($coordinator) {
+                    $data = [$coordinator->phone_number, $coordinator->email];
+                    return view('users::coordinators.commas_separated_data', ['data' => $data, 'break' => 1 ]);
+                })
                 ->addColumn('action', function ($coordinator) {
                     return view('users::coordinators.actions', compact('coordinator'));
-                })->make(true);
+                })->rawColumns(['action', 'contact_options'])->make(true);
         }
-        return view('users::coordinators.index');
+        $mainDepartments = Department::getDepartments();
+        return view('users::coordinators.index', compact('mainDepartments'));
     }
 
     /**
@@ -43,8 +59,8 @@ class CoordinatorController extends Controller
     public function create()
     {
         $mainDepartments = Department::getDepartments();
-        $coordinator = Group::where('key', 'coordinator')->pluck('name', 'id');
-        return view('users::coordinators.create', compact('mainDepartments', 'coordinator'));
+        $coordinatorJob = Group::where('key', 'coordinator')->pluck('name', 'id');
+        return view('users::coordinators.create', compact('mainDepartments', 'coordinatorJob'));
     }
 
     /**
@@ -78,20 +94,23 @@ class CoordinatorController extends Controller
      */
     public function edit(Coordinator $coordinator)
     {
-
-        return view('users::coordinators.edit', compact($coordinator));
+        $mainDepartments = Department::getDepartments();
+        $coordinatorJob = Group::where('key', 'coordinator')->pluck('name', 'id');
+        return view('users::coordinators.edit', compact('coordinator',  'mainDepartments', 'coordinatorJob'));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
+     * @param UpdateCoordinatorRequest $request
      * @param Coordinator $coordinator
      * @return Response
      * @internal param int $id
      */
-    public function update(SaveCoordinatorRequest $request, Coordinator $coordinator)
+    public function update(UpdateCoordinatorRequest $request, Coordinator $coordinator)
     {
-
+        $coordinator->updateFromRequest($request);
+        self::sessionSuccess('coordinators.updated');
+        return redirect()->route('coordinators.index');
     }
 
     /**
@@ -102,6 +121,7 @@ class CoordinatorController extends Controller
      */
     public function destroy(Coordinator $coordinator)
     {
-        //
+        $coordinator->delete();
+        return response()->json(['msg' => __('users::coordinators.deleted')]);
     }
 }

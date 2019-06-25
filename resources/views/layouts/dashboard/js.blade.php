@@ -20,6 +20,7 @@
 
 {{ Html::script(mix('assets/js/bootstrap-select.min.js'))}}
 {{ Html::script(mix('assets/js/jquery.multi-select.js'))}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
 <!-- END PAGE LEVEL PLUGINS -->
 
@@ -30,6 +31,9 @@
 {{ Html::script(mix('assets/js/components-datatable_ar.js'))}}
 {{ Html::script(mix('assets/js/components-multi-select.min.js'))}}
 <!-- END THEME GLOBAL SCRIPTS -->
+
+{{ Html::script(mix('assets/js/custom.js')) }}
+<script src="{{ asset('assets/js/khabeer.js') }}"></script>
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 @yield('scripts_2')
