@@ -69,10 +69,10 @@ class Coordinator extends Authenticatable
         if ($request->has('name')) {
             $query->where('name', 'LIKE', '%'.$request->name.'%');
         }
-        if ($request->has('main_department_id')) {
+        if ($request->has('main_department_id') && $request->main_department_id != 0) {
             $query->where('main_department_id', $request->main_department_id);
         }
-        if ($request->has('parent_department_id')) {
+        if ($request->has('parent_department_id') && $request->parent_department_id != 0) {
             $query->where('parent_department_id', $request->parent_department_id);
         }
         return $query;
