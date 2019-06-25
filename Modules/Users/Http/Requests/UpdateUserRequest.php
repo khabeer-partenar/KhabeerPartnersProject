@@ -3,7 +3,6 @@
 namespace Modules\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Department;
@@ -20,10 +19,8 @@ class UpdateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(Request $request)
+    public function rules()
     {
-        $userData = $request->userData;
-        dd($userData);
         return [
             // 'main_department_id'   => 'required|integer|exists:'. Department::table() .',id',
             // 'parent_department_id' => 'required|integer|exists:'. Department::table() .',id',
