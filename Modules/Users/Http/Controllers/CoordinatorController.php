@@ -28,7 +28,9 @@ class CoordinatorController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->ajax()) {
-            $coordinatorsQuery = Coordinator::search($request);
+            $coordinatorsQuery = Coordinator::with('mainDepartment', 'parentDepartment', 'directDepartment')
+                ->search($request);
+
             return Datatables::of($coordinatorsQuery)
                 ->addColumn('department_info', function ($coordinator) {
                     $data = [
