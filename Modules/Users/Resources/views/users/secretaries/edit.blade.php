@@ -7,18 +7,18 @@
 
             <div class="caption">
                 <i class="fa fa-edit"></i>
-                <span class="caption-subject sbold">{{ __('users::users.edit_secretaries_title') }}: {{ $userData->name }}</span>
+                <span class="caption-subject sbold">{{ __('users::users.edit_secretaries_title') }}: {{ $user->name }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('users.show', $userData->id) }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('users.show', $user) }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
 
         <div class="portlet-body form">
             
-            {{ Form::model($userData, ['route' => ['users.update_secretaries', $userData->id], 'method' => 'PUT']) }}
+            {{ Form::model($user, ['route' => ['users.update_secretaries', $user], 'method' => 'PUT']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>

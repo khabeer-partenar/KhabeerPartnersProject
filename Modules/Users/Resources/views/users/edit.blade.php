@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
             
-            {{ Form::model($userData, ['route' => ['users.update', $userData], 'method' => 'PUT']) }}
+            {{ Form::model($user, ['route' => ['users.update', $user], 'method' => 'PUT']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>

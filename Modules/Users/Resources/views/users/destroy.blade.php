@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
             
-            {{ Form::model($userData, ['route' => ['users.destroy', $userData->id], 'method' => 'delete']) }}
+            {{ Form::model($userData, ['route' => ['users.destroy', $userData], 'method' => 'delete']) }}
                 
                 <div class="alert alert-danger">{{ __('messages.destroyـconfirmation') }}</div>
 

@@ -4,7 +4,7 @@
         <i class="fa fa-key"></i> Admin
     </a>
 
-    <a href="{{ route('users.show', $user->id) }}" class="btn btn-xs btn-primary">
+    <a href="{{ route('users.show', $user) }}" class="btn btn-xs btn-primary">
         <i class="fa fa-eye"></i> {{ __('users::users.information_btn') }}
     </a>
 

@@ -225,9 +225,9 @@ class User extends Authenticatable
      */
     public static function createNewUser($request)
     {
-        $userData = self::create($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
-        $userData->groups()->attach($request->job_role_id);
-        return $userData;
+        $user = self::create($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
+        $user->groups()->attach($request->job_role_id);
+        return $user;
     }
 
     /**
@@ -241,7 +241,7 @@ class User extends Authenticatable
             $this->groups()->attach($request->job_role_id);
         }
 
-        $userData  = $this->update($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
-        return $userData;
+        $user  = $this->update($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
+        return $user;
     }
 }

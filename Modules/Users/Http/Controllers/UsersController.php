@@ -76,7 +76,7 @@ class UsersController extends UserBaseController
      */
     public function store(SaveUserRequest $request)
     {
-        $userData = User::createNewUser($request);        
+        User::createNewUser($request);        
         session()->flash('alert-success', __('users.userCreated')); 
         return redirect()->route('users.index');
     }
@@ -98,13 +98,12 @@ class UsersController extends UserBaseController
         return view('users::users.show', compact(['user', 'departmentsDataForForms', 'rolesData', 'secretariesUsersData']));
     }
 
-    public function edit(Request $request, $userID)
+    public function edit(Request $request, User $user)
     {
-        $userData                = User::findOrFail($userID);
         $departmentsDataForForms = Department::getDepartmentsDataForUsersForms();
         $rolesData               = Group::pluck('name', 'id')->prepend('', '');
 
-        return view('users::users.edit', compact(['userData', 'departmentsDataForForms', 'rolesData']));
+        return view('users::users.edit', compact(['user', 'departmentsDataForForms', 'rolesData']));
     }
 
     /**
@@ -114,28 +113,18 @@ class UsersController extends UserBaseController
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $userData->updateUser($request);
+        $user->updateUser($request);
         session()->flash('alert-success', __('users::users.userUpdated')); 
         return redirect()->route('users.index');
-    }
-
-    /**
-     * Confirm the delete of user
-     */
-    public function destroyConfirmation(Request $request, $userID) 
-    {
-        $userData = User::findOrFail($userID);
-        return view('users::users.destroy', compact(['userData']));
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy(Request $request, $userID)
+    public function destroy(Request $request, User $user)
     {
-        $userData = User::findOrFail($userID);
-        $userData->delete();
+        $user->delete();
         session()->flash('alert-success', __('users::users.userDeleted')); 
         return redirect()->route('users.index');
     }
@@ -163,16 +152,15 @@ class UsersController extends UserBaseController
     /**
      * update user to super admin or downgrade him to normal user
      */
-    public function upgrateToSuperAdmin(Request $request, $userID) 
+    public function upgrateToSuperAdmin(Request $request, User $user)
     {
-        $userData = User::findOrFail($userID);
-        $userData->is_super_admin = !$userData->is_super_admin;
+        $user->is_super_admin = !$user->is_super_admin;
 
-        if(User::where('is_super_admin', 1)->count() == 1 && $userData->is_super_admin == 0) {
+        if(User::where('is_super_admin', 1)->count() == 1 && $user->is_super_admin == 0) {
             return back();
         }
 
-        $userData->save();
+        $user->save();
 
         session()->flash('alert-success', __('messages.updatedـsuccessfully')); 
         return redirect()->route('users.index');
@@ -193,12 +181,12 @@ class UsersController extends UserBaseController
      */
     public function secretaries(Request $request, $userID) 
     {
-        $userData = User::with('secretaries', 'secretaries.secretaryData', 'secretaries.secretaryData.directDepartment', 'secretaries.secretaryData.jobRole')->findOrFail($userID);
-        if(!$request->wantsJson() || !$request->ajax() || !$userData->hasAdvisorsGroup()) {
+        $user = User::with('secretaries', 'secretaries.secretaryData', 'secretaries.secretaryData.directDepartment', 'secretaries.secretaryData.jobRole')->findOrFail($userID);
+        if(!$request->wantsJson() || !$request->ajax() || !$user->hasAdvisorsGroup()) {
             return redirect()->route('users.index');
         }
 
-        return Datatables::of($userData->secretaries)
+        return Datatables::of($user->secretaries)
                 ->addColumn('name', function ($user) {
                     return @$user->secretaryData->name;
                 })
@@ -223,14 +211,14 @@ class UsersController extends UserBaseController
      */
     public function editSecretaries(Request $request, $userID) 
     {
-        $userData = User::with('secretaries')->findOrFail($userID);
-        if(!$userData->hasAdvisorsGroup()) {
+        $user = User::with('secretaries')->findOrFail($userID);
+        if(!$user->hasAdvisorsGroup()) {
             return redirect()->route('users.index');
         }
 
-        $secretariesIDs   = $userData->secretaries->pluck('secretary_user_id');
+        $secretariesIDs   = $user->secretaries->pluck('secretary_user_id');
         $secretariesUsers = Group::secretariesUsers()->pluck('name', 'id');
-        return view('users::users.secretaries.edit', compact(['userData', 'secretariesIDs', 'secretariesUsers']));
+        return view('users::users.secretaries.edit', compact(['user', 'secretariesIDs', 'secretariesUsers']));
     }
 
     /**
@@ -238,14 +226,15 @@ class UsersController extends UserBaseController
      */
     public function updateSecretaries(Request $request, $userID) 
     {
-        $userData = User::findOrFail($userID);
-        if(!$userData->hasAdvisorsGroup()) {
+        $user = User::with('secretaries')->findOrFail($userID);
+        
+        if(!$user->hasAdvisorsGroup()) {
             return redirect()->route('users.index');
         }
 
-        //$userData->secretaries()->syncSecretariesData($request->secretaries_ids);
+        //$user->secretaries()->syncSecretariesData($request->secretaries_ids);
 
-        return view('users::users.edit-secretaries', compact(['userData']));
+        return view('users::users.edit-secretaries', compact(['user']));
     }
 
 }
