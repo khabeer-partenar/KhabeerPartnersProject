@@ -8,6 +8,7 @@ use App\Http\Controllers\UserBaseController;
 use Yajra\Datatables\Datatables;
 use Modules\Users\Http\Requests\SaveUserRequest;
 use Modules\Users\Http\Requests\UpdateUserRequest;
+use Modules\Users\Http\Requests\UpdateSecretariesRequest;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Permission;
 use Modules\Core\Entities\Group;
@@ -179,9 +180,8 @@ class UsersController extends UserBaseController
     /**
      * secretaries of user
      */
-    public function secretaries(Request $request, $userID) 
+    public function secretaries(Request $request, User $user)
     {
-        $user = User::with('secretaries', 'secretaries.secretaryData', 'secretaries.secretaryData.directDepartment', 'secretaries.secretaryData.jobRole')->findOrFail($userID);
         if(!$request->wantsJson() || !$request->ajax() || !$user->hasAdvisorsGroup()) {
             return redirect()->route('users.index');
         }
@@ -209,9 +209,8 @@ class UsersController extends UserBaseController
     /**
      * edit secretaries of user
      */
-    public function editSecretaries(Request $request, $userID) 
+    public function editSecretaries(Request $request, User $user)
     {
-        $user = User::with('secretaries')->findOrFail($userID);
         if(!$user->hasAdvisorsGroup()) {
             return redirect()->route('users.index');
         }
@@ -224,16 +223,14 @@ class UsersController extends UserBaseController
     /**
      * update secretaries of user
      */
-    public function updateSecretaries(Request $request, $userID) 
+    public function updateSecretaries(UpdateSecretariesRequest $request, User $user)
     {
-        $user = User::with('secretaries')->findOrFail($userID);
-        
         if(!$user->hasAdvisorsGroup()) {
             return redirect()->route('users.index');
         }
 
-        //$user->secretaries()->syncSecretariesData($request->secretaries_ids);
-
+        $user->syncSecretariesData($request->secretaries_ids);
+        session()->flash('alert-success', __('users.secretariesUpdated')); 
         return view('users::users.edit-secretaries', compact(['user']));
     }
 

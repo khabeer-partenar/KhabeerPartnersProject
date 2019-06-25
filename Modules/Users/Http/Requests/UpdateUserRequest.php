@@ -24,7 +24,7 @@ class UpdateUserRequest extends FormRequest
     {
         $user = $request->user;
         return [
-            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id', ''],
+            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id'],
             'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table() . ',national_id,' . $user->id],
             'name'                 => ['required', new FilterStringRule, 'string', 'max:255'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table() . ',phone_number,' . $user->id],

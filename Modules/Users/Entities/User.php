@@ -241,7 +241,14 @@ class User extends Authenticatable
             $this->groups()->attach($request->job_role_id);
         }
 
-        $user  = $this->update($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
-        return $user;
+        return $this->update($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
+    }
+
+    /**
+     * sync secretaries sata of user
+     */
+    public function syncSecretariesData($secretariesIds) 
+    {
+        
     }
 }

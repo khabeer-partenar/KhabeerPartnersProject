@@ -35,11 +35,11 @@ Route::group(['middleware' => 'auth'], function()
     // Users Controller
     Route::get('/users/search', 'UsersController@search')->name('users.search');
     Route::get('/users/search-by-name', 'UsersController@searchByName')->name('users.searchByName');
-    Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
+    Route::get('/users/upgrate-to-super-admin/{user}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
     Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
-    Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
-    Route::get('/users/{id}/secretaries', 'UsersController@secretaries')->name('users.secretaries');
-    Route::get('/users/{id}/edit/secretaries', 'UsersController@editSecretaries')->name('users.edit_secretaries');
-    Route::put('/users/{id}/edit/secretaries', 'UsersController@updateSecretaries')->name('users.update_secretaries');
+    Route::get('/users/{user}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
+    Route::get('/users/{user}/secretaries', 'UsersController@secretaries')->name('users.secretaries');
+    Route::get('/users/{user}/edit/secretaries', 'UsersController@editSecretaries')->name('users.edit_secretaries');
+    Route::put('/users/{user}/edit/secretaries', 'UsersController@updateSecretaries')->name('users.update_secretaries');
     Route::resource('/users', 'UsersController');
 });

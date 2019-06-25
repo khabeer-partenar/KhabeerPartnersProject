@@ -8,7 +8,7 @@
         </div>
             
         <div class="actions">
-            <a href="{{ route('users.edit_secretaries', $user->id) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::users.edit_secretaries_btn') }}</a>
+            <a href="{{ route('users.edit_secretaries', $user) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::users.edit_secretaries_btn') }}</a>
         </div>
         
     </div>
@@ -17,7 +17,7 @@
             
         <div class="form-body">
             
-            <table id="table-ajax" class="table" data-url="{{ route('users.secretaries', $user->id) }}"
+            <table id="table-ajax" class="table" data-url="{{ route('users.secretaries', $user) }}"
                 data-fields='[
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"false"},
                     {"data": "deptname","title":"{{ __('messages.deptname') }}","searchable":"false"},

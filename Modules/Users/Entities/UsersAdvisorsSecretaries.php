@@ -28,9 +28,4 @@ class UsersAdvisorsSecretaries extends Model
     {
         return $this->hasOne(User::class, 'id', 'secretary_user_id');
     }
-
-    public function syncSecretariesData($secretariesIds)
-    {
-        dd($secretariesIds);
-    }
 }
