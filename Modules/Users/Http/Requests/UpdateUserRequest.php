@@ -2,6 +2,7 @@
 
 namespace Modules\Users\Http\Requests;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Group;
@@ -19,16 +20,15 @@ class UpdateUserRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
+        dd($request->user);
         return [
-            // 'main_department_id'   => 'required|integer|exists:'. Department::table() .',id',
-            // 'parent_department_id' => 'required|integer|exists:'. Department::table() .',id',
             'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id'],
-            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table() .',national_id,' . $this->id],
-            'name'                 => ['required', new FilterStringRule, 'string'],
-            'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table() . ',phone_number,' . $this->id],
-            'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table() . ',email,' . $this->id],
+            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
+            'name'                 => ['required', new FilterStringRule, 'string', 'max:255'],
+            'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table()],
+            'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table()],
             'job_role_id'          => ['required', 'integer', 'exists:'. Group::table() .',id'],
         ];
     }

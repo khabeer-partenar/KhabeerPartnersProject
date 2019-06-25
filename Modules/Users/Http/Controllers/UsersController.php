@@ -113,24 +113,10 @@ class UsersController extends UserBaseController
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request, $userID)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        // still working on it
-        exit;
-        $userData = User::findOrFail($userID);
-
-        $request->validate([
-            'direct_department_id' => 'required|integer|exists:'. Department::table() .',id',
-            'national_id'          => 'required|unique:'. User::table() . ',national_id,' . $userData->id,
-            'name'                 => 'required|string',
-            'phone_number'         => 'required|unique:'. User::table() . ',phone_number,' . $userData->id,
-            'email'                => 'required|email|unique:'. User::table() . ',email,' . $userData->id,
-            'job_role_id'          => 'required|integer|exists:'. Group::table() .',id',
-        ]);
-
         $userData = $userData->updateUser($request);
         session()->flash('alert-success', __('users::users.userUpdated')); 
-
         return redirect()->route('users.index');
     }
 
