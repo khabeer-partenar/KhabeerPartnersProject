@@ -113,11 +113,10 @@ class UsersController extends UserBaseController
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request, $userID)
+    public function update(UpdateUserRequest $request, User $userData)
     {
-        // still working on it
-        exit;
-        $userData = User::findOrFail($userID);
+        dd($userData);
+        //$userData = User::findOrFail($userID);
 
         $request->validate([
             'direct_department_id' => 'required|integer|exists:'. Department::table() .',id',
