@@ -226,12 +226,12 @@ class UsersController extends UserBaseController
     public function updateSecretaries(UpdateSecretariesRequest $request, User $user)
     {
         if(!$user->hasAdvisorsGroup()) {
-            return redirect()->route('users.index');
+            return redirect()->route('users.show', $user->id);
         }
 
-        $user->syncSecretariesData($request->secretaries_ids);
-        session()->flash('alert-success', __('users.secretariesUpdated')); 
-        return view('users::users.edit-secretaries', compact(['user']));
+        $user->syncSecretariesUsers($request->secretaries_ids);
+        session()->flash('alert-success', __('users::users.secretariesUpdated')); 
+        return redirect()->route('users.show', $user->id);
     }
 
 }
