@@ -21,19 +21,30 @@ class CoordinatorController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param Request $request
      * @return Response
      * @internal param Request $request
      */
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->ajax()) {
-            $coordinatorsQuery = Coordinator::select('id', 'name', 'national_id', 'email', 'phone_number');
-            $coordinatorsQuery->search($request);
-
+            $coordinatorsQuery = Coordinator::search($request);
             return Datatables::of($coordinatorsQuery)
+                ->addColumn('department_info', function ($coordinator) {
+                    $data = [
+                        $coordinator->mainDepartment->name,
+                        $coordinator->parentDepartment->name,
+                        $coordinator->directDepartment->name
+                    ];
+                    return view('users::coordinators.commas_separated_data', ['data' => $data]);
+                })
+                ->addColumn('contact_options', function($coordinator) {
+                    $data = [$coordinator->phone_number, $coordinator->email];
+                    return view('users::coordinators.commas_separated_data', ['data' => $data, 'break' => 1 ]);
+                })
                 ->addColumn('action', function ($coordinator) {
                     return view('users::coordinators.actions', compact('coordinator'));
-                })->make(true);
+                })->rawColumns(['action', 'contact_options'])->make(true);
         }
         $mainDepartments = Department::getDepartments();
         return view('users::coordinators.index', compact('mainDepartments'));
