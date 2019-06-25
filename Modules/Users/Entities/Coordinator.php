@@ -22,10 +22,21 @@ class Coordinator extends Authenticatable
         'job_title', 'title', 'main_department_id', 'parent_department_id'
     ];
 
+    protected $table = 'users';
+
+    public function newQuery()
+    {
+        $query = parent::newQuery();
+        $query->where('is_coordinator','=','1');
+        return $query;
+    }
+
     /**
      * Functions
      *
      * Add Functions
+     * @param $request
+     * @return
      */
     public static function createFromRequest($request)
     {
@@ -35,7 +46,7 @@ class Coordinator extends Authenticatable
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
                 'main_department_id', 'parent_department_id', 'department_reference'
-            ), ['job_role_id' => $coordinatorJob->id]
+            ), ['job_role_id' => $coordinatorJob->id, 'is_coordinator' => 1]
             )
         );
         $coordinator->groups()->attach($coordinatorJob);

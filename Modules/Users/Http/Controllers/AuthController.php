@@ -79,7 +79,7 @@ class AuthController extends Controller
             auth()->user()->token()->revoke();
             return response()->json('success', 200);
         }
-        
+
         auth()->logout();
         return redirect()->to('/login');
     }
