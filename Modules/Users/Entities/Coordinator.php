@@ -19,7 +19,7 @@ class Coordinator extends Authenticatable
 
     protected $fillable = [
         'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id', 'department_reference',
-        'job_title', 'title'
+        'job_title', 'title', 'main_department_id', 'parent_department_id'
     ];
 
     /**
@@ -32,8 +32,10 @@ class Coordinator extends Authenticatable
         $coordinatorJob = Group::where('key', 'coordinator')->first();
         $coordinator = self::create(
             array_merge(
-            $request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title', 'department_reference'),
-            ['job_role_id' => $coordinatorJob->id]
+            $request->only(
+                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                'main_department_id', 'parent_department_id', 'department_reference'
+            ), ['job_role_id' => $coordinatorJob->id]
             )
         );
         $coordinator->groups()->attach($coordinatorJob);
@@ -43,7 +45,10 @@ class Coordinator extends Authenticatable
     public function updateFromRequest($request)
     {
         return $this->update(
-            $request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title', 'department_reference')
+            $request->only(
+                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                'main_department_id', 'parent_department_id', 'department_reference'
+            )
         );
     }
 
@@ -64,6 +69,12 @@ class Coordinator extends Authenticatable
         if ($request->has('name')) {
             $query->where('name', 'LIKE', '%'.$request->name.'%');
         }
+        if ($request->has('main_department_id')) {
+            $query->where('main_department_id', $request->main_department_id);
+        }
+        if ($request->has('parent_department_id')) {
+            $query->where('parent_department_id', $request->parent_department_id);
+        }
         return $query;
     }
 
@@ -80,5 +91,15 @@ class Coordinator extends Authenticatable
     public function directDepartment()
     {
         return $this->belongsTo(Department::class, 'direct_department_id');
+    }
+
+    public function parentDepartment()
+    {
+        return $this->belongsTo(Department::class, 'parent_department_id');
+    }
+
+    public function mainDepartment()
+    {
+        return $this->belongsTo(Department::class, 'main_department_id');
     }
 }

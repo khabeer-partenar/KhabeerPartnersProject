@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterCoordinatorsTableWithSomeMoreColumns extends Migration
+class AlterCoordinatorsTableWithDepartmentColumns extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,8 @@ class AlterCoordinatorsTableWithSomeMoreColumns extends Migration
     public function up()
     {
         Schema::table('coordinators', function (Blueprint $table) {
-            $table->string('department_reference')->after('direct_department_id');
-            $table->string('title')->nullable()->after('department_reference');
-            $table->string('job_title')->nullable()->after('title');
+            $table->string('main_department_id')->after('phone_number');
+            $table->string('parent_department_id')->after('main_department_id');
         });
     }
 
@@ -28,9 +27,8 @@ class AlterCoordinatorsTableWithSomeMoreColumns extends Migration
     public function down()
     {
         Schema::table('coordinators', function (Blueprint $table) {
-            $table->dropColumn('department_reference');
-            $table->dropColumn('title');
-            $table->dropColumn('job_title');
+            $table->dropColumn('main_department_id');
+            $table->dropColumn('parent_department_id');
         });
     }
 }

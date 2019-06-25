@@ -12,6 +12,7 @@ use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
+use Modules\Users\Rules\CheckDepartmentType;
 
 class UpdateCoordinatorRequest extends FormRequest
 {
@@ -25,7 +26,9 @@ class UpdateCoordinatorRequest extends FormRequest
     {
         $coordinator = $request->coordinator;
         return [
-            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id'],
+            'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType('1')],
+            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType('2')],
+            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id'], new CheckDepartmentType('3'),
             'national_id' => ['required', new NationalIDRule, Rule::unique(Coordinator::table())->ignore($coordinator->id)],
             'name' => ['required', new FilterStringRule, 'string'],
             'phone_number' => ['required', new ValidationPhoneNumberRule, Rule::unique(Coordinator::table())->ignore($coordinator->id)],

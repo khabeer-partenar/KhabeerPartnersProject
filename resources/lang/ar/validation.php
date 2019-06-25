@@ -116,6 +116,7 @@ return [
     'phone_number'         => ':attribute غير صحيح',
     'filter_string'        => ':attribute لا يمكن ان يحتوني على رموز',
     'gov_email'            => ':attribute يجب ان ينتهي بإمتداد gov.sa',
+    'wrong choice'         => ':attribute يجب أن يكون من النوع الصحيح',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

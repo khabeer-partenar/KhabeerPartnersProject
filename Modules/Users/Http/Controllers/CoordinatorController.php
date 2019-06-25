@@ -24,27 +24,19 @@ class CoordinatorController extends Controller
      * @return Response
      * @internal param Request $request
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson() || $request->ajax()) {
+            $coordinatorsQuery = Coordinator::select('id', 'name', 'national_id', 'email', 'phone_number');
+            $coordinatorsQuery->search($request);
+
+            return Datatables::of($coordinatorsQuery)
+                ->addColumn('action', function ($coordinator) {
+                    return view('users::coordinators.actions', compact('coordinator'));
+                })->make(true);
+        }
         $mainDepartments = Department::getDepartments();
         return view('users::coordinators.index', compact('mainDepartments'));
-    }
-
-    /**
-     * List dataTable data
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function list(Request $request)
-    {
-        $coordinatorsQuery = Coordinator::select('id', 'name', 'national_id', 'email', 'phone_number');
-        $coordinatorsQuery->search($request);
-
-        return Datatables::of($coordinatorsQuery)
-            ->addColumn('action', function ($coordinator) {
-                return view('users::coordinators.actions', compact('coordinator'));
-            })->make(true);
     }
 
     /**

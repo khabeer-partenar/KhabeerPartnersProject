@@ -26,20 +26,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php
-                        $department = $coordinator->directDepartment;
-                        $parentDepartment = $department->parentDepartment;
-                        $parentType = $parentDepartment->parentDepartment;
-                    @endphp
                     <tr>
                         <th scope="row">نوع الجهة</th>
-                        <td>
-                            {{ $parentType && $parentType->parent_id == 0 ? $parentType->name:'-' }}
-                        </td>
+                        <td>{{ $coordinator->mainDepartment->name }}</td>
                     </tr>
                     <tr>
                         <th scope="row">اسم الجهة</th>
-                        <td>{{ $parentDepartment->name }}</td>
+                        <td>{{ $coordinator->parentDepartment->name }}</td>
                     </tr>
                     <tr>
                         <th scope="row">مرجعية الجهة</th>
@@ -51,7 +44,7 @@
                     </tr>
                     <tr>
                         <th scope="row">الإدارة</th>
-                        <td>{{ $department->name }}</td>
+                        <td>{{ $coordinator->directDepartment->name }}</td>
                     </tr>
                     <tr>
                         <th scope="row">اللقب</th>

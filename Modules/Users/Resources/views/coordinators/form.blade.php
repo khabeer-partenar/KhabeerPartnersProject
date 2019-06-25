@@ -9,12 +9,16 @@
                 <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
                     data-url="{{ route('departments.children') }}" data-child="#parent_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
-                    @php $mainDepartment = old('main_department_id') @endphp
-                    @if(isset($coordinator))
-                        @php $mainDepartment = \Modules\Users\Entities\Department::getDepartmentGrandParent($coordinator->direct_department_id) @endphp
-                    @endif
+                    @php
+                        $mainDepartment = isset($coordinator) ? $coordinator->main_department_id:'';
+                        if (old('main_department_id')){
+                            $mainDepartment = old('main_department_id');
+                        }
+                    @endphp
                     @foreach($mainDepartments as $key => $department)
-                        <option value="{{ $key }}" {{ $mainDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
+                        <option value="{{ $key }}" {{ $mainDepartment == $key ? 'selected':'' }}>
+                            {{ $department }}
+                        </option>
                     @endforeach
                 </select>
 
@@ -35,12 +39,14 @@
                 <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments"
                         data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
-                    @php $chosenDepartment = old('parent_department_id') @endphp
-                    @if(isset($coordinator))
-                        @php $chosenDepartment = \Modules\Users\Entities\Department::getDepartmentDirectParent($coordinator->direct_department_id) @endphp
-                    @endif
+                    @php
+                        $parentDepartment = isset($coordinator) ? $coordinator->parent_department_id:'';
+                        if (old('parent_department_id')){
+                            $parentDepartment = old('parent_department_id');
+                        }
+                    @endphp
                     @foreach(\Modules\Users\Entities\Department::getParentDepartments($mainDepartment) as $key => $department)
-                        <option value="{{ $key }}" {{ $chosenDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
+                        <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
                     @endforeach
                 </select>
 
@@ -84,13 +90,12 @@
                 <select name="direct_department_id" id="direct_department_id" class="form-control select2">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
                     @php
-                        $directDepartments = \Modules\Users\Entities\Department::getDirectDepartments($chosenDepartment);
-                        $directDepartment = old('direct_department_id');
+                        $directDepartment = isset($coordinator) ? $coordinator->direct_department_id:'';
+                        if (old('direct_department_id')){
+                            $directDepartment = old('direct_department_id');
+                        }
                     @endphp
-                    @if(isset($coordinator))
-                        @php $directDepartment = $coordinator->direct_department_id @endphp
-                    @endif
-                    @foreach($directDepartments as $key => $department)
+                    @foreach(\Modules\Users\Entities\Department::getDirectDepartments($parentDepartment) as $key => $department)
                         <option value="{{ $key }}" {{ $directDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
                     @endforeach
                 </select>

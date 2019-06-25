@@ -28,7 +28,6 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::prefix('users')->group(function(){
         // Coordinator Controller
-        Route::get('/coordinators/ajax-list', 'CoordinatorController@list')->name('coordinators.list');
         Route::resource('/coordinators', 'CoordinatorController');
     });
 

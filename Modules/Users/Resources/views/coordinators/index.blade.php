@@ -18,7 +18,7 @@
 
         <div class="portlet-body">
             {{-- Search Form --}}
-            <form class="form-inline" id="search-coordinators">
+            <form class="form-inline" method="get" id="search-coordinators" action="{{ route('coordinators.index') }}">
                 <div class="form-group">
                     <label for="department_type">نوع الجهة</label>
                     <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
@@ -47,10 +47,14 @@
                     <label for="name">اسم المنسق</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="">
                 </div>
-                <button data-href="{{ route('coordinators.list') }}" type="button" class="btn btn-default search-table" data-form="#search-coordinators">بحث</button>
+                <button type="submit" class="btn btn-default search-table" data-form="#search-coordinators">بحث</button>
             </form>
             {{-- DataTable --}}
-            <table id="table-ajax" class="table" data-url="{{ route('coordinators.list') }}"
+            <table id="table-ajax" class="table" data-url="{{ route('coordinators.index', [
+                'name' => Request::input('name'),
+                'main_department_id' => Request::input('main_department_id'),
+                'parent_department_id' => Request::input('parent_department_id')])
+             }}"
                 data-fields='[
                     {"data": "id","title":"ID","searchable":"true"},
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"true"},
@@ -62,7 +66,6 @@
             >
             </table>
         </div>
-       
 
     </div>
 @endsection

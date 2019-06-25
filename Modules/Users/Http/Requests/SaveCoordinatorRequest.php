@@ -13,6 +13,7 @@ use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
+use Modules\Users\Rules\CheckDepartmentType;
 
 class SaveCoordinatorRequest extends FormRequest
 {
@@ -24,7 +25,9 @@ class SaveCoordinatorRequest extends FormRequest
     public function rules()
     {
         return [
-            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() . ',id'],
+            'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType('1')],
+            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType('2')],
+            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id'], new CheckDepartmentType('3'),
             'national_id'          => ['required', new NationalIDRule, 'unique:'. Coordinator::table()],
             'name'                 => ['required', new FilterStringRule, 'string'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. Coordinator::table()],
