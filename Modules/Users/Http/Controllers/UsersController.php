@@ -210,7 +210,7 @@ class UsersController extends UserBaseController
     {
         $userData = User::with('secretaries', 'secretaries.secretaryData', 'secretaries.secretaryData.directDepartment', 'secretaries.secretaryData.jobRole')->findOrFail($userID);
         if(!$request->wantsJson() || !$request->ajax() || !$userData->hasAdvisorsGroup()) {
-            return redirect()->route('users.index');
+            return redirect()->route('users.show', $userData->id);
         }
 
         return Datatables::of($userData->secretaries)
@@ -240,7 +240,7 @@ class UsersController extends UserBaseController
     {
         $userData = User::with('secretaries')->findOrFail($userID);
         if(!$userData->hasAdvisorsGroup()) {
-            return redirect()->route('users.index');
+            return redirect()->route('users.show', $userData->id);
         }
 
         $secretariesIDs   = $userData->secretaries->pluck('secretary_user_id');
@@ -253,14 +253,13 @@ class UsersController extends UserBaseController
      */
     public function updateSecretaries(Request $request, $userID) 
     {
-        $userData = User::findOrFail($userID);
+        $userData = User::with('secretaries')->findOrFail($userID);
         if(!$userData->hasAdvisorsGroup()) {
-            return redirect()->route('users.index');
+            return redirect()->route('users.show', $userData->id);
         }
 
-        //$userData->secretaries()->syncSecretariesData($request->secretaries_ids);
-
-        return view('users::users.edit-secretaries', compact(['userData']));
+        $userData->syncSecretariesUsers($request->secretaries_ids);
+        return redirect()->route('users.show', $userData->id);
     }
 
 }
