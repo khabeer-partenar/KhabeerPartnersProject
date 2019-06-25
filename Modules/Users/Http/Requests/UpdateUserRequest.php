@@ -22,13 +22,13 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(Request $request)
     {
-        dd($request->user);
+        $user = $request->user;
         return [
-            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id'],
-            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
+            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id', ''],
+            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table() . ',national_id,' . $user->id],
             'name'                 => ['required', new FilterStringRule, 'string', 'max:255'],
-            'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table()],
-            'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table()],
+            'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table() . ',phone_number,' . $user->id],
+            'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table() . ',email,' . $user->id],
             'job_role_id'          => ['required', 'integer', 'exists:'. Group::table() .',id'],
         ];
     }

@@ -85,18 +85,17 @@ class UsersController extends UserBaseController
      * Show the specified resource.
      * @return Response
      */
-    public function show(Request $request, $userID)
+    public function show(Request $request, User $user)
     {
-        $userData                = User::findOrFail($userID);
-        $departmentsDataForForms = $userData->getDepartmentsDataForForms();
+        $departmentsDataForForms = $user->getDepartmentsDataForForms();
         $rolesData               = Group::pluck('name', 'id')->prepend('', '');
         $secretariesUsersData    = [];
 
-        if($userData->hasAdvisorsGroup()) {
-            $secretariesUsersData = $userData->secretaries()->with('secretaryData')->get();
+        if($user->hasAdvisorsGroup()) {
+            $secretariesUsersData = $user->secretaries()->with('secretaryData')->get();
         }
 
-        return view('users::users.show', compact(['userData', 'departmentsDataForForms', 'rolesData', 'secretariesUsersData']));
+        return view('users::users.show', compact(['user', 'departmentsDataForForms', 'rolesData', 'secretariesUsersData']));
     }
 
     public function edit(Request $request, $userID)
@@ -115,7 +114,7 @@ class UsersController extends UserBaseController
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $userData = $userData->updateUser($request);
+        $userData->updateUser($request);
         session()->flash('alert-success', __('users::users.userUpdated')); 
         return redirect()->route('users.index');
     }

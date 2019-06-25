@@ -12,7 +12,7 @@
             </div>
             
             <div class="actions">
-                <a href="{{ route('users.edit', $userData->id) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::users.edit_action') }}</a>
+                <a href="{{ route('users.edit', $user) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::users.edit_action') }}</a>
             </div>
         
         </div>
@@ -21,7 +21,7 @@
             
             <div class="form-body">
 
-                {{ Form::model($userData, ['id' => 'diable-form-fields']) }}
+                {{ Form::model($user, ['id' => 'diable-form-fields']) }}
                     @include('users::users.form')
                 {{ Form::close() }}
 
@@ -32,6 +32,6 @@
 
     </div>
     
-    @includeWhen($userData->hasAdvisorsGroup(), 'users::users.secretaries.show', compact('secretariesUsersData'))
+    @includeWhen($user->hasAdvisorsGroup(), 'users::users.secretaries.show', compact('secretariesUsersData'))
 
 @endsection
