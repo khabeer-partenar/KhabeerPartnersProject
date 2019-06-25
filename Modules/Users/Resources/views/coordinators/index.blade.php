@@ -25,7 +25,7 @@
                             data-url="{{ route('departments.children') }}" data-child="#parent_department_id">
                         <option value="0">{{ __('users::departments.choose a department') }}</option>
                         @foreach($mainDepartments as $key => $department)
-                            <option value="{{ $key }}">{{ $department }}</option>
+                            <option value="{{ $key }}" {{ Request::input('main_department_id') == $key ? 'selected':'' }}>{{ $department }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -34,18 +34,15 @@
                     <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments"
                             data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
                         <option value="0">{{ __('users::departments.choose a department') }}</option>
-                        {{--@php $chosenDepartment = old('parent_department_id') @endphp--}}
-                        {{--@if(isset($coordinator))--}}
-                            {{--@php $chosenDepartment = \Modules\Users\Entities\Department::getDepartmentDirectParent($coordinator->direct_department_id) @endphp--}}
-                        {{--@endif--}}
-{{--                        @foreach(\Modules\Users\Entities\Department::getParentDepartments($mainDepartment) as $key => $department)--}}
-                            {{--<option value="{{ $key }}" {{ $chosenDepartment == $key ? 'selected':'' }}>{{ $department }}</option>--}}
-                        {{--@endforeach--}}
+                        @php $parentDepartment = Request::input('parent_department_id') @endphp
+                        @foreach(\Modules\Users\Entities\Department::getParentDepartments(Request::input('main_department_id')) as $key => $department)
+                            <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="name">اسم المنسق</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="">
+                    <input type="text" class="form-control" value="{{ Request::input('name') }}" name="name" id="name" placeholder="">
                 </div>
                 <button type="submit" class="btn btn-default search-table" data-form="#search-coordinators">بحث</button>
             </form>
