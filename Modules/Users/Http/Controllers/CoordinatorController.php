@@ -10,7 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
-use Modules\Users\Entities\Department;
+use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Http\Requests\SaveCoordinatorRequest;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Traits\SessionFlash;

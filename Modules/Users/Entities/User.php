@@ -8,6 +8,7 @@ use Laravel\Passport\HasApiTokens;
 use Modules\Core\Traits\AuthorizeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
+use Modules\SystemManagement\Entities\Department;
 use Modules\Core\Traits\SharedModel;
 
 class User extends Authenticatable

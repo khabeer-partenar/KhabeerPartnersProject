@@ -5,7 +5,7 @@ namespace Modules\Users\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use Modules\Users\Entities\Department;
+use Modules\SystemManagement\Entities\Department;
 use Carbon\Carbon;
 
 class DepartmentsTableSeeder extends Seeder

@@ -37,7 +37,7 @@
                             data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
                         <option value="0">{{ __('users::departments.choose a department') }}</option>
                         @php $parentDepartment = Request::input('parent_department_id') @endphp
-                        @foreach(\Modules\Users\Entities\Department::getParentDepartments(Request::input('main_department_id')) as $key => $department)
+                        @foreach(\Modules\SystemManagement\Entities\Department::getParentDepartments(Request::input('main_department_id')) as $key => $department)
                             <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
                         @endforeach
                     </select>

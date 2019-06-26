@@ -11,7 +11,7 @@ use Modules\Users\Http\Requests\UpdateEmployeeRequest;
 use Modules\Users\Http\Requests\UpdateSecretariesRequest;
 use Modules\Users\Entities\Employee;
 use Modules\Core\Entities\Group;
-use Modules\Users\Entities\Department;
+use Modules\SystemManagement\Entities\Department;
 
 class EmployeeController extends UserBaseController
 {

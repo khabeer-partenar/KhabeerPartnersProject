@@ -18,7 +18,6 @@ class UsersDatabaseSeeder extends Seeder
         
         $this->call(CoreUsersAppsTableSeeder::class);
         $this->call(EmployeesTableSeeder::class);
-        $this->call(DepartmentsTableSeeder::class);
         $this->call(CoordinatorsTableSeeder::class);
     }
 }

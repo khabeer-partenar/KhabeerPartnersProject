@@ -3,7 +3,7 @@
 namespace Modules\Users\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Modules\Users\Entities\Department;
+use Modules\SystemManagement\Entities\Department;
 
 class CheckDepartmentType implements Rule
 {

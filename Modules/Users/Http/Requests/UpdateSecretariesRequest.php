@@ -4,7 +4,7 @@ namespace Modules\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Core\Entities\Group;
-use Modules\Users\Entities\Department;
+use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Employee;
 
 use App\Rules\NationalIDRule;

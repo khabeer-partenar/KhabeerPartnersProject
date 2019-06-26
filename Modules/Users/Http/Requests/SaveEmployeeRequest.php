@@ -5,7 +5,7 @@ namespace Modules\Users\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Group;
-use Modules\Users\Entities\Department;
+use Modules\SystemManagement\Entities\Department;
 
 use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;

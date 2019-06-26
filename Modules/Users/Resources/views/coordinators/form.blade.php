@@ -45,7 +45,7 @@
                             $parentDepartment = old('parent_department_id');
                         }
                     @endphp
-                    @foreach(\Modules\Users\Entities\Department::getParentDepartments($mainDepartment) as $key => $department)
+                    @foreach(\Modules\SystemManagement\Entities\Department::getParentDepartments($mainDepartment) as $key => $department)
                         <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
                     @endforeach
                 </select>
@@ -95,7 +95,7 @@
                             $directDepartment = old('direct_department_id');
                         }
                     @endphp
-                    @foreach(\Modules\Users\Entities\Department::getDirectDepartments($parentDepartment) as $key => $department)
+                    @foreach(\Modules\SystemManagement\Entities\Department::getDirectDepartments($parentDepartment) as $key => $department)
                         <option value="{{ $key }}" {{ $directDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
                     @endforeach
                 </select>

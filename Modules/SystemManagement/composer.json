@@ -1,0 +1,25 @@
+{
+    "name": "nwidart/systemmanagement",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\SystemManagement\\Providers\\SystemManagementServiceProvider"
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\SystemManagement\\": ""
+        }
+    }
+}

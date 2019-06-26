@@ -5,7 +5,7 @@ namespace Modules\Users\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\UserBaseController;
-use Modules\Users\Entities\Department;
+use Modules\SystemManagement\Entities\Department;
 
 class DepartmentsController extends UserBaseController
 {
