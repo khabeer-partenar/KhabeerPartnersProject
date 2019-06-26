@@ -9,10 +9,12 @@
                 <i class="fa fa-users"></i>
                 <span class="caption-subject sbold">{{ __('users::coordinators.manage') }}</span>
             </div>
-            
-            <div class="actions">
-                <a href="{{ route('coordinators.create') }}" class="btn btn-primary">{{ __('users::coordinators.action_add') }}</a>
-            </div>
+
+            @if(auth()->user()->hasPermissionWithAccess('create'))
+                <div class="actions">
+                    <a href="{{ route('coordinators.create') }}" class="btn btn-primary">{{ __('users::coordinators.action_add') }}</a>
+                </div>
+            @endif
         
         </div>
 
