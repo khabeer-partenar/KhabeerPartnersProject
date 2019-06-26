@@ -3,11 +3,9 @@
 namespace Modules\Users\Entities;
 
 use Illuminate\Database\Eloquent\Builder;
-use Modules\Users\Entities\User;
 
 class Employee extends User
 {
-
     /**
      * add global scope
      */
@@ -87,5 +85,4 @@ class Employee extends User
             $this->secretaries()->insert($secretariesData);
         }
     }
-    
 }

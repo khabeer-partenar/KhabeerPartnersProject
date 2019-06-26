@@ -3,20 +3,16 @@
 namespace Modules\Users\Entities;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Core\Traits\AuthorizeUser;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
-use Modules\Users\Entities\Department;
-use Modules\Users\Entities\UsersAdvisorsSecretaries;
-use Carbon\Carbon;
+use Modules\Core\Traits\SharedModel;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens, AuthorizeUser, SoftDeletes, \Modules\Core\Traits\SharedModel;
+    use Notifiable, HasApiTokens, AuthorizeUser, SoftDeletes, SharedModel;
 
     protected $table = 'users';
 

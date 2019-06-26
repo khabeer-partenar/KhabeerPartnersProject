@@ -6,12 +6,11 @@ namespace Modules\Users\Entities;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Modules\Users\Entities\User;
 use Modules\Core\Entities\Group;
 
 class Coordinator extends User
 {
-
+    CONST TYPE = 'coordinator';
 
     /**
      * add global scope
@@ -21,7 +20,7 @@ class Coordinator extends User
         parent::boot();
 
         static::addGlobalScope('filterUserType', function (Builder $builder) {
-            $builder->where('user_type', 'coordinator');
+            $builder->where('user_type', self::TYPE);
         });
     }
 
@@ -40,7 +39,7 @@ class Coordinator extends User
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
                 'main_department_id', 'parent_department_id', 'department_reference'
-            ), ['job_role_id' => $coordinatorJob->id, 'user_type' => 'coordinator']
+            ), ['job_role_id' => $coordinatorJob->id, 'user_type' => self::TYPE]
             )
         );
         $coordinator->groups()->attach($coordinatorJob);

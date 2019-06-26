@@ -55,8 +55,6 @@
                 data-fields='[
                     {"data": "id","title":"","searchable":"true"},
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"true"},
-                    {{--{"data": "email","title":"{{ __('messages.email') }}","searchable":"true"},--}}
-                    {{--{"data": "national_id","title":"{{ __('messages.national_id') }}","searchable":"true"},--}}
                     {"data": "department_info","name":"actions","title":"{{ __('messages.department_info') }}","searchable":"false", "orderable":"false"},
                     {"data": "contact_options","name":"actions","title":"{{ __('messages.contact_options') }}","searchable":"false", "orderable":"false"},
                     {"data": "action","name":"actions","searchable":"false", "orderable":"false"}

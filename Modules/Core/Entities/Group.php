@@ -2,13 +2,13 @@
 namespace Modules\Core\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Traits\SharedModel;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Permission;
 
 class Group extends Model
 {
-
-    use \Modules\Core\Traits\SharedModel;
+    use SharedModel;
     
     /**
     * The table associated with the model.
@@ -30,7 +30,6 @@ class Group extends Model
     * @var array
     */
     public static $unifiedGroups = [];
-
 
     /**
     * Get permissions specified for group

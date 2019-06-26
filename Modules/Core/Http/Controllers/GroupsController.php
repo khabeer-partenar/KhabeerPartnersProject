@@ -16,15 +16,14 @@ class GroupsController extends UserBaseController
 {
 
     /**
-    * Display a listing of the resource.
-    * @return Response
-    */
+     * Display a listing of the resource.
+     * @param Request $request
+     * @return Response
+     */
     public function index(Request $request)
     {
-        $groupId = isset($request->groupId) ? $request->groupId : 0;
-      
         if ($request->wantsJson() || $request->ajax()) {
-            $groups = Group::select('id','name')->where('parent_id', $groupId);
+            $groups = Group::select('id','name')->where('parent_id', isset($request->groupId) ? $request->groupId : 0);
             return Datatables::of($groups)->addColumn('action', 'core::groups.index-actions')->toJson();
         }
         
@@ -195,7 +194,7 @@ class GroupsController extends UserBaseController
   
     public function users(Request $request, $id)
     {
-        $group = Group::find($id);
+        $group = Group::findOrFail($id);
         return $group->users;
     }
 

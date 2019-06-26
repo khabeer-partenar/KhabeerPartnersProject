@@ -26,9 +26,6 @@ class AlterCoordinatorsTableWithDepartmentColumns extends Migration
      */
     public function down()
     {
-        Schema::table('coordinators', function (Blueprint $table) {
-            $table->dropColumn('main_department_id');
-            $table->dropColumn('parent_department_id');
-        });
+        //
     }
 }
