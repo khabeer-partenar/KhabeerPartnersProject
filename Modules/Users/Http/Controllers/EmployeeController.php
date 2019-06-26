@@ -133,11 +133,9 @@ class EmployeeController extends UserBaseController
                 ->addColumn('deptname', function ($employee) {
                     return @$employee->secretaryData->directDepartment->name;
                 })
-                ->addColumn('email', function ($employee) {
-                    return @$user->secretaryData->email;
-                })
-                ->addColumn('phone_number', function ($employee) {
-                    return @$employee->secretaryData->phone_number;
+                ->addColumn('contact_options', function($employee) {
+                    $data = [$employee->secretaryData->phone_number, $employee->secretaryData->email];
+                    return view('users::employees.commas_separated_data', compact('data'));
                 })
                 ->addColumn('job_role', function ($employee) {
                     return @$employee->secretaryData->jobRole->name;

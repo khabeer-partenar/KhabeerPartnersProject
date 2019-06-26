@@ -23,8 +23,7 @@
                 data-fields='[
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"false"},
                     {"data": "deptname","title":"{{ __('messages.deptname') }}","searchable":"false"},
-                    {"data": "email","title":"{{ __('messages.email') }}","searchable":"false"},
-                    {"data": "phone_number","title":"{{ __('messages.phone_number') }}","searchable":"false"},
+                    {"data": "contact_options","title":"{{ __('users::employees.contact_options') }}","searchable":"false"},
                     {"data": "job_role","title":"{{ __('users::employees.job_role_id') }}","searchable":"false"}
                 ]'
             >
