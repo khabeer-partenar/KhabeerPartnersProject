@@ -3,6 +3,7 @@
 namespace Modules\Users\Entities;
 
 use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 
 class Employee extends User
 {

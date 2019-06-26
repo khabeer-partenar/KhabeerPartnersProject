@@ -7,7 +7,7 @@
 
             <div class="caption">
                 <i class="fa fa-edit"></i>
-                <span class="caption-subject sbold">{{ __('users::employees.edit_secretaries_title') }}: {{ $user->name }}</span>
+                <span class="caption-subject sbold">{{ __('users::employees.edit_secretaries_title') }}: {{ $employee->name }}</span>
             </div>
             
             <div class="actions">
@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
             
-            {{ Form::model($user, ['route' => ['employees.update_secretaries', $employee], 'method' => 'PUT']) }}
+            {{ Form::model($employee, ['route' => ['employees.update_secretaries', $employee], 'method' => 'PUT']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
