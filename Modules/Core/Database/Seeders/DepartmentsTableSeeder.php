@@ -23,7 +23,7 @@ class DepartmentsTableSeeder extends Seeder
         ])->id;
 
         $BodyExpertsID = Department::create([
-            'parent_id' => $bodiesId, 'name' => 'هيئة￼￼￼ الخبراء', 'type' => '1', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $bodiesId, 'name' => 'هيئة الخبراء', 'type' => '1', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         // Departments
