@@ -8,6 +8,7 @@ use App\Http\Controllers\UserBaseController;
 use Yajra\Datatables\Datatables;
 use Modules\Users\Http\Requests\SaveUserRequest;
 use Modules\Users\Http\Requests\UpdateUserRequest;
+use Modules\Users\Entities\User;
 use Modules\Users\Entities\Employee;
 use Modules\Core\Entities\Permission;
 use Modules\Core\Entities\Group;
@@ -87,7 +88,7 @@ class UsersController extends UserBaseController
      */
     public function show(Request $request, $userID)
     {
-        $userData                = User::findOrFail($userID);
+        $userData                = Employee::findOrFail($userID);
         $departmentsDataForForms = $userData->getDepartmentsDataForForms();
         $rolesData               = Group::pluck('name', 'id')->prepend('', '');
         $secretariesUsersData    = [];
@@ -101,7 +102,7 @@ class UsersController extends UserBaseController
 
     public function edit(Request $request, $userID)
     {
-        $userData                = User::findOrFail($userID);
+        $userData                = Employee::findOrFail($userID);
         $departmentsDataForForms = Department::getDepartmentsDataForUsersForms();
         $rolesData               = Group::pluck('name', 'id')->prepend('', '');
 
