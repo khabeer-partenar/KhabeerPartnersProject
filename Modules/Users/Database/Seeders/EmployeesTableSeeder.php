@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Users\Entities\User;
 use Carbon\Carbon;
 
-class FakeUsersTableSeeder extends Seeder
+class EmployeesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

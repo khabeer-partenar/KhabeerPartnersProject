@@ -38,10 +38,10 @@ Route::group(['middleware' => 'auth'], function()
         Route::get('/employees/{employee}/edit/secretaries', 'EmployeeController@editSecretaries')->name('employees.edit_secretaries');
         Route::put('/employees/{employee}/edit/secretaries', 'EmployeeController@updateSecretaries')->name('employees.update_secretaries');
         Route::get('/employees/search-by-name', 'EmployeeController@searchByName')->name('employees.search_by_name');
+        Route::get('/employees/{employee}upgrate-to-super-admin', 'EmployeeController@upgrateToSuperAdmin')->name('employees.upgrate_to_super_admin');
         Route::resource('/employees', 'EmployeeController');
 
         // User Controller 
         Route::get('/search', 'UserController@search')->name('users.search');
-        Route::get('/upgrate-to-super-admin/{user}', 'UserController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
     });
 });

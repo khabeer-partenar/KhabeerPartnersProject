@@ -4,8 +4,6 @@ namespace Modules\Users\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Users\Database\Seeders\FakeUsersTableSeeder;
-use Modules\Users\Database\Seeders\DepartmentsTableSeeder;
 
 class UsersDatabaseSeeder extends Seeder
 {
@@ -18,7 +16,8 @@ class UsersDatabaseSeeder extends Seeder
     {
         Model::unguard();
         
-        $this->call(FakeUsersTableSeeder::class);
+        $this->call(CoreUsersAppsTableSeeder::class);
+        $this->call(EmployeesTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
         $this->call(CoordinatorsTableSeeder::class);
     }

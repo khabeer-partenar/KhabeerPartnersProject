@@ -11,7 +11,9 @@
             </div>
             
             <div class="actions">
-                <a href="{{ route('employees.create') }}" class="btn btn-primary">{{ __('users::employees.add_action') }}</a>
+                @if(auth()->user()->hasPermissionWithAccess('create'))
+                    <a href="{{ route('employees.create') }}" class="btn btn-primary">{{ __('users::employees.add_action') }}</a>
+                @endif
             </div>
         
         </div>
@@ -20,12 +22,15 @@
 
             @include('users::employees.search')
 
-            <table id="table-ajax" class="table" data-url="{{ $userDatatableURL }}"
+            <table id="table-ajax" class="table" data-url="{{ route('employees.index', [
+                    'employee_id' => Request::input('employee_id'),
+                    'job_role_id' => Request::input('job_role_id'),
+                    'direct_department_id' => Request::input('direct_department_id')])
+                }}"
                 data-fields='[
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"false"},
                     {"data": "deptname","title":"{{ __('messages.deptname') }}","searchable":"false"},
-                    {"data": "email","title":"{{ __('messages.email') }}","searchable":"false"},
-                    {"data": "phone_number","title":"{{ __('messages.phone_number') }}","searchable":"false"},
+                    {"data": "contact_options","title":"{{ __('users::employees.contact_options') }}","searchable":"false"},
                     {"data": "job_role","title":"{{ __('users::employees.job_role_id') }}","searchable":"false"},
                     {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
                 ]'

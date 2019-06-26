@@ -60,7 +60,7 @@ class Employee extends User
     /**
      * Sync Secretaries Users
      */
-    public function syncSecretariesUsers($secretariesIds)
+    public function syncSecretariesEmployees($secretariesIds)
     {
         $secretariesIds  = !is_array($secretariesIds) ? [] : $secretariesIds;
         $secretariesData = [];
@@ -86,4 +86,29 @@ class Employee extends User
             $this->secretaries()->insert($secretariesData);
         }
     }
+
+
+    /**
+     * Scopes
+     *
+     * Here add Scopes
+     * @param $query
+     * @param Request $request
+     */
+    public static function scopeSearch($query, $request)
+    {
+        if((int)$request->employee_id && $request->employee_id > 0) {
+            $query->where('id', $request->employee_id);
+        }
+
+        if((int)$request->job_role_id && $request->job_role_id > 0) {
+            $query->where('job_role_id', $request->job_role_id);
+        }
+
+        if((int)$request->direct_department_id && $request->direct_department_id > 0) {
+            $query->where('direct_department_id', $request->direct_department_id);
+        }
+        return $query;
+    }
+    
 }

@@ -8,7 +8,9 @@
         </div>
             
         <div class="actions">
-            <a href="{{ route('employees.edit_secretaries', $employee) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::employees.edit_secretaries_btn') }}</a>
+            @if(auth()->user()->hasPermissionWithAccess('editSecretaries'))
+                <a href="{{ route('employees.edit_secretaries', $employee) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::employees.edit_secretaries_btn') }}</a>
+            @endif
         </div>
         
     </div>

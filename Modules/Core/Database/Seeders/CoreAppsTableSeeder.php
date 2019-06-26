@@ -21,9 +21,9 @@ class CoreAppsTableSeeder extends Seeder
     {
         Model::unguard();
 
-
         DB::table(App::table())->truncate();
 
+        $generalResourceName = 'Modules\Core\Http\Controllers';
 
         $topParentId = App::create([
             'resource_name' => 'Modules', 'name' => 'التطبيقات', 'is_main_root' => 1,
@@ -32,293 +32,143 @@ class CoreAppsTableSeeder extends Seeder
         ])->id;
 
         $coreAppsModuleId = App::create([
-                'resource_name' => 'Modules\Core\Http\Controllers', 'name' => 'المصادر الرئيسية',
+                'resource_name' => $generalResourceName, 'name' => 'المصادر الرئيسية',
                 'icon' => 'fa fa-folder-o','sort' => 1, 'parent_id' => $topParentId, 'frontend_path' => 'core', 'is_main_root' => 0,
                 'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         // AppsController
         $coreAppsId = App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\AppsController', 'name' => 'إدارة التطبيقات',
+            'resource_name' => $generalResourceName . '\AppsController', 'name' => 'إدارة التطبيقات',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/apps', 'is_main_root' => 0,
             'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\AppsController@index', 'name' => 'قراءة الكل',
+            'resource_name' => $generalResourceName . '\AppsController@index', 'name' => 'قراءة الكل',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $coreAppsId, 'frontend_path' => 'core/apps', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\AppsController@show', 'name' => 'قراءة تفاصيل',
+            'resource_name' => $generalResourceName . '\AppsController@show', 'name' => 'قراءة تفاصيل',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $coreAppsId, 'frontend_path' => 'core/apps', 'is_main_root' => 0,
              'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\AppsController@store', 'name' => 'إضافة',
+            'resource_name' => $generalResourceName . '\AppsController@store', 'name' => 'إضافة',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $coreAppsId, 'frontend_path' => 'core/apps', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\AppsController@update', 'name' => 'تعديل',
+            'resource_name' => $generalResourceName . '\AppsController@update', 'name' => 'تعديل',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $coreAppsId, 'frontend_path' => 'core/apps', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\AppsController@destroy', 'name' => 'حذف',
+            'resource_name' => $generalResourceName . '\AppsController@destroy', 'name' => 'حذف',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $coreAppsId, 'frontend_path' => 'core/apps', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         // GroupsController
         $groupsId = App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController', 'name' => 'المجموعات',
+            'resource_name' => $generalResourceName . '\GroupsController', 'name' => 'المجموعات',
             'icon' => 'fa fa-folder-o','sort' => 3, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@index', 'name' => 'قراءة الكل',
+            'resource_name' => $generalResourceName . '\GroupsController@index', 'name' => 'قراءة الكل',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@show', 'name' => 'اظهار بيانات',
+            'resource_name' => $generalResourceName . '\GroupsController@show', 'name' => 'اظهار بيانات',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@create', 'name' => 'صفحة انشاء جديد',
+            'resource_name' => $generalResourceName . '\GroupsController@create', 'name' => 'صفحة انشاء جديد',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@store', 'name' => 'انشاء جديد',
+            'resource_name' => $generalResourceName . '\GroupsController@store', 'name' => 'انشاء جديد',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@edit', 'name' => 'صفحة التعديل',
+            'resource_name' => $generalResourceName . '\GroupsController@edit', 'name' => 'صفحة التعديل',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@update', 'name' => 'تحديث',
+            'resource_name' => $generalResourceName . '\GroupsController@update', 'name' => 'تحديث',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@destroy', 'name' => 'حذف',
+            'resource_name' => $generalResourceName . '\GroupsController@destroy', 'name' => 'حذف',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@attachUser', 'name' => 'اضافة مستخدم',
+            'resource_name' => $generalResourceName . '\GroupsController@attachUser', 'name' => 'اضافة مستخدم',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\GroupsController@detachUser', 'name' => 'حذف مستخدم من المجموعة',
+            'resource_name' => $generalResourceName . '\GroupsController@detachUser', 'name' => 'حذف مستخدم من المجموعة',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $groupsId, 'frontend_path' => 'core/groups', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        // Users Module
-
-        // EmployeeController
-        $usersId = App::create(['resource_name' => 'Modules\Users\Http\Controllers\EmployeeController', 'name' => 'إدارة المستخدمين',
-            'icon' => 'fa fa-users', 'sort' => 2, 'parent_id' => $topParentId, 'frontend_path' => 'users/employees', 'is_main_root' => 1,
-            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ])->id;
-
-        $entityUsersId = App::create([
-            'resource_name' => 'Modules\Users\Http\Controllers\EmployeeController@index', 'name' => 'إدارة موظفين الهيئة',
-            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $usersId, 'frontend_path' => 'users/employees', 'is_main_root' => 0,
-            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ])->id;
-
-        App::create([
-            'resource_name' => 'Modules\Users\Http\Controllers\EmployeeController@create', 'name' => 'اضافة مستخدم جديد',
-            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/create', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ])->id;
-
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@store', 'name' => 'حفظ مستخدم جديد',
-            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@show', 'name' => 'عرض المستخدم',
-            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@edit', 'name' => 'تعديل المستخدم',
-            'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/edit', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@update', 'name' => 'تحديث المستخدم',
-            'icon' => 'fa fa-users','sort' => 5, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@destroyConfirmation', 'name' => 'تاكيد حذف المستخدم',
-            'icon' => 'fa fa-users','sort' => 6, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/destroy', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@destroy', 'name' => 'حذف المستخدم',
-            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@searchByName', 'name' => 'البحث بالاسم',
-            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/search-by-name', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@upgrateToSuperAdmin', 'name' => 'تحديث المستخدم الى ادمن',
-            'icon' => 'fa fa-users', 'sort' => 9, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/upgrate_to_super_admin/:id', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@groups', 'name' => 'عرض الادوار الوظيقية',
-            'icon' => 'fa fa-users','sort' => 5, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/groups', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@secretaries', 'name' => 'عرض السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 6, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/secretaries', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@editSecretaries', 'name' => 'تعديل السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/edit/secretaries', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@updateSecretaries', 'name' => 'تحديث السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/edit/secretaries', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        // KhabeerPartnersController
-        $manageKhabeerCommittees = App::create([
-            'resource_name' => 'Modules\Users\Http\Controllers\KhabeerPartnersController', 'name' => 'إسناد لجان شركاء خبير',
-            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $usersId, 'frontend_path' => 'users/khabeer-partners', 'is_main_root' => 0,
-            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ])->id;
-
-
-        // CoordinatorController
-        $manageCoordinatorsID = App::create([
-            'resource_name' => 'Modules\Users\Http\Controllers\CoordinatorController@index', 'name' => 'إدارة المنسقين',
-            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $usersId, 'frontend_path' => 'users/coordinators', 'is_main_root' => 0,
-            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ])->id;
-
-        App::create([
-            'resource_name' => 'Modules\Users\Http\Controllers\CoordinatorController@create', 'name' => 'اضافة منسق جديد',
-            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $manageCoordinatorsID, 'frontend_path' => 'users/coordinators/create', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ])->id;
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\CoordinatorController@store', 'name' => 'حفظ منسق جديد',
-            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $manageCoordinatorsID, 'frontend_path' => 'users/coordinators', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\CoordinatorController@show', 'name' => 'عرض المنسق',
-            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $manageCoordinatorsID, 'frontend_path' => 'users/coordinators/:id', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\CoordinatorController@edit', 'name' => 'تعديل المنسق',
-            'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $manageCoordinatorsID, 'frontend_path' => 'users/coordinators/:id/edit', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\CoordinatorController@update', 'name' => 'تحديث المنسق',
-            'icon' => 'fa fa-users','sort' => 5, 'parent_id' => $manageCoordinatorsID, 'frontend_path' => 'users/coordinators/:id', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\CoordinatorController@destroyConfirmation', 'name' => 'تاكيد حذف المنسق',
-            'icon' => 'fa fa-users','sort' => 6, 'parent_id' => $manageCoordinatorsID, 'frontend_path' => 'users/coordinators/:id/destroy', 'is_main_root' => 0, 
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\CoordinatorController@destroy', 'name' => 'حذف المنسق',
-            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $manageCoordinatorsID, 'frontend_path' => 'users/coordinators/:id', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         // PermissionsController
         $permissionsId = App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\PermissionsController', 'name' => 'الصلاحيات',
+            'resource_name' => $generalResourceName . '\PermissionsController', 'name' => 'الصلاحيات',
             'icon' => 'fa fa-folder-o','sort' => 5, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/permissions', 'is_main_root' => 0,
             'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\PermissionsController@index', 'name' => 'قراءة الكل',
+            'resource_name' => $generalResourceName . '\PermissionsController@index', 'name' => 'قراءة الكل',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $permissionsId, 'frontend_path' => 'core/permissions', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\PermissionsController@store', 'name' => 'اضافة',
+            'resource_name' => $generalResourceName . '\PermissionsController@store', 'name' => 'اضافة',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $permissionsId, 'frontend_path' => 'core/permissions', 'is_main_root' => 0,
             'displayed_in_menu' => 0,'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\PermissionsController@destroy', 'name' => 'حذف',
+            'resource_name' => $generalResourceName . '\PermissionsController@destroy', 'name' => 'حذف',
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $permissionsId, 'frontend_path' => 'core/permissions', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         // DepartmentsController
         $departmentsId = App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\DepartmentsController', 'name' => 'الادارات',
+            'resource_name' => $generalResourceName . '\DepartmentsController', 'name' => 'الادارات',
             'icon' => 'fa fa-folder-o','sort' => 6, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/departments', 'is_main_root' => 0,
             'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\DepartmentsController@loadDepartmentsTypesByParentId', 'name' => 'عرض الادارات',
+            'resource_name' => $generalResourceName . '\DepartmentsController@loadDepartmentsTypesByParentId', 'name' => 'عرض الادارات',
             'icon' => 'fa fa-folder-o','sort' => 1, 'parent_id' => $departmentsId, 'frontend_path' => 'core/departments/:parentID', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);

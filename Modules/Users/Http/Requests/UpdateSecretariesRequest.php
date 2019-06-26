@@ -5,7 +5,7 @@ namespace Modules\Users\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Department;
-use Modules\Users\Entities\User;
+use Modules\Users\Entities\Employee;
 
 use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
@@ -23,7 +23,7 @@ class UpdateSecretariesRequest extends FormRequest
     {
         return [
             'secretaries_ids'      => ['nullable', 'array'],
-            'secretaries_ids.*'    => ['nullable', 'integer', 'exists:'. User::table() .',id'],
+            'secretaries_ids.*'    => ['nullable', 'integer', 'exists:'. Employee::table() .',id'],
         ];
     }
 

@@ -12,7 +12,9 @@
             </div>
             
             <div class="actions">
-                <a href="{{ route('employees.edit', $employee) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::employees.edit_action') }}</a>
+                @if(auth()->user()->hasPermissionWithAccess('edit'))
+                    <a href="{{ route('employees.edit', $employee) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::employees.edit_action') }}</a>
+                @endif
             </div>
         
         </div>
@@ -32,6 +34,8 @@
 
     </div>
     
-    @includeWhen($employee->hasAdvisorsGroup(), 'users::employees.secretaries.show', compact('secretariesUsersData'))
+    @if(auth()->user()->hasPermissionWithAccess('secretaries'))
+        @includeWhen($employee->hasAdvisorsGroup(), 'users::employees.secretaries.show')
+    @endif
 
 @endsection

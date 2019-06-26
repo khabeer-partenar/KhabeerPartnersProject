@@ -30,7 +30,7 @@
                         
                         <div class="col-md-12">
                             <div class="form-group {{ $errors->has('secretaries_ids') ? ' has-error' : '' }}">
-                                {!! Form::select('secretaries_ids[]', $secretariesUsers, null, ['id' => 'secretaries_ids', 'multiple' => 'multiple']) !!}
+                                {!! Form::select('secretaries_ids[]', $secretariesEmployees, null, ['id' => 'secretaries_ids', 'multiple' => 'multiple']) !!}
                                                     
                                 @if ($errors->has('secretaries_ids'))
                                     <span class="help-block" ><strong>{{ $errors->first('secretaries_ids') }}</strong></span>

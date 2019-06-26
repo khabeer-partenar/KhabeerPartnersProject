@@ -25,7 +25,7 @@ class AddKeyColumnToDepartmentTable extends Migration
      */
     public function down()
     {
-        Schema::table('department', function (Blueprint $table) {
+        Schema::table('departments', function (Blueprint $table) {
             $table->dropColumn('key');
         });
     }

@@ -104,9 +104,9 @@ class Group extends Model
     }
 
     /**
-     * Get secretaries in users
+     * Get secretaries in employees
      */
-    public static function secretariesUsers()
+    public static function secretariesEmployees()
     {
         return optional(self::findByKey('secretary'))->users;
     }
