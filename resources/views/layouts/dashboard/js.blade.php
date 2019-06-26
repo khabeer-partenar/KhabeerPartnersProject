@@ -48,6 +48,3 @@
 <!-- END THEME LAYOUT SCRIPTS -->
 
 {{ Html::script(mix('assets/js/menu-toggler-sidebar.js')) }}
-
-
-{{ Html::script(mix('assets/js/functions.js')) }}
