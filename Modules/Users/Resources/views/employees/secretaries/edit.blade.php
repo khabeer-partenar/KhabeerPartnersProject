@@ -7,18 +7,18 @@
 
             <div class="caption">
                 <i class="fa fa-edit"></i>
-                <span class="caption-subject sbold">{{ __('users::users.edit_secretaries_title') }}: {{ $userData->name }}</span>
+                <span class="caption-subject sbold">{{ __('users::employees.edit_secretaries_title') }}: {{ $user->name }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('users.show', $userData->id) }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('employees.show', $employee) }}" class="btn red">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
 
         <div class="portlet-body form">
             
-            {{ Form::model($userData, ['route' => ['users.update_secretaries', $userData->id], 'method' => 'PUT']) }}
+            {{ Form::model($user, ['route' => ['employees.update_secretaries', $employee], 'method' => 'PUT']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -70,8 +70,8 @@
         $("#secretaries_ids").val({{$secretariesIDs}});
 
         $('#secretaries_ids').multiSelect({
-            selectableHeader: "<div class='multiselect_title'>{{ __('users::users.secretaries_selected') }}</div>",
-            selectionHeader: "<div class='multiselect_title'>{{ __('users::users.secretaries_unselected') }}</div>",
+            selectableHeader: "<div class='multiselect_title'>{{ __('users::employees.secretaries_selected') }}</div>",
+            selectionHeader: "<div class='multiselect_title'>{{ __('users::employees.secretaries_unselected') }}</div>",
         });
 
     });

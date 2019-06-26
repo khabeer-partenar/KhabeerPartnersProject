@@ -7,25 +7,25 @@
 
             <div class="caption">
                 <i class="fa fa-user"></i>
-                <span class="caption-subject sbold">{{ __('users::users.add_action') }}</span>
+                <span class="caption-subject sbold">{{ __('users::employees.add_action') }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('users.index') }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('employees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
 
         <div class="portlet-body form">
             
-            {{ Form::open(['route' => 'users.store', 'method' => 'POST']) }}
+            {{ Form::open(['route' => 'employees.store', 'method' => 'POST']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
                 @endif
 
                 <div class="form-body">
-                    @include('users::users.form')
+                    @include('users::employees.form')
                 </div>
 
                 <div class="form-actions">

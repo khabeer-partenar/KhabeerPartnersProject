@@ -5,9 +5,9 @@ $(document).ready(function() {
 
 
     // users search using select 2
-    $('.select2-search-users').select2({
+    $('.select2-search-employees').select2({
         ajax: {
-            url: "/users/search-by-name",
+            url: "/users/employees/search-by-name",
             dataType: 'json',
             delay: 500,
             data: function(params) {
