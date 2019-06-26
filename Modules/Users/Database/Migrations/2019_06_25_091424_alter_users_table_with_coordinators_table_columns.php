@@ -14,8 +14,8 @@ class AlterUsersTableWithCoordinatorsTableColumns extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('main_department_id')->after('phone_number');
-            $table->string('parent_department_id')->after('main_department_id');
+            $table->integer('main_department_id')->default(0)->after('phone_number');
+            $table->integer('parent_department_id')->default(0)->after('main_department_id');
             $table->string('department_reference')->default(0)->after('direct_department_id');
             $table->string('title')->nullable()->after('department_reference');
             $table->string('job_title')->nullable()->after('title');

@@ -11,7 +11,7 @@
             </div>
             
             <div class="actions">
-                <a href="{{ route('coordinators.index') }}" class="btn red confirm-message">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('coordinators.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>

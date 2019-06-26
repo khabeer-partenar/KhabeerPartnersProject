@@ -8,11 +8,11 @@
 
             <div class="caption">
                 <i class="fa fa-eye"></i>
-                <span class="caption-subject sbold">{{ __('users::users.information_action') }}</span>
+                <span class="caption-subject sbold">{{ __('users::employees.information_action') }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('users.edit', $userData->id) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::users.edit_action') }}</a>
+                <a href="{{ route('employees.edit', $employee) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::employees.edit_action') }}</a>
             </div>
         
         </div>
@@ -21,8 +21,8 @@
             
             <div class="form-body">
 
-                {{ Form::model($userData, ['id' => 'diable-form-fields']) }}
-                    @include('users::users.form')
+                {{ Form::model($employee, ['id' => 'diable-form-fields']) }}
+                    @include('users::employees.form')
                 {{ Form::close() }}
 
             </div>
@@ -32,6 +32,6 @@
 
     </div>
     
-    @includeWhen($userData->hasAdvisorsGroup(), 'users::users.secretaries.show', compact('secretariesUsersData'))
+    @includeWhen($employee->hasAdvisorsGroup(), 'users::employees.secretaries.show', compact('secretariesUsersData'))
 
 @endsection

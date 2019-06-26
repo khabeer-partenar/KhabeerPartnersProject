@@ -23,7 +23,7 @@ class CreateCoordinatorsTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             //$table->string('password');
             $table->softDeletes();
-            $table->integer('job_role_id')->references('id')->on('khabeer_core_groups');
+            $table->integer('job_role_id')->references('id')->on('core_groups');
             $table->rememberToken();
             $table->timestamps();
         });

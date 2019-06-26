@@ -23,7 +23,7 @@ return [
     'userNotUpdated' => 'حدث خطأ محاولة تحديث المستخدم',
     'userUpdated' => 'تم تحديث المستخدم',
     'userDeleted' => 'تم حذف المستخدم بنجاح.',
-
+    'secretariesUpdated' => 'تم تحديث السكرتاريين.',
 
     'job_role_id' => 'الدور الوظيفي',
 

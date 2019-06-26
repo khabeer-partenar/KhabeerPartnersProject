@@ -137,94 +137,94 @@ class CoreAppsTableSeeder extends Seeder
 
         // Users Module
 
-        // UsersController
-        $usersId = App::create(['resource_name' => 'Modules\Users\Http\Controllers\UsersController', 'name' => 'إدارة المستخدمين',
-            'icon' => 'fa fa-users', 'sort' => 2, 'parent_id' => $topParentId, 'frontend_path' => 'users', 'is_main_root' => 1,
+        // EmployeeController
+        $usersId = App::create(['resource_name' => 'Modules\Users\Http\Controllers\EmployeeController', 'name' => 'إدارة المستخدمين',
+            'icon' => 'fa fa-users', 'sort' => 2, 'parent_id' => $topParentId, 'frontend_path' => 'users/employees', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         $entityUsersId = App::create([
-            'resource_name' => 'Modules\Users\Http\Controllers\UsersController@index', 'name' => 'إدارة موظفين الهيئة',
-            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $usersId, 'frontend_path' => 'users', 'is_main_root' => 0,
+            'resource_name' => 'Modules\Users\Http\Controllers\EmployeeController@index', 'name' => 'إدارة موظفين الهيئة',
+            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $usersId, 'frontend_path' => 'users/employees', 'is_main_root' => 0,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         App::create([
-            'resource_name' => 'Modules\Users\Http\Controllers\UsersController@create', 'name' => 'اضافة مستخدم جديد',
-            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/create', 'is_main_root' => 0,
+            'resource_name' => 'Modules\Users\Http\Controllers\EmployeeController@create', 'name' => 'اضافة مستخدم جديد',
+            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/create', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@store', 'name' => 'حفظ مستخدم جديد',
-            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $entityUsersId, 'frontend_path' => 'users', 'is_main_root' => 0, 
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@store', 'name' => 'حفظ مستخدم جديد',
+            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@show', 'name' => 'عرض المستخدم',
-            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id', 'is_main_root' => 0, 
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@show', 'name' => 'عرض المستخدم',
+            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@edit', 'name' => 'تعديل المستخدم',
-            'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id/edit', 'is_main_root' => 0, 
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@edit', 'name' => 'تعديل المستخدم',
+            'icon' => 'fa fa-users','sort' => 4, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/edit', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@update', 'name' => 'تحديث المستخدم',
-            'icon' => 'fa fa-users','sort' => 5, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id', 'is_main_root' => 0, 
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@update', 'name' => 'تحديث المستخدم',
+            'icon' => 'fa fa-users','sort' => 5, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@destroyConfirmation', 'name' => 'تاكيد حذف المستخدم',
-            'icon' => 'fa fa-users','sort' => 6, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id/destroy', 'is_main_root' => 0, 
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@destroyConfirmation', 'name' => 'تاكيد حذف المستخدم',
+            'icon' => 'fa fa-users','sort' => 6, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/destroy', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@destroy', 'name' => 'حذف المستخدم',
-            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id', 'is_main_root' => 0, 
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@destroy', 'name' => 'حذف المستخدم',
+            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@searchByName', 'name' => 'البحث بالاسم',
-            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/search-by-name', 'is_main_root' => 0, 
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@searchByName', 'name' => 'البحث بالاسم',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/search-by-name', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@upgrateToSuperAdmin', 'name' => 'تحديث المستخدم الى ادمن',
-            'icon' => 'fa fa-users', 'sort' => 9, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/upgrate_to_super_admin/:id', 'is_main_root' => 0,
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@upgrateToSuperAdmin', 'name' => 'تحديث المستخدم الى ادمن',
+            'icon' => 'fa fa-users', 'sort' => 9, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/upgrate_to_super_admin/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@groups', 'name' => 'عرض الادوار الوظيقية',
-            'icon' => 'fa fa-users','sort' => 5, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/groups', 'is_main_root' => 0,
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@groups', 'name' => 'عرض الادوار الوظيقية',
+            'icon' => 'fa fa-users','sort' => 5, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/groups', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@secretaries', 'name' => 'عرض السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 6, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id/secretaries', 'is_main_root' => 0,
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@secretaries', 'name' => 'عرض السكرتاريين',
+            'icon' => 'fa fa-users','sort' => 6, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/secretaries', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@editSecretaries', 'name' => 'تعديل السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id/edit/secretaries', 'is_main_root' => 0,
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@editSecretaries', 'name' => 'تعديل السكرتاريين',
+            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/edit/secretaries', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => 'Modules\Core\Http\Controllers\UsersController@updateSecretaries', 'name' => 'تحديث السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/:id/edit/secretaries', 'is_main_root' => 0,
+            'resource_name' => 'Modules\Core\Http\Controllers\EmployeeController@updateSecretaries', 'name' => 'تحديث السكرتاريين',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityUsersId, 'frontend_path' => 'users/employees/:id/edit/secretaries', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 

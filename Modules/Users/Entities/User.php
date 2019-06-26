@@ -204,17 +204,4 @@ class User extends Authenticatable
                   ->orWhere('phone_number', 'LIKE', '%'.$query.'%');
     }
 
-
-    /**
-     * Get Departments data for forms
-     */
-    public function getDepartmentsDataForForms()
-    {
-        $staffsDepartments       = $this->directDepartment->parentDepartment->parentDepartment->getDepartmentObjectForSelect();
-        $staffExpertsDepartments = $this->directDepartment->parentDepartment->getDepartmentObjectForSelect();
-        $directDepartments       = $this->directDepartment->getDepartmentObjectForSelect();
-
-        return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
-    }
-
 }

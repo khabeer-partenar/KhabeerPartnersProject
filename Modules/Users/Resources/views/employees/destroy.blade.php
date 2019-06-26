@@ -7,18 +7,18 @@
 
             <div class="caption">
                 <i class="fa fa-user"></i>
-                <span class="caption-subject sbold">{{ __('users::users.delete_action') }}</span>
+                <span class="caption-subject sbold">{{ __('users::employees.delete_action') }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('users.index') }}" class="btn blue">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('employees.index') }}" class="btn blue">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
 
         <div class="portlet-body form">
             
-            {{ Form::model($userData, ['route' => ['users.destroy', $userData->id], 'method' => 'delete']) }}
+            {{ Form::model($employee, ['route' => ['employees.destroy', $employee], 'method' => 'delete']) }}
                 
                 <div class="alert alert-danger">{{ __('messages.destroyـconfirmation') }}</div>
 

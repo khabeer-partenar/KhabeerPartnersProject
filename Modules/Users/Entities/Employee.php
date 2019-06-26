@@ -17,11 +17,24 @@ class Employee extends User
             $builder->where('user_type', 'user');
         });
     }
+ 
+
+    /**
+     * Get Departments data for forms
+     */
+    public function getDepartmentsDataForForms()
+    {
+        $staffsDepartments       = $this->directDepartment->parentDepartment->parentDepartment->getDepartmentObjectForSelect();
+        $staffExpertsDepartments = $this->directDepartment->parentDepartment->getDepartmentObjectForSelect();
+        $directDepartments       = $this->directDepartment->getDepartmentObjectForSelect();
+
+        return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
+    }
     
     /**
      * Create new User
      */
-    public static function createNewUser($request)
+    public static function createNewEmployee($request)
     {
         $userData = self::create($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
         $userData->groups()->attach($request->job_role_id);
@@ -31,7 +44,7 @@ class Employee extends User
     /**
      * Update current user
      */
-    public function updateUser($request)
+    public function updateEmployee($request)
     {
         if($this->job_role_id != $request->job_role_id) {
             // detach user

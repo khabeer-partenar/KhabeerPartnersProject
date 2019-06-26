@@ -1,4 +1,4 @@
-{{ Form::open(['route' => 'users.index', 'method' => 'GET']) }}
+{{ Form::open(['route' => 'employees.index', 'method' => 'GET']) }}
                 
     <div class="form-body">
         
@@ -7,13 +7,13 @@
             <div class="col-md-4">
                 <div class="form-group {{ $errors->has('user_id') ? ' has-error' : '' }}">
                 
-                    {!! Form::label('user_id', __('users::users.name'), ['class' => 'col-md-4 control-label']) !!}
+                    {!! Form::label('user_id', __('users::employees.name'), ['class' => 'col-md-4 control-label']) !!}
                 
                     <div class="col-md-8">
-                        {!! Form::select('user_id', [], null, ['id' => 'user_id', 'class' => 'form-control select2-search-users']) !!}
+                        {!! Form::select('employee_id', [], null, ['id' => 'employee_id', 'class' => 'form-control select2-search-employees']) !!}
                     
-                        @if ($errors->has('user_id'))
-                            <span class="help-block" ><strong>{{ $errors->first('user_id') }}</strong></span>
+                        @if ($errors->has('employee_id'))
+                            <span class="help-block" ><strong>{{ $errors->first('employee_id') }}</strong></span>
                         @endif
                     </div>
                 
@@ -24,7 +24,7 @@
             <div class="col-md-4">
                 <div class="form-group {{ $errors->has('direct_department_id') ? ' has-error' : '' }}">
 
-                    {!! Form::label('direct_department_id', __('users::users.direct_department_id'), ['class' => 'col-md-4 control-label']) !!}
+                    {!! Form::label('direct_department_id', __('users::employees.direct_department_id'), ['class' => 'col-md-4 control-label']) !!}
 
                     <div class="col-md-8">
                         {!! Form::select('direct_department_id', $directDepartments, null, ['id' => 'direct_department_id', 'class' => 'form-control select2']) !!}
@@ -40,7 +40,7 @@
             <div class="col-md-4">
                 <div class="form-group {{ $errors->has('job_role_id') ? ' has-error' : '' }}">
 
-                    {!! Form::label('job_role_id', __('users::users.job_role_id'), ['class' => 'col-md-4 control-label']) !!}
+                    {!! Form::label('job_role_id', __('users::employees.job_role_id'), ['class' => 'col-md-4 control-label']) !!}
 
                     <div class="col-md-8">
                         {!! Form::select('job_role_id', $rolesData, null, ['id' => 'job_role_id', 'class' => 'form-control select2']) !!}

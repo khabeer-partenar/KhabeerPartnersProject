@@ -12,7 +12,7 @@ use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
 
-class SaveUserRequest extends FormRequest
+class SaveEmployeeRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

@@ -29,17 +29,19 @@ Route::group(['middleware' => 'auth'], function()
     Route::prefix('users')->group(function(){
         // Coordinator Controller
         Route::resource('/coordinators', 'CoordinatorController');
+
+        // Employee Controller
+        Route::get('/employees/search', 'EmployeeController@search')->name('employees.search');
+        Route::get('/employees/search-by-name', 'EmployeeController@searchByName')->name('employees.searchByName');
+        Route::get('/employees/{employee}/destroy', 'EmployeeController@destroyConfirmation')->name('employees.destroy-confirmation');
+        Route::get('/employees/{employee}/secretaries', 'EmployeeController@secretaries')->name('employees.secretaries');
+        Route::get('/employees/{employee}/edit/secretaries', 'EmployeeController@editSecretaries')->name('employees.edit_secretaries');
+        Route::put('/employees/{employee}/edit/secretaries', 'EmployeeController@updateSecretaries')->name('employees.update_secretaries');
+        Route::get('/employees/search-by-name', 'EmployeeController@searchByName')->name('employees.search_by_name');
+        Route::resource('/employees', 'EmployeeController');
+
+        // User Controller 
+        Route::get('/search', 'UserController@search')->name('users.search');
+        Route::get('/upgrate-to-super-admin/{user}', 'UserController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
     });
-
-
-    // Users Controller
-    Route::get('/users/search', 'UsersController@search')->name('users.search');
-    Route::get('/users/search-by-name', 'UsersController@searchByName')->name('users.searchByName');
-    Route::get('/users/upgrate-to-super-admin/{userID}', 'UsersController@upgrateToSuperAdmin')->name('users.upgrate_to_super_admin');
-    Route::get('/users/groups', 'UsersController@groups')->name('users.groups');
-    Route::get('/users/{id}/destroy', 'UsersController@destroyConfirmation')->name('users.destroy-confirmation');
-    Route::get('/users/{id}/secretaries', 'UsersController@secretaries')->name('users.secretaries');
-    Route::get('/users/{id}/edit/secretaries', 'UsersController@editSecretaries')->name('users.edit_secretaries');
-    Route::put('/users/{id}/edit/secretaries', 'UsersController@updateSecretaries')->name('users.update_secretaries');
-    Route::resource('/users', 'UsersController');
 });
