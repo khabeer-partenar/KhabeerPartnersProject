@@ -57,13 +57,6 @@
 
 @section('scripts_2')
 
-    <style>
-        .multiselect_title {
-            padding-bottom: 10px;
-            
-        }
-    </style>
-
     <script>
     $(document).ready(function() {
 

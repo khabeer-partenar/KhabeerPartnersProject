@@ -31,6 +31,7 @@ mix
         'resources/assets/css/datatables.bootstrap-rtl.css',
         'resources/assets/css/jquery.calendars.picker.css',
         'resources/assets/css/multi-select-rtl.css',
+        'resources/assets/css/custom.css'
     ], 'public/assets/css/main.css')
 
 
