@@ -238,7 +238,7 @@ class CoreAppsTableSeeder extends Seeder
 
         // CoordinatorController
         $manageCoordinatorsID = App::create([
-            'resource_name' => 'Modules\Users\Http\Controllers\CoordinatorController', 'name' => 'إدارة المنسقين',
+            'resource_name' => 'Modules\Users\Http\Controllers\CoordinatorController@index', 'name' => 'إدارة المنسقين',
             'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $usersId, 'frontend_path' => 'users/coordinators', 'is_main_root' => 0,
             'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
