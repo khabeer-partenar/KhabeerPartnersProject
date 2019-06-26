@@ -44,9 +44,14 @@ class EmployeeController extends UserBaseController
                ->toJson();
         }
         
+        $employeesData      = [];
+        if((int)$request->employee_id && $request->employee_id > 0) {
+            $employeesData = [$request->employee_id => optional(Employee::where('id', $request->employee_id)->first())->name];
+        }
+
         $directDepartments  = Department::where('type', 3)->pluck('name', 'id')->prepend('', '');
         $rolesData          = Group::pluck('name', 'id')->prepend('', '');
-        return view('users::employees.index', compact('directDepartments', 'rolesData'));
+        return view('users::employees.index', compact('employeesData', 'directDepartments', 'rolesData'));
     }
 
     /**
