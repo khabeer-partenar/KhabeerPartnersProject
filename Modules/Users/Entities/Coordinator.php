@@ -56,11 +56,6 @@ class Coordinator extends User
         );
     }
 
-    public function job()
-    {
-        return $this->groups()->first();
-    }
-
     /**
      * Scopes
      *
@@ -68,7 +63,7 @@ class Coordinator extends User
      * @param $query
      * @param Request $request
      */
-    public static function scopeSearch($query, Request $request)
+    public static function scopeSearch($query, $request)
     {
         if ($request->has('name')) {
             $query->where('name', 'LIKE', '%'.$request->name.'%');
@@ -79,6 +74,9 @@ class Coordinator extends User
         if ($request->has('parent_department_id') && $request->parent_department_id != 0) {
             $query->where('parent_department_id', $request->parent_department_id);
         }
+        if (auth()->user()->user_type == Coordinator::TYPE) {
+            $query->where('parent_department_id', auth()->user()->parent_department_id);
+        }
         return $query;
     }
 
@@ -87,23 +85,4 @@ class Coordinator extends User
      *
      * Here Add Relations
      */
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class, 'core_users_groups', 'user_id', 'core_group_id');
-    }
-
-    public function directDepartment()
-    {
-        return $this->belongsTo(Department::class, 'direct_department_id');
-    }
-
-    public function parentDepartment()
-    {
-        return $this->belongsTo(Department::class, 'parent_department_id');
-    }
-
-    public function mainDepartment()
-    {
-        return $this->belongsTo(Department::class, 'main_department_id');
-    }
 }

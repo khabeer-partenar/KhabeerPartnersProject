@@ -68,7 +68,7 @@
                     </tr>
                     <tr>
                         <th scope="row">الدور التوظيفي</th>
-                        <td>{{ $coordinator->job()->name }}</td>
+                        <td>{{ $coordinator->jobRole->name }}</td>
                     </tr>
                 </tbody>
             </table>

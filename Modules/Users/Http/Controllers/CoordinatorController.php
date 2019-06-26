@@ -4,9 +4,10 @@
  */
 namespace Modules\Users\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Department;
@@ -15,9 +16,26 @@ use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
 
-class CoordinatorController extends Controller
+class CoordinatorController extends UserBaseController
 {
     use SessionFlash;
+
+    protected $userType = '';
+
+    /**
+     * CoordinatorController constructor.
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->user_type == Coordinator::TYPE){
+                $this->userType = Coordinator::TYPE;
+            }
+            return $next($request);
+        });
+    }
 
     /**
      * Display a listing of the resource.
@@ -60,7 +78,7 @@ class CoordinatorController extends Controller
     {
         $mainDepartments = Department::getDepartments();
         $coordinatorJob = Group::where('key', 'coordinator')->pluck('name', 'id');
-        return view('users::coordinators.create', compact('mainDepartments', 'coordinatorJob'));
+        return view("users::coordinators.$this->userType.create", compact('mainDepartments', 'coordinatorJob'));
     }
 
     /**

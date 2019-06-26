@@ -44,31 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     /**
-     * get Job role name
+     * Functions
+     *
+     * Here goes all functions
      */
-    public function jobRole()
-    {
-        return $this->hasOne(Group::class, 'id', 'job_role_id');
-
-    }
-
-    /**
-     * get Job role name
-     */
-    public function directDepartment()
-    {
-        return $this->belongsTo(Department::class, 'direct_department_id', 'id');
-    }
-
-    /**
-    * Get user groups
-    */
-    public function groups()
-    {
-        return $this->belongsToMany(Group::class, 'core_users_groups', 'user_id', 'core_group_id');
-    }
 
     /**
      * Check if user has group
@@ -76,22 +56,6 @@ class User extends Authenticatable
     public function checkInGroup($key = null)
     {
         return $this->groups()->where('key', '=', $key)->exists();
-    }
-
-    /**
-     * Get advisors of current users
-     */
-    public function advisors()
-    {
-        return $this->hasMany(UsersAdvisorsSecretaries::class, 'secretary_user_id');
-    }
-
-    /**
-     * Get secretaries of current users
-     */
-    public function secretaries()
-    {
-        return $this->hasMany(UsersAdvisorsSecretaries::class, 'advisor_user_id');
     }
 
     /**
@@ -191,9 +155,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Search for user by query token
-     * @param $query token search
-     * @return Collection users
+     * Scopes
+     *
+     * Here goes all scopes
      */
     public static function search($query)
     {
@@ -204,4 +168,44 @@ class User extends Authenticatable
                   ->orWhere('phone_number', 'LIKE', '%'.$query.'%');
     }
 
+    /**
+     * Relations
+     *
+     * Here goes all relations
+     */
+    public function directDepartment()
+    {
+        return $this->belongsTo(Department::class, 'direct_department_id');
+    }
+
+    public function parentDepartment()
+    {
+        return $this->belongsTo(Department::class, 'parent_department_id');
+    }
+
+    public function mainDepartment()
+    {
+        return $this->belongsTo(Department::class, 'main_department_id');
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'core_users_groups', 'user_id', 'core_group_id');
+    }
+
+    public function advisors()
+    {
+        return $this->hasMany(UsersAdvisorsSecretaries::class, 'secretary_user_id');
+    }
+
+    public function jobRole()
+    {
+        return $this->hasOne(Group::class, 'id', 'job_role_id');
+
+    }
+
+    public function secretaries()
+    {
+        return $this->hasMany(UsersAdvisorsSecretaries::class, 'advisor_user_id');
+    }
 }

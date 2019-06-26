@@ -80,15 +80,15 @@ class CoordinatorsTableSeeder extends Seeder
                 'department_reference' => '123124', 'title' => 'مهندس', 'job_title' => 'مطور', 'job_role_id' => '10'
             ],
             [
-                'name' => 'يونس بالهنده', 'national_id' => '1000000015', 'phone_number' => '0563108757', 'direct_department_id' => '3',
+                'name' => 'يونس بالهنده', 'national_id' => '1000000015', 'phone_number' => '0563108757', 'direct_department_id' => '12',
                 'email' => 'mail-1000000026@mu.gov.sa',
-                'main_department_id' => '1', 'parent_department_id' => '2', 'user_type' => Coordinator::TYPE,
+                'main_department_id' => '1', 'parent_department_id' => '11', 'user_type' => Coordinator::TYPE,
                 'department_reference' => '123124', 'title' => 'مهندس', 'job_title' => 'مطور', 'job_role_id' => '10'
             ],
             [
-                'name' => 'رياض محرز', 'national_id' => '1000000016', 'phone_number' => '0563108759', 'direct_department_id' => '4',
+                'name' => 'رياض محرز', 'national_id' => '1000000016', 'phone_number' => '0563108759', 'direct_department_id' => '12',
                 'email' => 'mail-1000000027@mu.gov.sa',
-                'main_department_id' => '1', 'parent_department_id' => '2', 'user_type' => Coordinator::TYPE,
+                'main_department_id' => '1', 'parent_department_id' => '11', 'user_type' => Coordinator::TYPE,
                 'department_reference' => '123124', 'title' => 'مهندس', 'job_title' => 'مطور', 'job_role_id' => '10'
             ],
         ];
