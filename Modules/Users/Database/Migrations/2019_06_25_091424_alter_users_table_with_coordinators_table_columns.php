@@ -19,7 +19,7 @@ class AlterUsersTableWithCoordinatorsTableColumns extends Migration
             $table->string('department_reference')->default(0)->after('direct_department_id');
             $table->string('title')->nullable()->after('department_reference');
             $table->string('job_title')->nullable()->after('title');
-            $table->boolean('is_coordinator')->default(0)->after('job_role_id');
+            $table->string('user_type')->default('user')->after('job_role_id');
         });
     }
 
@@ -36,7 +36,7 @@ class AlterUsersTableWithCoordinatorsTableColumns extends Migration
             $table->dropColumn('department_reference');
             $table->dropColumn('title');
             $table->dropColumn('job_title');
-            $table->dropColumn('is_coordinator');
+            $table->dropColumn('user_type');
         });
     }
 }

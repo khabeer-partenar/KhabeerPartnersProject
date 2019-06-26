@@ -4,31 +4,25 @@
  */
 namespace Modules\Users\Entities;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
+use Modules\Users\Entities\User;
 use Modules\Core\Entities\Group;
-use Modules\Core\Traits\AuthorizeUser;
-use Modules\Core\Traits\SharedModel;
 
-class Coordinator extends Authenticatable
+class Coordinator extends User
 {
-    use Notifiable, HasApiTokens, AuthorizeUser, SoftDeletes, SharedModel;
 
-    protected $fillable = [
-        'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id', 'department_reference',
-        'job_title', 'title', 'main_department_id', 'parent_department_id'
-    ];
 
-    protected $table = 'users';
-
-    public function newQuery()
+    /**
+     * add global scope
+     */
+    protected static function boot()
     {
-        $query = parent::newQuery();
-        $query->where('is_coordinator','=','1');
-        return $query;
+        parent::boot();
+
+        static::addGlobalScope('filterUserType', function (Builder $builder) {
+            $builder->where('user_type', 'coordinator');
+        });
     }
 
     /**
@@ -46,7 +40,7 @@ class Coordinator extends Authenticatable
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
                 'main_department_id', 'parent_department_id', 'department_reference'
-            ), ['job_role_id' => $coordinatorJob->id, 'is_coordinator' => 1]
+            ), ['job_role_id' => $coordinatorJob->id, 'user_type' => 'coordinator']
             )
         );
         $coordinator->groups()->attach($coordinatorJob);

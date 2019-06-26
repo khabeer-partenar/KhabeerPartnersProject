@@ -8,7 +8,7 @@ use App\Http\Controllers\UserBaseController;
 use Yajra\Datatables\Datatables;
 use Modules\Users\Http\Requests\SaveUserRequest;
 use Modules\Users\Http\Requests\UpdateUserRequest;
-use Modules\Users\Entities\User;
+use Modules\Users\Entities\Employee;
 use Modules\Core\Entities\Permission;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Department;
@@ -23,34 +23,34 @@ class UsersController extends UserBaseController
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->ajax()) {
-            $users = User::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')->with('jobRole', 'directDepartment');
+            $employees = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')->with('jobRole', 'directDepartment');
 
-            if((int)$request->user_id && $request->user_id > 0) {
-                $users = $users->where('id', $request->user_id);
+            if((int)$request->employee_id && $request->employee_id > 0) {
+                $employees = $employees->where('id', $request->employee_id);
             }
 
             if((int)$request->job_role_id && $request->job_role_id > 0) {
-                $users = $users->where('job_role_id', $request->job_role_id);
+                $employees = $employees->where('job_role_id', $request->job_role_id);
             }
 
             if((int)$request->direct_department_id && $request->direct_department_id > 0) {
-                $users = $users->where('direct_department_id', $request->direct_department_id);
+                $employees = $employees->where('direct_department_id', $request->direct_department_id);
             }
 
-            return Datatables::of($users)
-               ->addColumn('deptname', function ($user) {
-                   return @$user->directDepartment->name;
+            return Datatables::of($employees)
+               ->addColumn('deptname', function ($employee) {
+                   return @$employee->directDepartment->name;
                })
-               ->addColumn('job_role', function ($user) {
-                   return @$user->jobRole->name;
+               ->addColumn('job_role', function ($employee) {
+                   return @$employee->jobRole->name;
                })
-               ->addColumn('action', function ($user) {
-                    return view('users::users.actions', compact('user'));
+               ->addColumn('action', function ($employee) {
+                    return view('users::users.actions', compact('employee'));
                })
                ->toJson();
         } else {
 
-            $userDatatableURL        = route('users.index') . '?user_id=' . $request->user_id . '&job_role_id=' . $request->job_role_id . '&direct_department_id=' . $request->direct_department_id;
+            $userDatatableURL        = route('users.index') . '?employee_id=' . $request->employee_id . '&job_role_id=' . $request->job_role_id . '&direct_department_id=' . $request->direct_department_id;
             $directDepartments       = Department::where('type', 2)->pluck('name', 'id')->prepend('', '');
             $rolesData               = Group::pluck('name', 'id')->prepend('', '');
 
@@ -76,7 +76,7 @@ class UsersController extends UserBaseController
      */
     public function store(SaveUserRequest $request)
     {
-        $userData = User::createNewUser($request);        
+        $userData = Employee::createNewUser($request);        
         session()->flash('alert-success', __('users.userCreated')); 
         return redirect()->route('users.index');
     }
