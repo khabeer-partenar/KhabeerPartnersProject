@@ -12,6 +12,7 @@ use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Department;
 use Modules\Users\Http\Requests\SaveCoordinatorRequest;
+use Modules\Users\Http\Requests\SaveCoordinatorRequestByCo;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
@@ -114,7 +115,7 @@ class CoordinatorController extends UserBaseController
     {
         $mainDepartments = Department::getDepartments();
         $coordinatorJob = Group::where('key', 'coordinator')->pluck('name', 'id');
-        return view('users::coordinators.edit', compact('coordinator',  'mainDepartments', 'coordinatorJob'));
+        return view("users::coordinators.$this->userType.edit", compact('coordinator',  'mainDepartments', 'coordinatorJob'));
     }
 
     /**
@@ -125,6 +126,33 @@ class CoordinatorController extends UserBaseController
      * @internal param int $id
      */
     public function update(UpdateCoordinatorRequest $request, Coordinator $coordinator)
+    {
+        $coordinator->updateFromRequest($request);
+        self::sessionSuccess('coordinators.updated');
+        return redirect()->route('coordinators.index');
+    }
+
+    /**
+     * Store Coordinator by Coordinator
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeByCoordinator(SaveCoordinatorRequestByCo $request)
+    {
+        Coordinator::createFromRequestByCo($request);
+        self::sessionSuccess('coordinators.created');
+        return back();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param UpdateCoordinatorRequest $request
+     * @param Coordinator $coordinator
+     * @return Response
+     * @internal param int $id
+     */
+    public function updateByCoordinator(UpdateCoordinatorRequest $request, Coordinator $coordinator)
     {
         $coordinator->updateFromRequest($request);
         self::sessionSuccess('coordinators.updated');
