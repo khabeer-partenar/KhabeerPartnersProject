@@ -2914,7 +2914,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.core-app-item {\n    cursor: pointer;\n}\n.bold {\n    font-weight: bold;\n}\nul {\n    padding-left: 1em;\n    line-height: 1.5em;\n    list-style-type: dot;\n}\n.selected-core-app {\n    background-color: #3598dc;\n    color: #fbf7f7;\n    padding: 3px;\n}\n.core-app-selected-actions {\n    color: #fbf7f7;\n    padding: 1px;\n}\n.core-app-selected-actions-add {\n    background-color: #32c5d2;\n}\n.core-app-selected-actions-edit {\n    background-color: #8E44AD;\n}\n.core-app-selected-actions-delete {\n    background-color: #e7505a;\n}\nspan.has-permission {\n    color: green;\n}\n", ""]);
+exports.push([module.i, "\n.core-app-item {\r\n    cursor: pointer;\n}\n.bold {\r\n    font-weight: bold;\n}\nul {\r\n    padding-left: 1em;\r\n    line-height: 1.5em;\r\n    list-style-type: dot;\n}\n.selected-core-app {\r\n    background-color: #3598dc;\r\n    color: #fbf7f7;\r\n    padding: 3px;\n}\n.core-app-selected-actions {\r\n    color: #fbf7f7;\r\n    padding: 1px;\n}\n.core-app-selected-actions-add {\r\n    background-color: #32c5d2;\n}\n.core-app-selected-actions-edit {\r\n    background-color: #8E44AD;\n}\n.core-app-selected-actions-delete {\r\n    background-color: #e7505a;\n}\nspan.has-permission {\r\n    color: green;\n}\r\n", ""]);
 
 // exports
 
@@ -35824,18 +35824,18 @@ window.VueErrorsHandler =
 /*#__PURE__*/
 function () {
   /**
-   * Create New Errors instance
-   */
+    * Create New Errors instance
+    */
   function _class2() {
     _classCallCheck(this, _class2);
 
     this.errors = {};
   }
   /**
-   * Determine if errors existing for a given field
-   *
-   * @param {string} field
-   */
+    * Determine if errors existing for a given field
+    *
+    * @param {string} field
+    */
 
 
   _createClass(_class2, [{
@@ -35844,8 +35844,8 @@ function () {
       return this.errors.hasOwnProperty(field);
     }
     /**
-     * Determine if we have any errors
-     */
+      * Determine if we have any errors
+      */
 
   }, {
     key: "any",
@@ -35853,10 +35853,10 @@ function () {
       return Object.keys(this.errors).length > 0;
     }
     /**
-     * Retrieve error messages for a field
-     *
-     * @param {string} field
-     */
+      * Retrieve error messages for a field
+      *
+      * @param {string} field
+      */
 
   }, {
     key: "get",
@@ -35866,10 +35866,10 @@ function () {
       }
     }
     /**
-     * Record the New errors
-     *
-     * @param {object} errors
-     */
+      * Record the New errors
+      *
+      * @param {object} errors
+      */
 
   }, {
     key: "record",
@@ -35877,10 +35877,10 @@ function () {
       this.errors = errors;
     }
     /**
-     * Clear one or all error fields.
-     *
-     * @param {string|null} field
-     */
+      * Clear one or all error fields.
+      *
+      * @param {string|null} field
+      */
 
   }, {
     key: "clear",
@@ -35902,10 +35902,10 @@ window.VueForm =
 /*#__PURE__*/
 function () {
   /**
-   * Create New form object
-   *
-   * @param {object} data
-   */
+    * Create New form object
+    *
+    * @param {object} data
+    */
   function _class3(data) {
     _classCallCheck(this, _class3);
 
@@ -35919,8 +35919,8 @@ function () {
     this.errors = new VueErrorsHandler();
   }
   /**
-   * Fetch all relevent data of the form.
-   */
+    * Fetch all relevent data of the form.
+    */
 
 
   _createClass(_class3, [{
@@ -35935,8 +35935,8 @@ function () {
       return data;
     }
     /**
-     * Reset the form details.
-     */
+      * Reset the form details.
+      */
 
   }, {
     key: "reset",
@@ -35949,11 +35949,11 @@ function () {
       this.errors.clear();
     }
     /**
-     * Submit the form.
-     *
-     * @param {string} requestType
-     * @param {string} url
-     */
+      * Submit the form.
+      *
+      * @param {string} requestType
+      * @param {string} url
+      */
 
   }, {
     key: "submit",
@@ -35973,10 +35973,10 @@ function () {
       });
     }
     /**
-     * Handle a successful form submission.
-     *
-     * @param {object} data
-     */
+      * Handle a successful form submission.
+      *
+      * @param {object} data
+      */
 
   }, {
     key: "onSuccess",
@@ -35985,10 +35985,10 @@ function () {
       this.reset();
     }
     /**
-     * Handle failed form submission
-     *
-     * @param {object} error
-     */
+      * Handle failed form submission
+      *
+      * @param {object} error
+      */
 
   }, {
     key: "onFail",
@@ -36034,7 +36034,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/abdullahalqduiry/Desktop/projects/un/KhabeerPartnersProject/resources/assets/js/app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\DELL\Desktop\Projects\khabeer\resources\assets\js\app.js */"./resources/assets/js/app.js");
 
 
 /***/ })

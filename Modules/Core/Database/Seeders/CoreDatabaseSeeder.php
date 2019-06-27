@@ -19,6 +19,7 @@ class CoreDatabaseSeeder extends Seeder
         Model::unguard();
 
         $this->call(CoreAppsTableSeeder::class);
+        $this->call(CoreGroupsTableSeeder::class);
         $this->call(DefaultGroupsTableSeeder::class);
     }
 }
