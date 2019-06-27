@@ -22846,25 +22846,6 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
-      _c("li", { staticClass: "heading" }, [
-        _c("h3", { staticClass: "uppercase" }, [
-          _c(
-            "span",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: !_vm.isLoading,
-                  expression: "!isLoading"
-                }
-              ]
-            },
-            [_vm._v("القائمة الرئيسية")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
       _vm._l(_vm.apps, function(app) {
         return _c("side-menu-item", { key: app.id, attrs: { model: app } })
       })

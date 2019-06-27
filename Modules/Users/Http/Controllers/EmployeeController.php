@@ -41,6 +41,7 @@ class EmployeeController extends UserBaseController
                ->addColumn('action', function ($employee) {
                     return view('users::employees.actions', compact('employee'));
                })
+               ->rawColumns(['action', 'contact_options'])
                ->toJson();
         }
         

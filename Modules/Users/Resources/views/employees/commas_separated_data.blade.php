@@ -1,5 +1,8 @@
 @foreach($data as $element)
     {{ $element }}
     
-    <br />
+    @if (!$loop->last)
+        <br />
+    @endif
+    
 @endforeach

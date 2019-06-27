@@ -13,7 +13,7 @@
             
             <div class="actions">
                 @if(auth()->user()->hasPermissionWithAccess('edit'))
-                    <a href="{{ route('employees.edit', $employee) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::employees.edit_action') }}</a>
+                    <a href="{{ route('employees.edit', $employee) }}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> {{ __('users::employees.edit_action') }}</a>
                 @endif
             </div>
         
