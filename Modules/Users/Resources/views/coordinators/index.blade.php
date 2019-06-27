@@ -20,34 +20,56 @@
 
         <div class="portlet-body">
             {{-- Search Form --}}
-            <form class="form-inline" method="get" id="search-coordinators" action="{{ route('coordinators.index') }}">
-                <div class="form-group">
-                    <label for="department_type">نوع الجهة</label>
-                    <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
-                            data-url="{{ route('departments.children') }}" data-child="#parent_department_id">
-                        <option value="0">{{ __('users::departments.choose a department') }}</option>
-                        @foreach($mainDepartments as $key => $department)
-                            <option value="{{ $key }}" {{ Request::input('main_department_id') == $key ? 'selected':'' }}>{{ $department }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="department_name">اسم الجهة</label>
-                    <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments"
-                            data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
-                        <option value="0">{{ __('users::departments.choose a department') }}</option>
-                        @php $parentDepartment = Request::input('parent_department_id') @endphp
-                        @foreach(\Modules\Users\Entities\Department::getParentDepartments(Request::input('main_department_id')) as $key => $department)
-                            <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="name">اسم المنسق</label>
-                    <input type="text" class="form-control" value="{{ Request::input('name') }}" name="name" id="name" placeholder="">
-                </div>
-                <button type="submit" class="btn btn-default search-table" data-form="#search-coordinators">بحث</button>
-            </form>
+            <div class="row">
+                <form class="" method="get" id="search-coordinators" action="{{ route('coordinators.index') }}">
+                    {{--form-inline--}}
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="department_type">نوع الجهة</label>
+                            <div class="col-md-8">
+                                <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
+                                        data-url="{{ route('departments.children') }}" data-child="#parent_department_id">
+                                    <option value="0">{{ __('users::departments.choose a department') }}</option>
+                                    @foreach($mainDepartments as $key => $department)
+                                        <option value="{{ $key }}" {{ Request::input('main_department_id') == $key ? 'selected':'' }}>{{ $department }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="parent_department_id" class="col-md-4 control-label">اسم الجهة</label>
+                            <div class="col-md-8">
+                                <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments"
+                                        data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
+                                    <option value="0">{{ __('users::departments.choose a department') }}</option>
+                                    @php $parentDepartment = Request::input('parent_department_id') @endphp
+                                    @foreach(\Modules\Users\Entities\Department::getParentDepartments(Request::input('main_department_id')) as $key => $department)
+                                        <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="name" class="col-md-4 control-label">اسم المنسق</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" value="{{ Request::input('name') }}" name="name" id="name" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button style="float: left;margin: 5px 30px;" type="submit" class="btn btn-default search-table" data-form="#search-coordinators">بحث</button>
+
+
+                </form>
+            </div>
+
             {{-- DataTable --}}
             <table id="table-ajax" class="table" data-url="{{ route('coordinators.index', [
                 'name' => Request::input('name'),
