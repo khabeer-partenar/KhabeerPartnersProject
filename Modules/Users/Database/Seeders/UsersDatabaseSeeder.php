@@ -17,6 +17,7 @@ class UsersDatabaseSeeder extends Seeder
         Model::unguard();
         
         $this->call(CoreUsersAppsTableSeeder::class);
+        $this->call(CoreGroupsTableSeeder::class);
         $this->call(EmployeesTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
         $this->call(CoordinatorsTableSeeder::class);

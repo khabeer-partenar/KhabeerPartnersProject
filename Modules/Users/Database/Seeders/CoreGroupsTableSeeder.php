@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Core\Database\Seeders;
+namespace Modules\Users\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +21,9 @@ class CoreGroupsTableSeeder extends Seeder
         DB::table('core_permissions')->truncate();
         $coordinatorGroup = Group::where('key', 'coordinator')->first();
         $coordinatorsResources = [
-           'Modules\Users\Http\Controllers\CoordinatorController@index',
+            'Modules',
+            'Modules\Users\Http\Controllers',
+            'Modules\Users\Http\Controllers\CoordinatorController@index',
             'Modules\Users\Http\Controllers\CoordinatorController@create',
             'Modules\Users\Http\Controllers\CoordinatorController@store',
             'Modules\Users\Http\Controllers\CoordinatorController@show',
