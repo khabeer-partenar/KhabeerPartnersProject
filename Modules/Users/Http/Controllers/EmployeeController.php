@@ -9,6 +9,7 @@ use Yajra\Datatables\Datatables;
 use Modules\Users\Http\Requests\SaveEmployeeRequest;
 use Modules\Users\Http\Requests\UpdateEmployeeRequest;
 use Modules\Users\Http\Requests\UpdateSecretariesRequest;
+use Modules\Users\Notifications\NotifyNewUser;
 use Modules\Users\Entities\Employee;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Department;
@@ -74,7 +75,7 @@ class EmployeeController extends UserBaseController
     public function store(SaveEmployeeRequest $request)
     {
         Employee::createNewEmployee($request);        
-        session()->flash('alert-success', __('users.userCreated')); 
+        session()->flash('alert-success', __('users::employees.userCreated')); 
         return redirect()->route('employees.index');
     }
 
@@ -89,6 +90,12 @@ class EmployeeController extends UserBaseController
         return view('users::employees.show', compact(['employee', 'departmentsDataForForms', 'rolesData']));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     * @param Coordinator $coordinator
+     * @return Response
+     * @internal param int $id
+     */
     public function edit(Request $request, Employee $employee)
     {
         $departmentsDataForForms = Department::getDepartmentsDataForUsersForms();
