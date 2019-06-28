@@ -9,7 +9,7 @@ use Modules\Core\Traits\AuthorizeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
 use Modules\Core\Traits\SharedModel;
-use Modules\Users\Notifications\NotifyNewUser;
+use Modules\Users\Notifications\NotifyNewUserViaMail;
 
 class User extends Authenticatable
 {
@@ -51,10 +51,7 @@ class User extends Authenticatable
      * Here goes all functions
      */
 
-
-    /**
-     * add global scope
-     */
+     
     protected static function boot()
     {
         parent::boot();
@@ -63,7 +60,7 @@ class User extends Authenticatable
 
             // Send notification mail after 5 minutes when user created
             $when = now()->addMinutes(5);
-            $userData->notify((new NotifyNewUser($userData))->delay($when));
+            $userData->notify((new NotifyNewUserViaMail($userData))->delay($when));
 
         });
     }

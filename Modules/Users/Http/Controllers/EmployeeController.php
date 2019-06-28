@@ -9,7 +9,6 @@ use Yajra\Datatables\Datatables;
 use Modules\Users\Http\Requests\SaveEmployeeRequest;
 use Modules\Users\Http\Requests\UpdateEmployeeRequest;
 use Modules\Users\Http\Requests\UpdateSecretariesRequest;
-use Modules\Users\Notifications\NotifyNewUser;
 use Modules\Users\Entities\Employee;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Department;

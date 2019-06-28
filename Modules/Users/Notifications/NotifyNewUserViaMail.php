@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NotifyNewUser extends Notification implements ShouldQueue
+class NotifyNewUserViaMail extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -49,7 +49,7 @@ class NotifyNewUser extends Notification implements ShouldQueue
 
 
         return (new MailMessage)
-                ->subject('تم انشاء الحساب')
+                ->subject(__('users::mail.message_subject'))
                 ->markdown('users::users.welcomeMail', compact('user'));
     }
 
