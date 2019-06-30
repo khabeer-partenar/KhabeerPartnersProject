@@ -81,4 +81,8 @@ class Permission extends Model
         }
     }
 
+    public function app()
+    {
+        return $this->belongsTo(App::class, 'app_id', 'id');
+    }
 }

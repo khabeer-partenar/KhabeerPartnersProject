@@ -65,6 +65,21 @@ trait AuthorizeUser
         return false;
     }
 
+    public function hasPermissionO($resourceName)
+    {
+        if ($job = auth()->user()->jobRole) {
+            foreach($job->permissions as $permission) {
+                if ($permission->has('app')) {
+                    if ($permission->app->resource_name == $resourceName) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     /**
        * Check if user has a permission
        * @param String namespaced app key
@@ -90,7 +105,7 @@ trait AuthorizeUser
         }
 
         $resourceName = 'Modules\\'. $moduleName .'\\Http\Controllers\\'. $controllerName .'@'. $actionName;
-        $permission   = $this->hasPermission($resourceName);
+        $permission   = $this->hasPermissionO($resourceName);
         
         if ($permission) {
             return true;

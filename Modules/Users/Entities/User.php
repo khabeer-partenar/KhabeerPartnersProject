@@ -154,6 +154,11 @@ class User extends Authenticatable
         return $this->checkInGroup('acting_delegate');
     }
 
+    public function authorizedApps()
+    {
+        return $this->jobRole()->with('permissions.app');
+    }
+
     /**
      * Scopes
      *
