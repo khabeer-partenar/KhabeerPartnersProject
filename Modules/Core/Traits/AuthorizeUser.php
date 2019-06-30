@@ -46,7 +46,7 @@ trait AuthorizeUser
       * @return permission if true
       * @return false if not found
     */
-    public function hasPermission($resourceName)
+    public function oldHasPermission($resourceName)
     {
         $app = App::where('resource_name', $resourceName)->first();
 
@@ -65,9 +65,9 @@ trait AuthorizeUser
         return false;
     }
 
-    public function hasPermissionO($resourceName)
+    public function hasPermission($resourceName)
     {
-        if ($job = auth()->user()->jobRole) {
+        if ($job = auth()->user()->authorizedApps) {
             foreach($job->permissions as $permission) {
                 if ($permission->has('app')) {
                     if ($permission->app->resource_name == $resourceName) {
@@ -105,7 +105,7 @@ trait AuthorizeUser
         }
 
         $resourceName = 'Modules\\'. $moduleName .'\\Http\Controllers\\'. $controllerName .'@'. $actionName;
-        $permission   = $this->hasPermissionO($resourceName);
+        $permission   = $this->hasPermission($resourceName);
         
         if ($permission) {
             return true;
