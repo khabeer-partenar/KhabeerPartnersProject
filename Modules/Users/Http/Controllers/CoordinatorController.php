@@ -14,6 +14,7 @@ use Modules\Users\Entities\Department;
 use Modules\Users\Http\Requests\SaveCoordinatorRequest;
 use Modules\Users\Http\Requests\SaveCoordinatorRequestByCo;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
+use Modules\Users\Http\Requests\UpdateCoordinatorRequestByCo;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -135,7 +136,7 @@ class CoordinatorController extends UserBaseController
     /**
      * Store Coordinator by Coordinator
      *
-     * @param Request $request
+     * @param SaveCoordinatorRequestByCo $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function storeByCoordinator(SaveCoordinatorRequestByCo $request)
@@ -147,12 +148,12 @@ class CoordinatorController extends UserBaseController
 
     /**
      * Update the specified resource in storage.
-     * @param UpdateCoordinatorRequest $request
+     * @param UpdateCoordinatorRequestByCo $request
      * @param Coordinator $coordinator
      * @return Response
      * @internal param int $id
      */
-    public function updateByCoordinator(UpdateCoordinatorRequest $request, Coordinator $coordinator)
+    public function updateByCoordinator(UpdateCoordinatorRequestByCo $request, Coordinator $coordinator)
     {
         $coordinator->updateFromRequestByCo($request);
         self::sessionSuccess('coordinators.updated');

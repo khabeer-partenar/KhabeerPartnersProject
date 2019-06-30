@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
 
-            {{ Form::model($coordinator, ['route' => ['coordinators.update', $coordinator], 'method' => 'PUT']) }}
+            {{ Form::model($coordinator, ['route' => ['coordinators.update_by_co', $coordinator], 'method' => 'PUT']) }}
 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
