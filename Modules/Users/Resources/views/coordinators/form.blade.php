@@ -36,7 +36,7 @@
             {!! Form::label('parent_department_id', 'اسم الجهة', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments"
+                <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments change-reference"
                         data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
                     @php
@@ -64,8 +64,15 @@
             {!! Form::label('department_reference', 'مرجعية الجهة', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('department_reference', null, ['id' => 'department_reference', 'class' => 'form-control']) !!}
-
+                @php
+                    $reference_id = isset($coordinator) ? $coordinator->department_reference_id:null;
+                    if (old('department_reference_id')){
+                        $reference_id = old('department_reference_id');
+                    }
+                    $referenceDepartment = \Modules\Users\Entities\Department::find($reference_id);
+                @endphp
+                {!! Form::text('department_reference_val', isset($referenceDepartment) ? $referenceDepartment->name:null, ['id' => 'department_reference_val', 'class' => 'form-control', 'disabled']) !!}
+                {!! Form::hidden('department_reference_id', isset($referenceDepartment) ? $referenceDepartment->id:null, ['id' => 'department_reference', 'class' => 'form-control',]) !!}
                 @if ($errors->has('department_reference'))
                     <span class="help-block" ><strong>{{ $errors->first('department_reference') }}</strong></span>
                 @endif
@@ -231,32 +238,3 @@
     </div>
 
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('.select2').select2();
-
-        $('.load-departments').change(function () {
-            let path = $(this).attr('data-url') + '?parentId=' + $(this).val();
-            let child = $(this).attr('data-child');
-            // Empty Children
-            $(child).empty();
-            if ($(child).hasClass('load-departments')) {
-                let childOfChild = $(child).attr('data-child');
-                $(childOfChild).empty();
-            }
-            if ($(this).val() != 0){
-                $.ajax({
-                    url: path,
-                    success: function (response) {
-                        let select = $(child)[0];
-                        let length = Object.keys(response).length;
-                        for (let index = 0; index < length; index++) {
-                            select.options[select.options.length] = new Option(response[index].name, response[index].id);
-                        }
-                    }
-                });
-            }
-        });
-    });
-</script>

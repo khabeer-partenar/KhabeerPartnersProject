@@ -140,4 +140,9 @@ class Department extends Model
     {
         return $this->belongsTo(self::class, 'parent_id', 'id');
     }
+
+    public function referenceDepartment()
+    {
+        return $this->belongsTo(self::class, 'reference_id', 'id');
+    }
 }

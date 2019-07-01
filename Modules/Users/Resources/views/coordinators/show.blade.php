@@ -40,7 +40,7 @@
                     </tr>
                     <tr>
                         <th scope="row">مرجعية الجهة</th>
-                        <td>{{ $coordinator->department_reference }}</td>
+                        <td>{{ $coordinator->departmentReference ? $coordinator->departmentReference->name:'' }}</td>
                     </tr>
                     <tr>
                         <th scope="row">المسمي الوظيفي</th>

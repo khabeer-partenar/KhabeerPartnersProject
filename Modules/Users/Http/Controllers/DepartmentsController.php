@@ -20,7 +20,8 @@ class DepartmentsController extends UserBaseController
         if (!$parentId) {
             abort(404);
         }
-        $departments = Department::where('parent_id', $parentId)->get(['id', 'name'])->prepend(Department::getEmptyObjectForSelectAjax());
+        $departments = Department::with('referenceDepartment')
+            ->where('parent_id', $parentId)->get(['id', 'name', 'reference_id'])->prepend(Department::getEmptyObjectForSelectAjax());
         return response()->json($departments);
     }
 }

@@ -12,6 +12,7 @@ use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
+use Modules\Users\Rules\CheckDepartmentReference;
 use Modules\Users\Rules\CheckDepartmentType;
 
 class SaveCoordinatorRequest extends FormRequest
@@ -31,7 +32,7 @@ class SaveCoordinatorRequest extends FormRequest
             'name'                 => ['required', new FilterStringRule, 'string'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table()],
             'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table()],
-            'department_reference' => ['required', 'string']
+            'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference]
         ];
     }
 

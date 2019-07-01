@@ -38,7 +38,7 @@ class Coordinator extends User
             array_merge(
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
-                'main_department_id', 'parent_department_id', 'department_reference'
+                'main_department_id', 'parent_department_id', 'department_reference_id'
             ), ['job_role_id' => $coordinatorJob->id, 'user_type' => self::TYPE]
             )
         );
@@ -52,11 +52,11 @@ class Coordinator extends User
         $coordinator = self::create(
             array_merge(
                 $request->only(
-                    'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title', 'department_reference'
+                    'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title', 'department_reference_id'
                 ), [
                     'job_role_id' => $coordinatorJob->id,
                     'user_type' => self::TYPE,
-                    'department_reference' => auth()->user()->department_reference,
+                    'department_reference_id' => auth()->user()->department_reference,
                     'main_department_id' => auth()->user()->main_department_id,
                     'parent_department_id' => auth()->user()->parent_department_id
                 ]
@@ -71,7 +71,7 @@ class Coordinator extends User
         return $this->update(
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
-                'main_department_id', 'parent_department_id', 'department_reference'
+                'main_department_id', 'parent_department_id', 'department_reference_id'
             )
         );
     }
@@ -115,4 +115,8 @@ class Coordinator extends User
      *
      * Here Add Relations
      */
+    public function departmentReference()
+    {
+        return $this->belongsTo(Department::class, 'department_reference_id');
+    }
 }
