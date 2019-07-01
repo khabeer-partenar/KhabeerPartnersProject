@@ -12,11 +12,11 @@
         <!-- END SIDEBAR TOGGLER BUTTON -->
 
         <!-- HEADER -->
-        <li class="heading">
+        <!-- <li class="heading">
             <h3 class="uppercase">
                 <span v-show="!isLoading">القائمة الرئيسية</span>
             </h3>
-        </li>
+        </li> -->
         <!-- END HEADER -->
 
         <side-menu-item v-for="app in apps" :model="app" :key="app.id"></side-menu-item>

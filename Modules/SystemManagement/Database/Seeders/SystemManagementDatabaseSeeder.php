@@ -16,6 +16,7 @@ class SystemManagementDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
+        $this->call(CoreSystemManagementAppsTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
     }
 }

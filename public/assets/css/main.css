@@ -689,3 +689,7 @@ color: #fff !important;
   left: auto !important;
   right: -9999px !important;
 }
+.multiselect_title {
+    padding-bottom: 10px;
+    
+}

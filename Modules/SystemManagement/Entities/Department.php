@@ -23,6 +23,15 @@ class Department extends Model
     protected $fillable = ['parent_id', 'name', 'type'];
 
     /**
+     * departments types
+     *
+     * @var array
+     */
+    public static $departmentsTypes = [
+        'parent' => 1,
+    ];
+
+    /**
      * Functions
      *
      * Here you should add Functions
@@ -56,6 +65,20 @@ class Department extends Model
         $directDepartments       = $directDepartments->pluck('name', 'id')->prepend('', '');
 
         return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
+    }
+
+
+    /**
+     *  Select2 ajax search
+     */
+    public static function ajaxSearch($type, $searchValue)
+    {
+        if( !isset(self::$departmentsTypes[$type]) ) {
+            return [];
+        }
+
+        $typeId = self::$departmentsTypes[$type];
+        return self::where([ ['type', $typeId], ['name', 'LIKE', '%'. $searchValue .'%']])->select('id', 'name as text')->get();
     }
 
     /**

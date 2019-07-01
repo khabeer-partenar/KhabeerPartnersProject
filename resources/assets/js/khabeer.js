@@ -55,6 +55,20 @@ $(document).ready(function() {
         minimumInputLength: 3,
     });
 
+    // select2 ajax search
+    $('.select2-ajax-search').select2({
+        ajax: {
+            dataType: 'json',
+            delay: 500,
+            data: function(params) {
+                return {
+                    search: params.term
+                };
+            },
+        },
+        minimumInputLength: 3,
+    });
+
 
     // disable all form fields
     $('#diable-form-fields :input').prop('disabled', true);

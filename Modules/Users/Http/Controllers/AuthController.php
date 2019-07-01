@@ -50,7 +50,7 @@ class AuthController extends Controller
             return redirect()->route('login')->withErrors($validator)->with('error_login', 'invalid_login');
         }
 
-        $userData = User::withoutGlobalScope('filterUserType')->where(['national_id' => $request->national_id])->first();
+        $userData = User::where(['national_id' => $request->national_id])->first();
 
         if ($userData != false) {
             auth()->login($userData, true);

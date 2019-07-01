@@ -11,6 +11,10 @@
 |
 */
 
-Route::prefix('systemmanagement')->group(function() {
-    Route::get('/', 'SystemManagementController@index');
+Route::group(['middleware' => 'auth', 'as' => 'system-management.', 'prefix' => 'system-management'], function()
+{
+    
+    Route::get('/departments-search/{type}', 'SystemManagementController@search')->name('search');
+    Route::get('/departments-types', 'SystemManagementController@departmentsTypes')->name('departmentsTypes');
+
 });

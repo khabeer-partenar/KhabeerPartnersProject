@@ -1,0 +1,1 @@
+{{ $user->national_id }}
