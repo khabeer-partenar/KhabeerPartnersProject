@@ -27,7 +27,6 @@ $(document).ready(function() {
                     url: path,
                     type: 'delete',
                     success: function(response){
-                        console.log(response);
                         $(btn).parent().parent().remove();
                     }
                 });
@@ -55,7 +54,7 @@ $(document).ready(function() {
         minimumInputLength: 3,
     });
 
-
+    // select2 ajax search
     $('.select2-ajax-search').select2({
         ajax: {
             dataType: 'json',

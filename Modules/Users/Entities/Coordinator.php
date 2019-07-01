@@ -46,12 +46,42 @@ class Coordinator extends User
         return $coordinator;
     }
 
+    public static function createFromRequestByCo($request)
+    {
+        $coordinatorJob = Group::where('key', 'coordinator')->first();
+        $coordinator = self::create(
+            array_merge(
+                $request->only(
+                    'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title', 'department_reference'
+                ), [
+                    'job_role_id' => $coordinatorJob->id,
+                    'user_type' => self::TYPE,
+                    'department_reference' => auth()->user()->department_reference,
+                    'main_department_id' => auth()->user()->main_department_id,
+                    'parent_department_id' => auth()->user()->parent_department_id
+                ]
+            )
+        );
+        $coordinator->groups()->attach($coordinatorJob);
+        return $coordinator;
+    }
+
     public function updateFromRequest($request)
     {
         return $this->update(
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
                 'main_department_id', 'parent_department_id', 'department_reference'
+            )
+        );
+    }
+
+    public function updateFromRequestByCo($request)
+    {
+        return $this->update(
+            $request->only(
+                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                'main_department_id', 'parent_department_id'
             )
         );
     }

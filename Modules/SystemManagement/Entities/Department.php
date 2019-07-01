@@ -20,7 +20,7 @@ class Department extends Model
      *
      * @var array
      */
-    protected $fillable = ['parent_id', 'name', 'type'];
+    protected $fillable = ['parent_id', 'name', 'type', 'key', 'is_reference', 'reference_id'];
 
     /**
      * departments types
@@ -81,6 +81,30 @@ class Department extends Model
         return self::where([ ['type', $typeId], ['name', 'LIKE', '%'. $searchValue .'%']])->select('id', 'name as text')->get();
     }
 
+    /**
+     * Create new record in table
+     */
+    public static function createNewDepartment($data) 
+    {
+        if(!isset($data['parent_id'])) {
+            $data['parent_id'] = 0;
+        }
+
+        if(!isset($data['key'])) {
+            $data['key'] = time();
+        }
+
+        return self::create($data);
+    }
+
+    /**
+     * 
+     */
+    public static function scopeGetDepartmentsData($query, $type)
+    {
+        return $query->where('type', self::$departmentsTypes[$type]);
+    }
+    
     /**
      * Scopes
      *
@@ -152,6 +176,18 @@ class Department extends Model
         }
         
         return $query->where('key', 'staff_experts');
+    }
+
+
+    /**
+     * Search scope
+     */
+    public static function scopeSearch($query, $request)
+    {
+        if((int)$request->parent_department_id && $request->parent_department_id > 0) {
+            $query->where('id', $request->parent_department_id);
+        }
+        return $query;
     }
 
     /**

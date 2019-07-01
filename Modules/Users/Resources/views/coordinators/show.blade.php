@@ -12,7 +12,11 @@
             </div>
             
             <div class="actions">
-                <a href="{{ route('coordinators.edit', $coordinator) }}" class="btn blue"><i class="fa fa-edit"></i> {{ __('users::coordinators.edit') }}</a>
+                @if(auth()->user()->hasPermissionWithAccess('edit'))
+                    <a href="{{ route('coordinators.edit', $coordinator) }}" class="btn btn-sm btn-warning">
+                        <i class="fa fa-edit"></i> {{ __('users::coordinators.edit') }}
+                    </a>
+                @endif
             </div>
         
         </div>

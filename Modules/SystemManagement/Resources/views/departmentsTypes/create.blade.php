@@ -6,26 +6,26 @@
         <div class="portlet-title">
 
             <div class="caption">
-                <i class="fa fa-user"></i>
-                <span class="caption-subject sbold">{{ __('users::coordinators.action_add') }}</span>
+                <i class="fa fa-plus"></i>
+                <span class="caption-subject sbold">{{ __('systemmanagement::systemmanagement.addNewdepartmentType') }}</span>
             </div>
-
+            
             <div class="actions">
-                <a href="{{ route('coordinators.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('system-management.departments-types.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
             </div>
-
+        
         </div>
 
         <div class="portlet-body form">
-
-            {{ Form::open(['route' => 'coordinators.store_by_co', 'method' => 'POST']) }}
-
+            
+            {{ Form::open(['route' => 'system-management.departments-types.store', 'method' => 'POST']) }}
+                
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
                 @endif
 
                 <div class="form-body">
-                    @include('users::coordinators.coordinator.form')
+                    @include('systemmanagement::departmentsTypes.form')
                 </div>
 
                 <div class="form-actions">
@@ -35,12 +35,7 @@
             {{ Form::close() }}
 
         </div>
-
+       
 
     </div>
-@endsection
-
-
-@section('scripts_2')
-    @include('users::coordinators.scripts')
 @endsection

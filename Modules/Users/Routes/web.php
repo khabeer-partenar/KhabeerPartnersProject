@@ -28,7 +28,9 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::prefix('users')->group(function(){
         // Coordinator Controller
-        Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');
+        Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');
+        Route::put('/coordinators/{coordinator}/update-by-co', 'CoordinatorController@updateByCoordinator')->name('coordinators.update_by_co');
+        Route::resource('/coordinators', 'CoordinatorController'); // ->middleware('coordinator.can');
 
         // Employee Controller
         Route::get('/employees/search', 'EmployeeController@search')->name('employees.search');

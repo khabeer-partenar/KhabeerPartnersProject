@@ -1,13 +1,13 @@
-{{ Form::open(['route' => 'system-management.departmentsTypes', 'method' => 'GET']) }}
+{{ Form::open(['route' => 'system-management.departments-types.index', 'method' => 'GET']) }}
                 
     <div class="form-body">
         
         <div class="row">
             
             <div class="col-md-10">
-                <div class="form-group {{ $errors->has('user_id') ? ' has-error' : '' }}">
+                <div class="form-group {{ $errors->has('parent_department_id') ? ' has-error' : '' }}">
                 
-                    {!! Form::label('user_id', __('systemmanagement::systemmanagement.department'), ['class' => 'col-md-2 control-label']) !!}
+                    {!! Form::label('parent_department_id', __('systemmanagement::systemmanagement.department'), ['class' => 'col-md-2 control-label']) !!}
                 
                     <div class="col-md-10">
                         {!! Form::select('parent_department_id', [], Request::input('parent_department_id'), ['id' => 'parent_department_id', 'class' => 'form-control select2-ajax-search', 'data-ajax--url' => route('system-management.search', 'parent')]) !!}

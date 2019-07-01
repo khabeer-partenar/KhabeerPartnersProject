@@ -27,7 +27,6 @@ $(document).ready(function() {
                     url: path,
                     type: 'delete',
                     success: function(response){
-                        console.log(response);
                         $(btn).parent().parent().remove();
                     }
                 });

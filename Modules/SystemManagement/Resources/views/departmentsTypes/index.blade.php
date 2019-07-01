@@ -12,7 +12,7 @@
             
             <div class="actions">
                 {{-- @if(auth()->user()->hasPermissionWithAccess('create')) --}}
-                    <a href="{{ route('employees.create') }}" class="btn btn-primary">{{ __('systemmanagement::systemmanagement.add_action') }}</a>
+                    <a href="{{ route('system-management.departments-types.create') }}" class="btn btn-primary">{{ __('systemmanagement::systemmanagement.add_action') }}</a>
                 {{-- @endif --}}
             </div>
         
@@ -20,9 +20,18 @@
 
         <div class="portlet-body">
             
-                @include('systemmanagement::departmentsTypes.search')
+            @include('systemmanagement::departmentsTypes.search')
 
-
+            <table id="table-ajax" class="table" data-url="{{ route('system-management.departments-types.index', [
+                        'parent_department_id' => Request::input('parent_department_id')
+                    ])
+                }}"
+                data-fields='[
+                    {"data": "name","title":"{{ __('systemmanagement::systemmanagement.departmentTypeName') }}","searchable":"false"},
+                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
+                ]'
+            >
+            </table>
         </div>
        
 
