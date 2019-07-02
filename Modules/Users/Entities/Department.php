@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     use \Modules\Core\Traits\SharedModel;
-    
+
+    const mainDepartment = 1;
+    const parentDepartment = 2;
+    const directDepartment = 3;
+
     /**
      * The table associated with the model.
      *
@@ -63,6 +67,21 @@ class Department extends Model
      *
      * Here you should add Scopes
      */
+    public static function scopeGetDepartmentsWithRef($query, $parentId)
+    {
+        if (!$parentId) {
+            abort(404);
+        }
+        $parentDepartment = self::findOrFail($parentId);
+        if (auth()->user()->user_type == Coordinator::TYPE && $parentDepartment->type == self::mainDepartment) {
+            $query->where('reference_id', auth()->user()->department_reference_id);
+        }
+        return
+            $query
+                ->with('referenceDepartment')
+                ->where('parent_id', $parentId)->get(['id', 'name', 'reference_id'])->prepend(Department::getEmptyObjectForSelectAjax());
+    }
+
     public static function scopeGetDepartments($query)
     {
         return $query->mainDepartments($query)->pluck('name', 'id')->toArray();

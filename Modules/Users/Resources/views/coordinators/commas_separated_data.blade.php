@@ -3,7 +3,7 @@
     @if (isset($break))
         <br />
     @else
-        @if (!$loop->last)
+        @if (!$loop->last && $data[$loop->index + 1])
             -
         @endif
     @endif

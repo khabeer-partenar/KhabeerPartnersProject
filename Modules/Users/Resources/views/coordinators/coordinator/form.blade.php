@@ -6,7 +6,8 @@
             {!! Form::label('main_department_id', 'نوع الجهة', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                <select disabled name="main_department_id" id="main_department_id" class="form-control select2">
+                <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
+                        data-url="{{ route('departments.children') }}" data-child="#parent_department_id">
                     @php $mainDepartment = auth()->user()->main_department_id @endphp
                     @foreach($mainDepartments as $key => $department)
                         <option value="{{ $key }}" {{ $mainDepartment == $key ? 'selected':'' }}>
@@ -25,8 +26,9 @@
             {!! Form::label('parent_department_id', 'اسم الجهة', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                <select disabled name="parent_department_id" id="parent_department_id" class="form-control select2">
-                    @php $parentDepartment = auth()->user()->parent_department_id; @endphp
+                <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments"
+                        data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
+                @php $parentDepartment = auth()->user()->parent_department_id; @endphp
                     @foreach(\Modules\Users\Entities\Department::getParentDepartments($mainDepartment) as $key => $department)
                         <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
                     @endforeach
@@ -37,10 +39,18 @@
     </div>
 
     <div class="col-md-4">
-        <div class="form-group {{ $errors->has('department_reference') ? ' has-error' : '' }}">
+        <div class="form-group {{ $errors->has('department_reference_id') ? ' has-error' : '' }}">
             {!! Form::label('department_reference', 'مرجعية الجهة', ['class' => 'col-md-4 control-label']) !!}
+
             <div class="col-md-8">
-                {!! Form::text('department_reference', auth()->user()->department_reference, ['id' => 'department_reference', 'class' => 'form-control', 'disabled']) !!}
+                @php
+                    $referenceDepartment = auth()->user()->departmentReference;
+                @endphp
+                {!! Form::text('department_reference_val', isset($referenceDepartment) ? $referenceDepartment->name:null, ['id' => 'department_reference_val', 'class' => 'form-control', 'disabled']) !!}
+                {!! Form::hidden('department_reference_id', isset($referenceDepartment) ? $referenceDepartment->id:null, ['id' => 'department_reference', 'class' => 'form-control',]) !!}
+                @if ($errors->has('department_reference'))
+                    <span class="help-block" ><strong>{{ $errors->first('department_reference') }}</strong></span>
+                @endif
             </div>
         </div>
     </div>
@@ -110,7 +120,6 @@
 
         </div>
     </div>
-        
 </div>
 
 <br />
@@ -168,7 +177,7 @@
 <br />
 
 <div class="row">
-                            
+
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
 
@@ -192,7 +201,7 @@
 
             <div class="col-md-8">
                 {!! Form::select('job_role_id', $coordinatorJob, null, ['id' => 'job_role_id', 'class' => 'form-control select2', 'disabled']) !!}
-    
+
                 @if ($errors->has('job_role_id'))
                     <span class="help-block" ><strong>{{ $errors->first('job_role_id') }}</strong></span>
                 @endif
@@ -202,32 +211,3 @@
     </div>
 
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('.select2').select2();
-
-        $('.load-departments').change(function () {
-            let path = $(this).attr('data-url') + '?parentId=' + $(this).val();
-            let child = $(this).attr('data-child');
-            // Empty Children
-            $(child).empty();
-            if ($(child).hasClass('load-departments')) {
-                let childOfChild = $(child).attr('data-child');
-                $(childOfChild).empty();
-            }
-            if ($(this).val() != 0){
-                $.ajax({
-                    url: path,
-                    success: function (response) {
-                        let select = $(child)[0];
-                        let length = Object.keys(response).length;
-                        for (let index = 0; index < length; index++) {
-                            select.options[select.options.length] = new Option(response[index].name, response[index].id);
-                        }
-                    }
-                });
-            }
-        });
-    });
-</script>

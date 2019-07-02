@@ -55,7 +55,7 @@ class GroupsController extends UserBaseController
     {
         $request->validate([
             'parent_id' => 'nullable',
-        'name' => 'required|unique:core_groups',
+            'name' => 'required|unique:core_groups',
             'key' => 'required|unique:core_groups'
         ]);
       

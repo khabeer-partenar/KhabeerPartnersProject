@@ -40,7 +40,6 @@
     </div>
 @endsection
 
-
 @section('scripts_2')
-    @include('users::coordinators.scripts')
+    @include('users::coordinators.coordinator.scripts')
 @endsection

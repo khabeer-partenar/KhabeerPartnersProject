@@ -115,8 +115,4 @@ class Coordinator extends User
      *
      * Here Add Relations
      */
-    public function departmentReference()
-    {
-        return $this->belongsTo(Department::class, 'department_reference_id');
-    }
 }

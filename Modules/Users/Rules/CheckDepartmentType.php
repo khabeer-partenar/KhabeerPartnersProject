@@ -8,15 +8,17 @@ use Modules\Users\Entities\Department;
 class CheckDepartmentType implements Rule
 {
     protected $typeId;
+    protected $required;
 
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($typeId)
+    public function __construct($typeId, $required = true)
     {
         $this->typeId = $typeId;
+        $this->required = $required;
     }
 
     /**
@@ -30,6 +32,9 @@ class CheckDepartmentType implements Rule
     {
         $department = Department::find($value);
         if (!$department) {
+            if (!$this->required) {
+                return true;
+            }
             return false;
         }
         return $department->type == $this->typeId;

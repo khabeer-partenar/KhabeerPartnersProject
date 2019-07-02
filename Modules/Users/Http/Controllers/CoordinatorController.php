@@ -56,7 +56,7 @@ class CoordinatorController extends UserBaseController
                     $data = [
                         $coordinator->mainDepartment->name,
                         $coordinator->parentDepartment->name,
-                        $coordinator->directDepartment->name
+                        $coordinator->directDepartment ? $coordinator->directDepartment->name:null
                     ];
                     return view('users::coordinators.commas_separated_data', ['data' => $data]);
                 })

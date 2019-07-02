@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Users\Entities\Coordinator;
+use Modules\Users\Entities\User;
 
 class CoordinatorsTableSeeder extends Seeder
 {
@@ -93,7 +94,7 @@ class CoordinatorsTableSeeder extends Seeder
             ],
         ];
         for($i = 0; $i < count($coordinators); $i++) {
-            $coordinator = Coordinator::create($coordinators[$i]);
+            $coordinator = User::create($coordinators[$i]);
             $coordinator->groups()->attach($coordinator[$i]['job_role_id']);
         }
     }

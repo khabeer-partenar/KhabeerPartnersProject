@@ -213,4 +213,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(UsersAdvisorsSecretaries::class, 'advisor_user_id');
     }
+
+    public function departmentReference()
+    {
+        return $this->belongsTo(Department::class, 'department_reference_id');
+    }
 }

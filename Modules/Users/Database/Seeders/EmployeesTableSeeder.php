@@ -104,7 +104,7 @@ class EmployeesTableSeeder extends Seeder
             [
                 'name' => 'خالد عايد الرشيدي', 'national_id' => '1044659629', 'email' => 'mail-1044659629@mu.gov.sa', 'phone_number' => '0557644000',
                 'main_department_id' => '1', 'parent_department_id' => '2',
-                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 11,
+                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 10,
                 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
             ],
 

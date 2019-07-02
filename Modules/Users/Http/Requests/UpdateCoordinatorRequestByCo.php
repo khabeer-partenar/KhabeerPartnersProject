@@ -12,6 +12,7 @@ use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
+use Modules\Users\Rules\CheckDepartmentReference;
 use Modules\Users\Rules\CheckDepartmentType;
 
 class UpdateCoordinatorRequestByCo extends FormRequest
@@ -26,14 +27,11 @@ class UpdateCoordinatorRequestByCo extends FormRequest
     {
         $coordinator = $request->coordinator;
         return [
-//            'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType('1')],
-//            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType('2')],
-            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id'], new CheckDepartmentType('3'),
+            'direct_department_id' => ['nullable', 'integer', new CheckDepartmentType(Department::directDepartment, false)],
             'national_id' => ['required', new NationalIDRule, Rule::unique(User::table())->ignore($coordinator->id)],
             'name' => ['required', new FilterStringRule, 'string'],
             'phone_number' => ['required', new ValidationPhoneNumberRule, Rule::unique(User::table())->ignore($coordinator->id)],
             'email' => ['required', 'email', new ValidationGovEmailRule, Rule::unique(User::table())->ignore($coordinator->id)],
-//            'department_reference' => ['required', 'string']
         ];
     }
 
