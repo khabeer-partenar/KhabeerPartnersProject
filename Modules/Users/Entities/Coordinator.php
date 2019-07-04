@@ -10,7 +10,9 @@ use Modules\Core\Entities\Group;
 
 class Coordinator extends User
 {
-    CONST TYPE = 'coordinator';
+    const TYPE = 'coordinator';
+    const MAIN_CO_JOB = 'main_coordinator';
+    const NORMAL_CO_JOB = 'coordinator';
 
     /**
      * add global scope
@@ -33,38 +35,18 @@ class Coordinator extends User
      */
     public static function createFromRequest($request)
     {
-        $coordinatorJob = Group::where('key', 'coordinator')->first();
         $coordinator = self::create(
             array_merge(
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
-                'main_department_id', 'parent_department_id', 'department_reference_id'
-            ), ['job_role_id' => $coordinatorJob->id, 'user_type' => self::TYPE]
+                'main_department_id', 'parent_department_id', 'department_reference_id', 'job_role_id'
+            ), ['user_type' => self::TYPE]
             )
         );
-        $coordinator->groups()->attach($coordinatorJob);
+        $coordinator->groups()->attach($coordinator->job_role_id);
         return $coordinator;
     }
 
-    public static function createFromRequestByCo($request)
-    {
-        $coordinatorJob = Group::where('key', 'coordinator')->first();
-        $coordinator = self::create(
-            array_merge(
-                $request->only(
-                    'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title', 'department_reference_id'
-                ), [
-                    'job_role_id' => $coordinatorJob->id,
-                    'user_type' => self::TYPE,
-                    'department_reference_id' => auth()->user()->department_reference,
-                    'main_department_id' => auth()->user()->main_department_id,
-                    'parent_department_id' => auth()->user()->parent_department_id
-                ]
-            )
-        );
-        $coordinator->groups()->attach($coordinatorJob);
-        return $coordinator;
-    }
 
     public function updateFromRequest($request)
     {
@@ -78,12 +60,14 @@ class Coordinator extends User
 
     public function updateFromRequestByCo($request)
     {
-        return $this->update(
+        $this->update(
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
-                'main_department_id', 'parent_department_id'
+                'main_department_id', 'parent_department_id', 'job_role_id', 'department_reference_id'
             )
         );
+        $this->groups()->sync($this->job_role_id);
+        return $this;
     }
 
     /**
@@ -95,6 +79,12 @@ class Coordinator extends User
      */
     public static function scopeSearch($query, $request)
     {
+        if (auth()->user()->user_type == Coordinator::TYPE) {
+            $coordinatorsIds = $query->where(function ($query) {
+                $query->where('department_reference_id', auth()->user()->parent_department_id)
+                ->orWhere('parent_department_id', auth()->user()->parent_department_id);
+            })->pluck('id');
+        }
         if ($request->has('name')) {
             $query->where('name', 'LIKE', '%'.$request->name.'%');
         }
@@ -104,8 +94,8 @@ class Coordinator extends User
         if ($request->has('parent_department_id') && $request->parent_department_id != 0) {
             $query->where('parent_department_id', $request->parent_department_id);
         }
-        if (auth()->user()->user_type == Coordinator::TYPE) {
-            $query->where('parent_department_id', auth()->user()->parent_department_id);
+        if (isset($coordinatorsIds)) {
+            $query->whereIn('id', $coordinatorsIds);
         }
         return $query;
     }

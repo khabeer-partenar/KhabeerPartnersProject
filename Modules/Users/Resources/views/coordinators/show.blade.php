@@ -36,11 +36,14 @@
                     </tr>
                     <tr>
                         <th scope="row">اسم الجهة</th>
-                        <td>{{ $coordinator->parentDepartment->name }}</td>
+                        <td>
+                            {{ $coordinator->parentDepartment->name }}
+                            <span style="color: #aeaeae;font-style: italic;">{{ $coordinator->parentDepartment->is_reference ? '- جهة مرجعية':'' }}</span>
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">مرجعية الجهة</th>
-                        <td>{{ $coordinator->departmentReference ? $coordinator->departmentReference->name:'' }}</td>
+                        <td>{{ $coordinator->departmentReference ? $coordinator->departmentReference->name:'-' }}</td>
                     </tr>
                     <tr>
                         <th scope="row">المسمي الوظيفي</th>
@@ -48,7 +51,7 @@
                     </tr>
                     <tr>
                         <th scope="row">الإدارة</th>
-                        <td>{{ $coordinator->directDepartment ? $coordinator->directDepartment->name:'' }}</td>
+                        <td>{{ $coordinator->directDepartment ? $coordinator->directDepartment->name:'-' }}</td>
                     </tr>
                     <tr>
                         <th scope="row">اللقب</th>

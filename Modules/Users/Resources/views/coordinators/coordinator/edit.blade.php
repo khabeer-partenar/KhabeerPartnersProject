@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
 
-            {{ Form::model($coordinator, ['route' => ['coordinators.update_by_co', $coordinator], 'method' => 'PUT']) }}
+            {{ Form::model($coordinator, ['route' => ['coordinators.update_by_co', $coordinator], 'method' => 'PUT', 'id' => 'co-form']) }}
 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -41,5 +41,5 @@
 @endsection
 
 @section('scripts_2')
-    @include('users::coordinators.coordinator.scripts')
+    @include('users::coordinators.scripts')
 @endsection

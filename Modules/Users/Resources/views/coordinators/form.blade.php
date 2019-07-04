@@ -59,17 +59,16 @@
     </div>
 
     <div class="col-md-4">
-        <div class="form-group {{ $errors->has('department_reference') ? ' has-error' : '' }}">
-
+        <div class="form-group {{ $errors->has('department_reference_id') ? ' has-error' : '' }}">
             {!! Form::label('department_reference', 'مرجعية الجهة', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
                 @php
-                    $reference_id = isset($coordinator) ? $coordinator->department_reference_id:null;
+                    $referenceDepartmentId = isset($coordinator) ? $coordinator->department_reference_id:'';
                     if (old('department_reference_id')){
-                        $reference_id = old('department_reference_id');
+                        $referenceDepartmentId = old('department_reference_id');
                     }
-                    $referenceDepartment = \Modules\Users\Entities\Department::find($reference_id);
+                    $referenceDepartment = \Modules\Users\Entities\Department::find($referenceDepartmentId);
                 @endphp
                 {!! Form::text('department_reference_val', isset($referenceDepartment) ? $referenceDepartment->name:null, ['id' => 'department_reference_val', 'class' => 'form-control', 'disabled']) !!}
                 {!! Form::hidden('department_reference_id', isset($referenceDepartment) ? $referenceDepartment->id:null, ['id' => 'department_reference', 'class' => 'form-control',]) !!}
@@ -77,7 +76,6 @@
                     <span class="help-block" ><strong>{{ $errors->first('department_reference') }}</strong></span>
                 @endif
             </div>
-
         </div>
     </div>
 
@@ -146,7 +144,6 @@
 
         </div>
     </div>
-        
 </div>
 
 <br />
@@ -204,7 +201,7 @@
 <br />
 
 <div class="row">
-                            
+
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
 
@@ -227,8 +224,21 @@
             {!! Form::label('job_role_id', 'الدور الوظيفي', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::select('job_role_id', $coordinatorJob, null, ['id' => 'job_role_id', 'class' => 'form-control select2', 'disabled']) !!}
-    
+                <select id="job_role_id" class="form-control select2" name="job_role_id" disabled>
+                    @php
+                    $jobId = isset($coordinator) ? $coordinator->job_role_id:'';
+                    if (old('job_role_id')){
+                        $jobId = old('job_role_id');
+                    }
+                    @endphp
+                    @foreach($coordinatorJobs as $job)
+                        <option value="{{ $job->id }}" data-main="{{ $job->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB ? '1':'0'}}"
+                            {{ $jobId == $job->id ? 'selected':''}}>
+                            {{ $job->name }}
+                        </option>
+                    @endforeach
+                </select>
+
                 @if ($errors->has('job_role_id'))
                     <span class="help-block" ><strong>{{ $errors->first('job_role_id') }}</strong></span>
                 @endif

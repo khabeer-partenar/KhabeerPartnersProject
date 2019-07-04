@@ -74,7 +74,8 @@
             <table id="table-ajax" class="table" data-url="{{ route('coordinators.index', [
                 'name' => Request::input('name'),
                 'main_department_id' => Request::input('main_department_id'),
-                'parent_department_id' => Request::input('parent_department_id')])
+                'parent_department_id' => Request::input('parent_department_id')
+                ])
              }}"
                 data-fields='[
                     {"data": "id","title":"","searchable":"true"},

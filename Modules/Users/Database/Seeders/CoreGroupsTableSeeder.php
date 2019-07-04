@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Core\Entities\App;
 use Modules\Core\Entities\Group;
+use Modules\Users\Entities\Coordinator;
 
 class CoreGroupsTableSeeder extends Seeder
 {
@@ -19,7 +20,7 @@ class CoreGroupsTableSeeder extends Seeder
     {
         Model::unguard();
         DB::table('core_permissions')->truncate();
-        $coordinatorGroup = Group::where('key', 'coordinator')->first();
+        $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
         $coordinatorsResources = [
             'Modules',
             'Modules\Users\Http\Controllers',

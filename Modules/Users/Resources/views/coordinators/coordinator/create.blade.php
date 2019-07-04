@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
 
-            {{ Form::open(['route' => 'coordinators.store_by_co', 'method' => 'POST']) }}
+            {{ Form::open(['route' => 'coordinators.store_by_co', 'method' => 'POST', 'id' => 'co-form']) }}
 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -42,5 +42,5 @@
 
 
 @section('scripts_2')
-    @include('users::coordinators.coordinator.scripts')
+    @include('users::coordinators.scripts')
 @endsection

@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
             
-            {{ Form::open(['route' => 'coordinators.store', 'method' => 'POST']) }}
+            {{ Form::open(['route' => 'coordinators.store', 'method' => 'POST', 'id' => 'co-form']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>

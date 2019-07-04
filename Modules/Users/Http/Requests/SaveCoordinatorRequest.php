@@ -3,8 +3,6 @@
 namespace Modules\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
-use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Department;
 use Modules\Users\Entities\User;
 
@@ -14,6 +12,7 @@ use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
 use Modules\Users\Rules\CheckDepartmentReference;
 use Modules\Users\Rules\CheckDepartmentType;
+use Modules\Users\Rules\CheckInCoordinatorJobs;
 
 class SaveCoordinatorRequest extends FormRequest
 {
@@ -32,7 +31,8 @@ class SaveCoordinatorRequest extends FormRequest
             'name'                 => ['required', new FilterStringRule, 'string'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table()],
             'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table()],
-            'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference]
+            'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference],
+            'job_role_id'          => ['required', new CheckInCoordinatorJobs]
         ];
     }
 

@@ -20,7 +20,13 @@ class CheckCoordinatorAuthority
         if (auth()->user() && auth()->user()->user_type == Coordinator::TYPE) {
             $coordinator = $request->coordinator;
             if ($coordinator) {
-                if (auth()->user()->department_reference_id != $coordinator->department_reference_id) {
+                if (auth()->user()->parent_department_id != $coordinator->department_reference_id
+                    && auth()->user()->parent_department_id != $coordinator->parent_department_id) {
+                    abort(403);
+                }
+            } else {
+                $department = auth()->user()->parentDepartment;
+                if (!$department->is_reference) {
                     abort(403);
                 }
             }

@@ -74,12 +74,22 @@ class Department extends Model
         }
         $parentDepartment = self::findOrFail($parentId);
         if (auth()->user()->user_type == Coordinator::TYPE && $parentDepartment->type == self::mainDepartment) {
-            $query->where('reference_id', auth()->user()->department_reference_id);
+            $departmentsIds = self::query()
+                ->where('reference_id', auth()->user()->parent_department_id)
+                ->orWhere(function($query){
+                    $query->where('id', auth()->user()->parent_department_id)->where('is_reference', true);
+                })
+                ->pluck('id');
+        }
+        if (isset($departmentsIds)) {
+            $query->whereIn('id', $departmentsIds);
         }
         return
             $query
+                ->select('id', 'name', 'reference_id', 'is_reference')
+                ->where('parent_id', $parentId)
                 ->with('referenceDepartment')
-                ->where('parent_id', $parentId)->get(['id', 'name', 'reference_id'])->prepend(Department::getEmptyObjectForSelectAjax());
+                ->get()->prepend(Department::getEmptyObjectForSelectAjax());
     }
 
     public static function scopeGetDepartments($query)
@@ -118,6 +128,16 @@ class Department extends Model
             ['type', 3],
             ['parent_id', $parentID]
         ]);
+    }
+
+    public static function scopeGetParentDepartmentsCo($query, $parentId)
+    {
+        $query->where(function ($query){
+            $query->where('reference_id', auth()->user()->parent_department_id)
+                ->orWhere('id', auth()->user()->parent_department_id)->pluck('id');
+        });
+        return $query->parentDepartments($parentId)
+            ->pluck('name', 'id');
     }
 
     public static function scopeGetParentDepartments($query, $parentId)
