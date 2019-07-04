@@ -155,7 +155,7 @@ class CoordinatorController extends UserBaseController
      */
     public function updateByCoordinator(UpdateCoordinatorRequestByCo $request, Coordinator $coordinator)
     {
-        $coordinator->updateFromRequestByCo($request);
+        $coordinator->updateFromRequest($request);
         self::sessionSuccess('coordinators.updated');
         return redirect()->route('coordinators.index');
     }

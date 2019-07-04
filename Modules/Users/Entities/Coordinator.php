@@ -50,16 +50,6 @@ class Coordinator extends User
 
     public function updateFromRequest($request)
     {
-        return $this->update(
-            $request->only(
-                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
-                'main_department_id', 'parent_department_id', 'department_reference_id'
-            )
-        );
-    }
-
-    public function updateFromRequestByCo($request)
-    {
         $this->update(
             $request->only(
                 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
