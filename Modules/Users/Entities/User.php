@@ -24,7 +24,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id', 'department_reference',
+        'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id', 'department_reference_id',
         'job_title', 'title', 'main_department_id', 'parent_department_id', 'user_type'
     ];
 
@@ -228,5 +228,10 @@ class User extends Authenticatable
     public function secretaries()
     {
         return $this->hasMany(UsersAdvisorsSecretaries::class, 'advisor_user_id');
+    }
+
+    public function departmentReference()
+    {
+        return $this->belongsTo(Department::class, 'department_reference_id');
     }
 }

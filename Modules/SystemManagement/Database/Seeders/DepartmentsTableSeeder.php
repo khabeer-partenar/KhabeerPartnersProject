@@ -70,5 +70,35 @@ class DepartmentsTableSeeder extends Seeder
             'parent_id' => $deanship, 'name' => 'العميد', 'key' => 'deanship_manager', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+
+        $GovId = Department::create([
+            'parent_id' => 0, 'name' => 'وزارات', 'type' => '1', 'key' => 'staff', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        $Gov1 = Department::create([
+            'parent_id' => $GovId, 'name' => 'وزارة الإعلام', 'type' => '2', 'key' => 'Government_1', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+            'is_reference' => 1
+        ])->id;
+
+        $Gov2 = Department::create([
+            'parent_id' => $GovId, 'name' => 'وزارة الثقافة', 'type' => '2', 'key' => 'Government_2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+            'is_reference' => 1
+        ])->id;
+
+        $Gov3 = Department::create([
+            'parent_id' => $GovId, 'name' => 'وزارة الصحة', 'type' => '2', 'key' => 'Government_3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+            'is_reference' => 1
+        ])->id;
+
+
+        $mgls_sehaa = Department::create([
+            'parent_id' => $magelsId, 'name' => 'مجلس الضمان الصحي', 'key' => 'magls-seha', 'type' => '2', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+            'reference_id' => $Gov3
+        ])->id;
+
+        Department::create([
+            'parent_id' => $mgls_sehaa, 'name' => 'مستشار صحة', 'key' => 'Health_advisor', 'type' => '3', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
     }
 }

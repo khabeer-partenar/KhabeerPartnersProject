@@ -56,7 +56,7 @@ class CoordinatorController extends UserBaseController
                     $data = [
                         $coordinator->mainDepartment->name,
                         $coordinator->parentDepartment->name,
-                        $coordinator->directDepartment->name
+                        $coordinator->directDepartment ? $coordinator->directDepartment->name:null
                     ];
                     return view('users::coordinators.commas_separated_data', ['data' => $data]);
                 })
@@ -79,8 +79,8 @@ class CoordinatorController extends UserBaseController
     public function create()
     {
         $mainDepartments = Department::getDepartments();
-        $coordinatorJob = Group::where('key', 'coordinator')->pluck('name', 'id');
-        return view("users::coordinators.$this->userType.create", compact('mainDepartments', 'coordinatorJob'));
+        $coordinatorJobs = Group::whereIn('key', [Coordinator::MAIN_CO_JOB, Coordinator::NORMAL_CO_JOB])->get(['id', 'name', 'key']);
+        return view("users::coordinators.$this->userType.create", compact('mainDepartments', 'coordinatorJobs'));
     }
 
     /**
@@ -115,8 +115,8 @@ class CoordinatorController extends UserBaseController
     public function edit(Coordinator $coordinator)
     {
         $mainDepartments = Department::getDepartments();
-        $coordinatorJob = Group::where('key', 'coordinator')->pluck('name', 'id');
-        return view("users::coordinators.$this->userType.edit", compact('coordinator',  'mainDepartments', 'coordinatorJob'));
+        $coordinatorJobs = Group::whereIn('key', [Coordinator::MAIN_CO_JOB, Coordinator::NORMAL_CO_JOB])->get(['id', 'name', 'key']);
+        return view("users::coordinators.$this->userType.edit", compact('coordinator',  'mainDepartments', 'coordinatorJobs'));
     }
 
     /**
@@ -141,7 +141,7 @@ class CoordinatorController extends UserBaseController
      */
     public function storeByCoordinator(SaveCoordinatorRequestByCo $request)
     {
-        Coordinator::createFromRequestByCo($request);
+        Coordinator::createFromRequest($request);
         self::sessionSuccess('coordinators.created');
         return back();
     }
@@ -155,7 +155,7 @@ class CoordinatorController extends UserBaseController
      */
     public function updateByCoordinator(UpdateCoordinatorRequestByCo $request, Coordinator $coordinator)
     {
-        $coordinator->updateFromRequestByCo($request);
+        $coordinator->updateFromRequest($request);
         self::sessionSuccess('coordinators.updated');
         return redirect()->route('coordinators.index');
     }

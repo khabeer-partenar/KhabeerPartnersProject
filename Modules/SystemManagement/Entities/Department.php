@@ -12,6 +12,10 @@ class Department extends Model
 {
     use SoftDeletes, \Modules\Core\Traits\SharedModel;
     
+    const mainDepartment = 1;
+    const parentDepartment = 2;
+    const directDepartment = 3;
+
     /**
      * The table associated with the model.
      *
@@ -163,6 +167,31 @@ class Department extends Model
      *
      * Here you should add Scopes
      */
+    public static function scopeGetDepartmentsWithRef($query, $parentId)
+    {
+        if (!$parentId) {
+            abort(404);
+        }
+        $parentDepartment = self::findOrFail($parentId);
+        if (auth()->user()->user_type == Coordinator::TYPE && $parentDepartment->type == self::mainDepartment) {
+            $departmentsIds = self::query()
+                ->where('reference_id', auth()->user()->parent_department_id)
+                ->orWhere(function($query){
+                    $query->where('id', auth()->user()->parent_department_id)->where('is_reference', true);
+                })
+                ->pluck('id');
+        }
+        if (isset($departmentsIds)) {
+            $query->whereIn('id', $departmentsIds);
+        }
+        return
+            $query
+                ->select('id', 'name', 'reference_id', 'is_reference')
+                ->where('parent_id', $parentId)
+                ->with('referenceDepartment')
+                ->get()->prepend(Department::getEmptyObjectForSelectAjax());
+    }
+
     public static function scopeGetDepartments($query)
     {
         return $query->mainDepartments($query)->pluck('name', 'id')->toArray();
@@ -199,6 +228,16 @@ class Department extends Model
             ['type', 3],
             ['parent_id', $parentID]
         ]);
+    }
+
+    public static function scopeGetParentDepartmentsCo($query, $parentId)
+    {
+        $query->where(function ($query){
+            $query->where('reference_id', auth()->user()->parent_department_id)
+                ->orWhere('id', auth()->user()->parent_department_id)->pluck('id');
+        });
+        return $query->parentDepartments($parentId)
+            ->pluck('name', 'id');
     }
 
     public static function scopeGetParentDepartments($query, $parentId)
@@ -263,5 +302,10 @@ class Department extends Model
     public function parentDepartment()
     {
         return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
+
+    public function referenceDepartment()
+    {
+        return $this->belongsTo(self::class, 'reference_id', 'id');
     }
 }

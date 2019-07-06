@@ -12,7 +12,9 @@ use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
+use Modules\Users\Rules\CheckDepartmentReference;
 use Modules\Users\Rules\CheckDepartmentType;
+use Modules\Users\Rules\CheckInCoordinatorJobs;
 
 class SaveCoordinatorRequest extends FormRequest
 {
@@ -24,14 +26,15 @@ class SaveCoordinatorRequest extends FormRequest
     public function rules()
     {
         return [
-            'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType('1')],
-            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType('2')],
-            'direct_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id'], new CheckDepartmentType('3'),
+            'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::mainDepartment)],
+            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::parentDepartment)],
+            'direct_department_id' => ['nullable', 'integer', new CheckDepartmentType(Department::directDepartment, false)],
             'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
             'name'                 => ['required', new FilterStringRule, 'string'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table()],
             'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table()],
-            'department_reference' => ['required', 'string']
+            'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference],
+            'job_role_id'          => ['required', new CheckInCoordinatorJobs]
         ];
     }
 

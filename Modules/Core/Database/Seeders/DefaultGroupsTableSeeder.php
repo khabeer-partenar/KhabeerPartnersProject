@@ -62,6 +62,10 @@ class DefaultGroupsTableSeeder extends Seeder
         ]);
 
         Group::create([
+            'parent_id' => 0, 'name' => 'منسق الجهة المرجعية', 'key' => 'main_coordinator', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        Group::create([
             'parent_id' => 0, 'name' => 'المنسق', 'key' => 'coordinator', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 

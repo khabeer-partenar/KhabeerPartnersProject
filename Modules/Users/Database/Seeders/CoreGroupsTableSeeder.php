@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Core\Entities\App;
 use Modules\Core\Entities\Group;
+use Modules\Users\Entities\Coordinator;
 
 class CoreGroupsTableSeeder extends Seeder
 {
@@ -19,7 +20,7 @@ class CoreGroupsTableSeeder extends Seeder
     {
         Model::unguard();
         DB::table('core_permissions')->truncate();
-        $coordinatorGroup = Group::where('key', 'coordinator')->first();
+        $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
         $coordinatorsResources = [
             'Modules',
             'Modules\Users\Http\Controllers',
@@ -29,7 +30,10 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Users\Http\Controllers\CoordinatorController@show',
             'Modules\Users\Http\Controllers\CoordinatorController@edit',
             'Modules\Users\Http\Controllers\CoordinatorController@update',
-            'Modules\Users\Http\Controllers\CoordinatorController@destroy'
+            'Modules\Users\Http\Controllers\CoordinatorController@destroy',
+            'Modules\Users\Http\Controllers\CoordinatorController@updateByCoordinator',
+            'Modules\Users\Http\Controllers\DepartmentsController@loadDepartmentsByParentId',
+            'Modules\Users\Http\Controllers\CoordinatorController@storeByCoordinator',
         ] ;
         $appsId = App::whereIn('resource_name', $coordinatorsResources)->pluck('id');
         foreach($appsId as $appId){
