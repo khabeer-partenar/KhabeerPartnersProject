@@ -3,10 +3,14 @@
 namespace Modules\SystemManagement\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Users\Entities\User;
+use Modules\Users\Entities\Employee;
+use Modules\Users\Entities\Coordinator;
 
 class Department extends Model
 {
-    use \Modules\Core\Traits\SharedModel;
+    use SoftDeletes, \Modules\Core\Traits\SharedModel;
     
     /**
      * The table associated with the model.
@@ -20,7 +24,7 @@ class Department extends Model
      *
      * @var array
      */
-    protected $fillable = ['parent_id', 'name', 'type', 'key', 'is_reference', 'reference_id'];
+    protected $fillable = ['parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id'];
 
     /**
      * departments types
@@ -29,13 +33,55 @@ class Department extends Model
      */
     public static $departmentsTypes = [
         'parent' => 1,
+        'main' => 2,
     ];
 
     /**
      * Functions
      *
      * Here you should add Functions
+    */
+
+    /**
+     * Get parent of dept
      */
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id', 'id');
+    }
+
+    /**
+     * Get childrens depts
+     */
+    public function childrens()
+    {
+        return $this->hasMany(self::class, 'parent_id', 'id');
+    }
+
+    /**
+     * Get attached users
+    */
+    public function users($key) 
+    {
+        return $this->hasMany(User::class, $key .'_department_id', 'id');
+    }
+
+    /**
+     * Get attached employees
+    */
+    public function employees($key) 
+    {
+        return $this->hasMany(Employee::class, $key .'_department_id', 'id');
+    }
+
+    /**
+     * Get attached coordinators
+    */
+    public function coordinators($key) 
+    {
+        return $this->hasMany(Coordinator::class, $key .'_department_id', 'id');
+    }
+
     public static function getEmptyObjectForSelectAjax()
     {
         return (['id' => '', 'name' => __('users::departments.choose a department')]);
@@ -50,10 +96,10 @@ class Department extends Model
     {
         return [@$this->id => @$this->name];
     }
+
     /**
      * Get Departments data for users forms
-     */
-
+    */
     public static function getDepartmentsDataForUsersForms()
     {
         $staffsDepartments       = self::staffsDepartments()->select('name', 'id')->get();
@@ -68,18 +114,25 @@ class Department extends Model
     }
 
 
-    /**
-     *  Select2 ajax search
-     */
-    public static function ajaxSearch($type, $searchValue)
-    {
-        if( !isset(self::$departmentsTypes[$type]) ) {
-            return [];
-        }
+    // /**
+    //  *  Select2 ajax search
+    //  */
+    // public static function ajaxSearch($type, $request)
+    // {
+        
+    //     if( !isset(self::$departmentsTypes[$type]) ) {
+    //         return [];
+    //     }
 
-        $typeId = self::$departmentsTypes[$type];
-        return self::where([ ['type', $typeId], ['name', 'LIKE', '%'. $searchValue .'%']])->select('id', 'name as text')->get();
-    }
+
+    //     $searchValue = $request->input('search');
+    //     if(isset($request->input('search'))) {
+
+    //     }
+
+    //     $typeId = self::$departmentsTypes[$type];
+    //     return self::where([ ['type', $typeId], ['name', 'LIKE', '%'. $searchValue .'%']])->select('id', 'name as text')->get();
+    // }
 
     /**
      * Create new record in table
@@ -184,9 +237,21 @@ class Department extends Model
      */
     public static function scopeSearch($query, $request)
     {
-        if((int)$request->parent_department_id && $request->parent_department_id > 0) {
-            $query->where('id', $request->parent_department_id);
+        $department_id        = (int)$request->department_id;
+        $parent_department_id = (int)$request->parent_department_id;
+        $main_department_id   = (int)$request->main_department_id;
+
+        if($department_id) {
+            $query->where('id', $department_id);
         }
+
+        if($parent_department_id && $main_department_id) {
+            $query->where([
+                ['id', $main_department_id],
+                ['parent_id', $parent_department_id]
+            ]);
+        }
+
         return $query;
     }
 

@@ -5,15 +5,15 @@
         <div class="row">
             
             <div class="col-md-10">
-                <div class="form-group {{ $errors->has('parent_department_id') ? ' has-error' : '' }}">
+                <div class="form-group {{ $errors->has('department_id') ? ' has-error' : '' }}">
                 
-                    {!! Form::label('parent_department_id', __('systemmanagement::systemmanagement.department'), ['class' => 'col-md-2 control-label']) !!}
+                    {!! Form::label('department_id', __('systemmanagement::systemmanagement.department'), ['class' => 'col-md-2 control-label']) !!}
                 
                     <div class="col-md-10">
-                        {!! Form::select('parent_department_id', [], Request::input('parent_department_id'), ['id' => 'parent_department_id', 'class' => 'form-control select2-ajax-search', 'data-ajax--url' => route('system-management.search', 'parent')]) !!}
+                        {!! Form::select('department_id', $parentDepartmentsData, Request::input('department_id'), ['id' => 'department_id', 'class' => 'form-control select2']) !!}
                     
-                        @if ($errors->has('parent_department_id'))
-                            <span class="help-block" ><strong>{{ $errors->first('parent_department_id') }}</strong></span>
+                        @if ($errors->has('department_id'))
+                            <span class="help-block" ><strong>{{ $errors->first('department_id') }}</strong></span>
                         @endif
                     </div>
                 

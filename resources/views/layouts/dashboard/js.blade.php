@@ -33,7 +33,7 @@
 <!-- END THEME GLOBAL SCRIPTS -->
 
 {{ Html::script(mix('assets/js/custom.js')) }}
-<script src="{{ asset('assets/js/khabeer.js') }}"></script>
+<script src="{{ asset(mix('assets/js/khabeer.js')) }}"></script>
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 @yield('scripts_2')

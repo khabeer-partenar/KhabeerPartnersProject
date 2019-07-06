@@ -6,26 +6,26 @@
         <div class="portlet-title">
 
             <div class="caption">
-                <i class="fa fa-user"></i>
-                <span class="caption-subject sbold">{{ __('users::coordinators.action_edit') }}</span>
+                <i class="fa fa-edit"></i>
+                <span class="caption-subject sbold">{{ __('systemmanagement::systemmanagement.editdepartmentType') }}</span>
             </div>
             
             <div class="actions">
-                <a href="{{ route('coordinators.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('system-management.departments-types.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
 
         <div class="portlet-body form">
-
-            {{ Form::model($coordinator, ['route' => ['coordinators.update_by_co', $coordinator], 'method' => 'PUT']) }}
-
+            
+            {{ Form::model($department, ['route' => ['system-management.departments-types.update', $department], 'method' => 'put']) }}
+                
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
                 @endif
 
                 <div class="form-body">
-                    @include('users::coordinators.coordinator.form')
+                    @include('systemmanagement::departmentsTypes.form')
                 </div>
 
                 <div class="form-actions">

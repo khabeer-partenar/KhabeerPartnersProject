@@ -67,7 +67,3 @@
 
     </div>
 @endsection
-
-@section('scripts_2')
-    @include('users::coordinators.scripts')
-@endsection

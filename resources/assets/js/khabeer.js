@@ -26,8 +26,20 @@ $(document).ready(function() {
                 $.ajax({
                     url: path,
                     type: 'delete',
+
                     success: function(response){
                         $(btn).parent().parent().remove();
+                    },
+
+                    error: function (request, status, error) {
+                        Swal.fire({
+                            title: 'حدث خطأ',
+                            text: request.responseJSON.msg,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: '#D3D3D3',
+                            confirmButtonText: 'حسنا',
+                        });
                     }
                 });
             }
@@ -71,4 +83,29 @@ $(document).ready(function() {
 
     // disable all form fields
     $('#diable-form-fields :input').prop('disabled', true);
+
+    // load departments in other select
+    $('.load-departments').change(function () {
+        let path = $(this).attr('data-url') + '?parentId=' + $(this).val();
+        let child = $(this).attr('data-child');
+        // Empty Children
+        $(child).empty();
+
+        if ($(child).hasClass('load-departments')) {
+            let childOfChild = $(child).attr('data-child');
+            $(childOfChild).empty();
+        }
+        if ($(this).val() != 0){
+            $.ajax({
+                url: path,
+                success: function (response) {
+                    let select = $(child)[0];
+                    let length = Object.keys(response).length;
+                    for (let index = 0; index < length; index++) {
+                        select.options[select.options.length] = new Option(response[index].name, response[index].id);
+                    }
+                }
+            });
+        }
+    });
 });

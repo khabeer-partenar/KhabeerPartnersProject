@@ -1,6 +1,6 @@
 @if($departmentData)
 
-    <a href="{{ route('system-management.departments-types.edit', $departmentData) }}" class="btn btn-sm btn-warning">
+    <a href="{{ route('system-management.departments-management.edit', $departmentData) }}" class="btn btn-sm btn-warning">
         <i class="fa fa-edit"></i> {{ __('systemmanagement::systemmanagement.edit_btn') }}
     </a>
     

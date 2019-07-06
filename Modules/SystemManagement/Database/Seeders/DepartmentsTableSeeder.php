@@ -22,11 +22,11 @@ class DepartmentsTableSeeder extends Seeder
         DB::table(Department::table())->truncate();
 
         $bodiesId = Department::create([
-            'parent_id' => 0, 'name' => 'هيئات', 'type' => '1', 'key' => 'staff', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => 0, 'name' => 'هيئات', 'type' => '1', 'key' => 'staff', 'can_deleted' => false, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         $BodyExpertsID = Department::create([
-            'parent_id' => $bodiesId, 'name' => 'هيئة￼￼￼ الخبراء', 'type' => '2', 'key' => 'staff_experts', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => $bodiesId, 'name' => 'هيئة￼￼￼ الخبراء', 'type' => '2', 'key' => 'staff_experts', 'can_deleted' => false, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         // Departments

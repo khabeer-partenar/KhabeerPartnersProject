@@ -23,7 +23,7 @@
             @include('systemmanagement::departmentsTypes.search')
 
             <table id="table-ajax" class="table" data-url="{{ route('system-management.departments-types.index', [
-                        'parent_department_id' => Request::input('parent_department_id')
+                        'department_id' => Request::input('department_id')
                     ])
                 }}"
                 data-fields='[
