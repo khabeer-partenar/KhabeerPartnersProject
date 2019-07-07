@@ -104,10 +104,34 @@ class CoreSystemManagementAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
-        App::create([
+        $departmentsAuthoritiesId = App::create([
             'resource_name' => $generalResourceName . '\DepartmentController@departmentsAuthorities', 'name' => 'إدارة إدارات هيئة الخبراء',
-            'icon' => 'fa fa-bars', 'sort' => 5, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/departments/authorities', 'is_main_root' => 1,
+            'icon' => 'fa fa-bars', 'sort' => 5, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/departments-authorities', 'is_main_root' => 1,
             'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DepartmentController@departmentsAuthoritiesCreate', 'name' => 'انشاء',
+            'icon' => 'fa fa-bars', 'sort' => 1, 'parent_id' => $departmentsAuthoritiesId, 'frontend_path' => 'system-management/departments-authorities/create', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DepartmentController@departmentsAuthoritiesStore', 'name' => 'حفط',
+            'icon' => 'fa fa-bars', 'sort' => 2, 'parent_id' => $departmentsAuthoritiesId, 'frontend_path' => 'system-management/departments-authorities', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DepartmentController@departmentsAuthoritiesEdit', 'name' => 'تعديل',
+            'icon' => 'fa fa-bars', 'sort' => 3, 'parent_id' => $departmentsAuthoritiesId, 'frontend_path' => 'system-management/departments-authorities/:department/edit', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DepartmentController@departmentsAuthoritiesUpdate', 'name' => 'تحديث',
+            'icon' => 'fa fa-bars', 'sort' => 4, 'parent_id' => $departmentsAuthoritiesId, 'frontend_path' => 'system-management/departments-authorities/:department/edit', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
     }

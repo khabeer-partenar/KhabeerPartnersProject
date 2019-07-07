@@ -46,6 +46,18 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+
+        if($this->isHttpException($exception)) {
+
+            switch ($exception->getStatusCode()) {
+                case 404:
+                case 405:
+                    return redirect()->route('index.un_authorized_user');
+                break;
+            }
+            
+        }
+
         return parent::render($request, $exception);
     }
 }

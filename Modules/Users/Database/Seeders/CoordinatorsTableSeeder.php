@@ -95,7 +95,7 @@ class CoordinatorsTableSeeder extends Seeder
         ];
         for($i = 0; $i < count($coordinators); $i++) {
             $coordinator = User::create($coordinators[$i]);
-            $coordinator->groups()->attach($coordinator[$i]['job_role_id']);
+            $coordinator->groups()->attach($coordinators[$i]['job_role_id']);
         }
     }
 }

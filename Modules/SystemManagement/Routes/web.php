@@ -40,4 +40,13 @@ Route::group(['middleware' => 'auth', 'as' => 'system-management.', 'prefix' => 
         Route::put('/{department}/edit', 'DepartmentController@departmentsManagementUpdate')->name('update');
     });
 
+    Route::group(['as' => 'departments-authorities.', 'prefix' => 'departments-authorities'], function()
+    {
+        Route::get('/', 'DepartmentController@departmentsAuthorities')->name('index');
+        Route::get('/create', 'DepartmentController@departmentsAuthoritiesCreate')->name('create');
+        Route::post('/', 'DepartmentController@departmentsAuthoritiesStore')->name('store');
+        Route::get('/{department}/edit', 'DepartmentController@departmentsAuthoritiesEdit')->name('edit');
+        Route::put('/{department}/edit', 'DepartmentController@departmentsAuthoritiesUpdate')->name('update');
+    });
+
 });
