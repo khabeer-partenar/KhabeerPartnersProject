@@ -90,7 +90,8 @@ $(document).ready(function() {
         let child = $(this).attr('data-child');
         // Empty Children
         $(child).empty();
-
+        $('#department_reference').val('');
+        $('#department_reference_val').val('');
         if ($(child).hasClass('load-departments')) {
             let childOfChild = $(child).attr('data-child');
             $(childOfChild).empty();
@@ -104,8 +105,17 @@ $(document).ready(function() {
                     for (let index = 0; index < length; index++) {
                         select.options[select.options.length] = new Option(response[index].name, response[index].id);
                     }
+                    let children = $(select).children();
+                    for(let index = 0; index < length; index++) {
+                        if (response[index].reference_department) {
+                            $(children[index]).attr('data-ref-id', response[index].reference_department.id);
+                            $(children[index]).attr('data-ref-name', response[index].reference_department.name);
+                        }
+                        $(children[index]).attr('data-is-ref', response[index].is_reference);
+                    }
                 }
             });
         }
     });
+    
 });

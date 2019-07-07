@@ -47,7 +47,7 @@ class DepartmentController extends UserBaseController
             return response()->json(['msg' => __('systemmanagement::systemmanagement.departmentCanNotDeleted')], 423);
         }
 
-        if($department->childrens->count()) {
+        if($department->childrens->count() || $department->referenceDepartment->count()) {
             return response()->json(['msg' => __('systemmanagement::systemmanagement.departmentCanNotDeletedCuzChildrens')], 423);
         }
 
@@ -74,7 +74,7 @@ class DepartmentController extends UserBaseController
     {
         if ($request->wantsJson() || $request->ajax()) {
 
-            $departmentsData = Department::getDepartmentsData('parent')
+            $departmentsData = Department::getDepartmentsData(Department::mainDepartment)
                                             ->search($request);
 
 
@@ -85,8 +85,8 @@ class DepartmentController extends UserBaseController
                ->toJson();
         }
 
-        $parentDepartmentsData = Department::getDepartmentsData('parent')->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
-        return view('systemmanagement::departmentsTypes.index', compact('parentDepartmentsData'));
+        $mainDepartmentsData = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        return view('systemmanagement::departmentsTypes.index', compact('mainDepartmentsData'));
     }
 
     /**
@@ -147,7 +147,7 @@ class DepartmentController extends UserBaseController
     {
         if ($request->wantsJson() || $request->ajax()) {
 
-            $departmentsData = Department::getDepartmentsData('main')
+            $departmentsData = Department::getDepartmentsData(Department::parentDepartment)
                                             ->with('parent')
                                             ->with('referenceDepartment')
                                             ->search($request);
@@ -166,9 +166,9 @@ class DepartmentController extends UserBaseController
                 ->toJson();
         }
 
-        $parentDepartmentsData = Department::getDepartmentsData('parent')->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
-        $mainDepartmentsData   = Department::getParentDepartments($request->parent_department_id);
-        return view('systemmanagement::departmentsManagement.index', compact('parentDepartmentsData', 'mainDepartmentsData'));
+        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        $parentDepartmentsData = Department::getParentDepartments($request->parent_department_id);
+        return view('systemmanagement::departmentsManagement.index', compact('mainDepartmentsData', 'parentDepartmentsData'));
     }
 
     /**
@@ -177,9 +177,9 @@ class DepartmentController extends UserBaseController
      */
     public function departmentsManagementCreate()
     {
-        $parentDepartmentsData = Department::getDepartmentsData('parent')->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
-        $mainDepartmentsData   = Department::getDepartmentsData('main')->where('is_reference', 1)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
-        return view('systemmanagement::departmentsManagement.create', compact('parentDepartmentsData', 'mainDepartmentsData'));
+        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        $parentDepartmentsData = Department::getDepartmentsData(Department::parentDepartment)->where('is_reference', 1)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        return view('systemmanagement::departmentsManagement.create', compact('mainDepartmentsData', 'parentDepartmentsData'));
     }
 
     /**
@@ -202,9 +202,9 @@ class DepartmentController extends UserBaseController
      */
     public function departmentsManagementEdit(Request $request, Department $department)
     {
-        $parentDepartmentsData = Department::getDepartmentsData('parent')->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
-        $mainDepartmentsData   = Department::getDepartmentsData('main')->where('is_reference', 1)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
-        return view('systemmanagement::departmentsManagement.edit', compact('department', 'parentDepartmentsData', 'mainDepartmentsData'));
+        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        $parentDepartmentsData = Department::getDepartmentsData(Department::parentDepartment)->where('is_reference', 1)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        return view('systemmanagement::departmentsManagement.edit', compact('department', 'mainDepartmentsData', 'parentDepartmentsData'));
     }
 
     /**

@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function () {
         $('.select2').select2();
-
+        
         // Change Reference input
         $(document).on('change', '.change-reference', function () {
             let selectedOption = $(this).find(":selected")[0],
@@ -15,11 +15,10 @@
                     $('#job_role_id').select2();
                 }
             }
-            alert(name);
+
             $('#department_reference').val(id);
             $('#department_reference_val').val(name);
         });
-        
         // On Submit
         $( "#co-form" ).submit(function() {
             $('#job_role_id').prop('disabled', false);
@@ -27,6 +26,5 @@
                 $(this).submit();
             }, 1000);
         });
-
     });
 </script>

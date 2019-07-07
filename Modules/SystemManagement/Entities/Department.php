@@ -31,16 +31,6 @@ class Department extends Model
     protected $fillable = ['parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id', 'telephone', 'address', 'email'];
 
     /**
-     * departments types
-     *
-     * @var array
-     */
-    public static $departmentsTypes = [
-        'parent' => 1,
-        'main' => 2,
-    ];
-
-    /**
      * Functions
      *
      * Here you should add Functions
@@ -170,7 +160,7 @@ class Department extends Model
      */
     public static function scopeGetDepartmentsData($query, $type)
     {
-        return $query->where('type', self::$departmentsTypes[$type]);
+        return $query->where('type', $type);
     }
     
     /**
@@ -288,19 +278,19 @@ class Department extends Model
     public static function scopeSearch($query, $request)
     {
         $department_id        = (int)$request->department_id;
-        $parent_department_id = (int)$request->parent_department_id;
         $main_department_id   = (int)$request->main_department_id;
+        $parent_department_id = (int)$request->parent_department_id;
 
         if($department_id) {
             $query->where('id', $department_id);
         }
 
-        if($parent_department_id) {
-            $query->where('parent_id', $parent_department_id);
+        if($main_department_id) {
+            $query->where('parent_id', $main_department_id);
         }
 
-        if($main_department_id) {
-            $query->where('id', $main_department_id);
+        if($parent_department_id) {
+            $query->where('id', $parent_department_id);
         }
 
         return $query;

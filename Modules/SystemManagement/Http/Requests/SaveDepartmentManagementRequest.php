@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Modules\SystemManagement\Entities\Department;
 
 use App\Rules\FilterStringRule;
-use Modules\Users\Rules\CheckDepartmentType;
+use Modules\SystemManagement\Rules\CheckDepartmentType;
 use Modules\SystemManagement\Rules\CheckDepartmentIsReferenceType;
 use App\Rules\ValidationGovEmailRule;
 

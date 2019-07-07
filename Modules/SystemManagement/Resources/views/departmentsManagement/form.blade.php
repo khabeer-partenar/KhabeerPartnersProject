@@ -6,7 +6,7 @@
             {!! Form::label('main_department_id', __('systemmanagement::systemmanagement.departmentManagementParentName'), ['class' => 'col-md-4 control-label']) !!}
         
             <div class="col-md-8">
-                {!! Form::select('main_department_id', $parentDepartmentsData, @$department->parent_id, ['id' => 'main_department_id', 'class' => 'form-control select2', (@$department ? 'disabled' : '')]) !!}
+                {!! Form::select('main_department_id', $mainDepartmentsData, @$department->parent_id, ['id' => 'main_department_id', 'class' => 'form-control select2', (@$department ? 'disabled' : '')]) !!}
             
                 @if ($errors->has('main_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('main_department_id') }}</strong></span>
@@ -99,7 +99,7 @@
             {!! Form::label('is_reference', __('systemmanagement::systemmanagement.departmentManagementIsReference'), ['class' => 'col-md-4 control-label']) !!}
         
             <div class="col-md-8">
-                {!! Form::checkbox('is_reference', 1, null, ['id' => 'is_reference']) !!}
+                {!! Form::checkbox('is_reference', 1, null, ['id' => 'is_reference', (@$department ? 'disabled' : '')]) !!}
             
                 @if ($errors->has('is_reference'))
                     <span class="help-block" ><strong>{{ $errors->first('is_reference') }}</strong></span>
@@ -121,7 +121,7 @@
             {!! Form::label('reference_id', __('systemmanagement::systemmanagement.departmentManagementReferenceName'), ['class' => 'col-md-4 control-label']) !!}
         
             <div class="col-md-8">
-                {!! Form::select('reference_id', $mainDepartmentsData, null, ['id' => 'reference_id', 'class' => 'form-control select2', (old('is_reference') == 1 || @$department->is_reference == 1 ? 'disabled' : '') ]) !!}
+                {!! Form::select('reference_id', $parentDepartmentsData, null, ['id' => 'reference_id', 'class' => 'form-control select2', (old('is_reference') == 1 || @$department ? 'disabled' : '') ]) !!}
             
                 @if ($errors->has('reference_id'))
                     <span class="help-block" ><strong>{{ $errors->first('reference_id') }}</strong></span>

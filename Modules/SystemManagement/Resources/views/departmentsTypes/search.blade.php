@@ -10,7 +10,7 @@
                     {!! Form::label('department_id', __('systemmanagement::systemmanagement.department'), ['class' => 'col-md-2 control-label']) !!}
                 
                     <div class="col-md-10">
-                        {!! Form::select('department_id', $parentDepartmentsData, Request::input('department_id'), ['id' => 'department_id', 'class' => 'form-control select2']) !!}
+                        {!! Form::select('department_id', $mainDepartmentsData, Request::input('department_id'), ['id' => 'department_id', 'class' => 'form-control select2']) !!}
                     
                         @if ($errors->has('department_id'))
                             <span class="help-block" ><strong>{{ $errors->first('department_id') }}</strong></span>
