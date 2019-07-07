@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label for="department_type">نوع الجهة</label>
                     <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
-                            data-url="{{ route('departments.children') }}" data-child="#parent_department_id">
+                            data-url="{{ route('system-management.departments.children') }}" data-child="#parent_department_id">
                         <option value="0">{{ __('users::departments.choose a department') }}</option>
                         @foreach($mainDepartments as $key => $department)
                             <option value="{{ $key }}" {{ Request::input('main_department_id') == $key ? 'selected':'' }}>{{ $department }}</option>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <label for="department_name">اسم الجهة</label>
                     <select name="parent_department_id" id="parent_department_id" class="form-control select2 load-departments"
-                            data-url="{{ route('departments.children') }}" data-child="#direct_department_id">
+                            data-url="{{ route('system-management.departments.children') }}" data-child="#direct_department_id">
                         <option value="0">{{ __('users::departments.choose a department') }}</option>
                         @php $parentDepartment = Request::input('parent_department_id') @endphp
                         @foreach(\Modules\SystemManagement\Entities\Department::getParentDepartments(Request::input('main_department_id')) as $key => $department)

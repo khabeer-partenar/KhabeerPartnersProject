@@ -23,8 +23,6 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/logout', 'AuthController@logout')->name('logout');
 
 
-    // Departments Controller
-    Route::get('/departments', 'DepartmentsController@loadDepartmentsByParentId')->name('departments.children');
 //    Route::get('/jobs/main-coordinator', 'GroupsController@getMainCoordinator')->name('jobs.main-coordinator');
 
     Route::prefix('users')->group(function(){
