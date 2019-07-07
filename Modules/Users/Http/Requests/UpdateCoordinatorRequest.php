@@ -14,6 +14,7 @@ use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
 use Modules\SystemManagement\Rules\CheckDepartmentReference;
 use Modules\SystemManagement\Rules\CheckDepartmentType;
+use Modules\Users\Rules\CheckInCoordinatorJobs;
 
 class UpdateCoordinatorRequest extends FormRequest
 {

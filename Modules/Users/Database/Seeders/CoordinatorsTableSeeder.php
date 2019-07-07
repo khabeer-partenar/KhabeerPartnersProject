@@ -41,19 +41,19 @@ class CoordinatorsTableSeeder extends Seeder
             [
                 'name' => 'محمد أسامة', 'national_id' => '1000000019', 'phone_number' => '0563108750', 'direct_department_id' => '6',
                 'email' => 'mail-1000000019@mu.gov.sa',
-                'main_department_id' => '1', 'parent_department_id' => '2', 'user_type' => Coordinator::TYPE,
-                'department_reference_id' => '123124', 'title' => 'مهندس', 'job_title' => 'مطور', 'job_role_id' => '11'
+                'main_department_id' => '13', 'parent_department_id' => '16', 'user_type' => Coordinator::TYPE,
+                'department_reference_id' => null, 'title' => 'مهندس', 'job_title' => 'مطور', 'job_role_id' => '11'
             ],
             [
                 'name' => 'محمود الكبير', 'national_id' => '1000000020', 'phone_number' => '0563108751', 'direct_department_id' => '5',
                 'email' => 'mail-1000000020@mu.gov.sa',
-                'main_department_id' => '1', 'parent_department_id' => '2', 'user_type' => Coordinator::TYPE,
+                'main_department_id' => '13', 'parent_department_id' => '17', 'user_type' => Coordinator::TYPE,
                 'department_reference_id' => '123124', 'title' => 'مهندس', 'job_title' => 'مطور', 'job_role_id' => '11'
             ],
             [
                 'name' => 'حسام حسام', 'national_id' => '1000000021', 'phone_number' => '0563108752', 'direct_department_id' => '6',
                 'email' => 'mail-1000000021@mu.gov.sa',
-                'main_department_id' => '1', 'parent_department_id' => '2', 'user_type' => Coordinator::TYPE,
+                'main_department_id' => '13', 'parent_department_id' => '17', 'user_type' => Coordinator::TYPE,
                 'department_reference_id' => '123124', 'title' => 'مهندس', 'job_title' => 'مطور', 'job_role_id' => '11'
             ],
             [

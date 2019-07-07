@@ -3,11 +3,8 @@
 namespace Modules\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
-use Modules\Core\Entities\Group;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\User;
-
 use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;

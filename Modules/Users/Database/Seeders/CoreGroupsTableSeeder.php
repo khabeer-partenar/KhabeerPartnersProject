@@ -32,7 +32,7 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Users\Http\Controllers\CoordinatorController@update',
             'Modules\Users\Http\Controllers\CoordinatorController@destroy',
             'Modules\Users\Http\Controllers\CoordinatorController@updateByCoordinator',
-            'Modules\Users\Http\Controllers\DepartmentsController@loadDepartmentsByParentId',
+            'Modules\SystemManagement\Http\Controllers\DepartmentController@loadDepartmentsByParentId',
             'Modules\Users\Http\Controllers\CoordinatorController@storeByCoordinator',
         ] ;
         $appsId = App::whereIn('resource_name', $coordinatorsResources)->pluck('id');
