@@ -153,7 +153,7 @@ return [
         'password_confirmation' => 'تأكيد كلمة المرور',
         'city'                  => 'المدينة',
         'country'               => 'الدولة',
-        'address'               => 'عنوان السكن',
+        'address'               => 'العنوان',
         'phone'                 => 'الهاتف',
         'mobile'                => 'الجوال',
         'age'                   => 'العمر',
@@ -182,5 +182,8 @@ return [
         'title'                 => 'اللقب',
         'job_title'             => 'المسمي الوظيفي',
         'department_reference'  => 'مرجعية الجهة',
+        'is_reference'          => 'جهة مرجعية',
+        'reference_id'          => 'مرجعية الجهة',
+        'telephone' => 'الهاتف',
     ],
 ];

@@ -7,7 +7,7 @@ use Modules\SystemManagement\Entities\Department;
 
 use App\Rules\FilterStringRule;
 
-class SaveDepartmentTypeCreateRequest extends FormRequest
+class SaveDepartmentTypeRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

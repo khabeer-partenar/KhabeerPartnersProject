@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Users\Rules;
+namespace Modules\SystemManagement\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use Modules\SystemManagement\Entities\Department;;

@@ -28,7 +28,7 @@ class Department extends Model
      *
      * @var array
      */
-    protected $fillable = ['parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id'];
+    protected $fillable = ['parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id', 'telephone', 'address', 'email'];
 
     /**
      * departments types
@@ -117,27 +117,6 @@ class Department extends Model
         return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
     }
 
-
-    // /**
-    //  *  Select2 ajax search
-    //  */
-    // public static function ajaxSearch($type, $request)
-    // {
-        
-    //     if( !isset(self::$departmentsTypes[$type]) ) {
-    //         return [];
-    //     }
-
-
-    //     $searchValue = $request->input('search');
-    //     if(isset($request->input('search'))) {
-
-    //     }
-
-    //     $typeId = self::$departmentsTypes[$type];
-    //     return self::where([ ['type', $typeId], ['name', 'LIKE', '%'. $searchValue .'%']])->select('id', 'name as text')->get();
-    // }
-
     /**
      * Create new record in table
      */
@@ -151,7 +130,39 @@ class Department extends Model
             $data['key'] = time();
         }
 
+        if(!isset($data['is_reference'])) {
+            $data['is_reference'] = 0;
+        }
+
+        if($data['is_reference'] == 1) {
+            $data['reference_id'] = null;
+        }
+
+        if($data['reference_id']) {
+            $data['is_reference'] = 0;         
+        }
+
         return self::create($data);
+    }
+
+    /**
+     * Update department
+     */
+    public function updateDepartment($data) 
+    {
+        if(!isset($data['is_reference'])) {
+            $data['is_reference'] = 0;
+        }
+
+        if($data['is_reference'] == 1) {
+            $data['reference_id'] = null;
+        }
+
+        if($data['reference_id']) {
+            $data['is_reference'] = 0;         
+        }
+
+        return $this->update($data);
     }
 
     /**
@@ -284,11 +295,12 @@ class Department extends Model
             $query->where('id', $department_id);
         }
 
-        if($parent_department_id && $main_department_id) {
-            $query->where([
-                ['id', $main_department_id],
-                ['parent_id', $parent_department_id]
-            ]);
+        if($parent_department_id) {
+            $query->where('parent_id', $parent_department_id);
+        }
+
+        if($main_department_id) {
+            $query->where('id', $main_department_id);
         }
 
         return $query;

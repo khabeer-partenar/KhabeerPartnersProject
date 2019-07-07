@@ -1,15 +1,15 @@
 <div class="row">
                                 
     <div class="col-md-6">
-        <div class="form-group {{ $errors->has('parent_id') ? ' has-error' : '' }}">
+        <div class="form-group {{ $errors->has('main_department_id') ? ' has-error' : '' }}">
         
-            {!! Form::label('parent_id', __('systemmanagement::systemmanagement.departmentManagementParentName'), ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('main_department_id', __('systemmanagement::systemmanagement.departmentManagementParentName'), ['class' => 'col-md-4 control-label']) !!}
         
             <div class="col-md-8">
-                {!! Form::select('parent_id', $parentDepartmentsData, null, ['id' => 'parent_id', 'class' => 'form-control select2']) !!}
+                {!! Form::select('main_department_id', $parentDepartmentsData, @$department->parent_id, ['id' => 'main_department_id', 'class' => 'form-control select2', (@$department ? 'disabled' : '')]) !!}
             
-                @if ($errors->has('parent_id'))
-                    <span class="help-block" ><strong>{{ $errors->first('parent_id') }}</strong></span>
+                @if ($errors->has('main_department_id'))
+                    <span class="help-block" ><strong>{{ $errors->first('main_department_id') }}</strong></span>
                 @endif
             </div>
         
@@ -110,3 +110,43 @@
     </div>
     
 </div>
+
+<br />
+
+<div class="row">
+                                
+    <div class="col-md-6">
+        <div class="form-group {{ $errors->has('reference_id') ? ' has-error' : '' }}">
+        
+            {!! Form::label('reference_id', __('systemmanagement::systemmanagement.departmentManagementReferenceName'), ['class' => 'col-md-4 control-label']) !!}
+        
+            <div class="col-md-8">
+                {!! Form::select('reference_id', $mainDepartmentsData, null, ['id' => 'reference_id', 'class' => 'form-control select2', (old('is_reference') == 1 || @$department->is_reference == 1 ? 'disabled' : '') ]) !!}
+            
+                @if ($errors->has('reference_id'))
+                    <span class="help-block" ><strong>{{ $errors->first('reference_id') }}</strong></span>
+                @endif
+            </div>
+        
+        </div>
+    </div>
+
+</div>
+
+
+
+@section('scripts_2')
+
+    <script>
+        $(document).ready(function() {
+            $('#is_reference').on('click',function () {
+                if ($('#is_reference').is(':checked')) {
+                    $('#reference_id').prop('disabled', 'disabled');
+                } else {
+                    $('#reference_id').prop('disabled', false);
+                }
+            });
+        });
+    </script>
+
+@endsection

@@ -105,7 +105,7 @@ class CoreSystemManagementAppsTableSeeder extends Seeder
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\DepartmentController@departmentsAuthorities', 'name' => 'إدارة إدارات هيئةالخبراء',
+            'resource_name' => $generalResourceName . '\DepartmentController@departmentsAuthorities', 'name' => 'إدارة إدارات هيئة الخبراء',
             'icon' => 'fa fa-bars', 'sort' => 5, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/departments/authorities', 'is_main_root' => 1,
             'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);

@@ -12,8 +12,9 @@ return [
     'editdepartmentType' => 'تعديل النوع',
     'deptName' => 'مسمى النوع',
     'addNewdepartmentManagement' => 'اضافة جهة جديدة',
+    'editDepartmentManagement' => 'تعديل الجهة',
     'departmentManagementTelephone' => 'الهاتف',
-    'departmentManagementAddress' => 'عنوانها',
+    'departmentManagementAddress' => 'العنوان',
     'departmentManagementEmail' => 'البريد',
     'departmentManagementIsReference' => 'جهة مرجعية',
 

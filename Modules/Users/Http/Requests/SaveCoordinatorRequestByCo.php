@@ -10,8 +10,8 @@ use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
-use Modules\Users\Rules\CheckDepartmentReference;
-use Modules\Users\Rules\CheckDepartmentType;
+use Modules\SystemManagement\Rules\CheckDepartmentReference;
+use Modules\SystemManagement\Rules\CheckDepartmentType;
 use Modules\Users\Rules\CheckInCoordinatorJobs;
 
 class SaveCoordinatorRequestByCo extends FormRequest
