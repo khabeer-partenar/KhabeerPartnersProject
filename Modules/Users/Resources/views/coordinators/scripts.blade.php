@@ -15,9 +15,11 @@
                     $('#job_role_id').select2();
                 }
             }
+            alert(name);
             $('#department_reference').val(id);
             $('#department_reference_val').val(name);
         });
+        
         // On Submit
         $( "#co-form" ).submit(function() {
             $('#job_role_id').prop('disabled', false);
@@ -25,5 +27,6 @@
                 $(this).submit();
             }, 1000);
         });
+
     });
 </script>
