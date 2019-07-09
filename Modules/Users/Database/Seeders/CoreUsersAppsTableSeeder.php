@@ -175,14 +175,6 @@ class CoreUsersAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
-        $departments = App::where('resource_name', 'Modules\Core\Http\Controllers\DepartmentsController')->first();
-        if ($departments) {
-            App::create([
-                'resource_name' => $generalResourceName . '\DepartmentsController@loadDepartmentsByParentId', 'name' => 'اختيار الجهات',
-                'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $departments->id, 'frontend_path' => 'departments', 'is_main_root' => 0,
-                'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-            ]);
-        }
     }
 
 }

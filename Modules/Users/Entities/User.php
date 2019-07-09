@@ -61,7 +61,7 @@ class User extends Authenticatable
 
             // Send notification mail after 5 minutes when user created
             $when = now()->addMinutes(5);
-            $userData->notify((new NotifyNewUserViaMail($userData))->delay($when));
+//            $userData->notify((new NotifyNewUserViaMail($userData))->delay($when));
 
         });
     }

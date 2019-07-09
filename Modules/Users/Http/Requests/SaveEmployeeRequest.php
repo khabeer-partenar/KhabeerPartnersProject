@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Group;
 use Modules\SystemManagement\Entities\Department;
-
 use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
 use App\Rules\ValidationPhoneNumberRule;

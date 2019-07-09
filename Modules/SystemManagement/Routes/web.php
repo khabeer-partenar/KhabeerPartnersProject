@@ -16,7 +16,7 @@ Route::group(['middleware' => 'auth', 'as' => 'system-management.', 'prefix' => 
     
     Route::group(['as' => 'departments.', 'prefix' => 'departments'], function()
     {
-        Route::get('/departments', 'DepartmentController@loadDepartmentsByParentId')->name('children');
+        Route::get('/children', 'DepartmentController@loadDepartmentsByParentId')->name('children');
         Route::get('/search/{type}', 'DepartmentController@search')->name('search');
         Route::delete('/{department}', 'DepartmentController@destroy')->name('destroy');
         Route::put('/department/{department}/update-order', 'DepartmentController@updateOrder')->name('updateOrder');
