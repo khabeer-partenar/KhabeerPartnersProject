@@ -84,7 +84,7 @@ class DepartmentsTableSeeder extends Seeder
 
 
         $GovId = Department::create([
-            'parent_id' => 0, 'name' => 'وزارات', 'type' => '1', 'key' => 'staff', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+            'parent_id' => 0, 'name' => 'وزارات', 'type' => '1', 'key' => 'ministries', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             'is_reference' => 1
         ])->id;
 

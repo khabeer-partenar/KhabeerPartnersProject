@@ -184,6 +184,8 @@ return [
         'department_reference'  => 'مرجعية الجهة',
         'is_reference'          => 'جهة مرجعية',
         'reference_id'          => 'مرجعية الجهة',
-        'telephone' => 'الهاتف',
+        'telephone'             => 'الهاتف',
+        'department_name'       => 'اسم الإدارة',
+        'direct_manager_id'     => 'المدير',
     ],
 ];

@@ -7,12 +7,12 @@
 
             <div class="caption">
                 <i class="fa fa-bars"></i>
-                <span class="caption-subject sbold">{{ __('systemmanagement::systemmanagement.departmentsTypes') }}</span>
+                <span class="caption-subject sbold">{{ __('systemmanagement::systemmanagement.departmentsAuthorities') }}</span>
             </div>
             
             <div class="actions">
                 {{-- @if(auth()->user()->hasPermissionWithAccess('create')) --}}
-                    <a href="{{ route('system-management.departments-types.create') }}" class="btn btn-primary">{{ __('systemmanagement::systemmanagement.add_action') }}</a>
+                    <a href="{{ route('system-management.departments-authorities.create') }}" class="btn btn-primary">{{ __('systemmanagement::systemmanagement.add_action') }}</a>
                 {{-- @endif --}}
             </div>
         
@@ -20,14 +20,14 @@
 
         <div class="portlet-body">
             
-            @include('systemmanagement::departmentsTypes.search')
+            @include('systemmanagement::departmentsAuthorities.search')
 
-            <table id="table-ajax" class="table" data-url="{{ route('system-management.departments-types.index', [
-                        'department_id' => Request::input('department_id')
+            <table id="table-ajax" class="table" data-url="{{ route('system-management.departments-authorities.index', [
+                        'department_id' => Request::input('department_id'),
                     ])
                 }}"
                 data-fields='[
-                    {"data": "name","title":"{{ __('systemmanagement::systemmanagement.departmentTypeName') }}","searchable":"false"},
+                    {"data": "name","title":"{{ __('systemmanagement::systemmanagement.directDeparetmentName') }}","searchable":"false"},
                     {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
                 ]'
             >
@@ -37,6 +37,7 @@
 
     </div>
 @endsection
+
 
 @section('scripts_2')
     @include('systemmanagement::shared.scripts')

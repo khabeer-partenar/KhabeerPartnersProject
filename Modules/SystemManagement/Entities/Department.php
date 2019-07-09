@@ -2,6 +2,7 @@
 
 namespace Modules\SystemManagement\Entities;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Users\Entities\User;
@@ -28,13 +29,28 @@ class Department extends Model
      *
      * @var array
      */
-    protected $fillable = ['parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id', 'telephone', 'address', 'email'];
+    protected $fillable = ['parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id', 'telephone', 'address', 'email', 'direct_manager_id', 'order'];
 
     /**
      * Functions
      *
      * Here you should add Functions
     */
+
+    public static function boot() 
+    {
+        parent::boot();
+        
+        static::addGlobalScope('orderByorder', function (Builder $builder) {
+            $builder->orderBy('order');
+        });
+        
+        static::creating(function (Department $department) {
+            $currentOrder = self::where('type', $department->type)->max('order');
+            $department->order = $currentOrder+1;
+        });
+
+    }
 
     /**
      * Get parent of dept
@@ -128,7 +144,7 @@ class Department extends Model
             $data['reference_id'] = null;
         }
 
-        if($data['reference_id']) {
+        if(!isset($data['reference_id'])) {
             $data['is_reference'] = 0;         
         }
 
@@ -140,18 +156,9 @@ class Department extends Model
      */
     public function updateDepartment($data) 
     {
-        if(!isset($data['is_reference'])) {
-            $data['is_reference'] = 0;
+        if(!isset($data['direct_manager_id'])) {
+            $data['direct_manager_id'] = null;
         }
-
-        if($data['is_reference'] == 1) {
-            $data['reference_id'] = null;
-        }
-
-        if($data['reference_id']) {
-            $data['is_reference'] = 0;         
-        }
-
         return $this->update($data);
     }
 
@@ -309,5 +316,13 @@ class Department extends Model
     public function referenceDepartment()
     {
         return $this->belongsTo(self::class, 'reference_id', 'id');
+    }
+
+    /**
+     * Get parent of dept
+     */
+    public function directManager()
+    {
+        return $this->hasOne(Employee::class, 'id', 'direct_manager_id');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDepartmentsTable extends Migration
+class AddOrderColumnToDepartmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateDepartmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('departments', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('parent_id');
-            $table->string('name');
-            $table->integer('type')->nullable();
-            $table->timestamps();
+        Schema::table('departments', function (Blueprint $table) {
+            $table->integer('order')->after('direct_manager_id');
+
         });
     }
 
@@ -29,6 +26,8 @@ class CreateDepartmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departments');
+        Schema::table('departments', function (Blueprint $table) {
+            $table->dropColumn('order');
+        });
     }
 }

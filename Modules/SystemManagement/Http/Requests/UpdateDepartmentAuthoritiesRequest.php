@@ -5,10 +5,14 @@ namespace Modules\SystemManagement\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Employee;
 
 use App\Rules\FilterStringRule;
+use Modules\SystemManagement\Rules\CheckDepartmentType;
+use Modules\SystemManagement\Rules\CheckDepartmentIsReferenceType;
+use App\Rules\ValidationGovEmailRule;
 
-class UpdateDepartmentTypeRequest extends FormRequest
+class UpdateDepartmentAuthoritiesRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -20,7 +24,8 @@ class UpdateDepartmentTypeRequest extends FormRequest
         $department = $request->department;
 
         return [
-            'name' => ['required', 'max:255', new FilterStringRule, 'unique:'. Department::table() . ',name,'. $department->id],
+            'department_name'   => ['required', 'max:255', new FilterStringRule, 'unique:'. Department::table() . ',name,' . $department->id],
+            'direct_manager_id' => ['nullable', 'integer', 'exists:'. Employee::table(). ',id'],
         ];
     }
 

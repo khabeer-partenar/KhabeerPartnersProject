@@ -36,7 +36,11 @@
             >
             </table>
         </div>
-       
 
     </div>
+@endsection
+
+
+@section('scripts_2')
+    @include('systemmanagement::shared.scripts')
 @endsection

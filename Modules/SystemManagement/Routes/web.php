@@ -19,6 +19,7 @@ Route::group(['middleware' => 'auth', 'as' => 'system-management.', 'prefix' => 
         Route::get('/departments', 'DepartmentController@loadDepartmentsByParentId')->name('children');
         Route::get('/search/{type}', 'DepartmentController@search')->name('search');
         Route::delete('/{department}', 'DepartmentController@destroy')->name('destroy');
+        Route::put('/department/{department}/update-order', 'DepartmentController@updateOrder')->name('updateOrder');
     });
 
     Route::group(['as' => 'departments-types.', 'prefix' => 'departments-types'], function()

@@ -26,7 +26,6 @@ class UpdateDepartmentManagementRequest extends FormRequest
             'telephone' => ['nullable', 'numeric'],
             'address' => ['nullable', 'max:255', new FilterStringRule],
             'email' => ['nullable', 'email', new ValidationGovEmailRule],
-            'reference_id' => ['required_without:is_reference', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentIsReferenceType(Department::parentDepartment)],
         ];
     }
 
