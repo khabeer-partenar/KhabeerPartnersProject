@@ -90,7 +90,8 @@ class CoordinatorController extends UserBaseController
      */
     public function store(SaveCoordinatorRequest $request)
     {
-        Coordinator::createFromRequest($request);
+        $coordinator = Coordinator::createFromRequest($request);
+        $coordinator->log('create_coordinator');
         self::sessionSuccess('coordinators.created');
         return back();
     }
@@ -129,7 +130,7 @@ class CoordinatorController extends UserBaseController
     public function update(UpdateCoordinatorRequest $request, Coordinator $coordinator)
     {
         $coordinator->updateFromRequest($request);
-        $coordinator->log('update_coordinator_data');
+        $coordinator->log('update_coordinator');
         self::sessionSuccess('coordinators.updated');
         return redirect()->route('coordinators.index');
     }
@@ -142,7 +143,8 @@ class CoordinatorController extends UserBaseController
      */
     public function storeByCoordinator(SaveCoordinatorRequestByCo $request)
     {
-        Coordinator::createFromRequest($request);
+        $coordinator = Coordinator::createFromRequest($request);
+        $coordinator->log('create_coordinator_by_main_coordinator');
         self::sessionSuccess('coordinators.created');
         return back();
     }
@@ -157,6 +159,7 @@ class CoordinatorController extends UserBaseController
     public function updateByCoordinator(UpdateCoordinatorRequestByCo $request, Coordinator $coordinator)
     {
         $coordinator->updateFromRequest($request);
+        $coordinator->log('update_coordinator_by_main_coordinator');
         self::sessionSuccess('coordinators.updated');
         return redirect()->route('coordinators.index');
     }
@@ -169,6 +172,7 @@ class CoordinatorController extends UserBaseController
      */
     public function destroy(Coordinator $coordinator)
     {
+        $coordinator->log('delete_coordinator');
         $coordinator->delete();
         return response()->json(['msg' => __('users::coordinators.deleted')]);
     }
