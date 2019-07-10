@@ -11,7 +11,7 @@ use Modules\Users\Entities\Coordinator;
 
 class Department extends Model
 {
-    use SoftDeletes, \Modules\Core\Traits\SharedModel;
+    use SoftDeletes, \Modules\Core\Traits\SharedModel, \Modules\Core\Traits\Log;
     
     const mainDepartment = 1;
     const parentDepartment = 2;
