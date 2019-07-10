@@ -57,7 +57,7 @@ class DepartmentController extends UserBaseController
             return response()->json(['msg' => __('systemmanagement::systemmanagement.departmentCanNotDeletedCuzUsers')], 423);
         }
 
-        $department->log('delete_department', $department);
+        $department->log('delete_department');
         $department->delete();
         return response()->json(['msg' => __('systemmanagement::systemmanagement.departmentDeleted')], 200);
     }
@@ -91,7 +91,7 @@ class DepartmentController extends UserBaseController
         
             // update order of current dept
             $department->update(['order' => $newOrder]);
-            $department->log('update_department_order', $department);
+            $department->log('update_department_order');
 
             return response()->json(['new_order' => $newOrder], 200);
         }
@@ -145,7 +145,7 @@ class DepartmentController extends UserBaseController
     {
         $data = ['name' => $request->name, 'type' => 1];
         $department = Department::createNewDepartment($data);
-        $department->log('create_department', $department);
+        $department->log('create_department');
 
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeCreated')); 
         return redirect()->route('system-management.departments-types.index');
@@ -169,7 +169,7 @@ class DepartmentController extends UserBaseController
     public function departmentsTypesUpdate(UpdateDepartmentTypeRequest $request, Department $department)
     {
         $department->update($request->only('name'));
-        $department->log('update_department', $department);
+        $department->log('update_department');
 
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeUpdated')); 
         return redirect()->route('system-management.departments-types.index');
@@ -233,7 +233,7 @@ class DepartmentController extends UserBaseController
     {
         $data = ['parent_id' => $request->main_department_id, 'name' => $request->name, 'type' => 2, 'telephone' => $request->telephone, 'address' => $request->address, 'email' => $request->email, 'is_reference' => $request->is_reference, 'reference_id' => $request->reference_id];
         $department = Department::createNewDepartment($data);
-        $department->log('create_department', $department);
+        $department->log('create_department');
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeCreated')); 
         return redirect()->route('system-management.departments-management.index');
     }
@@ -259,7 +259,7 @@ class DepartmentController extends UserBaseController
     {
         $data = ['name' => $request->name, 'type' => 2, 'telephone' => $request->telephone, 'address' => $request->address, 'email' => $request->email];
         $department->updateDepartment($data);
-        $department->log('update_department', $department);
+        $department->log('update_department');
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeUpdated')); 
         return redirect()->route('system-management.departments-management.index');
     }
@@ -321,7 +321,7 @@ class DepartmentController extends UserBaseController
 
         $data = ['parent_id' => $staffExpertsDepartmentId, 'name' => $request->department_name, 'type' => 3, 'direct_manager_id' => $request->direct_manager_id];
         $department = Department::createNewDepartment($data);
-        $department->log('create_department', $department);
+        $department->log('create_department');
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesCreated')); 
         return redirect()->route('system-management.departments-authorities.index');
     }
@@ -349,7 +349,7 @@ class DepartmentController extends UserBaseController
     {
         $data = ['name' => $request->department_name, 'direct_manager_id' => $request->direct_manager_id];
         $department->updateDepartment($data);
-        $department->log('update_department', $department);
+        $department->log('update_department');
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesUpdated')); 
         return redirect()->route('system-management.departments-authorities.index');
     }
