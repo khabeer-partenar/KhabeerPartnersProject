@@ -10,11 +10,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Core\Traits\SharedModel;
+use \Modules\Core\Traits\Log;
 use Modules\Users\Notifications\NotifyNewUserViaMail;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens, AuthorizeUser, SoftDeletes, SharedModel;
+    use Notifiable, HasApiTokens, AuthorizeUser, SoftDeletes, SharedModel, Log;
 
     protected $table = 'users';
 
