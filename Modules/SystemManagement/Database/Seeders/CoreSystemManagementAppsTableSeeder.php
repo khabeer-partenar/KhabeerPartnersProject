@@ -49,6 +49,12 @@ class CoreSystemManagementAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        App::create([
+            'resource_name' => $generalResourceName . '\DepartmentController@updateOrder', 'name' => 'تحديث ترتيب الإدارات',
+            'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/departments/department/:department/update-order', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
         $departmentsTypesId = App::create([
             'resource_name' => $generalResourceName . '\DepartmentController@departmentsTypes', 'name' => 'إدارة أنواع الجهات',
             'icon' => 'fa fa-bars', 'sort' => 3, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/departments-types', 'is_main_root' => 1,

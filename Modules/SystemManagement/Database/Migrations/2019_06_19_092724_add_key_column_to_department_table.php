@@ -14,7 +14,7 @@ class AddKeyColumnToDepartmentTable extends Migration
     public function up()
     {
         Schema::table('departments', function (Blueprint $table) {
-            $table->string('key')->after('name');
+            $table->string('key')->nullable()->after('name');
         });
     }
 
