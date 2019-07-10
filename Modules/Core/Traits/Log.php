@@ -10,7 +10,7 @@ trait Log
     /**
     * Return Table Name
     */
-    public function log($actionName)
+    public function log($actionName, $bodyData = null)
     {
         LogModel::create([
             'user_id' => auth()->user()->id,
@@ -19,7 +19,7 @@ trait Log
             'action_name' => $actionName,
             'table_name' => self::table(),
             'primary_id' => $this->id,
-            'body' => $this,
+            'body' => $bodyData == null ? $this : $bodyData,
         ]);
     }
     

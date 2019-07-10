@@ -73,7 +73,8 @@ class EmployeeController extends UserBaseController
      */
     public function store(SaveEmployeeRequest $request)
     {
-        Employee::createNewEmployee($request);        
+        $employee = Employee::createNewEmployee($request);
+        $employee->log('create_employee');
         session()->flash('alert-success', __('users::employees.userCreated')); 
         return redirect()->route('employees.index');
     }
@@ -110,6 +111,7 @@ class EmployeeController extends UserBaseController
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         $employee->updateEmployee($request);
+        $employee->log('update_employee');
         session()->flash('alert-success', __('users::employees.userUpdated')); 
         return redirect()->route('employees.index');
     }
@@ -121,6 +123,7 @@ class EmployeeController extends UserBaseController
     public function destroy(Request $request, Employee $employee)
     {
         $employee->delete();
+        $employee->log('delere_employee');
         return response()->json(['msg' => __('users::employees.deleted')]);
     }
 
@@ -175,6 +178,7 @@ class EmployeeController extends UserBaseController
         }
 
         $employee->syncSecretariesEmployees($request->secretaries_ids);
+        $employee->log('uodate_employee_secretaries', json_encode($request->secretaries_ids));
         session()->flash('alert-success', __('users::employees.secretariesUpdated')); 
         return redirect()->route('employees.show', $employee);
     }
@@ -200,7 +204,7 @@ class EmployeeController extends UserBaseController
         }
 
         $employee->save();
-
+        $employee->log('uodate_employee_to_super_admin');
         session()->flash('alert-success', __('messages.updatedـsuccessfully')); 
         return redirect()->route('employees.index');
     }
