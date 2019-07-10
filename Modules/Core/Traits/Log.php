@@ -10,7 +10,7 @@ trait Log
     /**
     * Return Table Name
     */
-    public static function log($actionName, $payload)
+    public function log($actionName)
     {
         LogModel::create([
             'user_id' => auth()->user()->id,
@@ -18,8 +18,8 @@ trait Log
             'user_agent' => request()->server('HTTP_USER_AGENT'),
             'action_name' => $actionName,
             'table_name' => self::table(),
-            'primary_id' => $payload->id,
-            'body' => $payload,
+            'primary_id' => $this->id,
+            'body' => $this,
         ]);
     }
     
