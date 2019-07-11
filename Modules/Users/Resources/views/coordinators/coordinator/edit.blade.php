@@ -6,8 +6,8 @@
         <div class="portlet-title">
 
             <div class="caption">
-                <i class="fa fa-user"></i>
-                <span class="caption-subject sbold">{{ __('users::coordinators.action_edit') }}</span>
+                <i class="fa fa-edit"></i>
+                <span class="caption-subject sbold">{{ __('users::coordinators.edit_co') }}</span>
             </div>
             
             <div class="actions">

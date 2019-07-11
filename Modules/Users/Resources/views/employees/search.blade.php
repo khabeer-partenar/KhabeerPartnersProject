@@ -1,6 +1,6 @@
 {{ Form::open(['route' => 'employees.index', 'method' => 'GET']) }}
                 
-    <div class="form-body">
+    <div class="portlet-body">
         
         <div class="row">
             
@@ -57,18 +57,20 @@
 
         <br/>
 
+
+
         <div class="row">
             
             <div class="col-md-8">
             </div>
     
             <div class="col-md-4">
-                <div class="form-group {{ $errors->has('job_role_id') ? ' has-error' : '' }}">
+                <div class="form-group">
     
                     <div class="col-md-4"></div>
     
                     <div class="col-md-8">
-                        {{ Form::button(__('messages.search_btn'), ['type' => 'submit', 'class' => 'btn blue col-md-12']) }}
+                        {{ Form::button(__('messages.search_btn'), ['type' => 'submit', 'class' => 'btn btn-default col-md-12']) }}
                     </div>
     
                 </div>
