@@ -12,7 +12,7 @@
             
             <div class="actions">
                 {{-- @if(auth()->user()->hasPermissionWithAccess('create')) --}}
-                    <a href="{{ route('system-management.departments-management.create') }}" class="btn btn-primary">{{ __('systemmanagement::systemmanagement.add_action') }}</a>
+                    <a href="{{ route('system-management.departments-management.create') }}" class="btn btn-primary">{{ __('messages.add') }}</a>
                 {{-- @endif --}}
             </div>
         

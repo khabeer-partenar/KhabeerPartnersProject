@@ -38,4 +38,5 @@ return [
     'goBack' => 'تراجع',
     'delete' => 'حذف',
     'search_btn' => 'بحث',
+    'edit' => 'تعديل',
 ];

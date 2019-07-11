@@ -6,7 +6,7 @@
         <div class="portlet-title">
 
             <div class="caption">
-                <i class="fa fa-user"></i>
+                <i class="fa fa-edit"></i>
                 <span class="caption-subject sbold">{{ __('users::employees.edit_action') }}</span>
             </div>
             

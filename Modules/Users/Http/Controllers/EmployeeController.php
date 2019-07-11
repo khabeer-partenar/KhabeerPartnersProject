@@ -150,6 +150,7 @@ class EmployeeController extends UserBaseController
                 ->addColumn('job_role', function ($employee) {
                     return @$employee->secretaryData->jobRole->name;
                 })
+                ->rawColumns(['action', 'contact_options'])
                 ->toJson();
     }
 
