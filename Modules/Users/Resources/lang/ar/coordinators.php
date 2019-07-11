@@ -3,8 +3,10 @@
 return [
     'title'      => 'المنسقين',
     'manage' => 'إدارة المنسقين',
-    'action_add' => 'اضافة',
+    'action_add' => 'إضافة',
+    'add_co' => 'إضافة منسق جديد',
     'action_edit' => 'تعديل',
+    'edit_co' => 'تعديل منسق',
     'department_type' => 'نوع الجهة',
 
     'notCreated' => 'حدث خطأ اثناء محاولة انشاء المنسق',
