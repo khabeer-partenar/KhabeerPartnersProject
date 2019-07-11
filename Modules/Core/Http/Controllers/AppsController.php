@@ -50,6 +50,7 @@ class AppsController extends UserBaseController
         ]);
       
         $app = App::create($request->all());
+        $app->log('create_app', $app);
         return new AppTransformer($app);
     }
     
@@ -90,6 +91,7 @@ class AppsController extends UserBaseController
         
         $app = App::findOrFail($id);
         $app->update($request->except('parent_id'));
+        $app->log('update_app', $app);
         return new AppTransformer($app);
     }
 
@@ -111,6 +113,7 @@ class AppsController extends UserBaseController
         //Ensure that more than one root to de
         if (!$app->is_main_root && ($app->children()->count() == 0)) {
             $app->delete();
+            $app->log('delete_app', $app);
             return response(null, 204);
         }
         else {

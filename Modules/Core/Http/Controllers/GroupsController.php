@@ -66,6 +66,7 @@ class GroupsController extends UserBaseController
         }
       
         $group = Group::create($request->all());
+        $group->log('create_group');
         return redirect()->route('core.groups.show', ['id' => $group->id ]);
     }
 
@@ -116,6 +117,7 @@ class GroupsController extends UserBaseController
         $group = Group::find($id);
 
         $group->update($request->all());
+        $group->log('update_group');
 
         return view('core::groups.show',array('group'=> Group::find($id)));
     }
@@ -130,6 +132,7 @@ class GroupsController extends UserBaseController
         $group->permissions()->delete();
         $group->users()->detach();
         $group->delete();
+        $group->log('delete_group');
 
         return redirect()->route('core.groups.index');
     }
@@ -160,6 +163,8 @@ class GroupsController extends UserBaseController
         
         $user = User::findOrFail($request->input('id'));
         $user->groups()->attach($request->input('group_id'));
+        $user->log('add_to_group', json_encode($request->input('group_id')));
+
         return $user;
     }
  
@@ -189,6 +194,7 @@ class GroupsController extends UserBaseController
         }
         
         $user->groups()->detach($groupId);
+        $user->log('remove_from_group', json_encode($groupId));
         return response(null, 204);
     }
   

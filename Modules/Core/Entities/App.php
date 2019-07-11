@@ -2,10 +2,11 @@
 namespace Modules\Core\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Traits\Log;
 
 class App extends Model
 {
-    use \Modules\Core\Traits\SharedModel;
+    use \Modules\Core\Traits\SharedModel, Log;
     
     /**
      * The table associated with the model.

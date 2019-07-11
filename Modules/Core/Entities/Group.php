@@ -5,10 +5,11 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\SharedModel;
 use Modules\Users\Entities\User;
 use Modules\Core\Entities\Permission;
+use Modules\Core\Traits\Log;
 
 class Group extends Model
 {
-    use SharedModel;
+    use SharedModel, Log;
     
     /**
     * The table associated with the model.
