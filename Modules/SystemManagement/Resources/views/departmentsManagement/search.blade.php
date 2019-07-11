@@ -40,7 +40,7 @@
                 <div class="form-group">
     
                     <div class="col-md-12">
-                        {{ Form::button(__('messages.search_btn'), ['type' => 'submit', 'class' => 'btn blue col-md-12']) }}
+                        {{ Form::button(__('messages.search_btn'), ['type' => 'submit', 'class' => 'btn btn-default col-md-12']) }}
                     </div>
         
                 </div>
