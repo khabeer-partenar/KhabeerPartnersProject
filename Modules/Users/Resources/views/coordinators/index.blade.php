@@ -78,7 +78,6 @@
                 ])
              }}"
                 data-fields='[
-                    {"data": "id","title":"","searchable":"true"},
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"true"},
                     {"data": "department_info","name":"actions","title":"{{ __('messages.department_info') }}","searchable":"false", "orderable":"false"},
                     {"data": "contact_options","name":"actions","title":"{{ __('messages.contact_options') }}","searchable":"false", "orderable":"false"},
