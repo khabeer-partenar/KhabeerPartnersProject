@@ -15,6 +15,7 @@ class CommitteeDatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        $this->call(CoreAppsTableSeeder::class);
         $this->call(TreatmentTypesTableSeederTableSeeder::class);
         $this->call(TreatmentUrgencyTableSeederTableSeeder::class);
         $this->call(TreatmentImportanceTableSeederTableSeeder::class);
