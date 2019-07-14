@@ -14,9 +14,6 @@ class IndexController extends UserBaseController
      */
     public function index()
     {
-        if($this->isApiCall) {
-            //return response()->json('ss');
-        }
         return view('index::index');
     }
 
