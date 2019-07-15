@@ -82,24 +82,6 @@ class CoreUsersAppsTableSeeder extends Seeder
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\EmployeeController@secretaries', 'name' => 'عرض السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 7, 'parent_id' => $entityEmployeeId, 'frontend_path' => 'users/employees/:id/secretaries', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => $generalResourceName . '\EmployeeController@editSecretaries', 'name' => 'تعديل السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityEmployeeId, 'frontend_path' => 'users/employees/:id/edit/secretaries', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => $generalResourceName . '\EmployeeController@updateSecretaries', 'name' => 'تحديث السكرتاريين',
-            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $entityEmployeeId, 'frontend_path' => 'users/employees/:id/edit/secretaries', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
             'resource_name' => $generalResourceName . '\EmployeeController@searchByName', 'name' => 'البحث بالاسم',
             'icon' => 'fa fa-users','sort' => 9, 'parent_id' => $entityEmployeeId, 'frontend_path' => 'users/employees/search-by-name', 'is_main_root' => 0, 
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
@@ -112,13 +94,30 @@ class CoreUsersAppsTableSeeder extends Seeder
         ]);
 
 
-        // KhabeerPartnersController
-        $manageKhabeerCommittees = App::create([
-            'resource_name' => $generalResourceName . '\KhabeerPartnersController', 'name' => 'إسناد لجان شركاء خبير',
-            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $userAppId, 'frontend_path' => 'users/khabeer-partners', 'is_main_root' => 0,
+        // AssignCommitteController
+        $assignCommitteId = App::create([
+            'resource_name' => $generalResourceName . '\AssignCommitteController', 'name' => 'صلاحيات مجلد المعاملات',
+            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $userAppId, 'frontend_path' => 'users/employees/assign-committees', 'is_main_root' => 0,
             'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
+        App::create([
+            'resource_name' => $generalResourceName . '\AssignCommitteController@index', 'name' => 'العرض',
+            'icon' => 'fa fa-users','sort' => 1, 'parent_id' => $assignCommitteId, 'frontend_path' => 'users/employees/assign-committees', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\AssignCommitteController@edit', 'name' => 'تعديل',
+            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $assignCommitteId, 'frontend_path' => 'users/employees/:id/edit/assign-committees', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\AssignCommitteController@update', 'name' => 'حفظ',
+            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $assignCommitteId, 'frontend_path' => 'users/employees/:id/edit/assign-committees', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
 
         // CoordinatorController
         $manageCoordinatorsID = App::create([
