@@ -90,14 +90,14 @@ class EmployeesTableSeeder extends Seeder
             [
                 'name' => 'محمد بن سليمان حمد الثبيتي', 'national_id' => '1046079792', 'email' => 'mail-1046079792@mu.gov.sa', 'phone_number' => '0503456000',
                 'main_department_id' => '1', 'parent_department_id' => '2',
-                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 9,
+                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 14,
                 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
             ],
 
             [
                 'name' => 'شبلان محمد السيحاني', 'national_id' => '1064525486', 'email' => 'mail-1064525486@mu.gov.sa', 'phone_number' => '0508236000',
                 'main_department_id' => '1', 'parent_department_id' => '2',
-                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 10,
+                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 15,
                 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
             ],
 

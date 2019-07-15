@@ -4,6 +4,7 @@ namespace Modules\Users\Entities;
 
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use Modules\Core\Entities\Group;
 
 class Employee extends User
 {
@@ -87,6 +88,11 @@ class Employee extends User
         }
     }
 
+    public static function studyChairman()
+    {
+        $groupsIds = Group::whereIn('key', ['chairman_of_the_commission', 'vice_chairman_of_the_commission'])->pluck('id');
+        return self::whereIn('job_role_id', $groupsIds)->get();
+    }
 
     /**
      * Scopes
