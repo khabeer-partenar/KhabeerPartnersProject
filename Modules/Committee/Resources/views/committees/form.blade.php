@@ -1,3 +1,5 @@
+<p class="underLine">{{ __('committee::committees.treatment information') }}</p>
+
 <div class="row">
 
     <div class="col-md-4">
@@ -290,40 +292,44 @@
 
 <hr>
 
-{{--<p class="underLine">{{ __('') }}</p>--}}
+<p class="underLine">{{ __('committee::committees.departments to participate') }}</p>
 
-{{--<div class="row">--}}
-    {{--{!! Form::label('tasks',  __('committee::committees.participant_advisors'), ['class' => 'col-md-2 control-label']) !!}--}}
+<div class="row">
+    <div class="col-md-4">
+        {!! Form::label('tasks',  __('committee::committees.department name'), ['class' => 'col-md-4 control-label']) !!}
 
-    {{--<div class="col-md-4">--}}
-        {{--<div class="form-group {{ $errors->has('advisor_id') ? ' has-error' : '' }}">--}}
-            {{--{!! Form::label('advisor_id',  __('committee::committees.advisor_id'), ['class' => 'col-md-4 control-label']) !!}--}}
+        <div class="col-md-8">
+            <select id="departments" class="form-control select2">
+                <option value="0">{{ __('committee::committees.please choose') }}</option>
+                @foreach($departmentsWithRef as $department)
+                    <option value="{{ $department->id }}"
+                            {{ is_array(old('departments')) && in_array($department->id, old('departments')) ? 'selected':'' }}>
+                        {{ ($department->referenceDepartment ? $department->referenceDepartment->name . ' - ':'') . $department->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary" id="addDepartmentToParticipants">إضافة</button>
+    </div>
+</div>
 
-            {{--<div class="col-md-8">--}}
-                {{--<select name="advisor_id" id="advisor_id" class="form-control select2">--}}
-                    {{--<option value="0">{{ __('committee::committees.please choose') }}</option>--}}
-                    {{--@foreach($presidents as $id => $name)--}}
-                        {{--<option value="{{ $id }}" {{ old('advisor_id') == $id ? 'selected':'' }}>{{ $name }}</option>--}}
-                    {{--@endforeach--}}
-                {{--</select>--}}
-                {{--@include('layouts.dashboard.form-error', ['key' => 'advisor_id'])--}}
-            {{--</div>--}}
-        {{--</div>--}}
-    {{--</div>--}}
-    {{--<div class="col-md-8">--}}
-        {{--<div class="col-md-10">--}}
-            {{--<select name="participant_advisors[]" id="participant_advisors" class="form-control select2" multiple>--}}
-                {{--<option value="0">{{ __('committee::committees.please choose') }}</option>--}}
-                {{--@foreach($presidents as $id => $name)--}}
-                    {{--<option value="{{ $id }}"--}}
-                            {{--{{ is_array(old('participant_advisors')) && in_array($id, old('participant_advisors')) ? 'selected':'' }}>--}}
-                        {{--{{ $name }}--}}
-                    {{--</option>--}}
-                {{--@endforeach--}}
-            {{--</select>--}}
-            {{--@include('layouts.dashboard.form-error', ['key' => 'participant_advisors'])--}}
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</div>--}}
+{{-- Departments Table --}}
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered mt-10">
+            <thead>
+                <tr>
+                    <th scope="col">{{ __('committee::committees.the departments to participate') }}</th>
+                    <th scope="col">{{ __('committee::committees.Nomination criteria') }}</th>
+                    <th scope="col">{{ __('committee::committees.options') }}</th>
+                </tr>
+            </thead>
+            <tbody id="departmentsTableBody">
+            </tbody>
+        </table>
+    </div>
+</div>
 
 

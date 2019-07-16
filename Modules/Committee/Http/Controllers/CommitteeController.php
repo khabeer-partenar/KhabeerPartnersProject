@@ -16,6 +16,7 @@ use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\User;
 use Modules\Users\Traits\SessionFlash;
+use Yajra\DataTables\DataTables;
 
 class CommitteeController extends Controller
 {
@@ -23,10 +24,20 @@ class CommitteeController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson() || $request->ajax()) {
+            $coordinatorsQuery = Committee::search($request);
+
+            return Datatables::of($coordinatorsQuery)
+                ->addColumn('action', function ($committee) {
+                    return view('committee::committees.actions', compact('committee'));
+                })->rawColumns(['action', 'contact_options'])->make(true);
+
+        }
         return view('committee::committees.index');
     }
 
@@ -42,9 +53,10 @@ class CommitteeController extends Controller
         $departments = Department::where('type', Department::parentDepartment)->pluck('name', 'id');
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
+        $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         return view('committee::committees.create', compact(
             'treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
-            'presidents', 'studyCommission'
+            'presidents', 'studyCommission', 'departmentsWithRef'
         ));
     }
 
@@ -53,7 +65,7 @@ class CommitteeController extends Controller
      * @param SaveCommitteeRequest $request
      * @return Response
      */
-    public function store(SaveCommitteeRequest $request)
+    public function store(Request $request)
     {
         $committee = Committee::createFromRequest($request);
         $committee->log('create_committee');

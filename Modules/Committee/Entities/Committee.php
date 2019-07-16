@@ -5,12 +5,14 @@ namespace Modules\Committee\Entities;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
+use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\User;
 
 class Committee extends Model
 {
-    use SharedModel;
+    use SharedModel, Log;
 
     protected $fillable = [
         'resource_staff_number', 'resource_at', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
@@ -43,6 +45,10 @@ class Committee extends Model
      *
      * Here Scopes
      */
+    public function scopeSearch($query)
+    {
+        //
+    }
 
     /**
      * Functions
@@ -62,7 +68,8 @@ class Committee extends Model
     public static function createFromRequest($request)
     {
         $committee = self::query()->create($request->all());
-        $committee->attach($request->participant_advisors);
+        $committee->participantAdvisors()->attach($request->participant_advisors);
+        $committee->participantDepartments()->sync($request->departments);
         return $committee;
     }
 
@@ -74,5 +81,10 @@ class Committee extends Model
     public function participantAdvisors()
     {
         return $this->belongsToMany(User::class, 'committees_participant_advisors', 'committee_id', 'advisor_id');
+    }
+
+    public function participantDepartments()
+    {
+        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id');
     }
 }
