@@ -31,7 +31,7 @@ class SaveCommitteeRequest extends FormRequest
             'source_of_study_id' => ['required', 'exists:'. Department::table(). ',id'],
             'recommendation_number' => 'required',
             'recommended_by_id' => ['required', 'exists:'. Department::table(). ',id'],
-            'recommended_at' => 'required',
+            'recommended_at' => 'required|date',
             'subject' => ['required', 'string', new FilterStringRule],
             'first_meeting_at' => 'required|date', // + today
             'tasks' => ['nullable', 'string', new FilterStringRule],

@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Classes\Date\CarbonHijri;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -13,8 +14,8 @@ use Modules\Committee\Http\Requests\SaveCommitteeRequest;
 use Modules\Core\Entities\Group;
 use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Employee;
-use Modules\Users\Entities\User;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
 
@@ -30,14 +31,37 @@ class CommitteeController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->ajax()) {
-            $coordinatorsQuery = Committee::search($request);
+            $committeesQuery = Committee::with('advisor', 'president')->search($request);
 
-            return Datatables::of($coordinatorsQuery)
+            return Datatables::of($committeesQuery)
+                ->addColumn('id_with_date', function ($committee) {
+                    $data = [__('committee::committees.committee number') . $committee->id, $committee->created_at->format('d-m-Y')];
+                    return view('committee::committees.br_separated_data', compact('data'));
+                })
+                ->addColumn('committee_uuid_with_subject', function ($committee) {
+                    $data = [$committee->uuid, $committee->subject];
+                    return view('committee::committees.br_separated_data', compact('data'));
+                })
+                ->addColumn('advisor_with_members_count', function ($committee) {
+                    $data = [
+                        __('committee::committees.advisor_only') . ' ' . $committee->advisor->name,
+                        __('committee::committees.member') . ' ' . $committee->members_count
+                    ];
+                    return view('committee::committees.br_separated_data', compact('data'));
+                })
+                ->addColumn('president', function ($committee) {
+                    return $committee->president ? $committee->president->name:'-';
+                })
+                ->addColumn('status', function ($committee) {
+                    return __('committee::committees.'.$committee->status);
+                })
                 ->addColumn('action', function ($committee) {
                     return view('committee::committees.actions', compact('committee'));
-                })->rawColumns(['action', 'contact_options'])->make(true);
-
+                })
+                ->rawColumns(['action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count'])
+                ->make(true);
         }
+
         return view('committee::committees.index');
     }
 
@@ -65,11 +89,11 @@ class CommitteeController extends Controller
      * @param SaveCommitteeRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(SaveCommitteeRequest $request)
     {
         $committee = Committee::createFromRequest($request);
         $committee->log('create_committee');
-        self::sessionSuccess('committees::committees.created');
+        self::sessionSuccess('committee::committees.created');
         return back();
     }
 
@@ -81,7 +105,6 @@ class CommitteeController extends Controller
      */
     public function show(Committee $committee)
     {
-
         return view('committee::committees.show', compact('committee'));
     }
 

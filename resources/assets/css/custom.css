@@ -9,3 +9,7 @@
 .mt-10{
     margin-top: 10px;
 }
+
+#table-ajax tr, #table-ajax th{
+    text-align: center;
+}
