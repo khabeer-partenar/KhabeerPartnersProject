@@ -22,8 +22,8 @@ class UpdateSecretariesRequest extends FormRequest
     public function rules()
     {
         return [
-            'secretaries_ids'      => ['nullable', 'array'],
-            'secretaries_ids.*'    => ['nullable', 'integer', 'exists:'. Employee::table() .',id'],
+            'advisors_ids'      => ['nullable', 'array'],
+            'advisors_ids.*'    => ['nullable', 'integer', 'exists:'. Employee::table() .',id'],
         ];
     }
 

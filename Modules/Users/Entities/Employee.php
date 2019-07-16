@@ -59,32 +59,33 @@ class Employee extends User
     }
 
     /**
-     * Sync Secretaries Users
+     * Sync Avisors Users
      */
-    public function syncSecretariesEmployees($secretariesIds)
+    public function syncAdvisorsEmployees($advisorsIds)
     {
-        $secretariesIds  = !is_array($secretariesIds) ? [] : $secretariesIds;
-        $secretariesData = [];
+        $advisorsIds  = !is_array($advisorsIds) ? [] : $advisorsIds;
+        $advisorsData = [];
 
-        foreach($secretariesIds as $secretaryID) {
-            $secretaryData = self::where('id', $secretaryID)->first();
+        
+        foreach($advisorsIds as $advisorsId) {
+            $advisorData = self::where('id', $advisorsId)->first();
 
-            if(!$secretaryData || !$secretaryData->hasSecretariesGroup()) {
+            if(!$advisorData || !$advisorData->hasAdvisorsGroup()) {
                 continue;
             }
 
-            $secretariesData[] = [
-                'advisor_user_id' => $this->id,
-                'secretary_user_id' => (int)$secretaryID,
+            $advisorsData[] = [
+                'advisor_user_id' => (int)$advisorsId,
+                'secretary_user_id' => $this->id,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
         }
         
-        $this->secretaries()->delete();
+        $this->advisors()->delete();
 
-        if(!empty($secretariesData)) {
-            $this->secretaries()->insert($secretariesData);
+        if(!empty($advisorsData)) {
+            $this->advisors()->insert($advisorsData);
         }
     }
 
@@ -105,6 +106,14 @@ class Employee extends User
     {
         if((int)$request->employee_id && $request->employee_id > 0) {
             $query->where('id', $request->employee_id);
+        }
+
+        if((int)$request->national_id && $request->national_id > 0) {
+            $query->where('national_id', $request->national_id);
+        }
+
+        if((int)$request->employee_email && $request->employee_email > 0) {
+            $query->where('id', $request->employee_email);
         }
 
         if((int)$request->job_role_id && $request->job_role_id > 0) {

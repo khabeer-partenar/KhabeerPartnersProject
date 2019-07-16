@@ -128,64 +128,6 @@ class EmployeeController extends UserBaseController
     }
 
     /**
-     * secretaries of employee
-     */
-    public function secretaries(Request $request, Employee $employee)
-    {
-        if(!$request->wantsJson() || !$request->ajax() || !$employee->hasAdvisorsGroup()) {
-            return redirect()->route('employees.index');
-        }
-
-        return Datatables::of($employee->secretaries)
-                ->addColumn('name', function ($employee) {
-                    return @$employee->secretaryData->name;
-                })
-                ->addColumn('deptname', function ($employee) {
-                    return @$employee->secretaryData->directDepartment->name;
-                })
-                ->addColumn('contact_options', function($employee) {
-                    $data = [$employee->secretaryData->phone_number, $employee->secretaryData->email];
-                    return view('users::employees.commas_separated_data', compact('data'));
-                })
-                ->addColumn('job_role', function ($employee) {
-                    return @$employee->secretaryData->jobRole->name;
-                })
-                ->rawColumns(['action', 'contact_options'])
-                ->toJson();
-    }
-
-
-    /**
-     * edit secretaries of employee
-     */
-    public function editSecretaries(Request $request, Employee $employee)
-    {
-        if(!$employee->hasAdvisorsGroup()) {
-            return redirect()->route('users.index');
-        }
-
-        $secretariesIDs       = $employee->secretaries->pluck('secretary_user_id');
-        $secretariesEmployees = Group::secretariesEmployees()->pluck('name', 'id');
-        return view('users::employees.secretaries.edit', compact(['employee', 'secretariesIDs', 'secretariesEmployees']));
-    }
-
-    /**
-     * update secretaries of employee
-     */
-    public function updateSecretaries(UpdateSecretariesRequest $request, Employee $employee)
-    {
-        if(!$employee->hasAdvisorsGroup()) {
-            return redirect()->route('employees.show', $employee);
-        }
-
-        $employee->syncSecretariesEmployees($request->secretaries_ids);
-        $employee->log('uodate_employee_secretaries', json_encode($request->secretaries_ids));
-        session()->flash('alert-success', __('users::employees.secretariesUpdated')); 
-        return redirect()->route('employees.show', $employee);
-    }
-
-
-    /**
      * search in employees by name
      */
     public function searchByName(Request $request)

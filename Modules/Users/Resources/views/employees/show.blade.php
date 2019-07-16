@@ -34,8 +34,4 @@
 
     </div>
     
-    @if(auth()->user()->hasPermissionWithAccess('secretaries'))
-        @includeWhen($employee->hasAdvisorsGroup(), 'users::employees.secretaries.show')
-    @endif
-
 @endsection

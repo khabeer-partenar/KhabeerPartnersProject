@@ -7,7 +7,7 @@
 
             <div class="caption">
                 <i class="fa fa-edit"></i>
-                <span class="caption-subject sbold">{{ __('users::employees.edit_secretaries_title') }}: {{ $employee->name }}</span>
+                <span class="caption-subject sbold">{{ __('users::employees.assignCommittees.editAdvisorsTitle') }}: {{ $employee->name }}</span>
             </div>
             
             <div class="actions">
@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
             
-            {{ Form::model($employee, ['route' => ['employees.update_secretaries', $employee], 'method' => 'PUT']) }}
+            {{ Form::model($employee, ['route' => ['employees.assign_committees.update', $employee], 'method' => 'PUT']) }}
                 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -29,11 +29,11 @@
                     <div class="row">
                         
                         <div class="col-md-12">
-                            <div class="form-group {{ $errors->has('secretaries_ids') ? ' has-error' : '' }}">
-                                {!! Form::select('secretaries_ids[]', $secretariesEmployees, null, ['id' => 'secretaries_ids', 'multiple' => 'multiple']) !!}
+                            <div class="form-group {{ $errors->has('advisors_ids') ? ' has-error' : '' }}">
+                                {!! Form::select('advisors_ids[]', $advisorsEmployees, null, ['id' => 'advisors_ids', 'multiple' => 'multiple']) !!}
                                                     
-                                @if ($errors->has('secretaries_ids'))
-                                    <span class="help-block" ><strong>{{ $errors->first('secretaries_ids') }}</strong></span>
+                                @if ($errors->has('advisors_ids'))
+                                    <span class="help-block" ><strong>{{ $errors->first('advisors_ids') }}</strong></span>
                                 @endif
                             </div>
                         </div>
@@ -60,11 +60,11 @@
     <script>
     $(document).ready(function() {
 
-        $("#secretaries_ids").val({{$secretariesIDs}});
+        $("#advisors_ids").val({{$advisorsIDs}});
 
-        $('#secretaries_ids').multiSelect({
-            selectableHeader: "<div class='multiselect_title'>{{ __('users::employees.secretaries_selected') }}</div>",
-            selectionHeader: "<div class='multiselect_title'>{{ __('users::employees.secretaries_unselected') }}</div>",
+        $('#advisors_ids').multiSelect({
+            selectableHeader: "<div class='multiselect_title'>{{ __('users::employees.assignCommittees.advisorsSelectedTitle') }}</div>",
+            selectionHeader: "<div class='multiselect_title'>{{ __('users::employees.assignCommittees.advisorsUnSelectedTitle') }}</div>",
         });
 
     });

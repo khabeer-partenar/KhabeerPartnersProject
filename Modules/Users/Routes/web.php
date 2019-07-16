@@ -30,15 +30,15 @@ Route::group(['middleware' => 'auth'], function()
         Route::put('/coordinators/{coordinator}/update-by-co', 'CoordinatorController@updateByCoordinator')->name('coordinators.update_by_co');//->middleware('coordinator.can');
         Route::resource('/coordinators', 'CoordinatorController');//->middleware('coordinator.can');
 
+        // Assign Committe Controller
+        Route::get('/employees/assign-committees/search/{groupID}/{columnType}', 'AssignCommitteController@search')->name('employees.assign_committees.search');
+        Route::get('/employees/assign-committees', 'AssignCommitteController@index')->name('employees.assign_committees.index');
+        Route::get('/employees/employees/{employee}/edit/assign-committees', 'AssignCommitteController@edit')->name('employees.assign_committees.edit');
+        Route::put('/employees/employees/{employee}/edit/assign-committees', 'AssignCommitteController@update')->name('employees.assign_committees.update');
+
         // Employee Controller
-        Route::get('/employees/search', 'EmployeeController@search')->name('employees.search');
-        Route::get('/employees/search-by-name', 'EmployeeController@searchByName')->name('employees.searchByName');
-        Route::get('/employees/{employee}/destroy', 'EmployeeController@destroyConfirmation')->name('employees.destroy-confirmation');
-        Route::get('/employees/{employee}/secretaries', 'EmployeeController@secretaries')->name('employees.secretaries');
-        Route::get('/employees/{employee}/edit/secretaries', 'EmployeeController@editSecretaries')->name('employees.edit_secretaries');
-        Route::put('/employees/{employee}/edit/secretaries', 'EmployeeController@updateSecretaries')->name('employees.update_secretaries');
         Route::get('/employees/search-by-name', 'EmployeeController@searchByName')->name('employees.search_by_name');
-        Route::get('/employees/{employee}upgrate-to-super-admin', 'EmployeeController@upgrateToSuperAdmin')->name('employees.upgrate_to_super_admin');
+        Route::get('/employees/{employee}/upgrate-to-super-admin', 'EmployeeController@upgrateToSuperAdmin')->name('employees.upgrate_to_super_admin');
         Route::resource('/employees', 'EmployeeController');
 
         // User Controller 
