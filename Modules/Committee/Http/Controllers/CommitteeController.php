@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\CommitteeDocument;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
@@ -14,7 +15,6 @@ use Modules\Committee\Http\Requests\SaveCommitteeRequest;
 use Modules\Core\Entities\Group;
 use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
-use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
@@ -78,9 +78,10 @@ class CommitteeController extends Controller
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
+        $documents = CommitteeDocument::where('user_id', auth()->id())->whereNull('committee_id')->get();
         return view('committee::committees.create', compact(
             'treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
-            'presidents', 'studyCommission', 'departmentsWithRef'
+            'presidents', 'studyCommission', 'departmentsWithRef', 'documents'
         ));
     }
 

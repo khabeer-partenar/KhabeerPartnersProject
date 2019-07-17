@@ -292,6 +292,7 @@
 
 <hr>
 
+{{-- Departments Table --}}
 <p class="underLine">{{ __('committee::committees.departments to participate') }}</p>
 
 <div class="row">
@@ -303,7 +304,7 @@
                 <option value="0">{{ __('committee::committees.please choose') }}</option>
                 @foreach($departmentsWithRef as $department)
                     <option value="{{ $department->id }}"
-                            {{ is_array(old('departments')) && in_array($department->id, old('departments')) ? 'selected':'' }}>
+                            {{ is_array(old('departments')) && in_array($department->id, array_keys(old('departments'))) ? 'disabled':'' }}>
                         {{ ($department->referenceDepartment ? $department->referenceDepartment->name . ' - ':'') . $department->name }}
                     </option>
                 @endforeach
@@ -315,8 +316,7 @@
     </div>
 </div>
 
-{{-- Departments Table --}}
-<div class="row">
+<div class="row mb-10">
     <div class="col-md-12">
         <table class="table table-bordered mt-10">
             <thead>
@@ -327,9 +327,93 @@
                 </tr>
             </thead>
             <tbody id="departmentsTableBody">
+                @if(old('departments') && is_array(old('departments')))
+                    @foreach(old('departments') as $id => $departmentArray)
+                        <tr class="trow" id="trow-{{ $id }}">
+                            <th scope="row">
+                                {{ $departmentArray['text'] }}
+                                <input name="departments[{{$id}}]" hidden value="{{ $id }}">
+                            </th>
+                            <td>
+                                <input name="departmentsArray[{{$id}}][nomination_criteria]"
+                                       value="{{ $departmentArray["nomination_criteria"] }}"
+                                       class="nomination_criteria">
+                            </td>
+                            <td><button type="button" class="btn btn-danger trow-remove" data-id="{{ $id }}" data-remove-row="#trow-{{ $id }}">حذف</button></td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
     </div>
 </div>
 
+<hr>
+
+<p class="underLine">{{ __('committee::committees.upload_files') }}</p>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="col-md-4">
+            {!! Form::label('tasks',  __('committee::committees.file description'), ['class' => 'col-md-4 control-label']) !!}
+        </div>
+
+        <div class="col-md-8">
+            {!! Form::text('file_description', null, ['id' => 'file_description', 'class' => 'form-control']) !!}
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="col-md-3">
+            <label>
+                <button type="button" id="upload-file" class="btn btn-warning">
+                    رفع
+                </button>
+            </label>
+        </div>
+        <div class="col-md-9">
+            <span id="fileName"></span>
+            <div class="hidden">
+                <input type="file" name="uploadedFile" id="upload-file-browse">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <button type="button" class="btn btn-primary" id="saveFiles" data-url="{{ route('committees.upload-document') }}">إضافة</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered mt-10">
+            <thead>
+            <tr>
+                <th scope="col">{{ __('committee::committees.number') }}</th>
+                <th scope="col">{{ __('committee::committees.file description') }}</th>
+                <th scope="col">{{ __('committee::committees.file path') }}</th>
+                <th scope="col">{{ __('committee::committees.options') }}</th>
+            </tr>
+            </thead>
+            <tbody id="files">
+                @foreach($documents as $document)
+                    <tr id="file-{{ $document->id }}">
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $document->description ? $document->description:''}}</td>
+                        <td>
+                            <a href="{{ $document->full_path }}">{{ $document->name }}</a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger file-remove"
+                                    data-remove-url="{{ route('committees.delete-document', $document) }}"
+                                    data-remove-row="#file-{{ $document->id }}">
+                                حذف
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 

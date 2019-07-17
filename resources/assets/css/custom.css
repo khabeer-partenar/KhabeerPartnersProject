@@ -13,3 +13,7 @@
 #table-ajax tr, #table-ajax th{
     text-align: center;
 }
+
+.mb-10 {
+    margin-bottom: 10px;
+}

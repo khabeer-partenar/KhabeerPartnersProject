@@ -53,6 +53,11 @@ return [
     'with_number' => 'برقم',
     'meeting in' => 'الاجتماع بيوم',
     'same as' => 'الموافق',
+    'files' => 'الملفات المرفقة',
+    'upload_files' => 'إرفاق ملفات',
+    'number' => 'رقم',
+    'file description' => 'وصف الملف',
+    'file path' => 'رابط الملف',
     '' => '',
     '' => '',
 ];

@@ -120,6 +120,7 @@ class Committee extends Model
         );
         $committee->participantAdvisors()->attach($request->participant_advisors);
         $committee->participantDepartments()->sync($request->departments);
+        CommitteeDocument::updateDocumentsCommittee($committee->id);
         return $committee;
     }
 

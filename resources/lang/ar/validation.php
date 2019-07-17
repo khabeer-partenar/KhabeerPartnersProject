@@ -207,5 +207,6 @@ return [
         'tasks' => 'مهام الاجتماع',
         'participant_advisors' => 'مستشارين مشاركين',
         'members_count' => 'عدد الأعضاء',
+        'file' => 'الملف',
     ],
 ];
