@@ -217,7 +217,7 @@ class User extends Authenticatable
 
     public function advisors()
     {
-        return $this->belongsToMany(User::class, 'users_advisors_secretaries', 'secretary_user_id', 'advisor_user_id');
+        return $this->belongsToMany(User::class, 'users_advisors_secretaries', 'secretary_user_id', 'advisor_user_id')->withTimestamps();
     }
 
     public function secretaries()
