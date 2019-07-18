@@ -108,10 +108,9 @@ class AssignCommitteController extends UserBaseController
         if(!$employee->hasSecretariesGroup()) {
             return redirect()->route('employees.assign_committees.index');
         }
-
-        $advisorsIDs       = $employee->advisors->pluck('advisor_user_id');
+        $advisorsIDs       = $employee->advisors()->pluck('users.id');
         $advisorsEmployees = Group::advisorsUsers()->pluck('name', 'id');
-        return view('users::employees.assign_committees.edit', compact(['employee', 'advisorsIDs', 'advisorsEmployees']));
+        return view('users::employees.assign_committees.edit', compact('employee', 'advisorsIDs', 'advisorsEmployees'));
     }
 
     /**
@@ -124,8 +123,7 @@ class AssignCommitteController extends UserBaseController
         if(!$employee->hasSecretariesGroup()) {
             return redirect()->route('employees.assign_committees.index');
         }
-
-        $employee->syncAdvisorsEmployees($request->advisors_ids);
+        $employee->advisors()->sync($request->advisors_ids);
         $employee->log('uodate_employee_advisors', json_encode($request->advisors_ids));
         session()->flash('alert-success', __('users::employees.assignCommittees.advisorsUpdated')); 
         return redirect()->route('employees.assign_committees.index');

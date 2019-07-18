@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\User;
 
 class Committee extends Model
@@ -91,6 +92,10 @@ class Committee extends Model
      */
     public function scopeSearch($query)
     {
+        if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $advisorsId = auth()->user()->advisors()->pluck('users.id');
+            $query->whereIn('advisor_id', $advisorsId);
+        }
         return $query;
     }
 

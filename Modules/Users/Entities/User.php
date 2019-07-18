@@ -217,18 +217,18 @@ class User extends Authenticatable
 
     public function advisors()
     {
-        return $this->hasMany(UsersAdvisorsSecretaries::class, 'secretary_user_id');
+        return $this->belongsToMany(User::class, 'users_advisors_secretaries', 'secretary_user_id', 'advisor_user_id');
+    }
+
+    public function secretaries()
+    {
+        return $this->belongsToMany(User::class, 'users_advisors_secretaries', 'advisor_user_id', 'secretary_user_id');
     }
 
     public function jobRole()
     {
         return $this->hasOne(Group::class, 'id', 'job_role_id');
 
-    }
-
-    public function secretaries()
-    {
-        return $this->hasMany(UsersAdvisorsSecretaries::class, 'advisor_user_id');
     }
 
     public function departmentReference()

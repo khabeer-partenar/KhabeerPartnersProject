@@ -62,7 +62,7 @@ class EmployeesTableSeeder extends Seeder
             [
                 'name' => 'زاهد حفيظ محمد حفيظ', 'national_id' => '2297990943', 'email' => 'mail-2297990943@mu.gov.sa', 'phone_number' => '0555419000',
                 'main_department_id' => '1', 'parent_department_id' => '2',
-                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 5,
+                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 2,
                 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
             ],
 
@@ -83,14 +83,14 @@ class EmployeesTableSeeder extends Seeder
             [
                 'name' => 'محمد عبدالهادي عبدالعزيز المطيري', 'national_id' => '1057796813', 'email' => 'mail-1057796813@mu.gov.sa', 'phone_number' => '0558557000',
                 'main_department_id' => '1', 'parent_department_id' => '2',
-                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 8,
+                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 4,
                 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
             ],
 
             [
                 'name' => 'محمد بن سليمان حمد الثبيتي', 'national_id' => '1046079792', 'email' => 'mail-1046079792@mu.gov.sa', 'phone_number' => '0503456000',
                 'main_department_id' => '1', 'parent_department_id' => '2',
-                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 14,
+                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 2,
                 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
             ],
 
@@ -111,7 +111,7 @@ class EmployeesTableSeeder extends Seeder
             [
                 'name' => 'زيد بن عبدالله الرومي', 'national_id' => '1020769707', 'email' => 'mail-1020769707@mu.gov.sa', 'phone_number' => '0555122000',
                 'main_department_id' => '1', 'parent_department_id' => '2',
-                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 12,
+                'direct_department_id' => 3, 'is_super_admin' => 0, 'job_role_id' => 2,
                 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
             ],
 

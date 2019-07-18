@@ -60,37 +60,6 @@ class Employee extends User
         return $userData;
     }
 
-    /**
-     * Sync Avisors Users
-     */
-    public function syncAdvisorsEmployees($advisorsIds)
-    {
-        $advisorsIds  = !is_array($advisorsIds) ? [] : $advisorsIds;
-        $advisorsData = [];
-
-        
-        foreach($advisorsIds as $advisorsId) {
-            $advisorData = self::where('id', $advisorsId)->first();
-
-            if(!$advisorData || !$advisorData->hasAdvisorsGroup()) {
-                continue;
-            }
-
-            $advisorsData[] = [
-                'advisor_user_id' => (int)$advisorsId,
-                'secretary_user_id' => $this->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ];
-        }
-        
-        $this->advisors()->delete();
-
-        if(!empty($advisorsData)) {
-            $this->advisors()->insert($advisorsData);
-        }
-    }
-
     public static function studyChairman()
     {
         $groupsIds = Group::whereIn('key', ['chairman_of_the_commission', 'vice_chairman_of_the_commission'])->pluck('id');
