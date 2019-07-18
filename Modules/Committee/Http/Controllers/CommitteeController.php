@@ -32,7 +32,6 @@ class CommitteeController extends Controller
     {
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->search($request);
-
             return Datatables::of($committeesQuery)
                 ->addColumn('id_with_date', function ($committee) {
                     $data = [__('committee::committees.committee number') . $committee->id, $committee->created_at->format('d-m-Y')];

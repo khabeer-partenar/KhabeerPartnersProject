@@ -167,4 +167,10 @@ class Committee extends Model
     {
         return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id');
     }
+
+    public function nominationDepartments()
+    {
+        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')
+            ->withPivot('nomination_criteria','has_nominations');
+    }
 }
