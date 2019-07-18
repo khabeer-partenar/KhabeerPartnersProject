@@ -8,6 +8,8 @@ use Modules\Core\Entities\Group;
 
 class Employee extends User
 {
+    const SECRETARY = 'secretary';
+
     /**
      * add global scope
      */

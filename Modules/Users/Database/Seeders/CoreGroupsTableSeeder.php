@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Modules\Core\Entities\App;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
+use Modules\Users\Entities\Employee;
+use Modules\Users\Entities\User;
 
 class CoreGroupsTableSeeder extends Seeder
 {
@@ -20,9 +22,10 @@ class CoreGroupsTableSeeder extends Seeder
     {
         Model::unguard();
         DB::table('core_permissions')->truncate();
-        $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
-        $coordinatorsResources = [
+        $basicResources = [
             'Modules',
+        ];
+        $coordinatorsResources = [
             'Modules\Users\Http\Controllers',
             'Modules\Users\Http\Controllers\CoordinatorController@index',
             'Modules\Users\Http\Controllers\CoordinatorController@create',
@@ -34,9 +37,18 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Users\Http\Controllers\CoordinatorController@updateByCoordinator',
             'Modules\SystemManagement\Http\Controllers\DepartmentController@loadDepartmentsByParentId',
             'Modules\Users\Http\Controllers\CoordinatorController@storeByCoordinator',
-        ] ;
-        $appsId = App::whereIn('resource_name', $coordinatorsResources)->pluck('id');
-        foreach($appsId as $appId){
+        ];
+        // Apps Ids
+        $basicIds = App::whereIn('resource_name', $basicResources)->pluck('id');
+        $cordId = App::whereIn('resource_name', $coordinatorsResources)->pluck('id');
+        // Coordinator Permissions
+        $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
+        foreach($basicIds as $appId){
+            $coordinatorGroup->permissions()->create([
+                'app_id' => $appId
+            ]);
+        }
+        foreach($cordId as $appId){
             $coordinatorGroup->permissions()->create([
                 'app_id' => $appId
             ]);

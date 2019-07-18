@@ -247,7 +247,7 @@
             <div class="col-md-8">
                 <select name="advisor_id" id="advisor_id" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
-                    @foreach($presidents as $id => $name)
+                    @foreach($advisors as $id => $name)
                         <option value="{{ $id }}" {{ old('advisor_id') == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
@@ -262,7 +262,7 @@
             <div class="col-md-10">
                 <select name="participant_advisors[]" id="participant_advisors" class="form-control select2" multiple>
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
-                    @foreach($presidents as $id => $name)
+                    @foreach($advisors as $id => $name)
                         <option value="{{ $id }}"
                                 {{ is_array(old('participant_advisors')) && in_array($id, old('participant_advisors')) ? 'selected':'' }}>
                             {{ $name }}

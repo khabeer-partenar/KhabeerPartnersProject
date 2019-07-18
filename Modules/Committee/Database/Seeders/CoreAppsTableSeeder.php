@@ -27,15 +27,63 @@ class CoreAppsTableSeeder extends Seeder
         ])->id;
 
         App::create([
-            'resource_name' => $generalResourceName . '\CommitteController@delegate', 'name' => 'طلب المندوبين',
+            'resource_name' => $generalResourceName . '\CommitteeController@delegate', 'name' => 'طلب المندوبين',
             'icon' => 'fa fa-user-plus', 'sort' => 1, 'parent_id' => $committeeAppId, 'frontend_path' => 'committees/assign-delegate', 'is_main_root' => 0,
             'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
-        App::create([
-            'resource_name' => $generalResourceName . '\CommitteController@index', 'name' => 'مجلد المعاملات',
+        $committeesId = App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@index', 'name' => 'مجلد المعاملات',
             'icon' => 'fa fa-file-o', 'sort' => 2, 'parent_id' => $committeeAppId, 'frontend_path' => 'committees', 'is_main_root' => 0,
             'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@create', 'name' => 'اضافة لجنة جديد',
+            'icon' => 'fa fa-file-o', 'sort' => 1, 'parent_id' => $committeesId, 'frontend_path' => 'committees/create', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@store', 'name' => 'حفظ لجنة جديد',
+            'icon' => 'fa fa-file-o','sort' => 2, 'parent_id' => $committeesId, 'frontend_path' => 'committees', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@show', 'name' => 'عرض اللجنة',
+            'icon' => 'fa fa-file-o','sort' => 4, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@edit', 'name' => 'تعديل اللجنة',
+            'icon' => 'fa fa-file-o','sort' => 5, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id/edit', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@update', 'name' => 'تحديث اللجنة',
+            'icon' => 'fa fa-file-o','sort' => 6, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@destroy', 'name' => 'حذف اللجنة',
+            'icon' => 'fa fa-file-o','sort' => 8, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeDocumentController@upload', 'name' => 'إضافة ملفات اللجنة',
+            'icon' => 'fa fa-file-o','sort' => 9, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeDocumentController@delete', 'name' => 'حذف ملفات اللجنة',
+            'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
     }

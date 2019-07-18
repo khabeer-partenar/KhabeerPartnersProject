@@ -16,6 +16,7 @@ class CommitteeDatabaseSeeder extends Seeder
     {
         Model::unguard();
         $this->call(CoreAppsTableSeeder::class);
+        $this->call(CoreGroupsTableSeeder::class);
         $this->call(TreatmentTypesTableSeederTableSeeder::class);
         $this->call(TreatmentUrgencyTableSeederTableSeeder::class);
         $this->call(TreatmentImportanceTableSeederTableSeeder::class);
