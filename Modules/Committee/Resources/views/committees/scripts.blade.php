@@ -18,7 +18,7 @@
                       <th scope="row">
                          ${text}
                          <input name="departments[${val}]" hidden value="${val}">
-                         <input name="departments[${val}][text]" hidden value="${text}">
+                         <input name="text[${val}]" hidden value="${text}">
                       </th>
                       <td><input name="departments[${val}][nomination_criteria]" class="nomination_criteria"></td>
                       <td><button type="button" class="btn btn-danger trow-remove" data-id="${val}" data-remove-row="#trow-${val}">حذف</button></td>
@@ -51,7 +51,9 @@
         });
 
         $(document).on('click', '#saveFiles', function() {
+            let btn = $(this);
             let uploadBtn = $('#upload-file-browse');
+            let nextOrder = parseInt($(btn).attr('data-order')) + 1;
             let formData = new FormData();
             $.each($(uploadBtn)[0].files, function(i, file) {formData.append('file', file);});
             formData.append('description', $('[name=file_description]').val());
@@ -66,7 +68,7 @@
                     const document = response.document;
                     let trow = `
                     <tr id="file-${document.id}">
-                        <td>1</td>
+                        <td>${nextOrder}</td>
                         <td>${document.description ? document.description:''}</td>
                         <td>
                             <a href="${document.full_path}">${document.name}</a>
@@ -84,6 +86,7 @@
                     $('[name=file_description]').val('');
                     $('#upload-file-browse').val('');
                     $('#fileName').html('');
+                    $(btn).attr('data-order', nextOrder);
                 },
                 error: function (request) {
                     let errors = request.responseJSON.errors;

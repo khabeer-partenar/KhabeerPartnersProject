@@ -15,7 +15,7 @@ class DocumentUploadRequest extends FormRequest
     {
         return [
             'file' => 'required|file|mimes:pdf|max:20000',
-            'description' => 'nullable|max:100'
+            'description' => 'required|max:100'
         ];
     }
 

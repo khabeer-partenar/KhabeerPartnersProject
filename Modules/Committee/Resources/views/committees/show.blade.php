@@ -83,7 +83,7 @@
                             {{ __('committee::committees.on_date') }}
                             {{ $committee->first_meeting_at_hijri }}
                             {{ __('committee::committees.same as') }}
-                            {{ $committee->first_meeting_at->format('d-m-Y') }}
+                            {{ $committee->first_meeting_at->format('Y-m-d') }}
                         </td>
                     </tr>
                     <tr>
@@ -107,14 +107,37 @@
                 </tr>
                 </thead>
                 <tbody>
-                    @foreach($committee->participantDepartments as $department)
-                        <tr>
-                            <td>{{ $loop->index + 1 }}</td>
-                            <td>
-                                {{ $department->name }}
-                            </td>
-                        </tr>
-                    @endforeach
+                @foreach($committee->participantDepartments as $department)
+                    <tr>
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>
+                            {{ $department->name }}
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+
+            {{-- Participant Department --}}
+            <p class="underLine">{{ __('committee::committees.files') }}</p>
+            <table class="table table-striped table-responsive-md">
+                <thead>
+                <tr>
+                    <th style="width: 16.666%" scope="col">رقم</th>
+                    <th scope="col">وصف الملف</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($committee->documents as $document)
+                    <tr>
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $document->description }}</td>
+                        <td>
+                            <a type="button" class="btn btn-default" href="{{ $document->full_path }}" download>تحميل</a>
+                        </td>
+                    </tr>
+                @endforeach
                 </tbody>
             </table>
         </div>

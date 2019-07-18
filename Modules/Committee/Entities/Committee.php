@@ -154,6 +154,11 @@ class Committee extends Model
         return $this->belongsTo(User::class, 'president_id');
     }
 
+    public function documents()
+    {
+        return $this->hasMany(CommitteeDocument::class, 'committee_id');
+    }
+
     public function ResourceDepartment()
     {
         return $this->belongsTo(Department::class, 'resource_by');
@@ -161,11 +166,11 @@ class Committee extends Model
 
     public function participantAdvisors()
     {
-        return $this->belongsToMany(User::class, 'committees_participant_advisors', 'committee_id', 'advisor_id');
+        return $this->belongsToMany(User::class, 'committees_participant_advisors', 'committee_id', 'advisor_id')->withTimestamps();
     }
 
     public function participantDepartments()
     {
-        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id');
+        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')->withTimestamps();
     }
 }

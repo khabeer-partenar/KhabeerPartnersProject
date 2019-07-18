@@ -331,7 +331,7 @@
                     @foreach(old('departments') as $id => $departmentArray)
                         <tr class="trow" id="trow-{{ $id }}">
                             <th scope="row">
-                                {{ $departmentArray['text'] }}
+                                {{ old('text') && is_array(old('text')) ? old('text')[$id]:'' }}
                                 <input name="departments[{{$id}}]" hidden value="{{ $id }}">
                             </th>
                             <td>
@@ -380,7 +380,7 @@
     </div>
 
     <div class="col-md-2">
-        <button type="button" class="btn btn-primary" id="saveFiles" data-url="{{ route('committees.upload-document') }}">إضافة</button>
+        <button type="button" data-order="{{ $documents->count() }}" class="btn btn-primary" id="saveFiles" data-url="{{ route('committees.upload-document') }}">إضافة</button>
     </div>
 </div>
 

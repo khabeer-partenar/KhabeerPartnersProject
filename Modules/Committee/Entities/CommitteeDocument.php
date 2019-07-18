@@ -21,7 +21,12 @@ class CommitteeDocument extends Model
     {
         $documents = self::where('user_id', auth()->id())->whereNull('committee_id')->get();
         foreach ($documents as $document) {
-            $document->update(['committee_id' => $committeeId]);
+            $fileName = basename($document->path);
+            $newPath = "committees/$committeeId/$fileName";
+            $moved = Storage::move($document->path, $newPath);
+            if ($moved) {
+                $document->update(['committee_id' => $committeeId, 'path' => $newPath]);
+            }
         }
     }
 }
