@@ -19,10 +19,10 @@
     <tr>
         <td>{{ $loop->index + 1 }}</td>
         <td>
-            {{ $delegate->name }}
+            {{ $delegate->direct_department_id }}
         </td>
         <td>
-            {{ $delegate->direct_department_id }}
+            {{ $delegate->name }}
         </td>
         <td>
             {{ $delegate->national_id}}
