@@ -2,6 +2,8 @@
 return [
     'add_co' => 'إضافة لجنة جديدة',
     'treatment information' => 'معلومات المعاملة',
+
+    // nomination departments
     'nomination_departments' => 'الجهات المطلوب ترشيخ مندوبين لها من قبلكم',
     'nomination_deparment_name' => 'الجهة/مرجعية الجهة',
     'nomination_criteria' => 'الجهة/مرجعية الجهة',
@@ -10,6 +12,21 @@ return [
     'nomination_done' => 'تم الترشيح',
     'nomination_not_done' => 'لم يتم الترشيح',
     'nominate' => 'ترشيح',
+
+    // delegates
+    'delegates_title' => 'المندوب المرشح الممثل للجهه',
+    'delegates_department' => 'الجهة/مرجعية الجهة',
+    'delegate_name' => 'اسم المندوب',
+    'delegate_national_id' => 'رقم الهوية',
+    'delegate_phone' => 'الجوال',
+    'delegate_email' => 'البريد الإليكترونى',
+    'delegate_options' => 'خيارات',
+    'delegate_delete' => 'حذف',
+
+
+
+
+
     'resource_staff_number' => 'رقم وارد الهيئة',
     'resource_at' => 'تاريخ التوريد',
     'please choose' => 'من فضلك قم بالاختيار',

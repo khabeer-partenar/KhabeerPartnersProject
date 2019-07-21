@@ -104,7 +104,7 @@ class CoordinatorController extends UserBaseController
      */
     public function show(Coordinator $coordinator)
     {
-       return view('users::coordinators.show', compact('coordinator'));
+        return view('users::coordinators.show', compact('coordinator'));
     }
 
     /**

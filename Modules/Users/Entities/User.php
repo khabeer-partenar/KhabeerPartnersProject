@@ -210,6 +210,7 @@ class User extends Authenticatable
         return $this->belongsTo(Department::class, 'main_department_id');
     }
 
+
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'core_users_groups', 'user_id', 'core_group_id');

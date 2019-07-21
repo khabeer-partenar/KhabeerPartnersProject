@@ -23,7 +23,7 @@ class DelegateController extends UserBaseController
     protected $userType = '';
 
     /**
-     * CoordinatorController constructor.
+     * DelegateController constructor.
      * @param Request $request
      */
     public function __construct(Request $request)
@@ -85,8 +85,8 @@ class DelegateController extends UserBaseController
     public function create()
     {
         $mainDepartments = Department::getDepartments();
-        $coordinatorJobs = Group::whereIn('key', [Coordinator::MAIN_CO_JOB, Coordinator::NORMAL_CO_JOB])->get(['id', 'name', 'key']);
-        return view("users::coordinators.$this->userType.create", compact('mainDepartments', 'coordinatorJobs'));
+        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+        return view("users::delegates.create", compact('mainDepartments', 'delegateJobs'));
     }
 
     /**
@@ -96,79 +96,15 @@ class DelegateController extends UserBaseController
      */
     public function store(SaveCoordinatorRequest $request)
     {
-        $coordinator = Coordinator::createFromRequest($request);
-        $coordinator->log('create_coordinator');
-        self::sessionSuccess('users::coordinators.created');
+        $delegate = Delegate::createFromRequest($request);
+        $delegate->log('create_delegate');
+        self::sessionSuccess('users::delegates.created');
         return back();
     }
 
-    /**
-     * Show the specified resource.
-     * @param Coordinator $coordinator
-     * @return Response
-     * @internal param int $id
-     */
-    public function show(Coordinator $coordinator)
-    {
-        return view('users::coordinators.show', compact('coordinator'));
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param Coordinator $coordinator
-     * @return Response
-     * @internal param int $id
-     */
-    public function edit(Coordinator $coordinator)
-    {
-        $mainDepartments = Department::getDepartments();
-        $coordinatorJobs = Group::whereIn('key', [Coordinator::MAIN_CO_JOB, Coordinator::NORMAL_CO_JOB])->get(['id', 'name', 'key']);
-        return view("users::coordinators.$this->userType.edit", compact('coordinator',  'mainDepartments', 'coordinatorJobs'));
-    }
 
-    /**
-     * Update the specified resource in storage.
-     * @param UpdateCoordinatorRequest $request
-     * @param Coordinator $coordinator
-     * @return Response
-     * @internal param int $id
-     */
-    public function update(UpdateCoordinatorRequest $request, Coordinator $coordinator)
-    {
-        $coordinator->updateFromRequest($request);
-        $coordinator->log('update_coordinator');
-        self::sessionSuccess('users::coordinators.updated');
-        return redirect()->route('coordinators.index');
-    }
 
-    /**
-     * Store Coordinator by Coordinator
-     *
-     * @param SaveCoordinatorRequestByCo $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function storeByCoordinator(SaveCoordinatorRequestByCo $request)
-    {
-        $coordinator = Coordinator::createFromRequest($request);
-        $coordinator->log('create_coordinator_by_main_coordinator');
-        self::sessionSuccess('users::coordinators.created');
-        return back();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param UpdateCoordinatorRequestByCo $request
-     * @param Coordinator $coordinator
-     * @return Response
-     * @internal param int $id
-     */
-    public function updateByCoordinator(UpdateCoordinatorRequestByCo $request, Coordinator $coordinator)
-    {
-        $coordinator->updateFromRequest($request);
-        $coordinator->log('update_coordinator_by_main_coordinator');
-        self::sessionSuccess('users::coordinators.updated');
-        return redirect()->route('coordinators.index');
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -176,10 +112,10 @@ class DelegateController extends UserBaseController
      * @return Response
      * @internal param int $id
      */
-    public function destroy(Coordinator $coordinator)
+    public function destroy(Delegate $delegate)
     {
-        $coordinator->log('delete_coordinator');
-        $coordinator->delete();
-        return response()->json(['msg' => __('users::coordinators.deleted')]);
+        $delegate->log('delete_coordinator');
+        $delegate->delete();
+        return response()->json(['msg' => __('users::delegates.deleted')]);
     }
 }

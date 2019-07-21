@@ -49,10 +49,10 @@ class CommitteeController extends Controller
                     return view('committee::committees.br_separated_data', compact('data'));
                 })
                 ->addColumn('president', function ($committee) {
-                    return $committee->president ? $committee->president->name:'-';
+                    return $committee->president ? $committee->president->name : '-';
                 })
                 ->addColumn('status', function ($committee) {
-                    return __('committee::committees.'.$committee->status);
+                    return __('committee::committees.' . $committee->status);
                 })
                 ->addColumn('action', function ($committee) {
                     return view('committee::committees.actions', compact('committee'));
@@ -99,8 +99,8 @@ class CommitteeController extends Controller
     /**
      * Show the specified resource.
      * @param Committee $committee
-     * @internal param int $id
      * @return Response
+     * @internal param int $id
      */
     public function show(Committee $committee)
     {

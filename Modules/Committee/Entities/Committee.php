@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 
 class Committee extends Model
@@ -172,5 +173,9 @@ class Committee extends Model
     {
         return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')
             ->withPivot('nomination_criteria','has_nominations');
+    }
+    public function delegates()
+    {
+        return $this->belongsToMany(Delegate::class, 'committee_user', 'committee_id', 'user_id');
     }
 }
