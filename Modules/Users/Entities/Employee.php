@@ -9,6 +9,7 @@ use Modules\Core\Entities\Group;
 class Employee extends User
 {
     const SECRETARY = 'secretary';
+    const ADVISOR = 'advisor';
 
     /**
      * add global scope

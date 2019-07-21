@@ -29,7 +29,7 @@ class Committee extends Model
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'uuid', 'created_at_hijri', 'first_meeting_at_hijri'
+        'resource_at_hijri', 'uuid', 'created_at_hijri', 'first_meeting_at_hijri', 'recommended_at_hijri'
     ];
 
     protected $dates = [
@@ -67,6 +67,12 @@ class Committee extends Model
         return CarbonHijri::toHijriFromMiladi($date);
     }
 
+    public function getRecommendedAtHijriAttribute()
+    {
+        $date = Carbon::parse($this->attributes['recommended_at'])->format('Y-m-d');
+        return CarbonHijri::toHijriFromMiladi($date);
+    }
+
     public function getfirstMeetingAtHijriAttribute()
     {
         $date = Carbon::parse($this->attributes['first_meeting_at'])->format('Y-m-d');
@@ -95,6 +101,8 @@ class Committee extends Model
         if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
             $query->whereIn('advisor_id', $advisorsId);
+        } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            //
         }
         return $query;
     }
@@ -125,6 +133,7 @@ class Committee extends Model
         );
         $committee->participantAdvisors()->attach($request->participant_advisors);
         $committee->participantDepartments()->sync($request->departments);
+        $committee->update(['members_count' => $committee->participantDepartments()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
         return $committee;
     }
@@ -164,9 +173,14 @@ class Committee extends Model
         return $this->hasMany(CommitteeDocument::class, 'committee_id');
     }
 
-    public function ResourceDepartment()
+    public function resourceDepartment()
     {
         return $this->belongsTo(Department::class, 'resource_by');
+    }
+
+    public function recommendedByDepartment()
+    {
+        return $this->belongsTo(Department::class, 'recommended_by_id');
     }
 
     public function participantAdvisors()

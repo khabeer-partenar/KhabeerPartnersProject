@@ -44,17 +44,21 @@
                     <tr>
                         <th scope="row">رقم المعاملة و وجهة طلب دراسة المعاملة</th>
                         <td>
-
+                            {{ $committee->resourceDepartment->name }}
+                            {{ __('committee::committees.with_number') }}
+                            ({{ $committee->treatment_number }})
+                            {{ __('committee::committees.on_date') }}
+                            {{ $committee->resource_at_hijri }}
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">الجهة الموصية بدراسة المعاملة و رقمها</th>
                         <td>
-                            {{ $committee->resourceDepartment->name }}
+                            {{ $committee->recommendedByDepartment->name }}
                             {{ __('committee::committees.with_number') }}
-                            ({{ $committee->resource_staff_number }})
+                            ({{ $committee->recommendation_number }})
                             {{ __('committee::committees.on_date') }}
-                            {{ $committee->resource_at_hijri }}
+                            {{ $committee->recommended_at_hijri }}
                         </td>
                     </tr>
                     <tr>

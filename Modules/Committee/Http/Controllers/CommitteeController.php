@@ -117,6 +117,7 @@ class CommitteeController extends Controller
      */
     public function edit(Committee $committee)
     {
+
         return view('committee::committees.edit');
     }
 
