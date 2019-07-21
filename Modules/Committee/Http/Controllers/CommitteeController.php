@@ -107,7 +107,8 @@ class CommitteeController extends Controller
      */
     public function show(Committee $committee)
     {
-        return view('committee::committees.show', compact('committee'));
+        $delegates = $committee->getDelegatesWithDetails();
+        return view('committee::committees.show', compact('committee', 'delegates'));
     }
 
     /**

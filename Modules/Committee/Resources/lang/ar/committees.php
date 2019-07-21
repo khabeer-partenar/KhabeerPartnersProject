@@ -6,7 +6,7 @@ return [
     // nomination departments
     'nomination_departments' => 'الجهات المطلوب ترشيخ مندوبين لها من قبلكم',
     'nomination_deparment_name' => 'الجهة/مرجعية الجهة',
-    'nomination_criteria' => 'الجهة/مرجعية الجهة',
+    'nomination_criteria' => 'معايير الترشيح',
     'nomination_has_nomination' => 'حالة الترشيح',
     'nomination_options' => 'خيارات',
     'nomination_done' => 'تم الترشيح',

@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Modules\Committee\Entities\Committee;
 use Modules\Core\Entities\Group;
+use Modules\SystemManagement\Entities\Department;
 
 class Delegate extends User
 {
-
     const TYPE = 'delegate';
     const JOB = 'delegate';
 
@@ -92,13 +92,18 @@ class Delegate extends User
         return $query;
     }
 
-    public function committees()
-    {
-        return $this->belongsToMany(Committee::class, 'committee_user', 'user_id', 'committee_id');
-    }
     /**
      * Relations
      *
      * Here Add Relations
      */
+    public function committees()
+    {
+        return $this->belongsToMany(Committee::class, 'committee_user', 'user_id', 'committee_id');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'parent_department_id');
+    }
 }

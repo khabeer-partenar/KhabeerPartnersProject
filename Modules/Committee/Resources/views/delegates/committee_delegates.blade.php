@@ -15,28 +15,28 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($committee->delegates as $delegate)
-    <tr>
-        <td>{{ $loop->index + 1 }}</td>
-        <td>
-            {{ $delegate->direct_department_id }}
-        </td>
-        <td>
-            {{ $delegate->name }}
-        </td>
-        <td>
-            {{ $delegate->national_id}}
-        </td>
-        <td>
-            {{ $delegate->phone_number}}
-        </td>
-        <td>
-            {{ $delegate->email}}
-        </td>
-        <td>
-            <button class="btn btn-danger">{{__('committee::committees.delegate_delete')}}</button>
-        </td>
-    </tr>
+    @foreach($delegates as $delegate)
+        <tr>
+            <td>{{ $loop->index + 1 }}</td>
+            <td>
+                {{ $delegate->department->name }} {{ $delegate->department->referenceDepartment ? ' - ' . $delegate->department->referenceDepartment->name:'' }}
+            </td>
+            <td>
+                {{ $delegate->name }}
+            </td>
+            <td>
+                {{ $delegate->national_id}}
+            </td>
+            <td>
+                {{ $delegate->phone_number}}
+            </td>
+            <td>
+                {{ $delegate->email}}
+            </td>
+            <td>
+                <button class="btn btn-danger">{{__('committee::committees.delegate_delete')}}</button>
+            </td>
+        </tr>
     @endforeach
     </tbody>
 </table>
