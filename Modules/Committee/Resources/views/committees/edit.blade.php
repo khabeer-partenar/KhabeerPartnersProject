@@ -6,14 +6,34 @@
         <div class="portlet-title">
 
             <div class="caption">
-                <i class="fa fa-plus"></i>
-                <span class="caption-subject sbold">{{ __('committee::committees.add_co') }}</span>
+                <i class="fa fa-edit"></i>
+                <span class="caption-subject sbold">{{ __('committee::committees.edit_co') }}</span>
             </div>
 
             <div class="actions">
                 <a href="{{ route('committees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
             </div>
 
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                {!! Form::label('committee uuid', __('committee::committees.committee uuid'), ['class' => 'col-md-4 control-label']) !!}
+
+                <div class="col-md-8">
+                    <input class="form-control" value="{{ $committee->uuid }}" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                {!! Form::label('committee date', __('committee::committees.committee date'), ['class' => 'col-md-4 control-label']) !!}
+
+                <div class="col-md-8">
+                    <input class="form-control" value="{{ $committee->created_at_hijri }}" disabled>
+                </div>
+            </div>
         </div>
 
         <div class="portlet-body form">
@@ -29,7 +49,7 @@
             </div>
 
             <div class="form-actions">
-                {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn blue']) }}
+                {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue']) }}
             </div>
 
             {{ Form::close() }}

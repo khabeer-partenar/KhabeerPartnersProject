@@ -1,6 +1,7 @@
 <?php
 return [
     'add_co' => 'إضافة لجنة جديدة',
+    'edit_co' => 'تعديل اللجنة',
     'treatment information' => 'معلومات المعاملة',
 
     // nomination departments
@@ -22,11 +23,6 @@ return [
     'delegate_email' => 'البريد الإليكترونى',
     'delegate_options' => 'خيارات',
     'delegate_delete' => 'حذف',
-
-
-
-
-
     'resource_staff_number' => 'رقم وارد الهيئة',
     'resource_at' => 'تاريخ التوريد',
     'please choose' => 'من فضلك قم بالاختيار',
@@ -84,6 +80,6 @@ return [
     'number' => 'رقم',
     'file description' => 'وصف الملف',
     'file path' => 'رابط الملف',
-    '' => '',
+    'committee date' => 'تاريخ الطلب',
     '' => '',
 ];
