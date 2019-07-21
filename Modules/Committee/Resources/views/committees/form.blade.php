@@ -18,7 +18,13 @@
             {!! Form::label('resource_at',  __('committee::committees.resource_at'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('resource_at', null, ['id' => 'resource_at', 'class' => 'form-control date-picker', 'autocomplete' => 'off']) !!}
+                @php
+                    $resourceAt = isset($committee) ? $committee->resource_at->format('m/d/Y'):null;
+                    if (old('resource_at')){
+                        $resourceAt = old('resource_at');
+                    }
+                @endphp
+                <input type="text" name="resource_at" id="resource_at" value="{{ $resourceAt }}" class="form-control date-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'resource_at'])
             </div>
         </div>
@@ -31,8 +37,14 @@
             <div class="col-md-8">
                 <select name="treatment_type_id" id="treatment_type_id" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $treatmentTypeId = isset($committee) ? $committee->treatment_type_id:'';
+                        if (old('treatment_type_id')){
+                            $treatmentTypeId = old('treatment_type_id');
+                        }
+                    @endphp
                     @foreach($treatmentTypes as $id => $name)
-                        <option value="{{ $id }}" {{ old('treatment_type_id') == $id ? 'selected':'' }}>{{ $name }}</option>
+                        <option value="{{ $id }}" {{ $treatmentTypeId == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
                 @include('layouts.dashboard.form-error', ['key' => 'treatment_type_id'])
@@ -53,8 +65,14 @@
             <div class="col-md-8">
                 <select name="resource_by" id="resource_by" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $resourceBy = isset($committee) ? $committee->resource_by:'';
+                        if (old('resource_by')){
+                            $resourceBy = old('resource_by');
+                        }
+                    @endphp
                     @foreach($departments as $id => $name)
-                        <option value="{{ $id }}" {{ old('resource_by') == $id ? 'selected':'' }}>{{ $name }}</option>
+                        <option value="{{ $id }}" {{ $resourceBy == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
                 @include('layouts.dashboard.form-error', ['key' => 'resource_by'])
@@ -78,7 +96,13 @@
             {!! Form::label('treatment_time',  __('committee::committees.treatment_time'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('treatment_time', null, ['id' => 'treatment_time', 'class' => 'form-control date-picker', 'autocomplete' => 'off']) !!}
+                @php
+                    $treatmentTime = isset($committee) ? $committee->treatment_time->format('m/d/Y'):null;
+                    if (old('treatment_time')){
+                        $treatmentTime = old('treatment_time');
+                    }
+                @endphp
+                <input type="text" name="treatment_time" id="treatment_time" value="{{ $treatmentTime }}" class="form-control date-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'treatment_time'])
             </div>
         </div>
@@ -96,8 +120,14 @@
             <div class="col-md-8">
                 <select name="recommended_by_id" id="recommended_by_id" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $recommendedBy = isset($committee) ? $committee->recommended_by_id:'';
+                        if (old('recommended_by_id')){
+                            $recommendedBy = old('recommended_by_id');
+                        }
+                    @endphp
                     @foreach($departments as $id => $name)
-                        <option value="{{ $id }}" {{ old('recommended_by_id') == $id ? 'selected':'' }}>{{ $name }}</option>
+                        <option value="{{ $id }}" {{ $recommendedBy == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
                 @include('layouts.dashboard.form-error', ['key' => 'recommended_by_id'])
@@ -121,7 +151,13 @@
             {!! Form::label('recommended_at',  __('committee::committees.recommended_at'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('recommended_at', null, ['id' => 'recommended_at', 'class' => 'form-control date-picker', 'autocomplete' => 'off']) !!}
+                @php
+                    $recommendedAt = isset($committee) ? $committee->recommended_at->format('m/d/Y'):null;
+                    if (old('recommended_at')){
+                        $recommendedAt = old('recommended_at');
+                    }
+                @endphp
+                <input type="text" name="recommended_at" id="recommended_at" value="{{ $recommendedAt }}" class="form-control date-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'recommended_at'])
             </div>
         </div>
@@ -138,8 +174,14 @@
             <div class="col-md-8">
                 <select name="source_of_study_id" id="source_of_study_id" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $sourceOfStudy = isset($committee) ? $committee->source_of_study_id:'';
+                        if (old('source_of_study_id')){
+                            $sourceOfStudy = old('source_of_study_id');
+                        }
+                    @endphp
                     @foreach($departments as $id => $name)
-                        <option value="{{ $id }}" {{ old('source_of_study_id') == $id ? 'selected':'' }}>{{ $name }}</option>
+                        <option value="{{ $id }}" {{ $sourceOfStudy == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
                 @include('layouts.dashboard.form-error', ['key' => 'source_of_study_id'])
@@ -154,8 +196,14 @@
             <div class="col-md-8">
                 <select name="treatment_urgency_id" id="treatment_urgency_id" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $treatmentUrgencyId = isset($committee) ? $committee->treatment_urgency_id:'';
+                        if (old('treatment_urgency_id')){
+                            $treatmentUrgencyId = old('treatment_urgency_id');
+                        }
+                    @endphp
                     @foreach($treatmentUrgency as $id => $name)
-                        <option value="{{ $id }}" {{ old('treatment_urgency_id') == $id ? 'selected':'' }}>{{ $name }}</option>
+                        <option value="{{ $id }}" {{ $treatmentUrgencyId == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
                 @include('layouts.dashboard.form-error', ['key' => 'treatment_urgency_id'])
@@ -170,8 +218,14 @@
             <div class="col-md-8">
                 <select name="treatment_importance_id" id="treatment_importance_id" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $treatmentImportanceId = isset($committee) ? $committee->treatment_importance_id:'';
+                        if (old('treatment_importance_id')){
+                            $treatmentImportanceId = old('treatment_importance_id');
+                        }
+                    @endphp
                     @foreach($treatmentImportance as $id => $name)
-                        <option value="{{ $id }}" {{ old('treatment_importance_id') == $id ? 'selected':'' }}>{{ $name }}</option>
+                        <option value="{{ $id }}" {{ $treatmentImportanceId == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
                 @include('layouts.dashboard.form-error', ['key' => 'treatment_importance_id'])
@@ -188,7 +242,13 @@
             {!! Form::label('first_meeting_at',  __('committee::committees.first_meeting_at'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('first_meeting_at', null, ['id' => 'first_meeting_at', 'class' => 'form-control date-picker', 'autocomplete' => 'off']) !!}
+                @php
+                    $meetingAt = isset($committee) ? $committee->first_meeting_at->format('m/d/Y'):null;
+                    if (old('first_meeting_at')){
+                        $meetingAt = old('first_meeting_at');
+                    }
+                @endphp
+                <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form-control date-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'first_meeting_at'])
             </div>
         </div>
@@ -216,8 +276,14 @@
             <div class="col-md-8">
                 <select name="president_id" id="president_id" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $presidentId = isset($committee) ? $committee->president_id:'';
+                        if (old('president_id')){
+                            $presidentId = old('president_id');
+                        }
+                    @endphp
                     @foreach($studyCommission as $id => $name)
-                        <option value="{{ $id }}" {{ old('president_id') == $id ? 'selected':'' }}>{{ $name }}</option>
+                        <option value="{{ $id }}" {{ $presidentId == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
                 @include('layouts.dashboard.form-error', ['key' => 'president_id'])
@@ -247,8 +313,14 @@
             <div class="col-md-8">
                 <select name="advisor_id" id="advisor_id" class="form-control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $advisorId = isset($committee) ? $committee->advisor_id:'';
+                        if (old('resource_by')){
+                            $advisorId = old('advisor_id');
+                        }
+                    @endphp
                     @foreach($advisors as $id => $name)
-                        <option value="{{ $id }}" {{ old('advisor_id') == $id ? 'selected':'' }}>{{ $name }}</option>
+                        <option value="{{ $id }}" {{ $advisorId == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
                 @include('layouts.dashboard.form-error', ['key' => 'advisor_id'])
@@ -262,9 +334,15 @@
             <div class="col-md-10">
                 <select name="participant_advisors[]" id="participant_advisors" class="form-control select2" multiple>
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
+                    @php
+                        $participantIds = isset($committee) ? $committee->participantAdvisors()->pluck('users.id')->toArray():[];
+                        if (old('participant_advisors')){
+                            $participantIds = old('participant_advisors');
+                        }
+                    @endphp
                     @foreach($advisors as $id => $name)
                         <option value="{{ $id }}"
-                                {{ is_array(old('participant_advisors')) && in_array($id, old('participant_advisors')) ? 'selected':'' }}>
+                                {{ in_array($id, $participantIds) ? 'selected':'' }}>
                             {{ $name }}
                         </option>
                     @endforeach
@@ -283,7 +361,7 @@
             {!! Form::label('members_count',  __('committee::committees.members_count'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('members_count', 0, ['id' => 'members_count', 'class' => 'form-control', 'disabled']) !!}
+                {!! Form::text('members_count', null, ['id' => 'members_count', 'class' => 'form-control', 'disabled']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'members_count'])
             </div>
         </div>
@@ -302,9 +380,15 @@
         <div class="col-md-8">
             <select id="departments" class="form-control select2">
                 <option value="0">{{ __('committee::committees.please choose') }}</option>
+                @php
+                    $departmentsIds = isset($committee) ? $committee->participantDepartments()->pluck('departments.id')->toArray():[];
+                    if (old('departments')){
+                        $departmentsIds = old('departments');
+                    }
+                @endphp
                 @foreach($departmentsWithRef as $department)
                     <option value="{{ $department->id }}"
-                            {{ is_array(old('departments')) && in_array($department->id, array_keys(old('departments'))) ? 'disabled':'' }}>
+                        {{ in_array($department->id, $departmentsIds) ? 'disabled':'' }}>
                         {{ ($department->referenceDepartment ? $department->referenceDepartment->name . ' - ':'') . $department->name }}
                     </option>
                 @endforeach
@@ -327,22 +411,44 @@
                 </tr>
             </thead>
             <tbody id="departmentsTableBody">
-                @if(old('departments') && is_array(old('departments')))
-                    @foreach(old('departments') as $id => $departmentArray)
-                        <tr class="trow" id="trow-{{ $id }}">
+                {{-- Edit --}}
+                @if(isset($committee))
+                    @php
+                        $departments = $committee->participantDepartments()->get();
+                    @endphp
+                    @foreach($departments as $department)
+                        <tr class="trow" id="trow-{{ $department->id }}">
                             <th scope="row">
-                                {{ old('text') && is_array(old('text')) ? old('text')[$id]:'' }}
-                                <input name="departments[{{$id}}]" hidden value="{{ $id }}">
+                                {{ $department->name }}
+                                <input name="departments[{{$department->id}}]" hidden value="{{ $id }}">
                             </th>
                             <td>
-                                <input name="departmentsArray[{{$id}}][nomination_criteria]"
-                                       value="{{ $departmentArray["nomination_criteria"] }}"
+                                <input name="departments[{{$department->id}}][nomination_criteria]"
+                                       value="{{ $department->pivot->nomination_criteria }}"
                                        class="nomination_criteria">
                             </td>
-                            <td><button type="button" class="btn btn-danger trow-remove" data-id="{{ $id }}" data-remove-row="#trow-{{ $id }}">حذف</button></td>
+                            <td><button type="button" class="btn btn-danger trow-remove" data-id="{{ $department->id }}"
+                                        data-remove-row="#trow-{{ $department->id }}">حذف</button></td>
                         </tr>
                     @endforeach
-                @endif
+                @else
+                    @if(old('departments') && is_array(old('departments')))
+                        @foreach(old('departments') as $id => $departmentArray)
+                            <tr class="trow" id="trow-{{ $id }}">
+                                <th scope="row">
+                                    {{ old('text') && is_array(old('text')) ? old('text')[$id]:'' }}
+                                    <input name="departments[{{$id}}]" hidden value="{{ $id }}">
+                                </th>
+                                <td>
+                                    <input name="departments[{{$id}}][nomination_criteria]"
+                                           value="{{ $departmentArray["nomination_criteria"] }}"
+                                           class="nomination_criteria">
+                                </td>
+                                <td><button type="button" class="btn btn-danger trow-remove" data-id="{{ $id }}" data-remove-row="#trow-{{ $id }}">حذف</button></td>
+                            </tr>
+                        @endforeach
+                    @endif
+                @endif+
             </tbody>
         </table>
     </div>
@@ -380,7 +486,15 @@
     </div>
 
     <div class="col-md-2">
-        <button type="button" data-order="{{ $documents->count() }}" class="btn btn-primary" id="saveFiles" data-url="{{ route('committees.upload-document') }}">إضافة</button>
+        @php
+            if(isset($committee)) {
+                $documentsCount = $committee->documents()->count();
+            } else {
+                $documentsCount = $documents->count();
+            }
+        @endphp
+        <button type="button" data-order="{{ $documentsCount }}" class="btn btn-primary" id="saveFiles"
+                data-url="{{ isset($committee) ? route('committees.upload-document-direct', compact('committee')):route('committees.upload-document') }}">إضافة</button>
     </div>
 </div>
 
@@ -396,6 +510,24 @@
             </tr>
             </thead>
             <tbody id="files">
+            @if(isset($committee))
+                @foreach($committee->documents as $document)
+                    <tr id="file-{{ $document->id }}">
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $document->description ? $document->description:''}}</td>
+                        <td>
+                            <a href="{{ $document->full_path }}">{{ $document->name }}</a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger file-remove"
+                                    data-remove-url="{{ route('committees.delete-document', $document) }}"
+                                    data-remove-row="#file-{{ $document->id }}">
+                                حذف
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
                 @foreach($documents as $document)
                     <tr id="file-{{ $document->id }}">
                         <td>{{ $loop->index + 1 }}</td>
@@ -412,6 +544,7 @@
                         </td>
                     </tr>
                 @endforeach
+            @endif
             </tbody>
         </table>
     </div>

@@ -117,8 +117,18 @@ class CommitteeController extends Controller
      */
     public function edit(Committee $committee)
     {
-
-        return view('committee::committees.edit');
+        $treatmentTypes = TreatmentType::pluck('name', 'id');
+        $treatmentUrgency = TreatmentUrgency::pluck('name', 'id');
+        $treatmentImportance = TreatmentImportance::pluck('name', 'id');
+        $departments = Department::where('type', Department::parentDepartment)->pluck('name', 'id');
+        $studyCommission = Employee::studyChairman()->pluck('name', 'id');
+        $presidents = Group::presidentsUsers()->pluck('name', 'id');
+        $advisors = Group::advisorsUsers()->pluck('name', 'id');
+        $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
+        return view('committee::committees.edit', compact(
+            'committee','treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
+            'presidents', 'studyCommission', 'departmentsWithRef', 'advisors'
+        ));
     }
 
     /**
@@ -128,9 +138,12 @@ class CommitteeController extends Controller
      * @return Response
      * @internal param int $id
      */
-    public function update(Request $request, Committee $committee)
+    public function update(SaveCommitteeRequest $request, Committee $committee)
     {
-        //
+        $committee = $committee->updateFromRequest($request);
+        $committee->log('update_committee');
+        self::sessionSuccess('committee::committees.updated');
+        return redirect()->route('committees.index');
     }
 
     /**

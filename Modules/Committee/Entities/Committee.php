@@ -133,9 +133,18 @@ class Committee extends Model
         );
         $committee->participantAdvisors()->attach($request->participant_advisors);
         $committee->participantDepartments()->sync($request->departments);
-        $committee->update(['members_count' => $committee->participantDepartments()->count()]);
+        $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
         return $committee;
+    }
+
+    public function updateFromRequest($request)
+    {
+        $this->update($request->all());
+        $this->participantAdvisors()->sync($request->participant_advisors);
+        $this->participantDepartments()->sync($request->departments);
+        $this->update(['members_count' => $this->participantAdvisors()->count()]);
+        return $this;
     }
 
     /**
@@ -190,6 +199,8 @@ class Committee extends Model
 
     public function participantDepartments()
     {
-        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')->withTimestamps();
+        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')
+            ->withTimestamps()
+            ->withPivot('nomination_criteria');
     }
 }
