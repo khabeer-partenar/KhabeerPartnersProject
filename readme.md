@@ -8,5 +8,6 @@ To install this project do the following steps:
 - php artisan key:gen
 - php artisan migrate
 - php artisan passport:install
+- php artisan db:seed
 - php artisan module:seed Core
 - php artisan module:seed Users

@@ -144,6 +144,10 @@
                 @endforeach
                 </tbody>
             </table>
+            @include('committee::delegates.nomination_departments',compact('committee'))
+            @include('committee::delegates.committee_delegates',compact('committee'))
+
+
         </div>
     </div>
 
