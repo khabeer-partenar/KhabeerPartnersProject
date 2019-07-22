@@ -23,6 +23,13 @@ class Committee extends Model
     const HOLD = 'hold';
     const WAITING_SIGNATURE = 'waiting_for_signature';
     const SIGNATURE_COMPLETED = 'signature_completed';
+    const STATUS = [
+        self::WAITING_DELEGATES => 'Waiting for Delegates',
+        self::NOMINATIONS_COMPLETED => 'Nominations Completed',
+        self::HOLD => 'Hold',
+        self::WAITING_SIGNATURE => 'Waiting for Signature',
+        self::SIGNATURE_COMPLETED => 'Signature Completed',
+    ];
 
     protected $fillable = [
         'resource_staff_number', 'resource_at', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
@@ -31,7 +38,7 @@ class Committee extends Model
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'uuid', 'created_at_hijri', 'first_meeting_at_hijri', 'recommended_at_hijri'
+        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'recommended_at_hijri'
     ];
 
     protected $dates = [
@@ -87,24 +94,36 @@ class Committee extends Model
         return CarbonHijri::toHijriFromMiladi($date);
     }
 
-    public function getUuidAttribute()
-    {
-        $hijriDate = Carbon::parse($this->created_at_hijri);
-        return $hijriDate->year . '-' . $this->attributes['id'] ;
-    }
-
     /**
      * Scopes
      *
      * Here Scopes
      */
-    public function scopeSearch($query)
+    public function scopeSearch($query, $request)
     {
+        // Filter By User Type / Job and permissions to view Committees
         if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
             $query->whereIn('advisor_id', $advisorsId);
         } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
             //
+        }
+
+        // Filter By Request
+        if ($request->has('subject')) {
+            $query->where('subject', 'LIKE', '%'.$request->subject.'%');
+        }
+        if ($request->has('advisor_id') && $request->advisor_id != 0) {
+            $query->where('advisor_id', $request->advisor_id);
+        }
+        if ($request->has('status') && $request->status != '0') {
+            $query->where('status', $request->status);
+        }
+        if ($request->has('treatment_number')) {
+            $query->where('treatment_number', $request->treatment_number);
+        }
+        if ($request->has('uuid')) {
+            $query->where('uuid', $request->uuid);
         }
         return $query;
     }
@@ -113,6 +132,9 @@ class Committee extends Model
      * Functions
      *
      * Here goes functions
+     * @param $value
+     * @param string $format
+     * @return Carbon|bool
      */
     public static function getDateFromFormat($value, $format = 'm/d/Y') {
         try {

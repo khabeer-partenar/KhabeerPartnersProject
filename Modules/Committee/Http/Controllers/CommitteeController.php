@@ -60,8 +60,9 @@ class CommitteeController extends Controller
                 ->rawColumns(['action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count'])
                 ->make(true);
         }
-
-        return view('committee::committees.index');
+        $advisors = Group::advisorsUsers()->pluck('name', 'id');
+        $status = Committee::STATUS;
+        return view('committee::committees.index', compact('advisors', 'status'));
     }
 
     /**

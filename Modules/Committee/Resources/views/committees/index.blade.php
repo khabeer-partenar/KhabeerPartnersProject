@@ -19,12 +19,15 @@
         </div>
 
         <div class="portlet-body">
-
+            @include('committee::committees.search')
             {{-- DataTable --}}
             <table id="table-ajax" class="table" data-url="{{ route('committees.index', [
-                'name' => Request::input('name'),
-                'main_department_id' => Request::input('main_department_id'),
-                'parent_department_id' => Request::input('parent_department_id')
+                'subject' => Request::input('subject'),
+                'advisor_id' => Request::input('advisor_id'),
+                'status' => Request::input('status'),
+                'treatment_number' => Request::input('treatment_number'),
+                'treatment_time' => Request::input('treatment_time'),
+                'uuid' => Request::input('uuid')
                 ])
              }}"
                    data-fields='[

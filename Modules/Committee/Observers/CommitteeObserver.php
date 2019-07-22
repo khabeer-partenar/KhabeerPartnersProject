@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Observers;
 
+use Carbon\Carbon;
 use Modules\Committee\Entities\Committee;
 
 class CommitteeObserver
@@ -14,7 +15,9 @@ class CommitteeObserver
      */
     public function created(Committee $committee)
     {
-        //
+        $hijriDate = Carbon::parse($committee->created_at_hijri);
+        $committee->uuid = $hijriDate->year . '-' . $committee->id;
+        $committee->save();
     }
 
     /**
