@@ -6,6 +6,7 @@ use App\Classes\Date\CarbonHijri;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
@@ -15,7 +16,7 @@ use Modules\Users\Entities\User;
 
 class Committee extends Model
 {
-    use SharedModel, Log;
+    use SharedModel, Log, SoftDeletes;
 
     const WAITING_DELEGATES = 'waiting_for_delegates';
     const NOMINATIONS_COMPLETED = 'nominations_completed';
@@ -154,6 +155,7 @@ class Committee extends Model
             $query->with('referenceDepartment');
         }])->get();
     }
+
     /**
      * Relations
      *

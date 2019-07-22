@@ -81,5 +81,7 @@ return [
     'file description' => 'وصف الملف',
     'file path' => 'رابط الملف',
     'committee date' => 'تاريخ الطلب',
+    'deleted' => 'تم حذف اللجنة',
+    '' => '',
     '' => '',
 ];

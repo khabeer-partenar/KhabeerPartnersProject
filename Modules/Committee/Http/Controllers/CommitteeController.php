@@ -154,6 +154,8 @@ class CommitteeController extends Controller
      */
     public function destroy(Committee $committee)
     {
-        //
+        $committee->log('delete_committee');
+        $committee->delete();
+        return response()->json(['msg' => __('committee::committees.deleted')]);
     }
 }
