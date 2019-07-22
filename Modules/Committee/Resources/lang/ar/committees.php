@@ -13,7 +13,7 @@ return [
     'nomination_done' => 'تم الترشيح',
     'nomination_not_done' => 'لم يتم الترشيح',
     'nominate' => 'ترشيح',
-
+    'nomination_add_delegte' =>'إضافة مندوب جديد',
     // delegates
     'delegates_title' => 'المندوب المرشح الممثل للجهه',
     'delegates_department' => 'الجهة/مرجعية الجهة',

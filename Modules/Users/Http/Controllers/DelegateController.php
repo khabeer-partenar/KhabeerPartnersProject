@@ -45,7 +45,7 @@ class DelegateController extends UserBaseController
      */
     public function index(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
+        /*if ($request->wantsJson() || $request->ajax()) {
             $delegatesQuery = Delegate::with('mainDepartment', 'parentDepartment', 'directDepartment')
                 ->search($request);
 
@@ -73,7 +73,9 @@ class DelegateController extends UserBaseController
                 ->addColumn('action', function ($delegate) {
                     return view('users::delegates.actions', compact('delegate'));
                 })->rawColumns(['action', 'contact_options'])->make(true);
-        }
+        }*/
+        $delegatesQuery = Delegate::with('mainDepartment', 'parentDepartment', 'directDepartment');
+dd($delegatesQuery->first()->directDepartment);
         $mainDepartments = Department::getDepartments();
         return view('users::delegates.index', compact('mainDepartments'));
     }
@@ -101,9 +103,6 @@ class DelegateController extends UserBaseController
         self::sessionSuccess('users::delegates.created');
         return back();
     }
-
-
-
 
 
     /**

@@ -145,6 +145,7 @@
                 </tbody>
             </table>
             @include('committee::delegates.nomination_departments',compact('committee'))
+            {{--@include('users::delegates.index')--}}
             @include('committee::delegates.committee_delegates',compact('committee'))
 
 

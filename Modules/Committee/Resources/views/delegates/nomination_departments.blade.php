@@ -1,8 +1,12 @@
 {{-- Nomination Departments --}}
-<p class="underLine">{{ __('committee::committees.nomination_departments') }}</p>
+
 
 <table class="table table-striped table-responsive-md">
     <thead>
+    <label class="underLine">{{ __('committee::committees.nomination_departments') }}
+
+    </label>
+    <a style="color:blue; float: left;margin-left: 10%;" >{{ __('committee::committees.nomination_add_delegte') }}</a>
     <tr>
         <th style="width: 16.666%" scope="col"></th>
         <th scope="col">{{ __('committee::committees.nomination_deparment_name') }}</th>
@@ -26,9 +30,12 @@
                 {{ $department->pivot->has_nominations?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done') }}
             </td>
             <td>
-                <button class="btn btn-primary">{{__('committee::committees.nominate')}}</button>
+                <button data-toggle="modal" data-target="#nominationsListModal" class="btn btn-primary">{{__('committee::committees.nominate')}}</button>
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+
+
+

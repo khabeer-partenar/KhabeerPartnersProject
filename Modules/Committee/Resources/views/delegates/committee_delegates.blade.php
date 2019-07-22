@@ -14,7 +14,7 @@
 
     </tr>
     </thead>
-    <tbody>
+    <tbody id="delegatesTable">
     @foreach($delegates as $delegate)
         <tr>
             <td>{{ $loop->index + 1 }}</td>
@@ -40,3 +40,26 @@
     @endforeach
     </tbody>
 </table>
+
+<script>
+    jQuery(document).ready(function () {
+        jQuery('#sharecomment').click(function (e) {
+            e.preventDefault();
+            jQuery.ajax({
+                url: "{{ url('/comments/store') }}",
+                method: 'post',
+                data: {
+                    comment: jQuery('#comment').val(),
+                    post_id: jQuery('#post_id').val(),
+                    user_id: jQuery('#user_id').val(),
+                    _token: '{{csrf_token()}}'
+                },
+                success: function (result) {
+                    console.log(result);
+                    window.location.reload();
+                }
+            });
+        });
+    });
+</script>
+

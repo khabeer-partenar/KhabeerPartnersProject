@@ -30,6 +30,8 @@ Route::group(['middleware' => 'auth'], function()
         Route::put('/coordinators/{coordinator}/update-by-co', 'CoordinatorController@updateByCoordinator')->name('coordinators.update_by_co');//->middleware('coordinator.can');
         Route::resource('/coordinators', 'CoordinatorController');//->middleware('coordinator.can');
 
+        // Delegate
+        Route::resource('/delegates','DelegateController');
         // Assign Committe Controller
         Route::get('/employees/assign-committees/search/{groupID}/{columnType}', 'AssignCommitteController@search')->name('employees.assign_committees.search');
         Route::get('/employees/assign-committees', 'AssignCommitteController@index')->name('employees.assign_committees.index');

@@ -50,7 +50,6 @@ class CoordinatorController extends UserBaseController
         if ($request->wantsJson() || $request->ajax()) {
             $coordinatorsQuery = Coordinator::with('mainDepartment', 'parentDepartment', 'directDepartment')
                 ->search($request);
-
             return Datatables::of($coordinatorsQuery)
                 ->addColumn('department_info', function ($coordinator) {
                     $data = [

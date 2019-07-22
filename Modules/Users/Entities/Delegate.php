@@ -106,4 +106,5 @@ class Delegate extends User
     {
         return $this->belongsTo(Department::class, 'parent_department_id');
     }
+
 }
