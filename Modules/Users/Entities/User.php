@@ -5,6 +5,7 @@ namespace Modules\Users\Entities;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Modules\Committee\Entities\Committee;
 use Modules\Core\Traits\AuthorizeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
@@ -190,6 +191,15 @@ class User extends Authenticatable
                   ->orWhere('phone_number', 'LIKE', '%'.$query.'%');
     }
 
+    public function scopeFilterByJob($query)
+    {
+        if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $advisorsId = auth()->user()->advisors()->pluck('users.id');
+            $query->whereIn('users.id', $advisorsId);
+        }
+
+    }
+
     /**
      * Relations
      *
@@ -235,5 +245,15 @@ class User extends Authenticatable
     public function departmentReference()
     {
         return $this->belongsTo(Department::class, 'department_reference_id');
+    }
+
+    public function ownedCommittees()
+    {
+        return $this->hasMany(Committee::class, 'advisor_id');
+    }
+
+    public function participantInCommittees()
+    {
+        return $this->belongsToMany(Committee::class, 'committees_participant_advisors', 'advisor_id', 'committee_id')->withTimestamps();
     }
 }

@@ -60,7 +60,7 @@ class CommitteeController extends Controller
                 ->rawColumns(['action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count'])
                 ->make(true);
         }
-        $advisors = Group::advisorsUsers()->pluck('name', 'id');
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
         return view('committee::committees.index', compact('advisors', 'status'));
     }
@@ -77,7 +77,7 @@ class CommitteeController extends Controller
         $departments = Department::where('type', Department::parentDepartment)->pluck('name', 'id');
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
-        $advisors = Group::advisorsUsers()->pluck('name', 'id');
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         $documents = CommitteeDocument::where('user_id', auth()->id())->whereNull('committee_id')->get();
         return view('committee::committees.create', compact(
@@ -124,7 +124,7 @@ class CommitteeController extends Controller
         $departments = Department::where('type', Department::parentDepartment)->pluck('name', 'id');
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
-        $advisors = Group::advisorsUsers()->pluck('name', 'id');
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         return view('committee::committees.edit', compact(
             'committee','treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',

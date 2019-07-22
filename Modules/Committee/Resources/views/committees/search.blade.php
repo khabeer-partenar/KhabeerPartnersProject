@@ -9,7 +9,7 @@
                         <select name="advisor_id" id="advisor_id" class="form-control select2">
                             <option value="0">{{ __('committee::committees.all') }}</option>
                             @foreach($advisors as $key => $name)
-                                <option value="{{ $key }}" {{ Request::input('advisors') == $key ? 'selected':'' }}>{{ $name }}</option>
+                                <option value="{{ $key }}" {{ Request::input('advisor_id') == $key ? 'selected':'' }}>{{ $name }}</option>
                             @endforeach
                         </select>
                     </div>

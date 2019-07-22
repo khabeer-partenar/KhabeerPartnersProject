@@ -101,14 +101,6 @@ class Committee extends Model
      */
     public function scopeSearch($query, $request)
     {
-        // Filter By User Type / Job and permissions to view Committees
-        if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
-            $advisorsId = auth()->user()->advisors()->pluck('users.id');
-            $query->whereIn('advisor_id', $advisorsId);
-        } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-            //
-        }
-
         // Filter By Request
         if ($request->has('subject')) {
             $query->where('subject', 'LIKE', '%'.$request->subject.'%');
@@ -125,6 +117,19 @@ class Committee extends Model
         if ($request->has('uuid')) {
             $query->where('uuid', $request->uuid);
         }
+
+        if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            // Secretary Should see Committees for his Advisors Only
+            $advisorsId = auth()->user()->advisors()->pluck('users.id');
+            $query->whereIn('advisor_id', $advisorsId);
+        } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            // Advisors Should see Committees he owns or where he is a participant
+            $owns = auth()->user()->ownedCommittees()->pluck('committees.id')->toArray();
+            $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
+            $query->whereIn('id', array_merge($owns, $participantIn));
+        }
+
+
         return $query;
     }
 

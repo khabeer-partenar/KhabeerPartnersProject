@@ -96,6 +96,12 @@ class Group extends Model
         return optional(self::findByKey('advisor'))->users;
     }
 
+    public static function advisorUsersFilter()
+    {
+        $group = optional(self::findByKey('advisor'));
+        return $group->users();
+    }
+
     /**
      * Get director of consultants office in users
      */
