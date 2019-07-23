@@ -28,6 +28,16 @@ class Delegate extends User
         });
     }
 
+
+    public static function getDelegatesNotNominated()
+    {
+        $delegatesQuery = Delegate::with(['department' => function($query) {
+            $query->with('referenceDepartment');
+        }])->get();
+
+        return $delegatesQuery;
+    }
+
     /**
      * Functions
      *

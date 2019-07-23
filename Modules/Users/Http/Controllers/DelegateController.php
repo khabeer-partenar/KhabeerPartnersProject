@@ -50,9 +50,7 @@ class DelegateController extends UserBaseController
         }])->get();
         DD($delegatesQuery->first());*/
         if ($request->wantsJson() || $request->ajax()) {
-            $delegatesQuery = Delegate::with(['department' => function($query) {
-                    $query->with('referenceDepartment');
-                }])->get();
+            $delegatesQuery = Delegate::getDelegatesNotNominated();
 
             return Datatables::of($delegatesQuery)
                 ->addColumn('department_info', function ($delegate) {
