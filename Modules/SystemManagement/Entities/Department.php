@@ -5,6 +5,7 @@ namespace Modules\SystemManagement\Entities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\Coordinator;
@@ -91,7 +92,10 @@ class Department extends Model
     {
         return $this->hasMany(Coordinator::class, $key .'_department_id', 'id');
     }
-
+    public function delegates($key)
+    {
+        return $this->hasMany(Delegate::class, $key .'_department_id', 'id');
+    }
     public static function getEmptyObjectForSelectAjax()
     {
         return (['id' => '', 'name' => __('users::departments.choose a department')]);

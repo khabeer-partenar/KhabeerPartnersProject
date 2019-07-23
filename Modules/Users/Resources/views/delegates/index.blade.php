@@ -10,36 +10,20 @@
             </div>
             <div class="modal-body">
                 {{-- delegates --}}
-                <table class="table table-striped table-responsive-md">
-                    <thead>
-                    <tr>
-                        <th style="width: 16.666%" scope="col"></th>
-                        <th scope="col">{{ __('users::delegates.department_name') }}</th>
-                        <th scope="col">{{ __('users::delegates.delegate_name') }}</th>
-                        <th scope="col">{{ __('users::delegates.national_id') }}</th>
-                        <th scope="col">{{ __('users::delegates.phone_number') }}</th>
-                        <th scope="col">{{ __('users::delegates.email') }}</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                   {{-- @foreach($committee->participantDepartments as $department)
-                        <tr>
-                            <td>{{ $loop->index + 1 }}</td>
-                            <td>
-                                {{ $department->name }}
-                            </td>
-                        </tr>
-                    @endforeach--}}
-                    </tbody>
+                {{-- DataTable --}}
+                <table id="table-ajax" class="table" data-url="{{ route('coordinators.index', [
+                'name' => Request::input('name'),
+                'main_department_id' => Request::input('main_department_id'),
+                'parent_department_id' => Request::input('parent_department_id')
+                ])
+             }}"
+                       data-fields='[
+                    {"data": "name","title":"{{ __('messages.name') }}","searchable":"true"},
+                    {"data": "department_info","name":"actions","title":"{{ __('messages.department_info') }}","searchable":"false", "orderable":"false"},
+                    {"data": "contact_options","name":"actions","title":"{{ __('messages.contact_options') }}","searchable":"false", "orderable":"false"},
+                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
+                ]'
+                >
                 </table>
             </div>
             <div class="modal-footer">
