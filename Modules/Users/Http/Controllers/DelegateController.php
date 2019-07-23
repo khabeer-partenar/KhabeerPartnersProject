@@ -45,6 +45,10 @@ class DelegateController extends UserBaseController
      */
     public function index(Request $request)
     {
+     /*  $delegatesQuery = Delegate::with(['department' => function($query) {
+            $query->with('referenceDepartment');
+        }])->get();
+        DD($delegatesQuery->first());*/
         if ($request->wantsJson() || $request->ajax()) {
             $delegatesQuery = Delegate::with(['department' => function($query) {
                     $query->with('referenceDepartment');
@@ -53,27 +57,34 @@ class DelegateController extends UserBaseController
             return Datatables::of($delegatesQuery)
                 ->addColumn('department_info', function ($delegate) {
                     $data = [
-                        $delegate->mainDepartment->name,
-                        $delegate->parentDepartment->name,
-                        $delegate->directDepartment ? $delegate->directDepartment->name:null
+                        $delegate->department->name,
+                        $delegate->referenceDepartment ? '/' . $delegate->referenceDepartment->name:null
                     ];
+                    return view('users::delegates.commas_separated_data', ['data' => $data]);
+                })
+                ->addColumn('name', function($delegate) {
+                    $data = [$delegate->name];
+                    return view('users::delegates.commas_separated_data', ['data' => $data]);
+                })
+                ->addColumn('job_title', function($delegate) {
+                    $data = [$delegate->job_title];
                     return view('users::delegates.commas_separated_data', ['data' => $data]);
                 })
                 ->addColumn('national_id', function($delegate) {
                     $data = [$delegate->national_id];
-                    return view('users::delegates.commas_separated_data', ['data' => $data, 'break' => 1 ]);
+                    return view('users::delegates.commas_separated_data', ['data' => $data]);
                 })
                 ->addColumn('phone_number', function($delegate) {
                     $data = [$delegate->phone_number];
-                    return view('users::delegates.commas_separated_data', ['data' => $data, 'break' => 1 ]);
+                    return view('users::delegates.commas_separated_data', ['data' => $data]);
                 })
                 ->addColumn('email', function($delegate) {
                     $data = [$delegate->email];
-                    return view('users::delegates.commas_separated_data', ['data' => $data, 'break' => 1 ]);
+                    return view('users::delegates.commas_separated_data', ['data' => $data]);
                 })
                 ->addColumn('action', function ($delegate) {
                     return view('users::delegates.actions', compact('delegate'));
-                })->rawColumns(['action', 'contact_options'])->make(true);
+                })->rawColumns(['action'])->make(true);
         }
 
         //$mainDepartments = Department::getDepartments();
@@ -92,6 +103,10 @@ class DelegateController extends UserBaseController
         return view("users::delegates.create", compact('mainDepartments', 'delegateJobs'));
     }
 
+    public function addCordinatorToCommitte(Request $request)
+    {
+        dd($request->all());
+    }
     /**
      * Store a newly created resource in storage.
      * @param SaveCoordinatorRequest $request
@@ -99,6 +114,7 @@ class DelegateController extends UserBaseController
      */
     public function store(SaveCoordinatorRequest $request)
     {
+        dd($request->all());
         $delegate = Delegate::createFromRequest($request);
         $delegate->log('create_delegate');
         self::sessionSuccess('users::delegates.created');

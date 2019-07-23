@@ -36,6 +36,8 @@
     @endforeach
     </tbody>
 </table>
+@include('users::delegates.index')
+
 
 
 

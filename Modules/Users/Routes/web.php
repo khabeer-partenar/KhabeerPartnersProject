@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth'], function()
 
         // Delegate
         Route::resource('/delegates','DelegateController');
+        Route::post('/delegates/add_delegate','DelegateController@addCordinatorToCommitte')->name('delegates.add_delegate');
         // Assign Committe Controller
         Route::get('/employees/assign-committees/search/{groupID}/{columnType}', 'AssignCommitteController@search')->name('employees.assign_committees.search');
         Route::get('/employees/assign-committees', 'AssignCommitteController@index')->name('employees.assign_committees.index');

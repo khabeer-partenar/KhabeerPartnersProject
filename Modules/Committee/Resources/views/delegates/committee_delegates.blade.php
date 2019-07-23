@@ -41,7 +41,7 @@
     </tbody>
 </table>
 
-<script>
+{{--<script>
     jQuery(document).ready(function () {
         jQuery('#sharecomment').click(function (e) {
             e.preventDefault();
@@ -61,5 +61,5 @@
             });
         });
     });
-</script>
+</script>--}}
 

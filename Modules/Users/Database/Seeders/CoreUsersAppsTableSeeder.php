@@ -174,6 +174,13 @@ class CoreUsersAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        // delegate controller
+        $manageDelegatesID = App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@index', 'name' => 'إدارة المندوبين',
+            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $userAppId, 'frontend_path' => 'users/delegates', 'is_main_root' => 0,
+            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
     }
 
 }
