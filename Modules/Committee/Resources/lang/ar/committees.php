@@ -89,4 +89,7 @@ return [
     'deleted' => 'تم حذف اللجنة',
     'all' => 'الكل',
     'choose a status' => 'من فضلك اختر الحالة',
+    'new committee has been created with subject' => 'تم إنشاء لجنة جديدة بعنوان',
+    'delegates request' => 'طلب تسمية مندوبين',
+    'please nominate delegates' => 'من فضلك قم بتسمية المندوبين عن جهتك',
 ];

@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
+use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
@@ -135,12 +137,14 @@ class Committee extends Model
 
     /**
      * Functions
-     *
-     * Here goes functions
-     * @param $value
-     * @param string $format
-     * @return Carbon|bool
      */
+    public function getDelegatesWithDetails()
+    {
+        return $this->delegates()->with(['department' => function($query) {
+            $query->with('referenceDepartment');
+        }])->get();
+    }
+
     public static function getDateFromFormat($value, $format = 'm/d/Y') {
         try {
             return $date = Carbon::createFromFormat($format, $value);
@@ -164,6 +168,7 @@ class Committee extends Model
         $committee->participantDepartments()->sync($request->departments);
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
+        event(new CommitteeCreatedEvent($committee));
         return $committee;
     }
 
@@ -176,11 +181,24 @@ class Committee extends Model
         return $this;
     }
 
-    public function getDelegatesWithDetails()
+    public function participantDepartmentsWithRef()
     {
-        return $this->delegates()->with(['department' => function($query) {
-            $query->with('referenceDepartment');
-        }])->get();
+        return $this->participantDepartments()->with('referenceDepartment')->get();
+    }
+
+    public function participantDepartmentsUsersUnique()
+    {
+        $toBeNotifiedUsers = [];
+        foreach ($this->participantDepartmentsWithRef() as $department)
+        {
+            $users = $department->users('parent')->get();
+            $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
+            if ($department->referenceDepartment) {
+                $refUsers = $department->referenceDepartment->users('parent')->get();
+                $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($refUsers));
+            }
+        }
+        return $toBeNotifiedUsers;
     }
 
     /**
