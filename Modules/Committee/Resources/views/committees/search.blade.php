@@ -37,7 +37,7 @@
                 <div class="form-group">
                     <label for="treatment_number" class="col-md-3  col-md-3-d control-label">رقم المعاملة</label>
                     <div class="col-md-9 col-md-9-d">
-                        <input type="text" class="form-control" value="{{ Request::input('treatment_number') }}" name="treatment_number" id="treatment_number"
+                        <input type="number" class="form-control" value="{{ Request::input('treatment_number') }}" name="treatment_number" id="treatment_number"
                                placeholder="">
                     </div>
                 </div>

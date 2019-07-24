@@ -4,6 +4,7 @@ namespace Modules\Committee\Observers;
 
 use Carbon\Carbon;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Notifications\CommitteeDeleted;
 
 class CommitteeObserver
 {
@@ -39,8 +40,14 @@ class CommitteeObserver
      */
     public function deleted(Committee $committee)
     {
-        // Notify Departments
-
+        // Notify With deletion
+        $committee->advisor->notify(new CommitteeDeleted($committee));
+        foreach ($committee->participantAdvisors as $advisor) {
+            $advisor->notify(new CommitteeDeleted($committee));
+        }
+        foreach ($committee->participantDepartmentsUsersUnique() as $user) {
+            $user->notify(new CommitteeDeleted($committee));
+        }
         // Delete Relationships
         $committee->documents()->delete();
         $committee->participantDepartments()->detach();
