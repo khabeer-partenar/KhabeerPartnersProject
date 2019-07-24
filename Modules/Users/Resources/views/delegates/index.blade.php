@@ -15,7 +15,7 @@
                 <div class="clearfix"></div>
 
             </div>
-            {{ Form::open(['route' => 'delegates.add_delegate', 'method' => 'POST', 'id' => 'delegate-form']) }}
+            {{ Form::open(['route' => 'delegates.add_delegates', 'method' => 'POST', 'id' => 'delegate-form']) }}
 
             <div class="modal-body">
                 <table id="table-ajax" class="table" data-url="{{ route('delegates.index')}}"
@@ -26,6 +26,7 @@
                     {"data": "national_id","name":"actions","title":"{{ __('users::delegates.national_id') }}","searchable":"false", "orderable":"false"},
                     {"data": "phone_number","name":"actions","title":"{{ __('users::delegates.phone_number') }}","searchable":"false", "orderable":"false"},
                     {"data": "email","name":"actions","title":"{{ __('users::delegates.email') }}","searchable":"false", "orderable":"false"},
+                    {"data": "specialty","name":"actions","title":"{{ __('users::delegates.specialty') }}","searchable":"false", "orderable":"false"},
                     {"data": "action","name":"actions","searchable":"false", "orderable":"false"}]'
                 >
                 </table>
@@ -33,9 +34,11 @@
             <div class="modal-footer">
                 {{ Form::button(__('users::delegates.action_add'), ['type' => 'submit', 'class' => 'btn blue']) }}
 
-                <button style="float: right" type="button" class="btn btn-primary">{{__('users::delegates.close_window')}}</button>
+                <button style="float: right" type="button" class="btn btn-danger" data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
 
             </div>
+            {{ Form::hidden('committee_id', $committee->id) }}
+
 
             {{ Form::close() }}
         </div>

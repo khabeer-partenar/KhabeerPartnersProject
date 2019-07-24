@@ -6,7 +6,9 @@
     <label class="underLine">{{ __('committee::committees.nomination_departments') }}
 
     </label>
-    <a style="color:blue; float: left;margin-left: 10%;" >{{ __('committee::committees.nomination_add_delegte') }}</a>
+    <a style="color:blue; float: left;margin-left: 10%;" data-toggle="modal" data-target="#addDelegateModal">
+        {{ __('committee::committees.nomination_add_delegte') }}
+    </a>
     <tr>
         <th style="width: 16.666%" scope="col"></th>
         <th scope="col">{{ __('committee::committees.nomination_deparment_name') }}</th>
@@ -36,7 +38,8 @@
     @endforeach
     </tbody>
 </table>
-@include('users::delegates.index')
+@include('users::delegates.index',compact('committee'))
+@include('users::delegates.create',compact('committee'))
 
 
 

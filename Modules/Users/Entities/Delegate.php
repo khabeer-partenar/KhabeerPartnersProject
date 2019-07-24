@@ -6,12 +6,17 @@ namespace Modules\Users\Entities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\Committee\Entities\Committee;
 use Modules\Core\Entities\Group;
+use Modules\Core\Traits\Log;
+use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
+use DB;
 
 class Delegate extends User
 {
+    use SharedModel, Log, SoftDeletes;
     const TYPE = 'delegate';
     const JOB = 'delegate';
 
@@ -28,13 +33,23 @@ class Delegate extends User
         });
     }
 
-
-    public static function getDelegatesNotNominated()
+    public function  addDelegatesToCommittee(Request $request)
     {
-        $delegatesQuery = Delegate::with(['department' => function($query) {
-            $query->with('referenceDepartment');
-        }])->get();
+        $committee = Committee::findOrFail($request->committee_id);
+        $committee->delegates()->attach($request->delegates_ids);
+    }
 
+    public function scopeNotInCommittees($query)
+    {
+        return $query->doesntHave('committees');
+    }
+
+    public static function getDelegatesNotInCommittee()
+    {
+
+        $delegatesQuery = Delegate::with(['department' => function ($query) {
+            $query->with('referenceDepartment');
+        }])->NotInCommittees()->get();
         return $delegatesQuery;
     }
 
@@ -50,7 +65,7 @@ class Delegate extends User
         $delegate = self::create(
             array_merge(
                 $request->only(
-                    'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                    'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'specialty', 'title',
                     'main_department_id', 'parent_department_id', 'department_reference_id', 'job_role_id'
                 ), ['user_type' => self::TYPE]
             )
@@ -64,7 +79,7 @@ class Delegate extends User
     {
         $this->update(
             $request->only(
-                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'specialty', 'title',
                 'main_department_id', 'parent_department_id', 'job_role_id', 'department_reference_id'
             )
         );
@@ -88,7 +103,7 @@ class Delegate extends User
             })->pluck('id');
         }
         if ($request->has('name')) {
-            $query->where('name', 'LIKE', '%'.$request->name.'%');
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
         }
         if ($request->has('main_department_id') && $request->main_department_id != 0) {
             $query->where('main_department_id', $request->main_department_id);

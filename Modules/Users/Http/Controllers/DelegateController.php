@@ -6,6 +6,7 @@ use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Modules\Committee\Entities\Committee;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Delegate;
 use Modules\SystemManagement\Entities\Department;
@@ -43,15 +44,12 @@ class DelegateController extends UserBaseController
      * @return Response
      * @internal param Request $request
      */
-    public function index(Request $request)
+    public function index(Request $request,Committee $committee)
     {
-     /*  $delegatesQuery = Delegate::with(['department' => function($query) {
-            $query->with('referenceDepartment');
-        }])->get();
-        DD($delegatesQuery->first());*/
-        if ($request->wantsJson() || $request->ajax()) {
-            $delegatesQuery = Delegate::getDelegatesNotNominated();
 
+//dd($request);
+        if ($request->wantsJson() || $request->ajax()) {
+            $delegatesQuery = Delegate::getDelegatesNotInCommittee();
             return Datatables::of($delegatesQuery)
                 ->addColumn('department_info', function ($delegate) {
                     $data = [
@@ -80,13 +78,16 @@ class DelegateController extends UserBaseController
                     $data = [$delegate->email];
                     return view('users::delegates.commas_separated_data', ['data' => $data]);
                 })
+                ->addColumn('specialty', function($delegate) {
+                    $data = [$delegate->specialty];
+                    return view('users::delegates.commas_separated_data', ['data' => $data]);
+                })
                 ->addColumn('action', function ($delegate) {
                     return view('users::delegates.actions', compact('delegate'));
                 })->rawColumns(['action'])->make(true);
         }
 
-        //$mainDepartments = Department::getDepartments();
-        //return view('users::delegates.index', compact('mainDepartments'));
+
         return view('users::delegates.index');
     }
 
@@ -98,25 +99,31 @@ class DelegateController extends UserBaseController
     {
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
-        return view("users::delegates.create", compact('mainDepartments', 'delegateJobs'));
+        return view("users::delegates.$this->userType..create", compact('mainDepartments', 'delegateJobs'));
     }
 
-    public function addCordinatorToCommitte(Request $request)
+    public function addDelegatesToCommittee(Request $request,Delegate $delegate)
     {
-        dd($request->all());
+        if ($request->has('delegates_ids')) {
+
+            $delegate->addDelegatesToCommittee($request);
+            //dd($request->all());
+            return back();
+
+        }
     }
     /**
      * Store a newly created resource in storage.
      * @param SaveCoordinatorRequest $request
      * @return Response
      */
-    public function store(SaveCoordinatorRequest $request)
+    public function store(Request $request)
     {
-        dd($request->all());
-        $delegate = Delegate::createFromRequest($request);
-        $delegate->log('create_delegate');
-        self::sessionSuccess('users::delegates.created');
-        return back();
+           // dd($request->all());
+            $delegate = Delegate::createFromRequest($request);
+            $delegate->log('create_delegate');
+            self::sessionSuccess('users::delegates.created');
+            return back();
     }
 
 

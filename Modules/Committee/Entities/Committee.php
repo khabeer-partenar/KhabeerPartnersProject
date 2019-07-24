@@ -221,6 +221,6 @@ class Committee extends Model
 
     public function delegates()
     {
-        return $this->belongsToMany(Delegate::class, 'committee_user', 'committee_id', 'user_id');
+        return $this->belongsToMany(Delegate::class, 'committee_user', 'committee_id', 'user_id')->withTimestamps();
     }
 }
