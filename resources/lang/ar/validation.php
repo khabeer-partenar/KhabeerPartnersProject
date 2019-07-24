@@ -117,7 +117,8 @@ return [
     'filter_string'        => ':attribute لا يمكن ان يحتوني على رموز',
     'gov_email'            => ':attribute يجب ان ينتهي بإمتداد gov.sa',
     'wrong choice'         => ':attribute يجب أن يكون من النوع الصحيح',
-    'is_president_chairman'=> ':attribute مطلوب مستشار مشارك واحد علي الأقل في حالة أن رئيس اللجنة هو معالي رئيس الهيئة',
+    'is_president_chairman'=> 'مطلوب واحد علي الأقل في حالة أن رئيس اللجنة هو معالي رئيس الهيئة',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

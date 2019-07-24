@@ -18,7 +18,7 @@
 
         <div class="portlet-body form">
 
-            {{ Form::open(['route' => 'committees.store', 'method' => 'POST', 'id' => 'co-form']) }}
+            {{ Form::open(['route' => 'committees.store', 'method' => 'POST', 'id' => 'committee-form']) }}
 
             @if($errors->any())
                 <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-actions">
-                {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn blue']) }}
+                {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn blue', 'id' => 'save-committee']) }}
             </div>
 
             {{ Form::close() }}

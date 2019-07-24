@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
+use Modules\Committee\Rules\PresidentIsChairman;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\User;
 
@@ -37,7 +38,7 @@ class SaveCommitteeRequest extends FormRequest
             'tasks' => ['nullable', 'string', new FilterStringRule],
             'president_id' => 'nullable',
             'advisor_id' => ['required', 'exists:'. User::table(). ',id'],
-            'participant_advisors' => 'nullable',
+            'participant_advisors' => [new PresidentIsChairman],
             'members_count' => 'nullable|integer',
         ];
     }

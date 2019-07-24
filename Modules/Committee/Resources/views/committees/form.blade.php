@@ -332,8 +332,8 @@
             {!! Form::label('tasks',  __('committee::committees.participant_advisors'), ['class' => 'col-md-2 control-label']) !!}
 
             <div class="col-md-10">
-                <select name="participant_advisors[]" id="participant_advisors" class="form-control select2" multiple>
-                    <option value="0">{{ __('committee::committees.please choose') }}</option>
+                <select name="participant_advisors[]" data-placeholder="{{ __('committee::committees.please choose') }}"
+                        id="participant_advisors" class="form-control select2" multiple>
                     @php
                         $participantIds = isset($committee) ? $committee->participantAdvisors()->pluck('users.id')->toArray():[];
                         if (old('participant_advisors')){
@@ -450,7 +450,7 @@
                             </tr>
                         @endforeach
                     @endif
-                @endif+
+                @endif
             </tbody>
         </table>
     </div>

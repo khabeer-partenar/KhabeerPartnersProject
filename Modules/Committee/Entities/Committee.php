@@ -164,7 +164,7 @@ class Committee extends Model
                 ]
             )
         );
-        $committee->participantAdvisors()->attach($request->participant_advisors);
+        $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors:[]);
         $committee->participantDepartments()->sync($request->departments);
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
@@ -175,7 +175,7 @@ class Committee extends Model
     public function updateFromRequest($request)
     {
         $this->update($request->all());
-        $this->participantAdvisors()->sync($request->participant_advisors);
+        $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors:[]);
         $this->participantDepartments()->sync($request->departments);
         $this->update(['members_count' => $this->participantAdvisors()->count()]);
         return $this;
