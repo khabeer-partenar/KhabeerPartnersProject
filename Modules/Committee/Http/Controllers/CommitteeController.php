@@ -34,7 +34,7 @@ class CommitteeController extends Controller
 
             return Datatables::of($committeesQuery)
                 ->addColumn('id_with_date', function ($committee) {
-                    $data = [__('committee::committees.committee number') . $committee->id, $committee->created_at->format('d-m-Y')];
+                    $data = [__('committee::committees.committee number') . $committee->treatment_number, $committee->created_at->format('d-m-Y')];
                     return view('committee::committees.br_separated_data', compact('data'));
                 })
                 ->addColumn('committee_uuid_with_subject', function ($committee) {

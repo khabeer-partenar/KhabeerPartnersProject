@@ -34,7 +34,7 @@
                     {"data": "id_with_date","name":"actions","title":"{{ __('committee::committees.committee id') }} <br /> {{ __('committee::committees.committee created at') }}","searchable":"false", "orderable":"false"},
                     {"data": "committee_uuid_with_subject","name":"committee_uuid_with_subject","title":"{{ __('committee::committees.committee uuid') }}<br /> {{ __('committee::committees.committee subject') }}","searchable":"false", "orderable":"false"},
                     {"data": "advisor_with_members_count","name":"advisor_with_members_count","title":"{{ __('committee::committees.advisor') }}<br /> {{ __('committee::committees.members count') }}","searchable":"false", "orderable":"false"},
-                    {"data": "president","name":"president","title":"{{ __('committee::committees.advisor') }}<br /> {{ __('committee::committees.president_id') }}","searchable":"false", "orderable":"false"},
+                    {"data": "president","name":"president","title":"{{ __('committee::committees.president_id') }}","searchable":"false", "orderable":"false"},
                     {"data": "status","name":"status","title":"{{ __('committee::committees.status') }}","searchable":"false", "orderable":"false"},
                     {"data": "action","name":"actions","title":"{{ __('committee::committees.options') }}","searchable":"false", "orderable":"false"}
                 ]'
