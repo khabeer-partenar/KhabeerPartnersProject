@@ -32,7 +32,7 @@ class CommitteeController extends Controller
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
 
-            return Datatables::of($committeesQuery)
+            $dataTable = Datatables::of($committeesQuery)
                 ->addColumn('id_with_date', function ($committee) {
                     $data = [__('committee::committees.committee number') . $committee->treatment_number, $committee->created_at->format('d-m-Y')];
                     return view('committee::committees.br_separated_data', compact('data'));
@@ -56,9 +56,19 @@ class CommitteeController extends Controller
                 })
                 ->addColumn('action', function ($committee) {
                     return view('committee::committees.actions', compact('committee'));
-                })
-                ->rawColumns(['action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count'])
-                ->make(true);
+                });
+
+            if (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+                $dataTable ->addColumn('advisor_status', function ($committee) {
+                    return $committee->advisor_id == auth()->id() ?
+                        __('committee::committees.committee advisor')
+                        :__('committee::committees.committee participant');
+                });
+            }
+
+            return $dataTable->rawColumns([
+                'action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count', 'advisor_status'
+            ])->make(true);
         }
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;

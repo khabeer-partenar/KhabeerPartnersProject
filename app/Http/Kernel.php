@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Modules\Committee\Http\Middleware\CanSeeCommittee;
 
 class Kernel extends HttpKernel
 {
@@ -61,7 +62,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'authorize' => \Modules\Core\Http\Middleware\AuthorizeMiddleware::class,
-        'coordinator.can' => \Modules\Users\Http\Middleware\CheckCoordinatorAuthority::class
+        'coordinator.can' => \Modules\Users\Http\Middleware\CheckCoordinatorAuthority::class,
+        'see.committee' => CanSeeCommittee::class
     ];
 
     /**
