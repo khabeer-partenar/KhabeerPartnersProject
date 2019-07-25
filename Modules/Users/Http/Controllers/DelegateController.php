@@ -10,7 +10,7 @@ use Modules\Committee\Entities\Committee;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Delegate;
 use Modules\SystemManagement\Entities\Department;
-use Modules\Users\Http\Requests\SaveCoordinatorRequest;
+use Modules\Users\Http\Requests\SaveDelegateRequest;
 use Modules\Users\Http\Requests\SaveCoordinatorRequestByCo;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequestByCo;
@@ -97,8 +97,9 @@ class DelegateController extends UserBaseController
      */
     public function create()
     {
-        $mainDepartments = Department::getDepartments();
-        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+
+      /*  $mainDepartments = Department::getDepartments();
+        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);*/
         return view("users::delegates.$this->userType..create", compact('mainDepartments', 'delegateJobs'));
     }
 
@@ -119,6 +120,15 @@ class DelegateController extends UserBaseController
      */
     public function store(Request $request)
     {
+        return $request;
+       // $validated = $request->validated();
+
+        //echo $validated;
+       /* if(!$request->validated())
+        {
+            return 'fail';
+        }*/
+        //return $request->all();
            // dd($request->all());
             $delegate = Delegate::createFromRequest($request);
             $delegate->log('create_delegate');

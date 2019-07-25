@@ -14,6 +14,7 @@ use Modules\Committee\Http\Requests\SaveCommitteeRequest;
 use Modules\Core\Entities\Group;
 use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
@@ -107,7 +108,11 @@ class CommitteeController extends Controller
     public function show(Committee $committee)
     {
         $delegates = $committee->getDelegatesWithDetails();
-        return view('committee::committees.show', compact('committee', 'delegates'));
+        $mainDepartments = Department::getDepartments();
+
+        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+//dd($mainDepartments);
+        return view('committee::committees.show', compact('committee', 'delegates','mainDepartments','delegateJobs'));
     }
 
     /**

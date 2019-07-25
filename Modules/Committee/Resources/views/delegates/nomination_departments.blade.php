@@ -9,6 +9,9 @@
     <a style="color:blue; float: left;margin-left: 10%;" data-toggle="modal" data-target="#addDelegateModal">
         {{ __('committee::committees.nomination_add_delegte') }}
     </a>
+   {{-- <a style="color:blue; float: left;margin-left: 10%;" data-toggle="modal" href="{{ route('delegates.create') }}">
+        {{ __('committee::committees.nomination_add_delegte') }}
+    </a>--}}
     <tr>
         <th style="width: 16.666%" scope="col"></th>
         <th scope="col">{{ __('committee::committees.nomination_deparment_name') }}</th>

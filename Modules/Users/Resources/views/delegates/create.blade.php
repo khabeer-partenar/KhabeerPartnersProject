@@ -1,8 +1,7 @@
-{{--@extends('layouts.dashboard.index')--}}
 
 <!-- Modal -->
-<div id="addDelegateModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
+<div  id="addDelegateModal"  class="modal fade" role="dialog">
+    <div class="modal-lg modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -16,8 +15,10 @@
 
             </div>
             {{ Form::open(['route' => 'delegates.store', 'method' => 'POST', 'id' => 'delegate-form']) }}
+            {{--{{ Form::open(['id' => 'delegate-form']) }}--}}
 
-            <div class="modal-body">
+
+            <div class="modal-body" >
 
                 @if($errors->any())
                     <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -29,7 +30,8 @@
 
             </div>
             <div class="modal-footer">
-                {{ Form::button(__('users::delegates.action_add'), ['type' => 'submit', 'class' => 'btn blue']) }}
+                <input class="btn blue" type="submit" value="{{__('users::delegates.action_add')}}">
+                {{--{{ Form::button(__('users::delegates.action_add'), ['type' => 'button','id'=>'btn-save', 'class' => 'btn blue']) }}--}}
 
                 <button style="float: right" type="button" class="btn btn-danger"
                         data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
@@ -42,5 +44,6 @@
 
     </div>
 </div>
+
 
 

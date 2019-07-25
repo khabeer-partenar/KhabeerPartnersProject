@@ -10,7 +10,7 @@
                         data-url="{{ route('system-management.departments.children') }}" data-child="#parent_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
                     @php
-                        $mainDepartment = isset($coordinator) ? $coordinator->main_department_id:'';
+                        $mainDepartment = isset($delegate) ? $delegate->main_department_id:'';
                         if (old('main_department_id')){
                             $mainDepartment = old('main_department_id');
                         }
@@ -40,7 +40,7 @@
                         data-url="{{ route('system-management.departments.children') }}" data-child="#direct_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
                     @php
-                        $parentDepartment = isset($coordinator) ? $coordinator->parent_department_id:'';
+                        $parentDepartment = isset($delegate) ? $delegate->parent_department_id:'';
                         if (old('parent_department_id')){
                             $parentDepartment = old('parent_department_id');
                         }
@@ -64,7 +64,7 @@
 
             <div class="col-md-8">
                 @php
-                    $referenceDepartmentId = isset($coordinator) ? $coordinator->department_reference_id:'';
+                    $referenceDepartmentId = isset($delegate) ? $delegate->department_reference_id:'';
                     if (old('department_reference_id')){
                         $referenceDepartmentId = old('department_reference_id');
                     }
@@ -95,7 +95,7 @@
                 <select name="direct_department_id" id="direct_department_id" class="form-control select2">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
                     @php
-                        $directDepartment = isset($coordinator) ? $coordinator->direct_department_id:'';
+                        $directDepartment = isset($delegate) ? $delegate->direct_department_id:'';
                         if (old('direct_department_id')){
                             $directDepartment = old('direct_department_id');
                         }
@@ -224,15 +224,15 @@
             {!! Form::label('job_role_id', 'الدور الوظيفي', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                <select id="job_role_id" class="form-control select2" name="job_role_id" disabled>
+                <select id="job_role_id"  class="form-control select2" name="job_role_id" disabled>
                     @php
-                        $jobId = isset($coordinator) ? $coordinator->job_role_id:'';
+                        $jobId = isset($delegate) ? $delegate->job_role_id:'';
                         if (old('job_role_id')){
                             $jobId = old('job_role_id');
                         }
                     @endphp
-                    @foreach($coordinatorJobs as $job)
-                        <option value="{{ $job->id }}" data-main="{{ $job->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB ? '1':'0'}}"
+                    @foreach($delegateJobs as $job)
+                        <option value="{{ $job->id }}" data-main="{{ $job->key == \Modules\Users\Entities\Delegate::JOB ? '1':'0'}}"
                                 {{ $jobId == $job->id ? 'selected':''}}>
                             {{ $job->name }}
                         </option>

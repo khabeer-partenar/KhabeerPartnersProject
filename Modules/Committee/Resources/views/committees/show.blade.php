@@ -154,5 +154,8 @@
 
 @endsection
 @section('scripts_2')
-    @include('users::coordinators.scripts')
+    @include('layouts.dashboard.js')
+    @include('users::delegates.scripts')
+
+
 @endsection
