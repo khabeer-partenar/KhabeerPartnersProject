@@ -89,7 +89,7 @@ class CoordinatorController extends UserBaseController
      */
     public function store(SaveCoordinatorRequest $request)
     {
-        return $request;
+       // return $request;
         $coordinator = Coordinator::createFromRequest($request);
         $coordinator->log('create_coordinator');
         self::sessionSuccess('users::coordinators.created');
