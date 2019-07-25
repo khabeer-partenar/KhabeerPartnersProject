@@ -2,7 +2,7 @@
 
 <!-- Modal -->
 <div id="nominationsListModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
+    <div class="modal-lg modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
 
         <!-- Modal content-->
         <div class="modal-content">

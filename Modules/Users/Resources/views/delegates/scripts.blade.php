@@ -2,7 +2,7 @@
     $(document).ready(function () {
 
         $('.select2').select2({
-            dropdownParent:$("#addDelegateModal"),
+            dropdownParent: $("#addDelegateModal"),
             width: '100%'
         });
 
@@ -25,19 +25,22 @@
             $('#department_reference_val').val(name);
         });
         // On Submit
-        $( "#co-form" ).submit(function() {
+        $("#co-form").submit(function () {
             $('#job_role_id').prop('disabled', false);
             setTimeout(function () {
                 $(this).submit();
             }, 1000);
         });
 
-        $(document).on('submit', 'form#delegate-form', function (event) {
+        $(document).on('submit', 'form#delegate-form-create', function (event) {
             event.preventDefault();
+            $("#job_role_id").prop('disabled', false);
             var form = $(this);
             var data = new FormData($(this)[0]);
             console.log(data);
             var url = form.attr("action");
+
+
             $.ajax({
                 type: form.attr('method'),
                 url: url,
@@ -46,27 +49,34 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    $('.is-invalid').removeClass('has-error');
-                    console.log(data);
-                    /*if (data.fail) {
-                        for (control in data.errors) {
-                            $('input[name=' + control + ']').addClass('is-invalid');
-                            $('#error-' + control).html(data.errors[control]);
-                        }
-                    } else {
-                        $('#modalForm').modal('hide');
-                        ajaxLoad(data.redirect_url);
-                    }*/
+                    $('.has-error').removeClass('has-error');
+
+                    //console.log(data);
+                    $("#job_role_id").prop('disabled', true);
+
+                    $('#addDelegateModal').modal('hide');
+                    location.reload();
                 },
-                error: function (xhr, textStatus, errorThrown) {
-                    //alert("Error: " + errorThrown);
+                error: function (request) {
+                    let errors = request.responseJSON.errors;
+                    let keys = Object.keys(errors);
+//console.log(errors[0]);
+                    for (index = 0; index < keys.length; ++index) {
+                        $('#div_' + keys[index]).addClass('has-error');
+                        $('#span_' + keys[index]).text(errors[keys[index]]);
+                        console.log(keys[index]);
+                        console.log(errors[keys[index]]);
+                    }
+                    $("#job_role_id").prop('disabled', true);
+                    //console.log(errors[]);
+                    //let keys = Object.keys(errors);
+                    //alert("Error: " + errohrown);
                 }
             });
             return false;
         });
 
     });
-
 
 
 </script>

@@ -197,6 +197,11 @@ class CoreUsersAppsTableSeeder extends Seeder
             'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@destroy', 'name' => 'حذف مندوب',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
     }
 
 }

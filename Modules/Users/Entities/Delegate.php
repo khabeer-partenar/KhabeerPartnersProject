@@ -38,6 +38,16 @@ class Delegate extends User
         $committee = Committee::findOrFail($request->committee_id);
         $committee->delegates()->attach($request->delegates_ids);
     }
+    public function removeDelegateFromCommittee(Delegate $delegate)
+    {
+        $delegate1 = Delegate::findOrFail($delegate->id);
+        $delegate1->committees()->detach();
+    }
+    public function  addDelegateToCommittee(Request $request,int $delegate_id)
+    {
+        $committee = Committee::findOrFail($request->committee_id);
+        $committee->delegates()->attach($delegate_id);
+    }
 
     public function scopeNotInCommittees($query)
     {

@@ -102,7 +102,12 @@ class DelegateController extends UserBaseController
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);*/
         return view("users::delegates.$this->userType..create", compact('mainDepartments', 'delegateJobs'));
     }
-
+    public function removeDelegateFromCommittee(Delegate $delegate)
+    {
+        $delegate->log('remove_delegate_from_committee');
+        $delegate->removeDelegateFromCommittee($delegate);
+        return response()->json(['msg' => __('users::delegates.deleted')]);
+    }
     public function addDelegatesToCommittee(Request $request,Delegate $delegate)
     {
         if ($request->has('delegates_ids')) {
@@ -118,20 +123,11 @@ class DelegateController extends UserBaseController
      * @param SaveCoordinatorRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(SaveDelegateRequest $request,Delegate $delegate2)
     {
-        return $request;
-       // $validated = $request->validated();
-
-        //echo $validated;
-       /* if(!$request->validated())
-        {
-            return 'fail';
-        }*/
-        //return $request->all();
-           // dd($request->all());
             $delegate = Delegate::createFromRequest($request);
             $delegate->log('create_delegate');
+            $delegate2->addDelegateToCommittee($request,$delegate->id);
             self::sessionSuccess('users::delegates.created');
             return back();
     }
@@ -143,8 +139,10 @@ class DelegateController extends UserBaseController
      * @return Response
      * @internal param int $id
      */
+
     public function destroy(Delegate $delegate)
     {
+        //Delegate::find($delegate->id);
         $delegate->log('delete_coordinator');
         $delegate->delete();
         return response()->json(['msg' => __('users::delegates.deleted')]);

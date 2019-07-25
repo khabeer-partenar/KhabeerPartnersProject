@@ -14,7 +14,7 @@
                 <div class="clearfix"></div>
 
             </div>
-            {{ Form::open(['route' => 'delegates.store', 'method' => 'POST', 'id' => 'delegate-form']) }}
+            {{ Form::open(['route' => 'delegates.store', 'method' => 'POST', 'id' => 'delegate-form-create']) }}
             {{--{{ Form::open(['id' => 'delegate-form']) }}--}}
 
 
@@ -38,7 +38,7 @@
 
             </div>
 
-
+            {{ Form::hidden('committee_id', $committee->id) }}
             {{ Form::close() }}
         </div>
 

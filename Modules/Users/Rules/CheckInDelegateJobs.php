@@ -27,7 +27,7 @@ class CheckInDelegateJobs implements Rule
      */
     public function passes($attribute, $value)
     {
-        $delegateJobs = Group::whereIn('key', [Delegate::MAIN_CO_JOB, Coordinator::JOB])->pluck('id')->toArray();
+        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->pluck('id')->toArray();
         return in_array($value, $delegateJobs);
     }
 
