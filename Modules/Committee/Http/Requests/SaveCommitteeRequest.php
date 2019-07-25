@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Http\Requests;
 
+use App\Rules\CheckIfDateIsAfter;
 use App\Rules\FilterStringRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Committee\Entities\TreatmentImportance;
@@ -34,7 +35,13 @@ class SaveCommitteeRequest extends FormRequest
             'recommended_by_id' => ['required', 'exists:'. Department::table(). ',id'],
             'recommended_at' => 'required|date',
             'subject' => ['required', 'string', new FilterStringRule],
-            'first_meeting_at' => 'required|date',
+            'first_meeting_at' => [
+                'required',
+                'date',
+                new CheckIfDateIsAfter('treatment_time', 'committee::committees'),
+                new CheckIfDateIsAfter('recommended_at', 'committee::committees'),
+                new CheckIfDateIsAfter('resource_at', 'committee::committees')
+            ],
             'tasks' => ['nullable', 'string', new FilterStringRule],
             'president_id' => 'nullable',
             'advisor_id' => ['required', 'exists:'. User::table(). ',id'],
