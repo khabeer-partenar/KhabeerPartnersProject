@@ -1185,3 +1185,12 @@ color: #fff !important;
 .mb-10 {
     margin-bottom: 10px;
 }
+
+@media (min-width: 992px) {
+    .col-md-3-d {
+        width: 26% !important;
+    }
+    .col-md-9-d {
+        width: 74% !important;
+    }
+}

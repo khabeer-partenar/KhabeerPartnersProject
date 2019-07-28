@@ -38,7 +38,7 @@
 
         <div class="portlet-body form">
 
-            {{ Form::model($committee, ['route' => ['committees.update', $committee], 'method' => 'PUT', 'id' => 'co-form']) }}
+            {{ Form::model($committee, ['route' => ['committees.update', $committee], 'method' => 'PUT', 'id' => 'committee-form']) }}
 
             @if($errors->any())
                 <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -49,7 +49,7 @@
             </div>
 
             <div class="form-actions">
-                {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue']) }}
+                {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue', 'id' => 'save-committee']) }}
             </div>
 
             {{ Form::close() }}

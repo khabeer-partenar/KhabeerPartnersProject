@@ -34,9 +34,9 @@ class CommitteeController extends Controller
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
 
-            return Datatables::of($committeesQuery)
+            $dataTable = Datatables::of($committeesQuery)
                 ->addColumn('id_with_date', function ($committee) {
-                    $data = [__('committee::committees.committee number') . $committee->id, $committee->created_at->format('d-m-Y')];
+                    $data = [__('committee::committees.committee number') . $committee->treatment_number, $committee->created_at->format('d-m-Y')];
                     return view('committee::committees.br_separated_data', compact('data'));
                 })
                 ->addColumn('committee_uuid_with_subject', function ($committee) {
@@ -58,12 +58,23 @@ class CommitteeController extends Controller
                 })
                 ->addColumn('action', function ($committee) {
                     return view('committee::committees.actions', compact('committee'));
-                })
-                ->rawColumns(['action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count'])
-                ->make(true);
-        }
+                });
 
-        return view('committee::committees.index');
+            if (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+                $dataTable ->addColumn('advisor_status', function ($committee) {
+                    return $committee->advisor_id == auth()->id() ?
+                        __('committee::committees.committee advisor')
+                        :__('committee::committees.committee participant');
+                });
+            }
+
+            return $dataTable->rawColumns([
+                'action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count', 'advisor_status'
+            ])->make(true);
+        }
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
+        $status = Committee::STATUS;
+        return view('committee::committees.index', compact('advisors', 'status'));
     }
 
     /**
@@ -78,7 +89,7 @@ class CommitteeController extends Controller
         $departments = Department::where('type', Department::parentDepartment)->pluck('name', 'id');
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
-        $advisors = Group::advisorsUsers()->pluck('name', 'id');
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         $documents = CommitteeDocument::where('user_id', auth()->id())->whereNull('committee_id')->get();
         return view('committee::committees.create', compact(
@@ -130,7 +141,7 @@ class CommitteeController extends Controller
         $departments = Department::where('type', Department::parentDepartment)->pluck('name', 'id');
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
-        $advisors = Group::advisorsUsers()->pluck('name', 'id');
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         return view('committee::committees.edit', compact(
             'committee','treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',

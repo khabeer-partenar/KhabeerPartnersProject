@@ -82,7 +82,7 @@ class DefaultGroupsTableSeeder extends Seeder
         ]);
 
         Group::create([
-            'parent_id' => 0, 'name' => 'نائب معالي رئيس الهيئة', 'key' => 'vice_chairman_of_the_commission', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'parent_id' => 0, 'name' => 'معالي نائب رئيس الهيئة', 'key' => 'vice_chairman_of_the_commission', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
     }

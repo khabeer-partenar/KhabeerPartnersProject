@@ -85,7 +85,7 @@
             {!! Form::label('treatment_number', __('committee::committees.treatment_number'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('treatment_number', null, ['id' => 'treatment_number', 'class' => 'form-control']) !!}
+                {!! Form::number('treatment_number', null, ['id' => 'treatment_number', 'class' => 'form-control']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'treatment_number'])
             </div>
         </div>
@@ -332,8 +332,8 @@
             {!! Form::label('tasks',  __('committee::committees.participant_advisors'), ['class' => 'col-md-2 control-label']) !!}
 
             <div class="col-md-10">
-                <select name="participant_advisors[]" id="participant_advisors" class="form-control select2" multiple>
-                    <option value="0">{{ __('committee::committees.please choose') }}</option>
+                <select name="participant_advisors[]" data-placeholder="{{ __('committee::committees.please choose') }}"
+                        id="participant_advisors" class="form-control select2" multiple>
                     @php
                         $participantIds = isset($committee) ? $committee->participantAdvisors()->pluck('users.id')->toArray():[];
                         if (old('participant_advisors')){
@@ -359,9 +359,11 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('members_count') ? ' has-error' : '' }}">
             {!! Form::label('members_count',  __('committee::committees.members_count'), ['class' => 'col-md-4 control-label']) !!}
-
+            @php
+                $count = isset($committee) ? $committee->members_count:0;
+            @endphp
             <div class="col-md-8">
-                {!! Form::text('members_count', null, ['id' => 'members_count', 'class' => 'form-control', 'disabled']) !!}
+                {!! Form::text('members_count', $count, ['id' => 'members_count', 'class' => 'form-control', 'disabled']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'members_count'])
             </div>
         </div>
@@ -448,7 +450,7 @@
                             </tr>
                         @endforeach
                     @endif
-                @endif+
+                @endif
             </tbody>
         </table>
     </div>

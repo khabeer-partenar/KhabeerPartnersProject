@@ -2,11 +2,13 @@
 
 namespace Modules\Committee\Http\Requests;
 
+use App\Rules\CheckIfDateIsAfter;
 use App\Rules\FilterStringRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
+use Modules\Committee\Rules\PresidentIsChairman;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\User;
 
@@ -23,7 +25,7 @@ class SaveCommitteeRequest extends FormRequest
             'resource_staff_number' => 'required',
             'resource_at' => 'required|date',
             'resource_by' => ['required', 'exists:'. Department::table(). ',id'],
-            'treatment_number' => 'required',
+            'treatment_number' => 'required|integer',
             'treatment_time' => 'required|date',
             'treatment_type_id' => ['required', 'exists:'. TreatmentType::table(). ',id'],
             'treatment_urgency_id' => ['required', 'exists:'. TreatmentUrgency::table(). ',id'],
@@ -33,11 +35,17 @@ class SaveCommitteeRequest extends FormRequest
             'recommended_by_id' => ['required', 'exists:'. Department::table(). ',id'],
             'recommended_at' => 'required|date',
             'subject' => ['required', 'string', new FilterStringRule],
-            'first_meeting_at' => 'required|date', // + Later : today
+            'first_meeting_at' => [
+                'required',
+                'date',
+                new CheckIfDateIsAfter('treatment_time', 'committee::committees'),
+                new CheckIfDateIsAfter('recommended_at', 'committee::committees'),
+                new CheckIfDateIsAfter('resource_at', 'committee::committees')
+            ],
             'tasks' => ['nullable', 'string', new FilterStringRule],
-            'president_id' => ['required', 'exists:'. User::table(). ',id'],
+            'president_id' => 'nullable',
             'advisor_id' => ['required', 'exists:'. User::table(). ',id'],
-            'participant_advisors' => 'required',
+            'participant_advisors' => [new PresidentIsChairman],
             'members_count' => 'nullable|integer',
         ];
     }

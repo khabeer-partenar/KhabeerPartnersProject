@@ -4,6 +4,7 @@ namespace Modules\Users\Entities;
 
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use Modules\Committee\Entities\Committee;
 use Modules\Core\Entities\Group;
 
 class Employee extends User
@@ -97,5 +98,4 @@ class Employee extends User
         }
         return $query;
     }
-    
 }

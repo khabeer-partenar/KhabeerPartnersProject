@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
+use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
@@ -23,6 +25,13 @@ class Committee extends Model
     const HOLD = 'hold';
     const WAITING_SIGNATURE = 'waiting_for_signature';
     const SIGNATURE_COMPLETED = 'signature_completed';
+    const STATUS = [
+        self::WAITING_DELEGATES => 'Waiting for Delegates',
+        self::NOMINATIONS_COMPLETED => 'Nominations Completed',
+        self::HOLD => 'Hold',
+        self::WAITING_SIGNATURE => 'Waiting for Signature',
+        self::SIGNATURE_COMPLETED => 'Signature Completed',
+    ];
 
     protected $fillable = [
         'resource_staff_number', 'resource_at', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
@@ -31,7 +40,7 @@ class Committee extends Model
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'uuid', 'created_at_hijri', 'first_meeting_at_hijri', 'recommended_at_hijri'
+        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'recommended_at_hijri'
     ];
 
     protected $dates = [
@@ -87,33 +96,55 @@ class Committee extends Model
         return CarbonHijri::toHijriFromMiladi($date);
     }
 
-    public function getUuidAttribute()
-    {
-        $hijriDate = Carbon::parse($this->created_at_hijri);
-        return $hijriDate->year . '-' . $this->attributes['id'] ;
-    }
-
     /**
      * Scopes
      *
      * Here Scopes
      */
-    public function scopeSearch($query)
+    public function scopeSearch($query, $request)
     {
+        // Filter By Request
+        if ($request->has('subject')) {
+            $query->where('subject', 'LIKE', '%'.$request->subject.'%');
+        }
+        if ($request->has('advisor_id') && $request->advisor_id != 0) {
+            $query->where('advisor_id', $request->advisor_id);
+        }
+        if ($request->has('status') && $request->status != '0') {
+            $query->where('status', $request->status);
+        }
+        if ($request->has('treatment_number')) {
+            $query->where('treatment_number', $request->treatment_number);
+        }
+        if ($request->has('uuid')) {
+            $query->where('uuid', $request->uuid);
+        }
+
         if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            // Secretary Should see Committees for his Advisors Only
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
             $query->whereIn('advisor_id', $advisorsId);
         } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-            //
+            // Advisors Should see Committees he owns or where he is a participant
+            $owns = auth()->user()->ownedCommittees()->pluck('committees.id')->toArray();
+            $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
+            $query->whereIn('id', array_merge($owns, $participantIn));
         }
+
+
         return $query;
     }
 
     /**
      * Functions
-     *
-     * Here goes functions
      */
+    public function getDelegatesWithDetails()
+    {
+        return $this->delegates()->with(['department' => function($query) {
+            $query->with('referenceDepartment');
+        }])->get();
+    }
+
     public static function getDateFromFormat($value, $format = 'm/d/Y') {
         try {
             return $date = Carbon::createFromFormat($format, $value);
@@ -133,27 +164,41 @@ class Committee extends Model
                 ]
             )
         );
-        $committee->participantAdvisors()->attach($request->participant_advisors);
+        $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors:[]);
         $committee->participantDepartments()->sync($request->departments);
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
+        event(new CommitteeCreatedEvent($committee));
         return $committee;
     }
 
     public function updateFromRequest($request)
     {
         $this->update($request->all());
-        $this->participantAdvisors()->sync($request->participant_advisors);
+        $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors:[]);
         $this->participantDepartments()->sync($request->departments);
         $this->update(['members_count' => $this->participantAdvisors()->count()]);
         return $this;
     }
 
-    public function getDelegatesWithDetails()
+    public function participantDepartmentsWithRef()
     {
-        return $this->delegates()->with(['department' => function($query) {
-            $query->with('referenceDepartment');
-        }])->get();
+        return $this->participantDepartments()->with('referenceDepartment')->get();
+    }
+
+    public function participantDepartmentsUsersUnique()
+    {
+        $toBeNotifiedUsers = [];
+        foreach ($this->participantDepartmentsWithRef() as $department)
+        {
+            $users = $department->users('parent')->get();
+            $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
+            if ($department->referenceDepartment) {
+                $refUsers = $department->referenceDepartment->users('parent')->get();
+                $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($refUsers));
+            }
+        }
+        return $toBeNotifiedUsers;
     }
 
     /**

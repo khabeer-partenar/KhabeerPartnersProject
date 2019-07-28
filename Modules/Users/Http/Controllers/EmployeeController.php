@@ -147,7 +147,7 @@ class EmployeeController extends UserBaseController
         }
 
         $employee->save();
-        $employee->log('uodate_employee_to_super_admin');
+        $employee->log('update_employee_to_super_admin');
         session()->flash('alert-success', __('messages.updatedـsuccessfully')); 
         return redirect()->route('employees.index');
     }

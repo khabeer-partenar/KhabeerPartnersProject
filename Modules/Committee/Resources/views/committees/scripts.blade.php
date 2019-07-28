@@ -1,6 +1,8 @@
 <script>
     $(document).ready(function () {
-        $('.select2').select2();
+        $('.select2').select2({
+            placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder'):''
+        });
 
         $('.date-picker').datepicker({
             language: "ar"
@@ -125,6 +127,19 @@
                 }
             })
         })
+
+        // On Submit
+        $( "#save-committee").click(function(e) {
+            e.preventDefault();
+            let participantAdvisors = $('#participant_advisors').val();
+            if (!participantAdvisors) {
+                $('#committee-form').append("<input name='participant_advisors[]' hidden>")
+            }
+            setTimeout(function () {
+                $('#committee-form').submit();
+            }, 400);
+        });
+
     });
 </script>
 
