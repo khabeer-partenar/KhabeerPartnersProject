@@ -329,4 +329,5 @@ class Department extends Model
     {
         return $this->hasOne(Employee::class, 'id', 'direct_manager_id');
     }
+
 }

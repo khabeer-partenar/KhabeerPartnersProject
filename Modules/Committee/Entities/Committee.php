@@ -12,6 +12,7 @@ use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
@@ -103,9 +104,10 @@ class Committee extends Model
      */
     public function scopeSearch($query, $request)
     {
+
         // Filter By Request
         if ($request->has('subject')) {
-            $query->where('subject', 'LIKE', '%'.$request->subject.'%');
+            $query->where('subject', 'LIKE', '%' . $request->subject . '%');
         }
         if ($request->has('advisor_id') && $request->advisor_id != 0) {
             $query->where('advisor_id', $request->advisor_id);
@@ -120,7 +122,7 @@ class Committee extends Model
             $query->where('uuid', $request->uuid);
         }
 
-        if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+        if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             // Secretary Should see Committees for his Advisors Only
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
             $query->whereIn('advisor_id', $advisorsId);
@@ -129,6 +131,8 @@ class Committee extends Model
             $owns = auth()->user()->ownedCommittees()->pluck('committees.id')->toArray();
             $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
             $query->whereIn('id', array_merge($owns, $participantIn));
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+
         }
 
 
@@ -140,12 +144,13 @@ class Committee extends Model
      */
     public function getDelegatesWithDetails()
     {
-        return $this->delegates()->with(['department' => function($query) {
+        return $this->delegates()->with(['department' => function ($query) {
             $query->with('referenceDepartment');
         }])->get();
     }
 
-    public static function getDateFromFormat($value, $format = 'm/d/Y') {
+    public static function getDateFromFormat($value, $format = 'm/d/Y')
+    {
         try {
             return $date = Carbon::createFromFormat($format, $value);
         } catch (InvalidDateException $exception) {
@@ -164,7 +169,7 @@ class Committee extends Model
                 ]
             )
         );
-        $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors:[]);
+        $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $committee->participantDepartments()->sync($request->departments);
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
@@ -175,7 +180,7 @@ class Committee extends Model
     public function updateFromRequest($request)
     {
         $this->update($request->all());
-        $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors:[]);
+        $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $this->participantDepartments()->sync($request->departments);
         $this->update(['members_count' => $this->participantAdvisors()->count()]);
         return $this;
@@ -189,8 +194,7 @@ class Committee extends Model
     public function participantDepartmentsUsersUnique()
     {
         $toBeNotifiedUsers = [];
-        foreach ($this->participantDepartmentsWithRef() as $department)
-        {
+        foreach ($this->participantDepartmentsWithRef() as $department) {
             $users = $department->users('parent')->get();
             $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
             if ($department->referenceDepartment) {
@@ -261,11 +265,11 @@ class Committee extends Model
     public function nominationDepartments()
     {
         return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')
-            ->withPivot('nomination_criteria','has_nominations');
+            ->withPivot('nomination_criteria', 'has_nominations');
     }
 
     public function delegates()
     {
-        return $this->belongsToMany(Delegate::class, 'committee_user', 'committee_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(Delegate::class, 'committee_delegate', 'committee_id', 'user_id')->withTimestamps();
     }
 }

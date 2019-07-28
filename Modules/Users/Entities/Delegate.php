@@ -126,7 +126,6 @@ class Delegate extends User
         }
         return $query;
     }
-
     /**
      * Relations
      *
@@ -134,9 +133,8 @@ class Delegate extends User
      */
     public function committees()
     {
-        return $this->belongsToMany(Committee::class, 'committee_user', 'user_id', 'committee_id');
+        return $this->belongsToMany(Committee::class, 'committee_delegate', 'user_id', 'committee_id');
     }
-
     public function department()
     {
         return $this->belongsTo(Department::class, 'parent_department_id');

@@ -30,6 +30,7 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
+        //dd(auth()->user());
        //dd(auth()->user()->authorizedApps->name);
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
@@ -117,9 +118,14 @@ class CommitteeController extends Controller
      * @return Response
      * @internal param int $id
      */
-    public function show(Committee $committee)
+    public function show(Committee $committee,Department $department)
     {
+
+        //dd($committee->participantDepartmentsWithRef()->last());
+        //$delegates11 = $department->delegates('parent')->where('parent_department_id',16);
+        //dd($delegates11);
         $delegates = $committee->getDelegatesWithDetails();
+        //dd($delegates);
         $delegatesQuery = Delegate::getDelegatesNotInCommittee();
         $mainDepartments = Department::getDepartments();
 
