@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\UserBaseController;
 use Yajra\Datatables\Datatables;
-use Modules\Users\Http\Requests\SaveEmployeeRequest;
-use Modules\Users\Http\Requests\UpdateEmployeeRequest;
 use Modules\Users\Http\Requests\UpdateSecretariesRequest;
 use Modules\Users\Entities\Employee;
 use Modules\Core\Entities\Group;
@@ -124,7 +122,7 @@ class AssignCommitteController extends UserBaseController
             return redirect()->route('employees.assign_committees.index');
         }
         $employee->advisors()->sync($request->advisors_ids);
-        $employee->log('uodate_employee_advisors', json_encode($request->advisors_ids));
+        $employee->log('update_employee_advisors', json_encode($request->advisors_ids));
         session()->flash('alert-success', __('users::employees.assignCommittees.advisorsUpdated')); 
         return redirect()->route('employees.assign_committees.index');
     }
