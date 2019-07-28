@@ -125,7 +125,7 @@ class CommitteeController extends Controller
         //$delegates11 = $department->delegates('parent')->where('parent_department_id',16);
         //dd($delegates11);
         $delegates = $committee->getDelegatesWithDetails();
-        //dd($delegates);
+        dd($delegates);
         $delegatesQuery = Delegate::getDelegatesNotInCommittee();
         $mainDepartments = Department::getDepartments();
 
