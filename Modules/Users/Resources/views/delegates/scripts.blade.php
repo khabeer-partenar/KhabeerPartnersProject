@@ -80,3 +80,64 @@
 
 
 </script>
+
+
+<script>
+    // open popup to nominate delegates
+    $(document).ready(function () {
+        $(".nominateBtn").click(function () {
+            @if (count($delegatesQuery) > 0)
+
+
+                $("#nominationsListModal").modal();
+            @else
+                Swal.fire({
+                    title: 'لا يوجد مندوبين لهذه الجهة من فضلك قم باضافة مندوب جديد',
+                    type: 'error',
+                    confirmButtonText: 'موافق'
+                })
+            @endif
+        });
+    });
+
+    function getDelegates() {
+            var data = new FormData($(this)[0]);
+            console.log(data);
+            var url = form.attr("action");
+
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $('.has-error').removeClass('has-error');
+
+                    //console.log(data);
+                    $("#job_role_id").prop('disabled', true);
+
+                    $('#addDelegateModal').modal('hide');
+                    location.reload();
+                },
+                error: function (request) {
+                    let errors = request.responseJSON.errors;
+                    let keys = Object.keys(errors);
+//console.log(errors[0]);
+                    for (index = 0; index < keys.length; ++index) {
+                        $('#div_' + keys[index]).addClass('has-error');
+                        $('#span_' + keys[index]).text(errors[keys[index]]);
+                        console.log(keys[index]);
+                        console.log(errors[keys[index]]);
+                    }
+                    $("#job_role_id").prop('disabled', true);
+                    //console.log(errors[]);
+                    //let keys = Object.keys(errors);
+                    //alert("Error: " + errohrown);
+                }
+            });
+
+    }
+</script>

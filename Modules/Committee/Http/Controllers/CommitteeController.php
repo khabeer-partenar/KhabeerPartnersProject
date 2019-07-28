@@ -30,6 +30,7 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
+       //dd(auth()->user()->authorizedApps->name);
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
 
@@ -108,11 +109,12 @@ class CommitteeController extends Controller
     public function show(Committee $committee)
     {
         $delegates = $committee->getDelegatesWithDetails();
+        $delegatesQuery = Delegate::getDelegatesNotInCommittee();
         $mainDepartments = Department::getDepartments();
 
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
 //dd($mainDepartments);
-        return view('committee::committees.show', compact('committee', 'delegates','mainDepartments','delegateJobs'));
+        return view('committee::committees.show', compact('committee', 'delegates','mainDepartments','delegateJobs','delegatesQuery'));
     }
 
     /**

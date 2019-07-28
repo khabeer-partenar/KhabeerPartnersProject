@@ -47,48 +47,6 @@ class DelegateController extends UserBaseController
     public function index(Request $request,Committee $committee)
     {
 
-//dd($request);
-        if ($request->wantsJson() || $request->ajax()) {
-            $delegatesQuery = Delegate::getDelegatesNotInCommittee();
-            return Datatables::of($delegatesQuery)
-                ->addColumn('department_info', function ($delegate) {
-                    $data = [
-                        $delegate->department->name,
-                        $delegate->referenceDepartment ? '/' . $delegate->referenceDepartment->name:null
-                    ];
-                    return view('users::delegates.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('name', function($delegate) {
-                    $data = [$delegate->name];
-                    return view('users::delegates.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('job_title', function($delegate) {
-                    $data = [$delegate->job_title];
-                    return view('users::delegates.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('national_id', function($delegate) {
-                    $data = [$delegate->national_id];
-                    return view('users::delegates.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('phone_number', function($delegate) {
-                    $data = [$delegate->phone_number];
-                    return view('users::delegates.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('email', function($delegate) {
-                    $data = [$delegate->email];
-                    return view('users::delegates.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('specialty', function($delegate) {
-                    $data = [$delegate->specialty];
-                    return view('users::delegates.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('action', function ($delegate) {
-                    return view('users::delegates.actions', compact('delegate'));
-                })->rawColumns(['action'])->make(true);
-        }
-
-
-        return view('users::delegates.index');
     }
 
     /**
@@ -143,8 +101,11 @@ class DelegateController extends UserBaseController
     public function destroy(Delegate $delegate)
     {
         //Delegate::find($delegate->id);
-        $delegate->log('delete_coordinator');
-        $delegate->delete();
+        /*$delegate->log('delete_coordinator');
+        $delegate->delete();*/
+
+        $delegate->log('remove_delegate_from_committee');
+        $delegate->removeDelegateFromCommittee($delegate);
         return response()->json(['msg' => __('users::delegates.deleted')]);
     }
 }

@@ -35,7 +35,7 @@
                 {{ $department->pivot->has_nominations?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done') }}
             </td>
             <td>
-                <button data-toggle="modal" data-target="#nominationsListModal" class="btn btn-primary">{{__('committee::committees.nominate')}}</button>
+                <button data-toggle="modal" {{--data-target="#nominationsListModal"--}} class="btn btn-primary nominateBtn">{{__('committee::committees.nominate')}}</button>
             </td>
         </tr>
     @endforeach
@@ -43,6 +43,7 @@
 </table>
 @include('users::delegates.index',compact('committee'))
 @include('users::delegates.create',compact('committee'))
+
 
 
 

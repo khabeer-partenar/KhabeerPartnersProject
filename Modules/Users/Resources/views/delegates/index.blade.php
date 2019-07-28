@@ -18,23 +18,65 @@
             {{ Form::open(['route' => 'delegates.add_delegates', 'method' => 'POST', 'id' => 'delegate-form']) }}
 
             <div class="modal-body">
-                <table id="table-ajax" class="table" data-url="{{ route('delegates.index')}}"
-                       data-fields='[
-                    {"data": "department_info","name":"actions","title":"{{ __('users::delegates.department_name') }}","searchable":"false", "orderable":"false"},
-                    {"data": "name","name":"actions","title":"{{ __('users::delegates.delegate_name') }}","searchable":"false", "orderable":"false"},
-                    {"data": "job_title","name":"actions","title":"{{ __('users::delegates.job_title') }}","searchable":"false", "orderable":"false"},
-                    {"data": "national_id","name":"actions","title":"{{ __('users::delegates.national_id') }}","searchable":"false", "orderable":"false"},
-                    {"data": "phone_number","name":"actions","title":"{{ __('users::delegates.phone_number') }}","searchable":"false", "orderable":"false"},
-                    {"data": "email","name":"actions","title":"{{ __('users::delegates.email') }}","searchable":"false", "orderable":"false"},
-                    {"data": "specialty","name":"actions","title":"{{ __('users::delegates.specialty') }}","searchable":"false", "orderable":"false"},
-                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}]'
-                >
+
+                <table class="table table-striped table-responsive-md">
+                    <thead>
+
+                    <tr>
+                        <th style="width: 16.666%" scope="col"></th>
+                        <th scope="col">{{ __('users::delegates.department_name') }}</th>
+                        <th scope="col">{{ __('users::delegates.delegate_name') }}</th>
+                        <th scope="col">{{ __('users::delegates.job_title') }}</th>
+                        <th scope="col">{{ __('users::delegates.national_id') }}</th>
+                        <th scope="col">{{ __('users::delegates.phone_number') }}</th>
+                        <th scope="col">{{ __('users::delegates.email') }}</th>
+                        <th scope="col">{{ __('users::delegates.specialty') }}</th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($delegatesQuery as $delegate)
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>
+                                {{ $delegate->department->name,
+                                $delegate->referenceDepartment ? '/' . $delegate->referenceDepartment->name:null}}
+                            </td>
+                            <td>
+                                {{ $delegate->name }}
+                            </td>
+                            <td>
+                                {{ $delegate->job_title }}
+                            </td>
+                            <td>
+                                {{$delegate->national_id}}
+
+                            </td>
+                            <td>
+                               {{ $delegate->phone_number}}
+                            </td>
+                            <td>
+                                {{$delegate->email}}
+                            </td>
+                            <td>
+                                {{$delegate->specialty}}
+                            </td>
+                            <td>
+                                {{ Form::checkbox('delegates_ids[]',$delegate->id,null, array('id'=>'delegates_ids')) }}
+
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
                 </table>
+
             </div>
             <div class="modal-footer">
                 {{ Form::button(__('users::delegates.action_add'), ['type' => 'submit', 'class' => 'btn blue']) }}
 
-                <button style="float: right" type="button" class="btn btn-danger" data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
+                <button style="float: right" type="button" class="btn btn-danger"
+                        data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
 
             </div>
             {{ Form::hidden('committee_id', $committee->id) }}
@@ -45,5 +87,6 @@
 
     </div>
 </div>
+
 
 

@@ -34,7 +34,7 @@
                 {{ $delegate->email}}
             </td>
             <td>
-                <a data-href="{{ route('delegates.destroy', $delegate) }}" class="btn btn-sm btn-danger delete-row">
+                <a data-href="{{ route('delegates.destroy', $delegate) }}" class="btn btn-sm btn-danger delete-row-delegate">
                     <i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}
                 </a>
             </td>

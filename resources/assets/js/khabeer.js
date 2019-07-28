@@ -7,7 +7,7 @@ $(document).ready(function() {
         }
     });
 
-    
+
     // Delete row in dataTable using Ajax
     $(document).on('click', '.delete-row', function(){
         let btn = $(this);
@@ -117,5 +117,5 @@ $(document).ready(function() {
             });
         }
     });
-    
+
 });

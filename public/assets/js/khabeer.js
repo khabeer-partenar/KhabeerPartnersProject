@@ -32,6 +32,47 @@ $(document).ready(function() {
                     },
 
                     error: function (request, status, error) {
+                        console.log(error);
+                        Swal.fire({
+                            title: 'حدث خطأ',
+                            text: request.responseJSON.msg,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: '#D3D3D3',
+                            confirmButtonText: 'حسنا',
+                        });
+                    }
+                });
+            }
+        })
+    });
+
+    // Delete row in dataTable using Ajax
+    $(document).on('click', '.delete-row-delegate', function(){
+        let btn = $(this);
+        let path = $(this).attr('data-href');
+        Swal.fire({
+            title: 'هل انت متأكد من عملية الحذف؟',
+            text: "لن يمكنك الرجوع عن العملية",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ed6b75',
+            cancelButtonColor: '#337ab7',
+            confirmButtonText: 'حذف',
+            cancelButtonText: 'إلغاء'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: path,
+                    type: 'delete',
+
+                    success: function(response){
+                        $(btn).parent().parent().remove();
+                        location.reload();
+                    },
+
+                    error: function (request, status, error) {
+                        console.log(error);
                         Swal.fire({
                             title: 'حدث خطأ',
                             text: request.responseJSON.msg,
