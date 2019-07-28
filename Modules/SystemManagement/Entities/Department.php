@@ -92,6 +92,13 @@ class Department extends Model
     {
         return $this->hasMany(Coordinator::class, $key .'_department_id', 'id');
     }
+    public function getDepartmentDelegates($department_id)
+
+    {
+        $this->delegates()->where('direct_department_id',$department_id)
+            ->orWhere('parent_department_id')->get();
+    }
+
     public function delegates($key)
     {
         return $this->hasMany(Delegate::class, $key .'_department_id', 'id');
