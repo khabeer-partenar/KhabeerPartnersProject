@@ -35,8 +35,8 @@
 
                     </tr>
                     </thead>
-                    <tbody>
-                    @foreach($delegatesQuery as $delegate)
+                    <tbody id="table_delegates">
+                   {{-- @foreach($delegatesQuery as $delegate)
                         <tr>
                             <td>{{ $loop->index + 1 }}</td>
                             <td>
@@ -67,7 +67,7 @@
 
                             </td>
                         </tr>
-                    @endforeach
+                    @endforeach--}}
                     </tbody>
                 </table>
 

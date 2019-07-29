@@ -144,8 +144,7 @@ class Committee extends Model
      */
     public function getDelegatesWithDetails()
     {
-        return $this->delegates()->where('direct_department_id', 17)->
-        orWhere('parent_department_id', 17)->with(['department' => function ($query) {
+        return $this->delegates()->with(['department' => function ($query) {
             $query->with('referenceDepartment');
         }])->get();
     }

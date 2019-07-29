@@ -1,5 +1,11 @@
 <script>
     $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
 
         $('.select2').select2({
             dropdownParent: $("#addDelegateModal"),
@@ -40,7 +46,6 @@
             console.log(data);
             var url = form.attr("action");
 
-
             $.ajax({
                 type: form.attr('method'),
                 url: url,
@@ -50,6 +55,7 @@
                 processData: false,
                 success: function (data) {
                     $('.has-error').removeClass('has-error');
+                    $('.span-error').text('');
 
                     //console.log(data);
                     $("#job_role_id").prop('disabled', true);
@@ -58,6 +64,8 @@
                     location.reload();
                 },
                 error: function (request) {
+                    $('.has-error').removeClass('has-error');
+                    $('.span-error').text('');
                     let errors = request.responseJSON.errors;
                     let keys = Object.keys(errors);
 //console.log(errors[0]);
@@ -75,69 +83,104 @@
             });
             return false;
         });
+        $(document).on('click', '.nominateBtn', function () {
+            var department_id = this.value;
+            console.log("id : " + department_id);
+            var url = '{{url('/users/delegates/DepartmentDelegatesNotInCommittee')}}' + '/' + department_id;
 
-    });
-
-
-</script>
-
-
-<script>
-    // open popup to nominate delegates
-    $(document).ready(function () {
-        $(".nominateBtn").click(function () {
-            @if (count($delegatesQuery) > 0)
-
-
-                $("#nominationsListModal").modal();
-            @else
-                Swal.fire({
-                    title: 'لا يوجد مندوبين لهذه الجهة من فضلك قم باضافة مندوب جديد',
-                    type: 'error',
-                    confirmButtonText: 'موافق'
-                })
-            @endif
-        });
-    });
-
-    function getDelegates() {
-            var data = new FormData($(this)[0]);
-            console.log(data);
-            var url = form.attr("action");
-
-
+            console.log(url);
             $.ajax({
                 type: 'GET',
                 url: url,
-                data: data,
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function (data) {
-                    $('.has-error').removeClass('has-error');
+                success: function (result) {
+                    if (result.length > 0) {
+                        console.log(result[0]['department']);
 
-                    //console.log(data);
-                    $("#job_role_id").prop('disabled', true);
+                        var html = "";
+                        for (var i = 0; i < result.length; i++) {
+                            html += '<tr>';
+                            html += '<td>' + (i + 1) + '</td>';
 
-                    $('#addDelegateModal').modal('hide');
-                    location.reload();
-                },
-                error: function (request) {
-                    let errors = request.responseJSON.errors;
-                    let keys = Object.keys(errors);
-//console.log(errors[0]);
-                    for (index = 0; index < keys.length; ++index) {
-                        $('#div_' + keys[index]).addClass('has-error');
-                        $('#span_' + keys[index]).text(errors[keys[index]]);
-                        console.log(keys[index]);
-                        console.log(errors[keys[index]]);
+                            var department = result[0]['department']['name'];
+                            if (result[0]['department']['referenceDepartment'])
+                            {
+                                department +='/' + result[0]['department']['referenceDepartment']['name'];
+                            }
+                            html +='<td>' + department + '</td>';
+                            html +='<td>' + result[0]['name'] + '</td>';
+                            html +='<td>' + result[0]['job_title'] + '</td>';
+                            html +='<td>' + result[0]['national_id'] + '</td>';
+                            html +='<td>' + result[0]['phone_number'] + '</td>';
+                            html +='<td>' + result[0]['email'] + '</td>';
+                            html +='<td>' + result[0]['specialty'] + '</td>';
+                            html +='<td><input type="checkbox" name="delegates_ids[]" value="' + result[0]['id'] +'"/></td>';
+                            html += '</tr>';
+
+
+                        }
+                        $('#table_delegates').html(html);
+                        $("#nominationsListModal").modal();
                     }
-                    $("#job_role_id").prop('disabled', true);
-                    //console.log(errors[]);
-                    //let keys = Object.keys(errors);
-                    //alert("Error: " + errohrown);
+                    else {
+                        Swal.fire({
+                            title: 'لا يوجد مندوبين لهذه الجهة من فضلك قم باضافة مندوب جديد',
+                            type: 'error',
+                            confirmButtonText: 'موافق'
+                        })
+                    }
+                },
+                error: function (data) {
+                    var errors = data.responseJSON;
+                    console.log(data);
+                    // let keys = Object.keys(errors);
+                    //console.log(errors);
+                    /*
+
+                        /!*for (index = 0; index < keys.length; ++index) {
+
+                        console.log(keys[index]);
+                        console.log(errors[keys[index]]);*/
                 }
+
+
             });
 
-    }
+        });
+        /* function getDelegates(department) {
+             var data = department.value;
+             console.log("id : " + data);
+             var url = 'users/delegates/DepartmentDelegatesNotInCommittee';
+
+             console.log(url);
+             $.ajax({
+                 type: 'GET',
+                 url: '/users/delegates/DepartmentDelegatesNotInCommittee',
+                 cache: false,
+                 contentType: false,
+                 processData: false,
+                 success: function (data) {
+                     console.log(data);
+                 },
+                 error: function (request) {
+                     /!*  let errors = request.responseJSON.errors;
+                       let keys = Object.keys(errors);
+                       console.log(errors);*!/
+                     /!*for (index = 0; index < keys.length; ++index) {
+
+                         console.log(keys[index]);
+                         console.log(errors[keys[index]]);
+                     }*!/
+
+                 }
+             });
+
+         }*/
+
+    });
+
+
 </script>
+

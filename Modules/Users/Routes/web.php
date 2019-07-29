@@ -11,6 +11,8 @@
 |
 */
 
+
+
 Route::group(['middleware' => 'guest'], function()
 {
     Route::get('/login', 'AuthController@showLoginForm')->name('showLoginForm');
@@ -33,6 +35,8 @@ Route::group(['middleware' => 'auth'], function()
         // Delegate
         Route::resource('/delegates','DelegateController');
         Route::post('/delegates/add_delegate','DelegateController@addDelegatesToCommittee')->name('delegates.add_delegates');
+        Route::get('/delegates/DepartmentDelegatesNotInCommittee/{department_id}','DelegateController@getDepartmentDelegatesNotInCommittee');
+
         // Assign Committe Controller
         Route::get('/employees/assign-committees/search/{groupID}/{columnType}', 'AssignCommitteController@search')->name('employees.assign_committees.search');
         Route::get('/employees/assign-committees', 'AssignCommitteController@index')->name('employees.assign_committees.index');

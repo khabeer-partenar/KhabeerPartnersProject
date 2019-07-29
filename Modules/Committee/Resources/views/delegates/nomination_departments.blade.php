@@ -28,7 +28,7 @@
             <td>{{ $loop->index + 1 }}</td>
             <td>
                 {{ $department->referenceDepartment==null?  $department->name: $department->name." / ". $department->referenceDepartment->name}}
-                    <input type="hidden" name="{{$department->id}}">
+                   {{-- <input type="hidden" value="{{$department->id}}" name="department_{{$department->id}}">--}}
 
             </td>
             <td>
@@ -38,7 +38,7 @@
                 {{ $department->pivot->has_nominations?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done') }}
             </td>
             <td>
-                <button data-toggle="modal"
+                <button  data-toggle="modal"  value="{{$department->id}}"
                         {{--data-target="#nominationsListModal"--}} class="btn btn-primary nominateBtn">{{__('committee::committees.nominate')}}</button>
             </td>
         </tr>

@@ -118,20 +118,25 @@ class CommitteeController extends Controller
      * @return Response
      * @internal param int $id
      */
-    public function show(Committee $committee,Department $department)
+    public function show(Committee $committee)
     {
-
+//$aa = Delegate::getDepartmentDelegatesNotInCommittee(17);
+//dd($aa);
         //dd($committee->participantDepartmentsWithRef()->last());
-        $delegates11 = $department->getDepartmentDelegates(16);
-        dd($delegates11);
+        //$delegates11 = $department->getDepartmentDelegates(12);
+        //$delegates11 = Department::with('delegates')->find(17);
+        //dd($delegates11);
+
+        //$test = Delegate::where('parent_department_id',17)->get();
+        //dd($test);
         $delegates = $committee->getDelegatesWithDetails();
-        dd($delegates);
-        $delegatesQuery = Delegate::getDelegatesNotInCommittee();
+        //dd($delegates);
+        //dd($delegatesQuery);
         $mainDepartments = Department::getDepartments();
 
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
 //dd($mainDepartments);
-        return view('committee::committees.show', compact('committee', 'delegates','mainDepartments','delegateJobs','delegatesQuery'));
+        return view('committee::committees.show', compact('committee', 'delegates','mainDepartments','delegateJobs'));
     }
 
     /**

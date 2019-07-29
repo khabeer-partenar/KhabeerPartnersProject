@@ -202,6 +202,11 @@ class CoreUsersAppsTableSeeder extends Seeder
             'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@getDepartmentDelegatesNotInCommittee', 'name' => 'عرض المندوبين',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/DepartmentDelegatesNotInCommittee', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
 
     }
 

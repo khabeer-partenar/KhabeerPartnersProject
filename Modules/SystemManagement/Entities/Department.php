@@ -95,13 +95,12 @@ class Department extends Model
     public function getDepartmentDelegates($department_id)
 
     {
-        $this->delegates()->where('direct_department_id',$department_id)
-            ->orWhere('parent_department_id')->get();
+       // $this->delegates('direct')->where('direct_department_id',$department_id)->get();
     }
 
-    public function delegates($key)
+    public function delegates()
     {
-        return $this->hasMany(Delegate::class, $key .'_department_id', 'id');
+        return $this->hasMany(Delegate::class, 'parent_department_id', 'id');
     }
     public static function getEmptyObjectForSelectAjax()
     {

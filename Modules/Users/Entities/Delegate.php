@@ -54,12 +54,13 @@ class Delegate extends User
         return $query->doesntHave('committees');
     }
 
-    public static function getDelegatesNotInCommittee()
+    public static function getDepartmentDelegatesNotInCommittee($department_id)
     {
 
         $delegatesQuery = Delegate::with(['department' => function ($query) {
             $query->with('referenceDepartment');
-        }])->NotInCommittees()->get();
+        }])->where('parent_department_id',$department_id)
+            ->orWhere('direct_department_id',$department_id)->NotInCommittees()->get();
         return $delegatesQuery;
     }
 

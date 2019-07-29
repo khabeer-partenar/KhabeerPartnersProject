@@ -31,7 +31,7 @@ class DelegateController extends UserBaseController
     {
         parent::__construct($request);
         $this->middleware(function ($request, $next) {
-            if (Auth::user()->user_type == Delegate::TYPE){
+            if (Auth::user()->user_type == Delegate::TYPE) {
                 $this->userType = Delegate::TYPE;
             }
             return $next($request);
@@ -44,9 +44,22 @@ class DelegateController extends UserBaseController
      * @return Response
      * @internal param Request $request
      */
-    public function index(Request $request,Committee $committee)
+    public function index(Request $request, Committee $committee)
     {
 
+    }
+
+    public function show()
+    {
+        //return response()->json(['name' => 'Abigail', 'state' => 'CA']);
+    }
+
+    public function getDepartmentDelegatesNotInCommittee($department_id)
+    {
+        //return 'done';
+        //return response()->json(['name' => 'Abigail', 'state' => 'CA']);
+        $delegates = Delegate::getDepartmentDelegatesNotInCommittee($department_id);
+         return $delegates;
     }
 
     /**
@@ -56,17 +69,19 @@ class DelegateController extends UserBaseController
     public function create()
     {
 
-      /*  $mainDepartments = Department::getDepartments();
-        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);*/
+        /*  $mainDepartments = Department::getDepartments();
+          $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);*/
         return view("users::delegates.$this->userType..create", compact('mainDepartments', 'delegateJobs'));
     }
+
     public function removeDelegateFromCommittee(Delegate $delegate)
     {
         $delegate->log('remove_delegate_from_committee');
         $delegate->removeDelegateFromCommittee($delegate);
         return response()->json(['msg' => __('users::delegates.deleted')]);
     }
-    public function addDelegatesToCommittee(Request $request,Delegate $delegate)
+
+    public function addDelegatesToCommittee(Request $request, Delegate $delegate)
     {
         if ($request->has('delegates_ids')) {
 
@@ -76,18 +91,19 @@ class DelegateController extends UserBaseController
 
         }
     }
+
     /**
      * Store a newly created resource in storage.
      * @param SaveCoordinatorRequest $request
      * @return Response
      */
-    public function store(SaveDelegateRequest $request,Delegate $delegate2)
+    public function store(SaveDelegateRequest $request, Delegate $delegate2)
     {
-            $delegate = Delegate::createFromRequest($request);
-            $delegate->log('create_delegate');
-            $delegate2->addDelegateToCommittee($request,$delegate->id);
-            self::sessionSuccess('users::delegates.created');
-            return back();
+        $delegate = Delegate::createFromRequest($request);
+        $delegate->log('create_delegate');
+        $delegate2->addDelegateToCommittee($request, $delegate->id);
+        self::sessionSuccess('users::delegates.created');
+        return back();
     }
 
 
