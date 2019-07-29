@@ -94,6 +94,6 @@ return [
     'please nominate delegates' => 'من فضلك قم بتسمية المندوبين عن جهتك',
     'committee deleted' => 'تم حذف اللجنة',
     'advisor_status' => 'دور المستشار',
-    'committee advisor' => 'مدير',
+    'committee advisor' => 'مسؤول',
     'committee participant' => 'مشارك',
 ];
