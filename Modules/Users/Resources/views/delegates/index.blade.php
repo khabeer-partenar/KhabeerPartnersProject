@@ -80,6 +80,7 @@
 
             </div>
             {{ Form::hidden('committee_id', $committee->id) }}
+            {{ Form::hidden('department_id', '',array('id' => 'department_id')) }}
 
 
             {{ Form::close() }}

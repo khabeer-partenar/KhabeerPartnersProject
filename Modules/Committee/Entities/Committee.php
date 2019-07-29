@@ -47,7 +47,6 @@ class Committee extends Model
     protected $dates = [
         'resource_at', 'treatment_time', 'first_meeting_at', 'recommended_at'
     ];
-
     /**
      * Accessors and Mutators
      *
@@ -262,6 +261,10 @@ class Committee extends Model
             ->withPivot('nomination_criteria');
     }
 
+    public function getNominationDepartmentsWithRef()
+    {
+        return $this->nominationDepartments()->with('referenceDepartment')->get();
+    }
     public function nominationDepartments()
     {
         return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')

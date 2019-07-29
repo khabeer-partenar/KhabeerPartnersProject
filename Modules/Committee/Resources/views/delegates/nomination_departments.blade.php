@@ -23,7 +23,7 @@
     </thead>
     <tbody>
 
-    @foreach($committee->participantDepartmentsWithRef() as $department)
+    @foreach($committee->getNominationDepartmentsWithRef() as $department)
         <tr>
             <td>{{ $loop->index + 1 }}</td>
             <td>
@@ -35,7 +35,7 @@
                 {{ $department->pivot->nomination_criteria }}
             </td>
             <td>
-                {{ $department->pivot->has_nominations?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done') }}
+                {{ $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done') }}
             </td>
             <td>
                 <button  data-toggle="modal"  value="{{$department->id}}"

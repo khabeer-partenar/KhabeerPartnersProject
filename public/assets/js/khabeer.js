@@ -68,7 +68,8 @@ $(document).ready(function() {
 
                     success: function(response){
                         $(btn).parent().parent().remove();
-                        location.reload();
+                        console.log(response);
+                        //location.reload();
                     },
 
                     error: function (request, status, error) {

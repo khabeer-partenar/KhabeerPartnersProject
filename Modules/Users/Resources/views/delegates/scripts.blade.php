@@ -96,31 +96,32 @@
                 contentType: false,
                 processData: false,
                 success: function (result) {
-                    if (result.length > 0) {
-                        console.log(result[0]['department']);
+                    if (result[0].length > 0) {
+                        console.log(result);
 
                         var html = "";
-                        for (var i = 0; i < result.length; i++) {
+                        for (var i = 0; i < result[0].length; i++) {
                             html += '<tr>';
                             html += '<td>' + (i + 1) + '</td>';
 
-                            var department = result[0]['department']['name'];
-                            if (result[0]['department']['referenceDepartment'])
+                            var department = result[0][i]['department']['name'];
+                            if (result[0][i]['department']['referenceDepartment'])
                             {
-                                department +='/' + result[0]['department']['referenceDepartment']['name'];
+                                department +='/' + result[i]['department']['referenceDepartment']['name'];
                             }
                             html +='<td>' + department + '</td>';
-                            html +='<td>' + result[0]['name'] + '</td>';
-                            html +='<td>' + result[0]['job_title'] + '</td>';
-                            html +='<td>' + result[0]['national_id'] + '</td>';
-                            html +='<td>' + result[0]['phone_number'] + '</td>';
-                            html +='<td>' + result[0]['email'] + '</td>';
-                            html +='<td>' + result[0]['specialty'] + '</td>';
-                            html +='<td><input type="checkbox" name="delegates_ids[]" value="' + result[0]['id'] +'"/></td>';
+                            html +='<td>' + result[0][i]['name'] + '</td>';
+                            html +='<td>' + result[0][i]['job_title'] + '</td>';
+                            html +='<td>' + result[0][i]['national_id'] + '</td>';
+                            html +='<td>' + result[0][i]['phone_number'] + '</td>';
+                            html +='<td>' + result[0][i]['email'] + '</td>';
+                            html +='<td>' + result[0][i]['specialty'] + '</td>';
+                            html +='<td><input type="checkbox" name="delegates_ids[]" value="' + result[0][i]['id'] +'"/></td>';
                             html += '</tr>';
 
 
                         }
+                        $('#department_id').val(result[1]['department_id']);
                         $('#table_delegates').html(html);
                         $("#nominationsListModal").modal();
                     }
