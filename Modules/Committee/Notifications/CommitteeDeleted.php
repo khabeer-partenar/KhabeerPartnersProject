@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Notifications;
 
+use App\Channels\MobilyChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -31,7 +32,7 @@ class CommitteeDeleted extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', MobilyChannel::class];
     }
 
     /**
@@ -58,6 +59,14 @@ class CommitteeDeleted extends Notification implements ShouldQueue
         return [
             'committee' => $this->committee,
             'notified_user' => $notifiable
+        ];
+    }
+
+    public function toMobily()
+    {
+        return [
+            'message' => __('committee::committees.committee deleted')
+                . ' ' . $this->committee->subject
         ];
     }
 }
