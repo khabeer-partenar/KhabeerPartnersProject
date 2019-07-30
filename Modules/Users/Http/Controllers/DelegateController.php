@@ -125,16 +125,16 @@ class DelegateController extends UserBaseController
       //  return $result;
         return response()->json(['msg' => __('users::delegates.deleted'),'did'=>$delegate->department->id,'committee'=>$committee]);
     }
-    public function removeFromCommitte($delegate_id,$committee_id,$department_id)
+    public function removeFromCommitte(Delegate $delegate,$committee_id,$department_id)
     {
-        return $committee_id;
+       // return $committee_id;
         //dd($delegate);
 
         $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate_id);
+        $delegate->removeDelegateFromCommittee($delegate,$committee_id,$department_id);
 
         //  return $result;
-        return response()->json(['msg' => __('users::delegates.deleted'),'did'=>$delegate_id,'committee'=>$committee_id]);
+        return response()->json(['msg' => __('users::delegates.deleted')]);
     }
 
 }

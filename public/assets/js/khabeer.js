@@ -51,6 +51,8 @@ $(document).ready(function() {
     $(document).on('click', '.delete-row-delegate', function(){
         let btn = $(this);
         let path = $(this).attr('data-href');
+
+        console.log(path);
         Swal.fire({
             title: 'هل انت متأكد من عملية الحذف؟',
             text: "لن يمكنك الرجوع عن العملية",
@@ -63,13 +65,12 @@ $(document).ready(function() {
         }).then((result) => {
             if (result.value) {
                 $.ajax({
+                    type: 'GET',
                     url: path,
-                    type: 'delete',
-
                     success: function(response){
                         $(btn).parent().parent().remove();
                         console.log(response);
-                        //location.reload();
+                        location.reload();
                     },
 
                     error: function (request, status, error) {
