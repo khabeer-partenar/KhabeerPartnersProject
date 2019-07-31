@@ -120,7 +120,6 @@ class CommitteeController extends Controller
      */
     public function show(Committee $committee)
     {
-
         //$aa = Delegate::getDepartmentDelegatesNotInCommittee(17);
         //dd($aa);
         $delegates = $committee->getDelegatesWithDetails();

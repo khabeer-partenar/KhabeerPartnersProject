@@ -94,7 +94,8 @@ class DelegateController extends UserBaseController
 
     /**
      * Store a newly created resource in storage.
-     * @param SaveCoordinatorRequest $request
+     * @param SaveDelegateRequest $request
+     * @param Delegate $delegate2
      * @return Response
      */
     public function store(SaveDelegateRequest $request, Delegate $delegate2)
@@ -116,14 +117,7 @@ class DelegateController extends UserBaseController
 
     public function destroy(Delegate $delegate,Committee $committee)
     {
-        return $committee;
-        //dd($delegate);
 
-        $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate);
-
-      //  return $result;
-        return response()->json(['msg' => __('users::delegates.deleted'),'did'=>$delegate->department->id,'committee'=>$committee]);
     }
     public function removeFromCommitte(Delegate $delegate,$committee_id,$department_id)
     {
