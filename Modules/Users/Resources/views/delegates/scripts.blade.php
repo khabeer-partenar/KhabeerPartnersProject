@@ -6,7 +6,6 @@
             }
         });
 
-
         $('.select2').select2({
             dropdownParent: $("#addDelegateModal"),
             width: '100%'
@@ -38,30 +37,42 @@
             }, 1000);
         });
 
+
         $(document).on('submit', 'form#delegate-form-create', function (event) {
             event.preventDefault();
+          /*  Swal.fire({
+                title: 'من فضلك انتظر',
+                allowOutsideClick: false
+            });
+            Swal.showLoading();*/
+
             $("#job_role_id").prop('disabled', false);
             var form = $(this);
-            var data = new FormData($(this)[0]);
-            console.log(data);
+            var formData = new FormData($(this)[0]);
+           // console.log(formData);
             var url = form.attr("action");
+
+            $("#overlay").fadeIn(300);
+
 
             $.ajax({
                 type: form.attr('method'),
                 url: url,
-                data: data,
+                data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function (data) {
+                    $('#addDelegateModal').modal('hide');
                     $('.has-error').removeClass('has-error');
                     $('.span-error').text('');
 
-                    //console.log(data);
+                   // console.log(formData);
                     $("#job_role_id").prop('disabled', true);
+                    getDelegates();
+                    //swal.close();
 
-                    $('#addDelegateModal').modal('hide');
-                    location.reload();
+                    //location.reload();
                 },
                 error: function (request) {
                     $('.has-error').removeClass('has-error');
@@ -81,7 +92,7 @@
                     //alert("Error: " + errohrown);
                 }
             });
-            return false;
+            //return false;
         });
         $(document).on('click', '.nominateBtn', function () {
             var department_id = this.value;
@@ -99,6 +110,7 @@
                     if (result[0].length > 0) {
                         console.log(result);
 
+                        $('#table_delegates').html('');
                         var html = "";
                         for (var i = 0; i < result[0].length; i++) {
                             html += '<tr>';
@@ -150,35 +162,84 @@
             });
 
         });
-        /* function getDelegates(department) {
-             var data = department.value;
-             console.log("id : " + data);
-             var url = 'users/delegates/DepartmentDelegatesNotInCommittee';
 
-             console.log(url);
+         function getDelegates() {
+             var committee_id = $('#committee_id').val();
+             var url ='{{route('committees.get.delegate',':id')}}';
+             url = url.replace(':id', committee_id);
              $.ajax({
                  type: 'GET',
-                 url: '/users/delegates/DepartmentDelegatesNotInCommittee',
+                 url: url,
                  cache: false,
                  contentType: false,
                  processData: false,
-                 success: function (data) {
-                     console.log(data);
+                 success: function (result) {
+                     console.log(result);
+                     if (result.length > 0) {
+                         //console.log(result);
+                         $('#delegatesTable').html('');
+                         var html = "";
+                         for (var i = 0; i < result.length; i++) {
+                             html += '<tr>';
+                             html += '<td>' + (i + 1) + '</td>';
+
+                             var department = result[i]['department']['name'];
+                             if (result[i]['department']['referenceDepartment'])
+                             {
+                                 department +='/' + result[i]['department']['referenceDepartment']['name'];
+                             }
+                             html +='<td>' + department + '</td>';
+                             html +='<td>' + result[i]['name'] + '</td>';
+                             html +='<td>' + result[i]['national_id'] + '</td>';
+                             html +='<td>' + result[i]['phone_number'] + '</td>';
+                             html +='<td>' + result[i]['email'] + '</td>';
+                             html +='<td>' + result[i]['email'] + '</td>';
+
+
+                             dataHref="{{ route('delegate.remove.from.committee',['delegate_id'=>':delegate_id','committee_id'=>':committee_id','department_id'=>Crypt::encrypt(':delegate_department_id')]) }}"
+                             dataHref = dataHref.replace(':delegate_id', result[i]['id']);
+                             dataHref = dataHref.replace(':committee_id','{{$committee->id}}');
+                             dataHref = dataHref.replace(':delegate_department_id',result[i]['department']['id']);
+
+                             html += '<td> <a data-href="'+ dataHref +'"  class="btn btn-sm btn-danger delete-row-delegate">' +
+                                 '<i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}' +
+                                 '</a>' +
+                                 '</td>';
+                             html += '</tr>';
+
+
+                         }
+                         //$('#department_id').val(result[1]['department_id']);
+                         $('#delegatesTable').html(html);
+                         $("#overlay").fadeOut(300);
+                         //$("#nominationsListModal").modal();
+                     }
+                     else {
+                         /*Swal.fire({
+                             title: 'لا يوجد مندوبين لهذه الجهة من فضلك قم باضافة مندوب جديد',
+                             type: 'error',
+                             confirmButtonText: 'موافق'
+                         })*/
+                     }
                  },
-                 error: function (request) {
-                     /!*  let errors = request.responseJSON.errors;
-                       let keys = Object.keys(errors);
-                       console.log(errors);*!/
-                     /!*for (index = 0; index < keys.length; ++index) {
+                 error: function (data) {
+                     var errors = data.responseJSON;
+                     console.log(data);
+                     // let keys = Object.keys(errors);
+                     //console.log(errors);
+                     /*
+
+                         /!*for (index = 0; index < keys.length; ++index) {
 
                          console.log(keys[index]);
-                         console.log(errors[keys[index]]);
-                     }*!/
-
+                         console.log(errors[keys[index]]);*/
                  }
+
+
              });
 
-         }*/
+
+         }
 
     });
 

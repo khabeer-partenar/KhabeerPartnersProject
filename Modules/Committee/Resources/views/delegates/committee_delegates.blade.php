@@ -4,7 +4,7 @@
 <table class="table table-striped table-responsive-md">
     <thead>
     <tr>
-        <th style="width: 16.666%" scope="col"></th>
+        <th style="width: 8%" scope="col"></th>
         <th scope="col">{{ __('committee::committees.delegates_department') }}</th>
         <th scope="col">{{ __('committee::committees.delegate_name') }}</th>
         <th scope="col">{{ __('committee::committees.delegate_national_id') }}</th>
@@ -17,8 +17,10 @@
     <tbody id="delegatesTable">
     @foreach($delegates as $delegate)
         <tr>
-            <td>{{ $loop->index + 1 }}</td>
-            <td>
+            <td>{{ $loop->index + 1 }}
+                <input id="committee_id" type="hidden" value="{{Crypt::encrypt($committee->id)}}">
+            </td>
+            <td >
                 {{ $delegate->department->name }} {{ $delegate->department->referenceDepartment ? ' - ' . $delegate->department->referenceDepartment->name:'' }}
             </td>
             <td>
@@ -34,7 +36,7 @@
                 {{ $delegate->email}}
             </td>
             <td>
-                <a data-href="{{ route('delegate.remove.from.committee',['delegate'=>$delegate,'committee_id'=>$committee->id,'department_id'=>$delegate->department->id]) }}"  class="btn btn-sm btn-danger delete-row-delegate">
+                <a data-href="{{ route('delegate.remove.from.committee',['delegate_id'=>$delegate->id,'committee_id'=>$committee->id,'department_id'=>Crypt::encrypt($delegate->department->id)]) }}"  class="btn btn-sm btn-danger delete-row-delegate">
                     <i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}
                 </a>
             </td>
