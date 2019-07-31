@@ -5,6 +5,7 @@ namespace Modules\Committee\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Crypt;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDocument;
 use Modules\Committee\Entities\TreatmentImportance;
@@ -118,6 +119,13 @@ class CommitteeController extends Controller
      * @return Response
      * @internal param int $id
      */
+    public function getDelegatesWithDetails($committee_id)
+    {
+        $commitee_id = Crypt::decrypt($committee_id);
+        $committee = Committee::find($commitee_id);
+       return $committee->getDelegatesWithDetails();
+    }
+
     public function show(Committee $committee)
     {
 

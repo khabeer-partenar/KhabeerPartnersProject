@@ -16,6 +16,7 @@ use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequestByCo;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
+use Crypt;
 
 class DelegateController extends UserBaseController
 {
@@ -125,13 +126,13 @@ class DelegateController extends UserBaseController
       //  return $result;
         return response()->json(['msg' => __('users::delegates.deleted'),'did'=>$delegate->department->id,'committee'=>$committee]);
     }
-    public function removeFromCommitte(Delegate $delegate,$committee_id,$department_id)
+    public function removeFromCommitte($delegate_id,$committee_id,$department_id)
     {
        // return $committee_id;
         //dd($delegate);
-
+        $delegate = Delegate::find($delegate_id);
         $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate,$committee_id,$department_id);
+        $delegate->removeDelegateFromCommittee($delegate,$committee_id,Crypt::decrypt($department_id));
 
         //  return $result;
         return response()->json(['msg' => __('users::delegates.deleted')]);

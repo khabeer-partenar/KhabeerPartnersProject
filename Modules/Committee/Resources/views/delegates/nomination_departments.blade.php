@@ -13,7 +13,7 @@
          {{ __('committee::committees.nomination_add_delegte') }}
      </a>--}}
     <tr>
-        <th style="width: 16.666%" scope="col"></th>
+        <th style="width: 8%" scope="col"></th>
         <th scope="col">{{ __('committee::committees.nomination_deparment_name') }}</th>
         <th scope="col">{{ __('committee::committees.nomination_criteria') }}</th>
         <th scope="col">{{ __('committee::committees.nomination_has_nomination') }}</th>
@@ -34,7 +34,7 @@
             <td>
                 {{ $department->pivot->nomination_criteria }}
             </td>
-            <td>
+            <td id="{{Crypt::encrypt($department->id)}}">
                 {{ $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done') }}
             </td>
             <td>
