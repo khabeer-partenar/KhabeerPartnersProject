@@ -29,11 +29,11 @@
                 </div>
 
             </div>
-            <div class="modal-footer" style="text-align: center">
-                <input class="btn btn-lg blue" type="submit" value="{{__('users::delegates.action_add')}}">
+            <div class="modal-footer">
+                <input class="btn blue" type="submit" value="{{__('users::delegates.action_add')}}">
                 {{--{{ Form::button(__('users::delegates.action_add'), ['type' => 'button','id'=>'btn-save', 'class' => 'btn blue']) }}--}}
 
-                <button  type="button" class="btn btn-lg btn-danger"
+                <button style="float: right" type="button" class="btn btn-danger"
                         data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
 
             </div>

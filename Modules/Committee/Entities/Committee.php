@@ -131,6 +131,7 @@ class Committee extends Model
             $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
             $query->whereIn('id', array_merge($owns, $participantIn));
         } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+        //$delegate = Delegate::find(auth()->user()->getAuthIdentifier());
 
         }
 

@@ -15,6 +15,7 @@ use Modules\Committee\Http\Requests\SaveCommitteeRequest;
 use Modules\Core\Entities\Group;
 use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
@@ -31,11 +32,14 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
-        //dd(auth()->user());
-       //dd(auth()->user()->authorizedApps->name);
+        //dd(auth()->user()->with('parentDepartment')->get());
+        //$committeesQuery = Committee::with('advisor', 'president')->latest()->search($request)->get();
+        //dd($committeesQuery);
+        $coordinator = Coordinator::find(auth()->user()->getAuthIdentifier());
+        dd($coordinator);
+
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
-
             $dataTable = Datatables::of($committeesQuery)
                 ->addColumn('id_with_date', function ($committee) {
                     $data = [__('committee::committees.committee number') . $committee->treatment_number, $committee->created_at->format('d-m-Y')];
@@ -128,8 +132,9 @@ class CommitteeController extends Controller
 
     public function show(Committee $committee)
     {
+
         //$aa = Delegate::getDepartmentDelegatesNotInCommittee(17);
-        //dd($aa);
+        //dd($committee->participantDepartments);
         $delegates = $committee->getDelegatesWithDetails();
 
         $mainDepartments = Department::getDepartments();

@@ -52,7 +52,7 @@
            // console.log(formData);
             var url = form.attr("action");
 
-            $("#overlay").fadeIn(300);
+           // $("#overlay").fadeIn(300);
 
 
             $.ajax({
@@ -165,6 +165,7 @@
 
          function getDelegates() {
              var committee_id = $('#committee_id').val();
+             console.log('committee_id : ' + committee_id);
              var url ='{{route('committees.get.delegate',':id')}}';
              url = url.replace(':id', committee_id);
              $.ajax({
@@ -211,7 +212,7 @@
                          }
                          //$('#department_id').val(result[1]['department_id']);
                          $('#delegatesTable').html(html);
-                         $("#overlay").fadeOut(300);
+                         //$("#overlay").fadeOut(300);
                          //$("#nominationsListModal").modal();
                      }
                      else {
