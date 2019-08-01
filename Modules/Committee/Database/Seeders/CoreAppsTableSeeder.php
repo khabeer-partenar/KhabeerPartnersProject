@@ -26,12 +26,6 @@ class CoreAppsTableSeeder extends Seeder
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
-        App::create([
-            'resource_name' => $generalResourceName . '\CommitteeController@delegate', 'name' => 'طلب المندوبين',
-            'icon' => 'fa fa-user-plus', 'sort' => 1, 'parent_id' => $committeeAppId, 'frontend_path' => 'committees/assign-delegate', 'is_main_root' => 0,
-            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
         $committeesId = App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@index', 'name' => 'مجلد المعاملات',
             'icon' => 'fa fa-file-o', 'sort' => 2, 'parent_id' => $committeeAppId, 'frontend_path' => 'committees', 'is_main_root' => 0,
