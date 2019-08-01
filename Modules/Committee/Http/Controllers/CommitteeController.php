@@ -35,8 +35,8 @@ class CommitteeController extends Controller
         //dd(auth()->user()->with('parentDepartment')->get());
         //$committeesQuery = Committee::with('advisor', 'president')->latest()->search($request)->get();
         //dd($committeesQuery);
-        $coordinator = Coordinator::find(auth()->user()->getAuthIdentifier());
-        dd($coordinator);
+        //$coordinator = Coordinator::find(auth()->user()->getAuthIdentifier());
+        //dd($coordinator);
 
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
