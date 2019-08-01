@@ -131,7 +131,32 @@ class Committee extends Model
             $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
             $query->whereIn('id', array_merge($owns, $participantIn));
         } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
-        //$delegate = Delegate::find(auth()->user()->getAuthIdentifier());
+            $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
+            $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
+            $committeeIds = CommitteeDepartment::whereIn('department_id', $departmentsId)->pluck('committee_id');
+            $query->whereIn('id', $committeeIds);
+//            $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
+//            $coordinatorReferanceDepartment= 0;
+//
+//            if (auth()->user()->departmentReference) {
+//                $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
+//            }
+//            $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
+//
+//            $query->has('participantDepartments');
+
+//            foreach ($query->participantDepartments() as $department) {
+//
+//                if ($daparments_id->contains($department->id)) {
+//                    $query->where('id','>',0);
+//                    break;
+//                }
+//                $query->where('id','<',0);
+//            }
+
+
+
+
 
         }
 

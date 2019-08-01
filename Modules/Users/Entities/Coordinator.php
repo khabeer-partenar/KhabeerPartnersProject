@@ -89,6 +89,10 @@ class Coordinator extends User
         }
         return $query;
     }
+    public function coordinatorCommittees($coordinator_id)
+    {
+        $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
+    }
 
     /**
      * Relations

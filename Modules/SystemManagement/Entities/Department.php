@@ -5,6 +5,8 @@ namespace Modules\SystemManagement\Entities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\CommitteeDepartment;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 use Modules\Users\Entities\Employee;
@@ -92,6 +94,7 @@ class Department extends Model
     {
         return $this->hasMany(Coordinator::class, $key .'_department_id', 'id');
     }
+
     public function getDepartmentDelegates($department_id)
 
     {
@@ -102,6 +105,7 @@ class Department extends Model
     {
         return $this->hasMany(Delegate::class, 'parent_department_id', 'id');
     }
+
     public static function getEmptyObjectForSelectAjax()
     {
         return (['id' => '', 'name' => __('users::departments.choose a department')]);
@@ -328,6 +332,11 @@ class Department extends Model
         return $this->belongsTo(self::class, 'reference_id', 'id');
     }
 
+    public function referenceChildrenDepartments()
+    {
+        return $this->hasMany(self::class, 'reference_id' , 'id');
+    }
+
     /**
      * Get parent of dept
      */
@@ -336,4 +345,15 @@ class Department extends Model
         return $this->hasOne(Employee::class, 'id', 'direct_manager_id');
     }
 
+//    public function committeesPivot()
+//    {
+//        return $this->hasMany(CommitteeDepartment::class, 'department_id');
+//    }
+
+    public function committees()
+    {
+        return $this->belongsToMany(Committee::class, 'committees_participant_departments', 'department_id','committee_id')
+            ->withTimestamps()
+            ->withPivot('nomination_criteria');
+    }
 }

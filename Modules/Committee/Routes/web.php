@@ -7,3 +7,11 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
     Route::get('committees/delegates/{committee_id}', 'CommitteeController@getDelegatesWithDetails')->name('committees.get.delegate');
 
 });
+
+Route::get('/testing', function (){
+    $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
+    $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
+    $committeeIds = \Modules\Committee\Entities\CommitteeDepartment::whereIn('department_id', $departmentsId)->pluck('committee_id');
+    $committee = \Modules\Committee\Entities\Committee::whereIn('id', $committeeIds)->get();
+    dd($committee);
+});

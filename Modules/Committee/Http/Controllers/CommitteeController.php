@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -32,7 +33,39 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
-        //dd(auth()->user()->with('parentDepartment')->get());
+        //$committeesQuery = Committee::with('advisor', 'president')->latest();
+        //dd($committeesQuery->participantDepartments);
+       /* $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
+        $coordinatorReferanceDepartment= 0;
+        if (auth()->user()->departmentReference) {
+            $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
+        }
+
+        $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
+        //dd($daparments_id);*/
+
+       /* $committeesQuery = Committee::with(['advisor', 'president' => function($query)
+        {
+            $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
+            $coordinatorReferanceDepartment= 0;
+
+            if (auth()->user()->departmentReference) {
+                $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
+            }
+
+            $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
+
+            foreach ($query->participantDepartments() as $department) {
+
+                if ($daparments_id->contains($department->id)) {
+                    $query->where('id','>',0);
+                    break;
+                }
+                $query->where('id','<',0);
+            }
+
+        }])->get();
+        dd($committeesQuery);*/
         //$committeesQuery = Committee::with('advisor', 'president')->latest()->search($request)->get();
         //dd($committeesQuery);
         //$coordinator = Coordinator::find(auth()->user()->getAuthIdentifier());
@@ -132,7 +165,6 @@ class CommitteeController extends Controller
 
     public function show(Committee $committee)
     {
-
         //$aa = Delegate::getDepartmentDelegatesNotInCommittee(17);
         //dd($committee->participantDepartments);
         $delegates = $committee->getDelegatesWithDetails();
