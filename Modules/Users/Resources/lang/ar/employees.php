@@ -1,7 +1,7 @@
 <?php 
 
 return [
-    'title'      => 'إدارة موظفين الهيئة',
+    'title'      => 'إدارة مستخدمي الهيئة',
     'add_action' => 'اضافة مستخدم',
     'edit_action' => 'تعديل المستخدم',
     'information_btn' => 'تفاصيل',

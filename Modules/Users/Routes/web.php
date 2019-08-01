@@ -28,9 +28,9 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::prefix('users')->group(function(){
         // Coordinator Controller
-        Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');//->middleware('coordinator.can');
-        Route::put('/coordinators/{coordinator}/update-by-co', 'CoordinatorController@updateByCoordinator')->name('coordinators.update_by_co');//->middleware('coordinator.can');
-        Route::resource('/coordinators', 'CoordinatorController');//->middleware('coordinator.can');
+        Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');
+        Route::put('/coordinators/{coordinator}/update-by-co', 'CoordinatorController@updateByCoordinator')->name('coordinators.update_by_co')->middleware('coordinator.can');
+        Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');
 
         // Delegate
         Route::get('/delegates/deleteUser/{delegate_id}/{committee_id}/{department_id}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');

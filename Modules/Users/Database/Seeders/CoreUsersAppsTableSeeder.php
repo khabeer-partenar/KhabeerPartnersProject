@@ -39,7 +39,7 @@ class CoreUsersAppsTableSeeder extends Seeder
         // EmployeeController
 
         $entityEmployeeId = App::create([
-            'resource_name' => $generalResourceName . '\EmployeeController@index', 'name' => 'إدارة موظفين الهيئة',
+            'resource_name' => $generalResourceName . '\EmployeeController@index', 'name' => 'إدارة مستخدمي الهيئة',
             'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $userAppId, 'frontend_path' => 'users/employees', 'is_main_root' => 0,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;

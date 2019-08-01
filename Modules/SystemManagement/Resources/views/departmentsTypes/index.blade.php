@@ -11,9 +11,9 @@
             </div>
             
             <div class="actions">
-                {{-- @if(auth()->user()->hasPermissionWithAccess('create')) --}}
+                @if(auth()->user()->hasPermissionWithAccess('departmentsTypesCreate'))
                     <a href="{{ route('system-management.departments-types.create') }}" class="btn btn-primary">{{ __('messages.add') }}</a>
-                {{-- @endif --}}
+                @endif
             </div>
         
         </div>
