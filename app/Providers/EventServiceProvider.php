@@ -8,6 +8,8 @@ use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use \Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Committee\Listeners\CommitteeCreatedListener;
+use \Modules\Users\Events\DelegateCreatedEvent;
+use Modules\Users\Listeners\DelegateCreatedListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         CommitteeCreatedEvent::class => [
             CommitteeCreatedListener::class
+        ],
+        DelegateCreatedEvent::class => [
+            DelegateCreatedListener::class
         ]
     ];
 

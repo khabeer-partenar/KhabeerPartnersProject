@@ -4,6 +4,7 @@ namespace Modules\Users\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Users\Entities\Delegate;
 
 class UsersServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,8 @@ class UsersServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        //Delegate::observe(\DelegateObserver::class);
+
     }
 
     /**
