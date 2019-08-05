@@ -109,7 +109,8 @@ class Delegate extends User
             )
         );
         $delegate->groups()->attach($delegate->job_role_id);
-        event(new DelegateCreatedEvent($delegate));
+        $committee = Committee::find($request->committee_id);
+        event(new DelegateCreatedEvent($delegate,$committee));
 
         return $delegate;
     }

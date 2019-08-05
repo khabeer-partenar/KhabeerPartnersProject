@@ -21,6 +21,8 @@ use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
+use PDF;
+
 
 class CommitteeController extends Controller
 {
@@ -35,37 +37,37 @@ class CommitteeController extends Controller
     {
         //$committeesQuery = Committee::with('advisor', 'president')->latest();
         //dd($committeesQuery->participantDepartments);
-       /* $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
-        $coordinatorReferanceDepartment= 0;
-        if (auth()->user()->departmentReference) {
-            $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
-        }
+        /* $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
+         $coordinatorReferanceDepartment= 0;
+         if (auth()->user()->departmentReference) {
+             $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
+         }
 
-        $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
-        //dd($daparments_id);*/
+         $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
+         //dd($daparments_id);*/
 
-       /* $committeesQuery = Committee::with(['advisor', 'president' => function($query)
-        {
-            $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
-            $coordinatorReferanceDepartment= 0;
+        /* $committeesQuery = Committee::with(['advisor', 'president' => function($query)
+         {
+             $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
+             $coordinatorReferanceDepartment= 0;
 
-            if (auth()->user()->departmentReference) {
-                $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
-            }
+             if (auth()->user()->departmentReference) {
+                 $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
+             }
 
-            $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
+             $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
 
-            foreach ($query->participantDepartments() as $department) {
+             foreach ($query->participantDepartments() as $department) {
 
-                if ($daparments_id->contains($department->id)) {
-                    $query->where('id','>',0);
-                    break;
-                }
-                $query->where('id','<',0);
-            }
+                 if ($daparments_id->contains($department->id)) {
+                     $query->where('id','>',0);
+                     break;
+                 }
+                 $query->where('id','<',0);
+             }
 
-        }])->get();
-        dd($committeesQuery);*/
+         }])->get();
+         dd($committeesQuery);*/
         //$committeesQuery = Committee::with('advisor', 'president')->latest()->search($request)->get();
         //dd($committeesQuery);
         //$coordinator = Coordinator::find(auth()->user()->getAuthIdentifier());
@@ -100,10 +102,10 @@ class CommitteeController extends Controller
                 });
 
             if (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-                $dataTable ->addColumn('advisor_status', function ($committee) {
+                $dataTable->addColumn('advisor_status', function ($committee) {
                     return $committee->advisor_id == auth()->id() ?
                         __('committee::committees.committee advisor')
-                        :__('committee::committees.committee participant');
+                        : __('committee::committees.committee participant');
                 });
             }
 
@@ -137,6 +139,21 @@ class CommitteeController extends Controller
         ));
     }
 
+    public function downloadPDF(Committee $committee)
+    {
+        //dd($committee);
+        $delegates = $committee->getDelegatesWithDetails();
+
+        $mainDepartments = Department::getDepartments();
+
+        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+
+        //$pdf = PDF::loadView('committee::committees.show',compact('committee','delegates','mainDepartments','delegateJobs'));
+        $pdf = PDF::loadView('committee::committees.test',compact('committee'));
+
+        return $pdf->download('committee.pdf');
+    }
+
     /**
      * Store a newly created resource in storage.
      * @param SaveCommitteeRequest $request
@@ -160,7 +177,7 @@ class CommitteeController extends Controller
     {
         $commitee_id = Crypt::decrypt($committee_id);
         $committee = Committee::find($commitee_id);
-       return $committee->getDelegatesWithDetails();
+        return $committee->getDelegatesWithDetails();
     }
 
     public function show(Committee $committee)
@@ -174,7 +191,7 @@ class CommitteeController extends Controller
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
         //dd($committee->nominationDepartments);
 //dd($mainDepartments);
-        return view('committee::committees.show', compact('committee', 'delegates','mainDepartments','delegateJobs'));
+        return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
     }
 
     /**
@@ -193,7 +210,7 @@ class CommitteeController extends Controller
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         return view('committee::committees.edit', compact(
-            'committee','treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
+            'committee', 'treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
             'presidents', 'studyCommission', 'departmentsWithRef', 'advisors'
         ));
     }

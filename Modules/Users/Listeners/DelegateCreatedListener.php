@@ -30,6 +30,8 @@ class DelegateCreatedListener
     {
         //
         // Notify Adivsors
-        $event->committee->advisor->notify(new DelegateCreatedNotification($event->committee));
+        $event->committee->advisor->notify(new DelegateCreatedNotification($event->delegate,$event->committee));
+        $event->committee->secretary->notify(new DelegateCreatedNotification($event->delegate,$event->committee));
+
     }
 }

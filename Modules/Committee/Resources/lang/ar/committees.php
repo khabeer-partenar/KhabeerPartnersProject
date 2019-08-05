@@ -96,4 +96,5 @@ return [
     'advisor_status' => 'دور المستشار',
     'committee advisor' => 'مسؤول',
     'committee participant' => 'مشارك',
+    'committee_export'=>'تصدير طلب التسمية'
 ];

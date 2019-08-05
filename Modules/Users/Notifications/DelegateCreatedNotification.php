@@ -13,15 +13,17 @@ class DelegateCreatedNotification extends Notification implements ShouldQueue
     use Queueable;
 
     private $committee;
+    private $delegate;
 
     /**
      * Create a new notification instance.
      *
      * @param $committee
      */
-    public function __construct($committee)
+    public function __construct($delegate, $committee)
     {
         $this->committee = $committee;
+        $this->delegate = $delegate;
     }
 
     /**
@@ -44,8 +46,8 @@ class DelegateCreatedNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('users::delegates.new delegate has been created with subject') . ' ' . $this->committee->subject)
-            ->markdown('committee::emails.new_committee_created', ['committee' => $this->committee]);
+            ->subject(__('users::delegates.new delegate has been created with subject') . ' ' . $this->delegate->name)
+            ->markdown('users::emails.new_delegate_created', ['committee' => $this->committee,'delegate'=>$this->delegate]);
     }
 
     /**
@@ -58,6 +60,7 @@ class DelegateCreatedNotification extends Notification implements ShouldQueue
     {
         return [
             'committee' => $this->committee,
+            'delegate' => $this->delegate,
             'notified_user' => $notifiable
         ];
     }
@@ -65,8 +68,8 @@ class DelegateCreatedNotification extends Notification implements ShouldQueue
     public function toMobily($notifiable)
     {
         return [
-            'message' => __('committee::committees.new committee has been created with subject')
-                . ' ' . $this->committee->subject
+            'message' => __('users::delegates.new delegate has been created with subject')
+                . ' ' . $this->delegate->name
                 . ' ' . route('committees.show', $this->committee)
         ];
     }

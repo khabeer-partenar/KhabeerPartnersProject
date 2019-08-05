@@ -75,11 +75,13 @@
                     //location.reload();
                 },
                 error: function (request) {
+                    console.log(request);
                     $('.has-error').removeClass('has-error');
                     $('.span-error').text('');
                     let errors = request.responseJSON.errors;
+                    console.log(errors);
                     let keys = Object.keys(errors);
-//console.log(errors[0]);
+
                     for (index = 0; index < keys.length; ++index) {
                         $('#div_' + keys[index]).addClass('has-error');
                         $('#span_' + keys[index]).text(errors[keys[index]]);
