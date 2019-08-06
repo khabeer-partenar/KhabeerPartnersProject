@@ -47,6 +47,7 @@ class Committee extends Model
     protected $dates = [
         'resource_at', 'treatment_time', 'first_meeting_at', 'recommended_at'
     ];
+
     /**
      * Accessors and Mutators
      *
@@ -135,31 +136,15 @@ class Committee extends Model
             $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
             $committeeIds = CommitteeDepartment::whereIn('department_id', $departmentsId)->pluck('committee_id');
             $query->whereIn('id', $committeeIds);
-//            $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
-//            $coordinatorReferanceDepartment= 0;
-//
-//            if (auth()->user()->departmentReference) {
-//                $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
-//            }
-//            $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
-//
-//            $query->has('participantDepartments');
-
-//            foreach ($query->participantDepartments() as $department) {
-//
-//                if ($daparments_id->contains($department->id)) {
-//                    $query->where('id','>',0);
-//                    break;
-//                }
-//                $query->where('id','<',0);
-//            }
-
-
-
-
-
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+            $parentDepartmentId = auth()->user()->parentDepartment->pluck('id');
+            $committeeIds = CommitteeDepartment::whereIn('department_id', $parentDepartmentId)->pluck('committee_id');
+            $query->whereIn('id', $committeeIds);
+        } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
+            $parentDepartmentId = auth()->user()->parentDepartment->pluck('id');
+            $committeeIds = CommitteeDepartment::whereIn('department_id', $parentDepartmentId)->pluck('committee_id');
+            $query->whereIn('id', $committeeIds);
         }
-
 
         return $query;
     }
@@ -289,8 +274,20 @@ class Committee extends Model
 
     public function getNominationDepartmentsWithRef()
     {
+        if (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+            $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
+            $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
+
+            return $this->nominationDepartments()->whereIn('department_id', $departmentsId)->with('referenceDepartment')->get();
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+            $parentDepartmentId = auth()->user()->parentDepartment->pluck('id');
+            return $this->nominationDepartments()->whereIn('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
+
+        }
         return $this->nominationDepartments()->with('referenceDepartment')->get();
+
     }
+
     public function nominationDepartments()
     {
         return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')

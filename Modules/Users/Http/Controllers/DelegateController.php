@@ -55,11 +55,11 @@ class DelegateController extends UserBaseController
         //return response()->json(['name' => 'Abigail', 'state' => 'CA']);
     }
 
-    public function getDepartmentDelegatesNotInCommittee($department_id)
+    public function getDepartmentDelegatesNotInCommittee($department_id,$committee_id)
     {
         //return 'done';
         //return response()->json(['name' => 'Abigail', 'state' => 'CA']);
-        $delegates = Delegate::getDepartmentDelegatesNotInCommittee($department_id);
+        $delegates = Delegate::getDepartmentDelegatesNotInCommittee($department_id,$committee_id);
          return $delegates;
     }
 

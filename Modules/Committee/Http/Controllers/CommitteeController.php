@@ -33,44 +33,6 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
-        //$committeesQuery = Committee::with('advisor', 'president')->latest();
-        //dd($committeesQuery->participantDepartments);
-       /* $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
-        $coordinatorReferanceDepartment= 0;
-        if (auth()->user()->departmentReference) {
-            $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
-        }
-
-        $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
-        //dd($daparments_id);*/
-
-       /* $committeesQuery = Committee::with(['advisor', 'president' => function($query)
-        {
-            $coordinatorParentDepartment= auth()->user()->parentDepartment->id;
-            $coordinatorReferanceDepartment= 0;
-
-            if (auth()->user()->departmentReference) {
-                $coordinatorReferanceDepartment = auth()->user()->departmentReference->id;
-            }
-
-            $daparments_id = collect($coordinatorParentDepartment,$coordinatorReferanceDepartment);
-
-            foreach ($query->participantDepartments() as $department) {
-
-                if ($daparments_id->contains($department->id)) {
-                    $query->where('id','>',0);
-                    break;
-                }
-                $query->where('id','<',0);
-            }
-
-        }])->get();
-        dd($committeesQuery);*/
-        //$committeesQuery = Committee::with('advisor', 'president')->latest()->search($request)->get();
-        //dd($committeesQuery);
-        //$coordinator = Coordinator::find(auth()->user()->getAuthIdentifier());
-        //dd($coordinator);
-
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
             $dataTable = Datatables::of($committeesQuery)

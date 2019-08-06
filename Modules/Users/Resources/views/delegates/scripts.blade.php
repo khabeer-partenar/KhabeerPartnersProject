@@ -96,8 +96,9 @@
         });
         $(document).on('click', '.nominateBtn', function () {
             var department_id = this.value;
+            var committe_id= '{{$committee->id}}';
             console.log("id : " + department_id);
-            var url = '{{url('/users/delegates/DepartmentDelegatesNotInCommittee')}}' + '/' + department_id;
+            var url = '{{url('/users/delegates/DepartmentDelegatesNotInCommittee')}}' + '/' + department_id + '/' + committe_id;
 
             console.log(url);
             $.ajax({

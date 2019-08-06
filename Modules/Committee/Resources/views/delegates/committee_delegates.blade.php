@@ -42,6 +42,16 @@
             </td>
         </tr>
     @endforeach
+    <tr>
+        <td colspan="6" style="font-weight:bold">
+                       اجمالى عددالمرشحين :  {{ $delegates->count() }}
+        </td>
+    </tr>
+    <tr style="float: left">
+        <td colspan="6">
+            fsdafdsf
+        </td>
+    </tr>
     </tbody>
 </table>
 
