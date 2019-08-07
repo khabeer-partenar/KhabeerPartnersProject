@@ -133,7 +133,7 @@ task('deploy:public_disk', function () {
     run('if [ -d $(echo {{release_path}}/public/storage) ]; then rm -rf {{release_path}}/public/storage; fi');
 
     // Create shared dir if it does not exist.
-    run('mkdir -p {{deploy_path}}/shared/storage/app/public');
+    run('sudo mkdir -p {{deploy_path}}/shared/storage/app/public');
 
     // Symlink shared dir to release dir
     run('{{bin/symlink}} {{deploy_path}}/shared/storage/app/public {{release_path}}/public/storage');
