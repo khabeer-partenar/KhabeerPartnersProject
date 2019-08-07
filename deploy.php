@@ -17,7 +17,8 @@ host('staging')
     ->set('ssh_type', 'native')
     ->user('devuser')
     ->identityFile('~/.ssh/deploy_id_rsa_2.pub', '~/.ssh/deploy_id_rsa_2')
-    ->set('deploy_path', '/home/eservices/staging/backend/kh');
+    ->set('deploy_path', '/home/eservices/staging/backend/kh')
+    ->set('writable_mode', 'chmod');
     
 
 
