@@ -11,8 +11,8 @@ set('ssh_multiplexing', true);
 
 // Servers
 
-server('staging', '172.16.19.108')
-    ->stage('staging')
+host('staging')
+    ->hostname('172.16.19.108')
     ->set('branch', 'staging')
     ->set('ssh_type', 'native')
     ->user('devuser')
@@ -21,8 +21,8 @@ server('staging', '172.16.19.108')
     ->pty(true);
 
 
-server('production', '172.16.19.108')
-    ->stage('production')
+host('production')
+    ->hostname('172.16.19.108')
     ->set('branch', 'master')
     ->set('ssh_type', 'native')
     ->user('devuser')
