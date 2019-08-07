@@ -17,8 +17,8 @@ host('staging')
     ->set('ssh_type', 'native')
     ->user('devuser')
     ->identityFile('~/.ssh/deploy_id_rsa_2.pub', '~/.ssh/deploy_id_rsa_2')
-    ->set('deploy_path', '/home/eservices/staging/backend/kh')
-    ->pty(true);
+    ->set('deploy_path', '/home/eservices/staging/backend/kh');
+    
 
 
 host('production')
@@ -27,8 +27,8 @@ host('production')
     ->set('ssh_type', 'native')
     ->user('devuser')
     ->identityFile('~/.ssh/deploy_id_rsa_2.pub', '~/.ssh/deploy_id_rsa_2')
-    ->set('deploy_path', '/home/eservices/production/backend/kh')
-    ->pty(true);
+    ->set('deploy_path', '/home/eservices/production/backend/kh');
+    
 
 
 
