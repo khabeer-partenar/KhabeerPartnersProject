@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Entities\Group;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
 use DB;
+use Modules\Users\Events\DelegateCreatedEvent;
 
 class Delegate extends User
 {
@@ -111,6 +113,9 @@ class Delegate extends User
             )
         );
         $delegate->groups()->attach($delegate->job_role_id);
+        $committee = Committee::find($request->committee_id);
+        event(new DelegateCreatedEvent($delegate,$committee));
+
         return $delegate;
     }
 

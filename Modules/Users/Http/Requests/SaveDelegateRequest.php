@@ -35,7 +35,7 @@ class SaveDelegateRequest extends FormRequest
             'job_role_id'          => ['required']]
         ];*/
 
-        return [
+       /* return [
             'main_department_id' => ['required', 'integer', 'exists:' . Department::table() . ',id', new CheckDepartmentType(Department::mainDepartment)],
             'parent_department_id' => ['required', 'integer', 'exists:' . Department::table() . ',id', new CheckDepartmentType(Department::parentDepartment)],
             'direct_department_id' => ['nullable', 'integer', new CheckDepartmentType(Department::directDepartment, false)],
@@ -46,7 +46,21 @@ class SaveDelegateRequest extends FormRequest
             'email' => ['required', 'email', new ValidationGovEmailRule, 'unique:' . User::table()],
             'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference],
             'job_role_id' => ['required', new CheckInDelegateJobs]
+        ];*/
+
+        return [
+            'main_department_id' => ['required', 'integer', 'exists:' . Department::table() . ',id', new CheckDepartmentType(Department::mainDepartment)],
+            'parent_department_id' => ['required', 'integer', 'exists:' . Department::table() . ',id', new CheckDepartmentType(Department::parentDepartment)],
+            'direct_department_id' => ['nullable', 'integer', new CheckDepartmentType(Department::directDepartment, false)],
+            'job_title' => ['required'],
+            'national_id' => ['required', new NationalIDRule],
+            'name' => ['required', new FilterStringRule, 'string'],
+            'phone_number' => ['required', new ValidationPhoneNumberRule],
+            'email' => ['required', 'email', new ValidationGovEmailRule],
+            'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference],
+            'job_role_id' => ['required', new CheckInDelegateJobs]
         ];
+
 
     }
 
