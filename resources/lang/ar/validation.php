@@ -117,6 +117,9 @@ return [
     'filter_string'        => ':attribute لا يمكن ان يحتوني على رموز',
     'gov_email'            => ':attribute يجب ان ينتهي بإمتداد gov.sa',
     'wrong choice'         => ':attribute يجب أن يكون من النوع الصحيح',
+    'is_president_chairman'=> 'مطلوب واحد علي الأقل في حالة أن رئيس اللجنة هو معالي رئيس الهيئة',
+    'if_date_is_after'     => ':attribute يجب أن يكون أكبر من :after',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -187,5 +190,26 @@ return [
         'telephone'             => 'الهاتف',
         'department_name'       => 'اسم الإدارة',
         'direct_manager_id'     => 'المدير',
+        'resource_staff_number' => 'رقم وارد الهيئة',
+        'resource_at' => 'تاريخ التوريد',
+        'please choose' => 'من فضلك قم بالاختيار',
+        'treatment_type_id' => 'نوع المعاملة',
+        'resource_by' => 'وردت من',
+        'treatment_number' => 'رقم المعاملة',
+        'treatment_time' => 'تاريخ المعاملة',
+        'recommended_by_id' => 'الجهة الموصية بالدراسة',
+        'recommendation_number' => 'رقم التوصية',
+        'recommended_at' => 'تاريخ التوصية',
+        'source_of_study_id' => 'الجهة مصدر الدراسة',
+        'treatment_urgency_id' => 'اعجلية المعاملة',
+        'treatment_importance_id' => 'سرية المعاملة',
+        'first_meeting_at' => 'تاريخ أول اجتماع',
+        'subject' => 'الموضوع',
+        'president_id' => 'رئيس الدراسة',
+        'advisor_id' => 'المستشار المسؤول عن الدراسة',
+        'tasks' => 'مهام الاجتماع',
+        'participant_advisors' => 'مستشارين مشاركين',
+        'members_count' => 'عدد الأعضاء',
+        'file' => 'الملف',
     ],
 ];

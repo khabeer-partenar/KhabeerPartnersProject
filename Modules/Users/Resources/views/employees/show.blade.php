@@ -13,7 +13,7 @@
             
             <div class="actions">
                 @if(auth()->user()->hasPermissionWithAccess('edit'))
-                    <a href="{{ route('employees.edit', $employee) }}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> {{ __('users::employees.edit_action') }}</a>
+                    <a href="{{ route('employees.edit', $employee) }}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> {{ __('messages.edit') }}</a>
                 @endif
             </div>
         
@@ -34,8 +34,4 @@
 
     </div>
     
-    @if(auth()->user()->hasPermissionWithAccess('secretaries'))
-        @includeWhen($employee->hasAdvisorsGroup(), 'users::employees.secretaries.show')
-    @endif
-
 @endsection

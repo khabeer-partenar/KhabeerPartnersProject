@@ -92,7 +92,7 @@ class CoordinatorController extends UserBaseController
     {
         $coordinator = Coordinator::createFromRequest($request);
         $coordinator->log('create_coordinator');
-        self::sessionSuccess('coordinators.created');
+        self::sessionSuccess('users::coordinators.created');
         return back();
     }
 
@@ -131,7 +131,7 @@ class CoordinatorController extends UserBaseController
     {
         $coordinator->updateFromRequest($request);
         $coordinator->log('update_coordinator');
-        self::sessionSuccess('coordinators.updated');
+        self::sessionSuccess('users::coordinators.updated');
         return redirect()->route('coordinators.index');
     }
 
@@ -145,7 +145,7 @@ class CoordinatorController extends UserBaseController
     {
         $coordinator = Coordinator::createFromRequest($request);
         $coordinator->log('create_coordinator_by_main_coordinator');
-        self::sessionSuccess('coordinators.created');
+        self::sessionSuccess('users::coordinators.created');
         return back();
     }
 
@@ -160,7 +160,7 @@ class CoordinatorController extends UserBaseController
     {
         $coordinator->updateFromRequest($request);
         $coordinator->log('update_coordinator_by_main_coordinator');
-        self::sessionSuccess('coordinators.updated');
+        self::sessionSuccess('users::coordinators.updated');
         return redirect()->route('coordinators.index');
     }
 

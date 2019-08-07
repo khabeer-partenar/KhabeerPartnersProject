@@ -11,6 +11,6 @@ trait SessionFlash {
 
     public function sessionSuccess($msg = 'general.done successfaully')
     {
-        return session::flash('alert-success', __("users::$msg"));
+        return session::flash('alert-success', __("$msg"));
     }
 }

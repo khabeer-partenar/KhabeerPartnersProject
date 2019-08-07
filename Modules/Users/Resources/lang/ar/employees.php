@@ -1,7 +1,7 @@
 <?php 
 
 return [
-    'title'      => 'إدارة موظفين الهيئة',
+    'title'      => 'إدارة مستخدمي الهيئة',
     'add_action' => 'اضافة مستخدم',
     'edit_action' => 'تعديل المستخدم',
     'information_btn' => 'تفاصيل',
@@ -24,13 +24,20 @@ return [
     'userNotUpdated' => 'حدث خطأ محاولة تحديث المستخدم',
     'userUpdated' => 'تم تحديث المستخدم',
     'userDeleted' => 'تم حذف المستخدم بنجاح.',
-    'secretariesUpdated' => 'تم تحديث السكرتاريين.',
 
     'job_role_id' => 'الدور الوظيفي',
 
     'secretaries' => 'السكرتاريين',
     'edit_secretaries_btn' => 'تعديل السكرتاريين',
-    'edit_secretaries_title' => 'تعديل السكرتاريين للمستشار',
-    'secretaries_selected'   => 'السكرتاريين الموجودين',
-    'secretaries_unselected' => 'السكرتاريين الحاليين',
+
+
+    'assignCommittees' => [
+        'title' => 'صلاحيات مجلد المعاملات',
+        'deptname' => 'الإدارة المعرف عليها',
+
+        'editAdvisorsTitle' => 'تعديل مجلدات المعاملات للسكرتير',
+        'advisorsSelectedTitle'   => 'مجلدات المعاملات',
+        'advisorsUnSelectedTitle' => 'مجلدات المستندة للموظف',
+        'advisorsUpdated' => 'تم تحديث مجلدات المعاملات.',
+    ]
 ];

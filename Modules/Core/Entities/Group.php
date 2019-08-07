@@ -96,6 +96,12 @@ class Group extends Model
         return optional(self::findByKey('advisor'))->users;
     }
 
+    public static function advisorUsersFilter()
+    {
+        $group = optional(self::findByKey('advisor'));
+        return $group->users();
+    }
+
     /**
      * Get director of consultants office in users
      */
@@ -174,5 +180,15 @@ class Group extends Model
     public static function actingDelegatesUsers()
     {
         return optional(self::findByKey('acting_delegate'))->users;
+    }
+
+    public static function chairmanOfCommission()
+    {
+        return optional(self::findByKey('chairman_of_the_commission'))->users;
+    }
+
+    public static function viceChairmanOfCommission()
+    {
+        return optional(self::findByKey('vice_chairman_of_the_commission'))->users;
     }
 }

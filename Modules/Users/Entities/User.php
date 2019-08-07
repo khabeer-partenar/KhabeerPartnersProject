@@ -5,13 +5,14 @@ namespace Modules\Users\Entities;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Modules\Committee\Entities\Committee;
 use Modules\Core\Traits\AuthorizeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Entities\Group;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Core\Traits\SharedModel;
 use Modules\Core\Traits\Log;
-use Modules\Users\Notifications\NotifyNewUserViaMail;
+use Modules\Users\Notifications\NotifyNewUser;
 
 class User extends Authenticatable
 {
@@ -61,8 +62,8 @@ class User extends Authenticatable
         static::created(function ($userData) {
 
             // Send notification mail after 5 minutes when user created
-            $when = now()->addMinutes(5);
-//            $userData->notify((new NotifyNewUserViaMail($userData))->delay($when));
+            $when = now()->addMinutes(1);
+            $userData->notify((new NotifyNewUser($userData))->delay($when));
 
         });
     }
@@ -190,6 +191,15 @@ class User extends Authenticatable
                   ->orWhere('phone_number', 'LIKE', '%'.$query.'%');
     }
 
+    public function scopeFilterByJob($query)
+    {
+        if(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $advisorsId = auth()->user()->advisors()->pluck('users.id');
+            $query->whereIn('users.id', $advisorsId);
+        }
+
+    }
+
     /**
      * Relations
      *
@@ -210,6 +220,7 @@ class User extends Authenticatable
         return $this->belongsTo(Department::class, 'main_department_id');
     }
 
+
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'core_users_groups', 'user_id', 'core_group_id');
@@ -217,7 +228,12 @@ class User extends Authenticatable
 
     public function advisors()
     {
-        return $this->hasMany(UsersAdvisorsSecretaries::class, 'secretary_user_id');
+        return $this->belongsToMany(User::class, 'users_advisors_secretaries', 'secretary_user_id', 'advisor_user_id')->withTimestamps();
+    }
+
+    public function secretaries()
+    {
+        return $this->belongsToMany(User::class, 'users_advisors_secretaries', 'advisor_user_id', 'secretary_user_id');
     }
 
     public function jobRole()
@@ -226,13 +242,18 @@ class User extends Authenticatable
 
     }
 
-    public function secretaries()
-    {
-        return $this->hasMany(UsersAdvisorsSecretaries::class, 'advisor_user_id');
-    }
-
     public function departmentReference()
     {
         return $this->belongsTo(Department::class, 'department_reference_id');
+    }
+
+    public function ownedCommittees()
+    {
+        return $this->hasMany(Committee::class, 'advisor_id');
+    }
+
+    public function participantInCommittees()
+    {
+        return $this->belongsToMany(Committee::class, 'committees_participant_advisors', 'advisor_id', 'committee_id')->withTimestamps();
     }
 }

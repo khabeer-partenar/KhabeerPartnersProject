@@ -50,7 +50,7 @@ class Handler extends ExceptionHandler
         if($this->isHttpException($exception)) {
 
             switch ($exception->getStatusCode()) {
-                case 404:
+                case 403:
                 case 405:
                     return redirect()->route('index.un_authorized_user');
                 break;

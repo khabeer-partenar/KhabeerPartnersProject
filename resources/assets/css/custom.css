@@ -2,3 +2,27 @@
     padding-bottom: 10px;
     
 }
+.underLine {
+    text-decoration: underline;
+}
+
+.mt-10{
+    margin-top: 10px;
+}
+
+#table-ajax tr, #table-ajax th{
+    text-align: center;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 992px) {
+    .col-md-3-d {
+        width: 26% !important;
+    }
+    .col-md-9-d {
+        width: 74% !important;
+    }
+}

@@ -4,9 +4,14 @@ namespace Modules\Users\Entities;
 
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
+use Modules\Committee\Entities\Committee;
+use Modules\Core\Entities\Group;
 
 class Employee extends User
 {
+    const SECRETARY = 'secretary';
+    const ADVISOR = 'advisor';
+
     /**
      * add global scope
      */
@@ -57,36 +62,11 @@ class Employee extends User
         return $userData;
     }
 
-    /**
-     * Sync Secretaries Users
-     */
-    public function syncSecretariesEmployees($secretariesIds)
+    public static function studyChairman()
     {
-        $secretariesIds  = !is_array($secretariesIds) ? [] : $secretariesIds;
-        $secretariesData = [];
-
-        foreach($secretariesIds as $secretaryID) {
-            $secretaryData = self::where('id', $secretaryID)->first();
-
-            if(!$secretaryData || !$secretaryData->hasSecretariesGroup()) {
-                continue;
-            }
-
-            $secretariesData[] = [
-                'advisor_user_id' => $this->id,
-                'secretary_user_id' => (int)$secretaryID,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now()
-            ];
-        }
-        
-        $this->secretaries()->delete();
-
-        if(!empty($secretariesData)) {
-            $this->secretaries()->insert($secretariesData);
-        }
+        $groupsIds = Group::whereIn('key', ['chairman_of_the_commission', 'vice_chairman_of_the_commission'])->pluck('id');
+        return self::whereIn('job_role_id', $groupsIds)->get();
     }
-
 
     /**
      * Scopes
@@ -101,6 +81,14 @@ class Employee extends User
             $query->where('id', $request->employee_id);
         }
 
+        if((int)$request->national_id && $request->national_id > 0) {
+            $query->where('national_id', $request->national_id);
+        }
+
+        if((int)$request->employee_email && $request->employee_email > 0) {
+            $query->where('id', $request->employee_email);
+        }
+
         if((int)$request->job_role_id && $request->job_role_id > 0) {
             $query->where('job_role_id', $request->job_role_id);
         }
@@ -110,5 +98,4 @@ class Employee extends User
         }
         return $query;
     }
-    
 }

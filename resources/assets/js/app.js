@@ -9,7 +9,6 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-
 /**
  * We will require in our components.js file, which contains our component
  * files.  Putting them in their own file reduces clutter.
