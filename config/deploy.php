@@ -93,7 +93,7 @@ return [
 
     'options' => [
         'application' => env('APP_NAME', 'Laravel'),
-        'repository' => 'http://gitlab.mu.sa/swunit/KhabeerPartnersProject.git',
+        'repository' => 'http://172.16.19.53/swunit/KhabeerPartnersProject.git',
         //'php_fpm_service' => 'php7.2-fpm',
     ],
 
