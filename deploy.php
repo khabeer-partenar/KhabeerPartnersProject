@@ -18,8 +18,7 @@ host('staging')
     ->user('devuser')
     ->identityFile('~/.ssh/deploy_id_rsa_2.pub', '~/.ssh/deploy_id_rsa_2')
     ->set('deploy_path', '/home/eservices/staging/backend/kh')
-    ->set('writable_mode', 'chmod');
-    
+    ->pty(true);
 
 
 host('production')
@@ -28,8 +27,8 @@ host('production')
     ->set('ssh_type', 'native')
     ->user('devuser')
     ->identityFile('~/.ssh/deploy_id_rsa_2.pub', '~/.ssh/deploy_id_rsa_2')
-    ->set('deploy_path', '/home/eservices/production/backend/kh');
-    
+    ->set('deploy_path', '/home/eservices/production/backend/kh')
+    ->pty(true);
 
 
 
@@ -134,7 +133,7 @@ task('deploy:public_disk', function () {
     run('if [ -d $(echo {{release_path}}/public/storage) ]; then rm -rf {{release_path}}/public/storage; fi');
 
     // Create shared dir if it does not exist.
-    run('sudo mkdir -p {{deploy_path}}/shared/storage/app/public');
+    run('mkdir -p {{deploy_path}}/shared/storage/app/public');
 
     // Symlink shared dir to release dir
     run('{{bin/symlink}} {{deploy_path}}/shared/storage/app/public {{release_path}}/public/storage');
