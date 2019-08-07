@@ -111,7 +111,7 @@ return [
     'hosts' => [
         '1.1.1.1' => [
             'deploy_path' => '/var/www/1.1.1.1',
-            'user' => 'root',
+            'user' => 'devuser',
         ],
     ],
 
