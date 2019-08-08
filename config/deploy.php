@@ -93,8 +93,8 @@ return [
 
     'options' => [
         'application' => env('APP_NAME', 'Laravel'),
-        'repository' => 'http://gitlab.mu.sa/swunit/KhabeerPartnersProject.git',
-        'php_fpm_service' => 'php7.2-fpm',
+        'repository' => 'http://172.16.19.53/swunit/KhabeerPartnersProject.git',
+        //'php_fpm_service' => 'php7.2-fpm',
     ],
 
     /*
@@ -109,10 +109,16 @@ return [
     */
 
     'hosts' => [
-        '1.1.1.1' => [
-            'deploy_path' => '/var/www/1.1.1.1',
+
+
+        'staging' => [
+            'hostname' => '172.16.19.108',
             'user' => 'devuser',
+            'branch' => 'staging',
+            'deploy_path' => '/var/www/staging',
+
         ],
+        
     ],
 
     /*
