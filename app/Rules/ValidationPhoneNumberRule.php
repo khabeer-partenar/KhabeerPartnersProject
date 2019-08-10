@@ -25,8 +25,7 @@ class ValidationPhoneNumberRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        //return preg_match('/^(05)([0-9]{8})$/', $value);
-        return true;
+        return preg_match('/^(05)([0-9]{8})$/', $value);
     }
 
     /**

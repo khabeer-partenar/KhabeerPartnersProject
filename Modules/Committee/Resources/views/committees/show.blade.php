@@ -18,7 +18,7 @@
                 @endif
             </div>
             <div class="actions">
-                    <a href="{{ route('committees.download.pdf', $committee) }}" class="btn btn-sm btn-primary">
+                    <a onclick="window.print();" class="btn btn-sm btn-primary">
                         <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
                     </a>
             </div>

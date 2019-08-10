@@ -25,8 +25,7 @@ class NationalIDRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return true;
-        /*// Check if value is not numeric or 10 digits long
+        // Check if value is not numeric or 10 digits long
         if (!is_numeric($value) || strlen($value) != 10) {
             return false;
         }
@@ -50,7 +49,7 @@ class NationalIDRule implements Rule
             }
         }
         
-        return ($sum % 10 == 0);*/
+        return ($sum % 10 == 0);
     }
 
     /**
