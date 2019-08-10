@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Committee\Notifications;
+namespace Modules\Users\Notifications;
 
 use App\Channels\MobilyChannel;
 use Illuminate\Bus\Queueable;
@@ -8,20 +8,24 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CommitteeCreated extends Notification implements ShouldQueue
+class NotifyDeletedDelegate extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $committee;
-
+    private $delegate;
+    private $reason;
     /**
      * Create a new notification instance.
      *
-     * @param $committee
+     * @return void
      */
-    public function __construct($committee)
+    public function __construct($delegate, $committee,$reason)
     {
         $this->committee = $committee;
+        $this->delegate = $delegate;
+        $this->reason = $reason;
+
     }
 
     /**
@@ -44,8 +48,8 @@ class CommitteeCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('committee::committees.new committee has been created with subject') . ' ' . $this->committee->subject)
-            ->markdown('committee::emails.new_committee_created', ['committee' => $this->committee]);
+            ->subject(__('users::delegates.delegate deleted') . ' ' . $this->delegate->name)
+            ->markdown('users::emails.email_notify_deleted_delegate', ['committee' => $this->committee,'delegate'=>$this->delegate,'reason'=>$this->reason]);
     }
 
     /**
@@ -55,18 +59,28 @@ class CommitteeCreated extends Notification implements ShouldQueue
      * @return array
      */
     public function toArray($notifiable)
-        {
+    {
         return [
             'committee' => $this->committee,
+            'delegate' => $this->delegate,
+            'reason'=>$this->reason,
             'notified_user' => $notifiable
         ];
     }
 
     public function toMobily($notifiable)
     {
+      /*  return [
+            'message' => ''
+        ];*/
+
         return [
-            'message' => __('committee::committees.new committee has been created with subject')
+            'message' => __('users::delegates.delegate deleted')
+                . ' ' . $this->delegate->name
+                . ' '. __('users:delegates.delegate deleted for committee')
                 . ' ' . $this->committee->subject
+                . ' '. __('users:delegates.delegate deleted reasone')
+                . ' ' . $this->reason
                 . ' ' . route('committees.show', $this->committee)
         ];
     }

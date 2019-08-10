@@ -96,5 +96,9 @@ return [
     'advisor_status' => 'دور المستشار',
     'committee advisor' => 'مسؤول',
     'committee participant' => 'مشارك',
-    'committee_export'=>'تصدير طلب التسمية'
+    'committee_export'=>'تصدير طلب التسمية',
+    'nomination done'=>'تم ترشيح المندوبين',
+    'nomination done for committee'=>'تم ترشيح المندوبين للجنة'
+
+
 ];

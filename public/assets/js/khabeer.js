@@ -48,59 +48,8 @@ $(document).ready(function() {
     });
 
     // Delete row in dataTable using Ajax
-    $(document).on('click', '.delete-row-delegate', function(){
-        let btn = $(this);
-        let path = $(this).attr('data-href');
 
-        console.log(path);
-        Swal.fire({
-            title: 'هل انت متأكد من عملية الحذف؟',
-            text: "من فضلك اكتب سبب الحذف",
 
-            input: 'textarea',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#ed6b75',
-            cancelButtonColor: '#337ab7',
-            confirmButtonText: 'حذف',
-            cancelButtonText: 'إلغاء',
-            preConfirm: (result) => {
-                if (result) {
-                    $.ajax({
-                        type: 'GET',
-                        url: path,
-                        success: function(response){
-                            $(btn).parent().parent().remove();
-                            console.log(response);
-                            location.reload();
-                        },
-
-                        error: function (request, status, error) {
-                            console.log(error);
-                            Swal.fire({
-                                title: 'حدث خطأ',
-                                text: request.responseJSON.msg,
-                                type: 'error',
-                                showCancelButton: false,
-                                confirmButtonColor: '#D3D3D3',
-                                confirmButtonText: 'حسنا',
-                            });
-                        }
-                    });
-                }
-                else {
-                    //alert('error');
-                    Swal.showValidationMessage(
-                        `من فضلك ادخل سبب الحذف`
-                    )
-                }
-            }
-
-        }).then((result) => {
-            console.log(result.value);
-
-        })
-    });
 
 
     // apply select2

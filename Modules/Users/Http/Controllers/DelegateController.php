@@ -57,8 +57,6 @@ class DelegateController extends UserBaseController
 
     public function getDepartmentDelegatesNotInCommittee($department_id,$committee_id)
     {
-        //return 'done';
-        //return response()->json(['name' => 'Abigail', 'state' => 'CA']);
         $delegates = Delegate::getDepartmentDelegatesNotInCommittee($department_id,$committee_id);
          return $delegates;
     }
@@ -69,9 +67,6 @@ class DelegateController extends UserBaseController
      */
     public function create()
     {
-
-        /*  $mainDepartments = Department::getDepartments();
-          $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);*/
         return view("users::delegates.$this->userType..create", compact('mainDepartments', 'delegateJobs'));
     }
 
@@ -85,7 +80,7 @@ class DelegateController extends UserBaseController
     public function addDelegatesToCommittee(Request $request, Delegate $delegate)
     {
         if ($request->has('delegates_ids')) {
-
+            //$delegate->log('add_Delegates_To_Committee');
             $delegate->addDelegatesToCommittee($request);
             //dd($request->all());
             return back();
@@ -102,9 +97,9 @@ class DelegateController extends UserBaseController
     {
         $delegate = Delegate::createFromRequest($request);
         $delegate->log('create_delegate');
-        $delegate2->addDelegateToCommittee($request, $delegate->id);
-        self::sessionSuccess('users::delegates.created');
-        return back();
+       $delegate2->addDelegateToCommittee($request, $delegate->id);
+        //self::sessionSuccess('users::delegates.created');
+       // return back();
     }
 
 
@@ -118,23 +113,17 @@ class DelegateController extends UserBaseController
     public function destroy(Delegate $delegate,Committee $committee)
     {
         return $committee;
-        //dd($delegate);
 
         $delegate->log('remove_delegate_from_committee');
         $delegate->removeDelegateFromCommittee($delegate);
 
-      //  return $result;
         return response()->json(['msg' => __('users::delegates.deleted'),'did'=>$delegate->department->id,'committee'=>$committee]);
     }
-    public function removeFromCommitte($delegate_id,$committee_id,$department_id)
+    public function removeFromCommitte($delegate_id,$committee_id,$department_id,$reason)
     {
-       // return $committee_id;
-        //dd($delegate);
         $delegate = Delegate::find($delegate_id);
         $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate,$committee_id,Crypt::decrypt($department_id));
-
-        //  return $result;
+        $delegate->removeDelegateFromCommittee($delegate,$committee_id,$department_id,$reason);
         return response()->json(['msg' => __('users::delegates.deleted')]);
     }
 

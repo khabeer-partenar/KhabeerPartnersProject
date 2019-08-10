@@ -141,9 +141,7 @@ class Committee extends Model
             $committeeIds = CommitteeDepartment::whereIn('department_id', $parentDepartmentId)->pluck('committee_id');
             $query->whereIn('id', $committeeIds);
         } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
-            $parentDepartmentId = auth()->user()->parentDepartment->pluck('id');
-            $committeeIds = CommitteeDepartment::whereIn('department_id', $parentDepartmentId)->pluck('committee_id');
-            $query->whereIn('id', $committeeIds);
+
         }
 
         return $query;

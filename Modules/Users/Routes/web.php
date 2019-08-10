@@ -33,7 +33,8 @@ Route::group(['middleware' => 'auth'], function()
         Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');
 
         // Delegate
-        Route::get('/delegates/deleteUser/{delegate_id}/{committee_id}/{department_id}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
+
+        Route::get('/delegates/deleteUser/{delegate_id}/{committee_id}/{department_id}/{reason?}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
         Route::resource('/delegates','DelegateController');
 
         //Route::get('/delegates/deleteUser/{delegate_id}/{committee_id/{department_id}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');

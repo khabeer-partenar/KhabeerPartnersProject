@@ -32,5 +32,14 @@ return [
     'show' => 'تفاصيل',
     'information' => 'تفصايل المنسق',
     'error happened' => 'حدث خطأ',
-    'new delegate has been created with subject' => 'تم اضافة مندوب جديد باسم'
+    'new delegate has been created with subject' => 'تم اضافة مندوب جديد باسم',
+    'sendNomination'=>'إرسال الترشيح',
+    'back'=>'رجوع',
+    'you added to a committee'=>'لقد تم اضافتك الى لجنة',
+    'committee first meeting date'=>'تاريخ اول الجتماع',
+    'delegate deleted'=>'لقد تم حذف المندوب',
+    'delegate deleted for committee'=>'من لجنة',
+    'delegate deleted reason'=>'سبب الحذف'
+
+
 ];

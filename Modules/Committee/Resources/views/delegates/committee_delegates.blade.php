@@ -1,7 +1,7 @@
 {{-- committee delegates --}}
 <p class="underLine">{{ __('committee::committees.delegates_title') }}</p>
 
-<table class="table table-striped table-responsive-md">
+<table id="delegatestable2" class="table table-striped table-responsive-md">
     <thead>
     <tr>
         <th style="width: 8%" scope="col"></th>
@@ -18,7 +18,7 @@
     @foreach($delegates as $delegate)
         <tr>
             <td>{{ $loop->index + 1 }}
-                <input id="committee_id" type="hidden" value="{{Crypt::encrypt($committee->id)}}">
+                <input id="committee_id" type="hidden" value="{{$committee->id}}">
             </td>
             <td >
                 {{ $delegate->department->name }} {{ $delegate->department->referenceDepartment ? ' - ' . $delegate->department->referenceDepartment->name:'' }}
@@ -36,44 +36,24 @@
                 {{ $delegate->email}}
             </td>
             <td>
-                <a data-href="{{ route('delegate.remove.from.committee',['delegate_id'=>$delegate->id,'committee_id'=>$committee->id,'department_id'=>Crypt::encrypt($delegate->department->id)]) }}"  class="btn btn-sm btn-danger delete-row-delegate">
+                <a  data-href="{{ route('delegate.remove.from.committee',['delegate_id'=>$delegate->id,'committee_id'=>$committee->id,'department_id'=>$delegate->department->id,'reason'=>'']) }}"  class="btn btn-sm btn-danger delete-row-delegate">
                     <i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}
                 </a>
             </td>
         </tr>
     @endforeach
     <tr>
-        <td colspan="6" style="font-weight:bold">
-                       اجمالى عددالمرشحين :  {{ $delegates->count() }}
+        <td  colspan="6" style="font-weight:bold">
+                       اجمالى عددالمرشحين :  <label id="delegatesNumber" style="font-weight:bold">{{ $delegates->count() }}</label>
         </td>
     </tr>
-    <tr style="float: left">
-        <td colspan="6">
-            fsdafdsf
-        </td>
-    </tr>
+
     </tbody>
 </table>
+<a onclick="window.history.back();" style="float: left;margin-right: 10px"   class="btn btn-sm btn-primary">
+    <i class="fa fa-step-backward"></i> {{ __('users::delegates.back') }}
+</a>
 
-{{--<script>
-    jQuery(document).ready(function () {
-        jQuery('#sharecomment').click(function (e) {
-            e.preventDefault();
-            jQuery.ajax({
-                url: "{{ url('/comments/store') }}",
-                method: 'post',
-                data: {
-                    comment: jQuery('#comment').val(),
-                    post_id: jQuery('#post_id').val(),
-                    user_id: jQuery('#user_id').val(),
-                    _token: '{{csrf_token()}}'
-                },
-                success: function (result) {
-                    console.log(result);
-                    window.location.reload();
-                }
-            });
-        });
-    });
-</script>--}}
-
+<a id="btn-send-nomination" style="float: left;background-color: #057d54"   class="btn btn-sm btn-info">
+    <i class="fa fa-send"></i> {{ __('users::delegates.sendNomination') }}
+</a>

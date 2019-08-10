@@ -2,26 +2,25 @@
 
 namespace Modules\Committee\Notifications;
 
-use App\Channels\MobilyChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Channels\MobilyChannel;
 
-class CommitteeCreated extends Notification implements ShouldQueue
+class NominationDoneNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    private $committee;
-
+private $committee;
     /**
      * Create a new notification instance.
      *
-     * @param $committee
+     * @return void
      */
     public function __construct($committee)
     {
         $this->committee = $committee;
+
     }
 
     /**
@@ -44,8 +43,8 @@ class CommitteeCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('committee::committees.new committee has been created with subject') . ' ' . $this->committee->subject)
-            ->markdown('committee::emails.new_committee_created', ['committee' => $this->committee]);
+            ->subject(__('committee::committees.nomination done') . ' ' . $this->committee->subject)
+            ->markdown('committee::emails.nomination_done', ['committee' => $this->committee]);
     }
 
     /**
@@ -55,17 +54,16 @@ class CommitteeCreated extends Notification implements ShouldQueue
      * @return array
      */
     public function toArray($notifiable)
-        {
+    {
         return [
             'committee' => $this->committee,
             'notified_user' => $notifiable
         ];
     }
-
     public function toMobily($notifiable)
     {
         return [
-            'message' => __('committee::committees.new committee has been created with subject')
+            'message' => __('committee::committees.nomination done')
                 . ' ' . $this->committee->subject
                 . ' ' . route('committees.show', $this->committee)
         ];
