@@ -21,7 +21,7 @@
                         </option>
                     @endforeach
                 </select>
-                    <span id="span_main_department_id" class="help-block span-error" ></span>
+                <span id="span_main_department_id" class="help-block span-error" ></span>
             </div>
 
         </div>
@@ -47,7 +47,7 @@
                     @endforeach
                 </select>
 
-                    <span id="span_parent_department_id" class="help-block span-error"  ></span>
+                <span id="span_parent_department_id" class="help-block span-error"  ></span>
             </div>
 
         </div>
@@ -67,7 +67,7 @@
                 @endphp
                 {!! Form::text('department_reference_val', isset($referenceDepartment) ? $referenceDepartment->name:null, ['id' => 'department_reference_val', 'class' => 'form-control', 'disabled']) !!}
                 {!! Form::hidden('department_reference_id', isset($referenceDepartment) ? $referenceDepartment->id:null, ['id' => 'department_reference', 'class' => 'form-control',]) !!}
-                    <span id="span_department_reference_id" class="help-block span-error" ></span>
+                <span id="span_department_reference_id" class="help-block span-error" ></span>
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@
                     @endforeach
                 </select>
 
-                    <span id="span_direct_department_id" class="help-block span-error" ></span>
+                <span id="span_direct_department_id" class="help-block span-error" ></span>
             </div>
 
         </div>
@@ -112,7 +112,7 @@
             <div class="col-md-8">
                 {!! Form::text('job_title', null, ['id' => 'job_title', 'class' => 'form-control']) !!}
 
-                    <span id="span_job_title" class="help-block span-error" ></span>
+                <span id="span_job_title" class="help-block span-error" ></span>
             </div>
 
         </div>
@@ -126,7 +126,7 @@
             <div class="col-md-8">
                 {!! Form::text('title', null, ['id' => 'title', 'class' => 'form-control']) !!}
 
-                    <span id="span_title" class="help-block span-error"></span>
+                <span id="span_title" class="help-block span-error"></span>
             </div>
 
         </div>
@@ -144,7 +144,7 @@
             <div class="col-md-8">
                 {!! Form::text('national_id', null, ['id' => 'national_id', 'class' => 'form-control']) !!}
 
-                    <span id="span_national_id" class="help-block span-error" ></span>
+                <span id="span_national_id" class="help-block span-error" ></span>
             </div>
 
         </div>
@@ -158,7 +158,7 @@
             <div class="col-md-8">
                 {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) !!}
 
-                    <span id="span_name" class="help-block span-error" ></span>
+                <span id="span_name" class="help-block span-error" ></span>
             </div>
 
         </div>
@@ -172,7 +172,7 @@
             <div class="col-md-8">
                 {!! Form::text('phone_number', null, ['id' => 'phone_number', 'class' => 'form-control']) !!}
 
-                    <span id="span_phone_number" class="help-block span-error" ></span>
+                <span id="span_phone_number" class="help-block span-error" ></span>
             </div>
 
         </div>
@@ -191,7 +191,7 @@
             <div class="col-md-8">
                 {!! Form::text('email', null, ['id' => 'email', 'class' => 'form-control']) !!}
 
-                    <span id="span_email" class="help-block span-error" ></span>
+                <span id="span_email" class="help-block span-error" ></span>
             </div>
 
         </div>
@@ -218,7 +218,7 @@
                     @endforeach
                 </select>
 
-                    <span id="span_job_role_id" class="help-block span-error" ></span>
+                <span id="span_job_role_id" class="help-block span-error" ></span>
             </div>
 
         </div>

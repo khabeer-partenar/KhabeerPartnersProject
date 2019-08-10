@@ -278,11 +278,11 @@ class Committee extends Model
 
             return $this->nominationDepartments()->whereIn('department_id', $departmentsId)->with('referenceDepartment')->get();
         } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
-            $parentDepartmentId = auth()->user()->parentDepartment->pluck('id');
-            return $this->nominationDepartments()->whereIn('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
+            $parentDepartmentId = auth()->user()->parentDepartment->id;
+            return $this->nominationDepartments()->where('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
 
         }
-        return $this->nominationDepartments()->with('referenceDepartment')->get();
+        //return $this->nominationDepartments()->with('referenceDepartment')->get();
 
     }
 

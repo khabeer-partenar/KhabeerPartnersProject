@@ -105,15 +105,15 @@ class Delegate extends User
     {
         $department = Department::find($department_id);
 
-        $childrenDepartments = $department->referenceChildrenDepartments()->pluck('id')->toArray();
-        $delegatesQuery = Delegate::with(['department' => function ($query) {
-            $query->with('referenceDepartment');
-        }])->where('parent_department_id', $department_id)
-            ->orWhere('direct_department_id', $department_id)
-            ->orWhereIn('parent_department_id', $childrenDepartments)->NotInCommittees($department_id, $committee_id)->distinct()->get();
-        $depart_id = collect();
-        $depart_id->put('department_id', $department_id);
-        return [$delegatesQuery, $depart_id];
+            $childrenDepartments = $department->referenceChildrenDepartments()->pluck('id')->toArray();
+            $delegatesQuery = Delegate::with(['department' => function ($query) {
+                $query->with('referenceDepartment');
+            }])->where('parent_department_id', $department_id)
+                ->orWhere('direct_department_id', $department_id)
+                ->orWhereIn('parent_department_id', $childrenDepartments)->NotInCommittees($department_id, $committee_id)->distinct()->get();
+            $depart_id = collect();
+            $depart_id->put('department_id', $department_id);
+            return [$delegatesQuery, $depart_id];
     }
 
     /**
