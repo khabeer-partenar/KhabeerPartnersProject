@@ -34,7 +34,7 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
+         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
             $dataTable = Datatables::of($committeesQuery)
                 ->addColumn('id_with_date', function ($committee) {
