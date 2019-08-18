@@ -12,7 +12,8 @@
 
             @if(auth()->user()->hasPermissionWithAccess('create'))
                 <div class="actions">
-                    <a href="{{ route('committees.create') }}" class="btn btn-primary">{{ __('committee::committees.action_add') }}</a>
+                    <a href="{{ route('committees.create') }}"
+                       class="btn btn-primary">{{ __('committee::committees.action_add') }}</a>
                 </div>
             @endif
 
@@ -20,35 +21,79 @@
 
         <div class="portlet-body">
             @include('committee::committees.search')
-            {{-- DataTable --}}
-            <table id="table-ajax" class="table" data-url="{{ route('committees.index', [
-                'subject' => Request::input('subject'),
-                'advisor_id' => Request::input('advisor_id'),
-                'status' => Request::input('status'),
-                'treatment_number' => Request::input('treatment_number'),
-                'treatment_time' => Request::input('treatment_time'),
-                'uuid' => Request::input('uuid')
-                ])
-            }}" data-fields='[
-                   @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
-                        {"data": "id_with_date","name":"actions","title":"{{ __('committee::committees.committee id') }} <br /> {{ __('committee::committees.committee created at') }}","searchable":"false", "orderable":"false"},
-                        {"data": "committee_uuid_with_subject","name":"committee_uuid_with_subject","title":"{{ __('committee::committees.committee uuid') }}<br /> {{ __('committee::committees.committee subject') }}","searchable":"false", "orderable":"false"},
-                        {"data": "advisor_with_members_count","name":"advisor_with_members_count","title":"{{ __('committee::committees.advisor') }}<br /> {{ __('committee::committees.members count') }}","searchable":"false", "orderable":"false"},
-                        {"data": "president","name":"president","title":"{{ __('committee::committees.president_id') }}","searchable":"false", "orderable":"false"},
-                        {"data": "status","name":"status","title":"{{ __('committee::committees.status') }}","searchable":"false", "orderable":"false"},
-                        {"data": "action","name":"actions","title":"{{ __('committee::committees.options') }}","searchable":"false", "orderable":"false"}
-                   @else
-                        {"data": "id_with_date","name":"actions","title":"{{ __('committee::committees.committee id') }} <br /> {{ __('committee::committees.committee created at') }}","searchable":"false", "orderable":"false"},
-                        {"data": "committee_uuid_with_subject","name":"committee_uuid_with_subject","title":"{{ __('committee::committees.committee uuid') }}<br /> {{ __('committee::committees.committee subject') }}","searchable":"false", "orderable":"false"},
-                        {"data": "advisor_with_members_count","name":"advisor_with_members_count","title":"{{ __('committee::committees.advisor') }}<br /> {{ __('committee::committees.members count') }}","searchable":"false", "orderable":"false"},
-                        {"data": "president","name":"president","title":"{{ __('committee::committees.president_id') }}","searchable":"false", "orderable":"false"},
-                        {"data": "status","name":"status","title":"{{ __('committee::committees.status') }}","searchable":"false", "orderable":"false"},
-                        {"data": "advisor_status","name":"advisor_status","title":" {{ __('committee::committees.advisor_status') }} ","searchable":"false", "orderable":"false"},
-                        {"data": "action","name":"actions","title":"{{ __('committee::committees.options') }}","searchable":"false", "orderable":"false"}
-                    @endif
-                ]'
-            >
+
+            <table id="committeesTable" class="table table-striped table-responsive-md">
+                <thead>
+                <tr>
+                    <th style="width: 5%" scope="col"></th>
+                    <th style="font-weight: bold;" scope="col">{{ __('committee::committees.committee id') }}
+                        <br/> {{ __('committee::committees.committee created at') }}</th>
+                    <th style="font-weight: bold;" scope="col">{{ __('committee::committees.committee uuid') }}
+                        <br/> {{ __('committee::committees.committee subject') }}</th>
+                    <th style="font-weight: bold;" scope="col">{{ __('committee::committees.advisor') }}
+                        <br/> {{ __('committee::committees.members count') }}</th>
+                    <th style="font-weight: bold;" scope="col">{{ __('committee::committees.president_id') }}</th>
+                    <th style="font-weight: bold;" scope="col">{{ __('committee::committees.status') }}</th>
+                    <th style="font-weight: bold;" scope="col">{{ __('committee::committees.options') }}</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($committeesQuery as $committee)
+                    @php
+                        $today = Carbon\Carbon::today();
+                        $meetingDays =abs($committee->first_meeting_at->diffInDays($today, false));
+                        $committeePeriod =abs($committee->created_at->diffInDays($today, false));
+
+                    if ($meetingDays <= config('committee.meeting_date_alert_period'))
+                    {
+                        $color =config('committee.meeting_date_alert_period_color');
+                    }
+                    elseif ($committeePeriod <= config('committee.new_committee_color_period'))
+                    {
+                        $color =config('committee.new_committee_color_period_color');
+                    }
+                    else
+                    {
+                        $color =config('committee.new_committee_color_period_normal_color');
+
+                    }
+
+                    @endphp
+
+                    <tr style="background-color: {{$color}}">
+                        <td>{{ $loop->index + 1 }}
+                        </td>
+                        <td>
+                            {{__('committee::committees.committee number') . $committee->treatment_number}}
+                            <br> {{$committee->created_at->format('d-m-Y')}}
+                        </td>
+                        <td>
+                            {{$committee->uuid}} <br> {{ $committee->subject}}
+                        </td>
+                        <td>
+                            {{ __('committee::committees.advisor_only') . ' ' . $committee->advisor->name }} <br>
+                            {{__('committee::committees.member') . ' ' . $committee->members_count}}
+                        </td>
+
+                        <td>
+                            {{$committee->president ? $committee->president->name : '-' }}
+                        </td>
+
+                        <td>
+                            {{__('committee::committees.' . $committee->status)}}
+                        </td>
+
+                        <td>
+                            @include('committee::committees.actions')
+                        </td>
+                    </tr>
+                @endforeach
+
+                </tbody>
             </table>
+            {{ $committeesQuery->links() }}
         </div>
 
     </div>
