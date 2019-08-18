@@ -25,7 +25,7 @@ class ValidationGovEmailRule implements Rule
      */
     public function passes($attribute, $value)
     {
-       /* $email = explode('.', $value);
+        $email = explode('.', $value);
 
         if(count($email) < 3) {
             return false;
@@ -33,9 +33,7 @@ class ValidationGovEmailRule implements Rule
 
         $email = $email[count($email)-2] .'.'. $email[count($email)-1];
     
-        return $email == 'gov.sa';*/
-
-       return true;
+        return $email == 'gov.sa';
     }
 
     /**

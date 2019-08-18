@@ -7,9 +7,13 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use \Modules\Committee\Events\CommitteeCreatedEvent;
+use Modules\Committee\Events\NominationDoneEvent;
 use Modules\Committee\Listeners\CommitteeCreatedListener;
+use Modules\Committee\Listeners\NominationDoneListener;
 use \Modules\Users\Events\DelegateCreatedEvent;
+use Modules\Users\Events\DelegateDeletedEvent;
 use Modules\Users\Listeners\DelegateCreatedListener;
+use Modules\Users\Listeners\DelegateDeletedListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +31,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         DelegateCreatedEvent::class => [
             DelegateCreatedListener::class
+        ],
+        NominationDoneEvent::class => [
+            NominationDoneListener::class
+        ],
+        DelegateDeletedEvent::class => [
+            DelegateDeletedListener::class
         ]
     ];
 

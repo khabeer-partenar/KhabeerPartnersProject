@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Committee\Notifications;
+namespace Modules\Users\Notifications;
 
 use App\Channels\MobilyChannel;
 use Illuminate\Bus\Queueable;
@@ -8,20 +8,22 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CommitteeCreated extends Notification implements ShouldQueue
+class NotifyDelegatesOfAddetion extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $committee;
+    private $delegate;
 
     /**
      * Create a new notification instance.
      *
      * @param $committee
      */
-    public function __construct($committee)
+    public function __construct($delegate, $committee)
     {
         $this->committee = $committee;
+        $this->delegate = $delegate;
     }
 
     /**
@@ -44,8 +46,8 @@ class CommitteeCreated extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('committee::committees.new committee has been created with subject') . ' ' . $this->committee->subject)
-            ->markdown('committee::emails.new_committee_created', ['committee' => $this->committee]);
+            ->subject(__('users::delegates.you added to a committee') . ' ' . $this->committee->subject)
+            ->markdown('users::emails.email_notify_delegate', ['committee' => $this->committee,'delegate'=>$this->delegate]);
     }
 
     /**
@@ -55,18 +57,25 @@ class CommitteeCreated extends Notification implements ShouldQueue
      * @return array
      */
     public function toArray($notifiable)
-        {
+    {
         return [
             'committee' => $this->committee,
+            'delegate' => $this->delegate,
             'notified_user' => $notifiable
         ];
     }
 
     public function toMobily($notifiable)
     {
+      /*  return [
+            'message' => ''
+        ];*/
+
         return [
-            'message' => __('committee::committees.new committee has been created with subject')
+            'message' => __('users::delegates.you added to a committee')
                 . ' ' . $this->committee->subject
+                    . ' '. __('users::delegates.committee first meeting date')
+                . ' ' . $this->committee->first_meeting_at
                 . ' ' . route('committees.show', $this->committee)
         ];
     }

@@ -10,9 +10,6 @@
                 <i class="fa fa-eye"></i>
                 <span class="caption-subject sbold">{{ __('committee::committees.information') }}</span>
             </div>
-           {{-- <a style="color:blue; float: left;margin-left: 10%;">
-                {{ __('committee::committees.committee_export') }}
-            </a>--}}
             <div class="actions" style="margin-right: 10px">
                 @if(auth()->user()->hasPermissionWithAccess('edit'))
                     <a href="{{ route('committees.edit', $committee) }}" class="btn btn-sm btn-warning">
@@ -21,7 +18,7 @@
                 @endif
             </div>
             <div class="actions">
-                    <a href="{{ route('committees.download.pdf', $committee) }}" class="btn btn-sm btn-primary">
+                    <a onclick="window.print();" class="btn btn-sm btn-primary">
                         <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
                     </a>
             </div>
@@ -162,5 +159,6 @@
 @endsection
 
 @section('scripts_2')
+    @include('committee::committees.scripts')
     @include('users::delegates.scripts')
 @endsection

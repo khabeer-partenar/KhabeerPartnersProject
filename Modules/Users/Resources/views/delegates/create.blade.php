@@ -33,7 +33,7 @@
                 <input class="btn blue" type="submit" value="{{__('users::delegates.action_add')}}">
                 {{--{{ Form::button(__('users::delegates.action_add'), ['type' => 'button','id'=>'btn-save', 'class' => 'btn blue']) }}--}}
 
-                <button style="float: right" type="button" class="btn btn-danger"
+                <button type="button" class="btn btn-danger"
                         data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
 
             </div>
