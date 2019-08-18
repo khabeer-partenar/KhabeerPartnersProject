@@ -297,6 +297,8 @@ class Committee extends Model
 
     public function delegates()
     {
-        return $this->belongsToMany(Delegate::class, 'committee_delegate', 'committee_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(Delegate::class, 'committee_delegate', 'committee_id', 'user_id')
+            ->withPivot('nominated_department_id')
+            ->withTimestamps();
     }
 }

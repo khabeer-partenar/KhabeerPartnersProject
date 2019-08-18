@@ -117,20 +117,20 @@
 
         </div>
     </div>
-
     <div class="col-md-4">
-        <div id="div_title" class="form-group ">
+        <div id="div_job_title" class="form-group ">
 
-            {!! Form::label('title', 'اللقب', ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('specialty', 'الاختصاص', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('title', null, ['id' => 'title', 'class' => 'form-control']) !!}
+                {!! Form::text('specialty', null, ['id' => 'specialty', 'class' => 'form-control']) !!}
 
-                <span id="span_title" class="help-block span-error"></span>
+                <span id="span_job_title" class="help-block span-error" ></span>
             </div>
 
         </div>
     </div>
+
 </div>
 
 <br />
@@ -196,7 +196,19 @@
 
         </div>
     </div>
+    <div class="col-md-4">
+        <div id="div_title" class="form-group ">
 
+            {!! Form::label('title', 'اللقب', ['class' => 'col-md-4 control-label']) !!}
+
+            <div class="col-md-8">
+                {!! Form::text('title', null, ['id' => 'title', 'class' => 'form-control']) !!}
+
+                <span id="span_title" class="help-block span-error"></span>
+            </div>
+
+        </div>
+    </div>
     <div class="col-md-4">
         <div id="div_job_role_id" class="form-group ">
 

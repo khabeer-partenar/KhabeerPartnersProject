@@ -1,4 +1,3 @@
-@if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee'))
     <table class="table table-striped table-responsive-md">
         <thead>
         <label class="underLine">{{ __('committee::committees.nomination_departments') }}
@@ -42,7 +41,6 @@
     </table>
     @include('users::delegates.index',compact('committee'))
     @include('users::delegates.create',compact('committee'))
-@endif
 
 
 

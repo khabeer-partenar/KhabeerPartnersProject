@@ -1,4 +1,3 @@
-@if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee'))
     <p class="underLine">{{ __('committee::committees.delegates_title') }}</p>
 
     <table id="delegatestable2" class="table table-striped table-responsive-md">
@@ -36,7 +35,7 @@
                     {{ $delegate->email}}
                 </td>
                 <td>
-                    <a data-href="{{ route('delegate.remove.from.committee',['delegate_id'=>$delegate->id,'committee_id'=>$committee->id,'department_id'=>$delegate->department->id,'reason'=>'']) }}"
+                    <a data-href="{{ route('delegate.remove.from.committee',['delegate_id'=>$delegate->id,'committee_id'=>$committee->id,'department_id'=>$delegate->pivot->nominated_department_id,'reason'=>'']) }}"
                        class="btn btn-sm btn-danger delete-row-delegate">
                         <i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}
                     </a>
@@ -59,4 +58,3 @@
     <a id="btn-send-nomination" style="float: left;background-color: #057d54" class="btn btn-sm btn-info">
         <i class="fa fa-send"></i> {{ __('users::delegates.sendNomination') }}
     </a>
-@endif

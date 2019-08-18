@@ -198,13 +198,15 @@
                             {
                                 department +='/' + result[i]['department']['referenceDepartment']['name'];
                             }
+                            var specialty = result[0][i]['specialty'];
+                            if (specialty==null) specialty='';
                             html +='<td>' + department + '</td>';
                             html +='<td>' + result[0][i]['name'] + '</td>';
                             html +='<td>' + result[0][i]['job_title'] + '</td>';
                             html +='<td>' + result[0][i]['national_id'] + '</td>';
                             html +='<td>' + result[0][i]['phone_number'] + '</td>';
                             html +='<td>' + result[0][i]['email'] + '</td>';
-                            html +='<td>' + result[0][i]['specialty'] + '</td>';
+                            html +='<td>' + specialty + '</td>';
                             html +='<td><input type="checkbox" name="delegates_ids[]" value="' + result[0][i]['id'] +'"/></td>';
                             html += '</tr>';
                         }
@@ -327,7 +329,7 @@
                              dataHref="{{ route('delegate.remove.from.committee',['delegate_id'=>':delegate_id','committee_id'=>':committee_id','department_id'=>':delegate_department_id']) }}"
                              dataHref = dataHref.replace(':delegate_id', result[i]['id']);
                              dataHref = dataHref.replace(':committee_id','{{$committee->id}}');
-                             dataHref = dataHref.replace(':delegate_department_id',result[i]['department']['id']);
+                             dataHref = dataHref.replace(':delegate_department_id',result[i]['pivot']['nominated_department_id']);
                              //dataHref = dataHref.replace(':reason','');
 
                              html += '<td> ' ;

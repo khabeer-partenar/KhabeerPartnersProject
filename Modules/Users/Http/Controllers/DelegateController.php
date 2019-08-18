@@ -112,7 +112,7 @@ class DelegateController extends UserBaseController
 
     public function destroy(Delegate $delegate,Committee $committee)
     {
-        return $committee;
+       // return $committee;
 
         $delegate->log('remove_delegate_from_committee');
         $delegate->removeDelegateFromCommittee($delegate);

@@ -64,8 +64,9 @@ class Delegate extends User
 
     public function removeDelegateFromCommittee(Delegate $delegate, $committee_id, $department_id, $reason)
     {
-        $delegate1 = Delegate::findOrFail($delegate->id);
-        $delegate1->committees()->detach();
+        CommitteeDelegate::where('user_id',$delegate->id)
+            ->where('nominated_department_id',$department_id)
+            ->where ('committee_id',$committee_id)->delete();
 
         $committee = Committee::find($committee_id)->with('delegates')->first();
         $delegatesCount = CommitteeDelegate::where('committee_id', $committee_id)
@@ -96,24 +97,40 @@ class Delegate extends User
 
     }
 
-    public function scopeNotInCommittees($query, $department_id, $committee_id)
+    public function scopeNotInCommittee($query, $department_id, $committee_id)
     {
-        return $query->doesntHave('committees');
+        return $query->with('committees')->wherePivot('nominated_department_id',$department_id);
     }
 
     public static function getDepartmentDelegatesNotInCommittee($department_id, $committee_id)
     {
         $department = Department::find($department_id);
+        if ($department->is_reference) {
+            $delegatesQuery = Delegate::with('department')->where('parent_department_id', $department_id)
+                ->orWhere('direct_department_id', $department_id)
+                ->whereDoesntHave('committees')
+                ->get();
 
-            $childrenDepartments = $department->referenceChildrenDepartments()->pluck('id')->toArray();
+        } else {
+
+            $user_ids = CommitteeDelegate::pluck('user_id')->toArray();
+            $department_ids = CommitteeDelegate::pluck('nominated_department_id');
+
+            $referenceDepartment = Department::with('referenceDepartment')->where('id', $department_id)
+                ->first()->referenceDepartment;
+            $refAndchildrenDepartments = $referenceDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
+            array_push($refAndchildrenDepartments,$referenceDepartment->id);
             $delegatesQuery = Delegate::with(['department' => function ($query) {
                 $query->with('referenceDepartment');
-            }])->where('parent_department_id', $department_id)
-                ->orWhere('direct_department_id', $department_id)
-                ->orWhereIn('parent_department_id', $childrenDepartments)->NotInCommittees($department_id, $committee_id)->distinct()->get();
-            $depart_id = collect();
-            $depart_id->put('department_id', $department_id);
-            return [$delegatesQuery, $depart_id];
+            }])
+                ->WhereIn('parent_department_id', $refAndchildrenDepartments)
+                ->whereDoesntHave('committees')
+                ->distinct()
+                ->get();
+        }
+        $depart_id = collect();
+        $depart_id->put('department_id', $department_id);
+        return [$delegatesQuery, $depart_id];
     }
 
     /**
@@ -129,7 +146,7 @@ class Delegate extends User
             array_merge(
                 $request->only(
                     'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
-                    'main_department_id', 'parent_department_id', 'department_reference_id', 'job_role_id'
+                    'specialty','main_department_id', 'parent_department_id', 'department_reference_id', 'job_role_id'
                 ), ['user_type' => self::TYPE]
             )
         );
@@ -189,7 +206,13 @@ class Delegate extends User
      */
     public function committees()
     {
-        return $this->belongsToMany(Committee::class, 'committee_delegate', 'user_id', 'committee_id');
+        return $this->belongsToMany(Committee::class, 'committee_delegate', 'user_id', 'committee_id')
+            ->withPivot('user_id', 'committee_id', 'nominated_department_id');
+    }
+
+    public function delegateCommittees()
+    {
+        return $this->hasMany(CommitteeDelegate::class,'user_id','id');
     }
 
     public function department()

@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Crypt;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Committee\Entities\CommitteeDocument;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
@@ -34,7 +35,7 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
-         if ($request->wantsJson() || $request->ajax()) {
+        if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
             $dataTable = Datatables::of($committeesQuery)
                 ->addColumn('id_with_date', function ($committee) {
