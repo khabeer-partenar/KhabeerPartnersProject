@@ -158,10 +158,6 @@ class Department extends Model
             $data['reference_id'] = null;
         }
 
-        if(!isset($data['reference_id'])) {
-            $data['is_reference'] = 0;         
-        }
-
         return self::create($data);
     }
 

@@ -178,8 +178,9 @@ class CoreUsersAppsTableSeeder extends Seeder
         $manageDelegatesID = App::create([
             'resource_name' => $generalResourceName . '\DelegateController@index', 'name' => 'إدارة المندوبين',
             'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $userAppId, 'frontend_path' => 'users/delegates', 'is_main_root' => 0,
-            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
+        
         App::create([
             'resource_name' => $generalResourceName . '\DelegateController@addDelegatesToCommittee', 'name' => 'ترشيح مندوب جديد',
             'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $manageDelegatesID, 'frontend_path' => '/delegates/add_delegate', 'is_main_root' => 0,

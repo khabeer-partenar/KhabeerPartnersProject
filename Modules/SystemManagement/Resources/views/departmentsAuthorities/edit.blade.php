@@ -11,7 +11,7 @@
             </div>
             
             <div class="actions">
-                <a href="{{ route('system-management.departments-types.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('system-management.departments-authorities.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
