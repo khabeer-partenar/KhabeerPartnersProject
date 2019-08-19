@@ -333,6 +333,8 @@ table.dataTable td.sorting_1, table.dataTable td.sorting_2, table.dataTable td.s
 	color: #000;
 	border-bottom: 1px solid #fbfdff;
 }
+.table-th{
+font-weight: bold;
 }
 table.dataTable tbody th, table.dataTable tbody td {
 	padding: 8px 10px;

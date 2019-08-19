@@ -120,6 +120,22 @@
             });
             //return false;
         });
+
+        $('#addDelegateModal').on('show.bs.modal', function () {
+            $('.has-error').removeClass('has-error');
+            $('.span-error').text('');
+            $(this)
+                .find("select")
+                .select2("val", "0");
+            $(this)
+                .find("input,textarea")
+                .val('')
+                .end()
+                .find("input[type=checkbox], input[type=radio]")
+                .prop("checked", "")
+                .end();
+
+        })
         $(document).on('submit', 'form#delegate-form-create', function (event) {
             event.preventDefault();
 
@@ -128,8 +144,6 @@
             var formData = new FormData($(this)[0]);
            // console.log(formData);
             var url = form.attr("action");
-
-
 
             $.ajax({
                 type: form.attr('method'),
@@ -153,7 +167,7 @@
                     //console.log(request);
                     $('.has-error').removeClass('has-error');
                     $('.span-error').text('');
-                    let errors = request.responseJSON['errors'];
+                    let errors = request.responseJSON;
                     console.log(errors);
                     let keys = Object.keys(errors);
 //console.log(keys);

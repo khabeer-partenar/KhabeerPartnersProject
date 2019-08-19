@@ -84,11 +84,8 @@ $(document).ready(function() {
         },
         minimumInputLength: 3,
     });
-
-
     // disable all form fields
     $('#diable-form-fields :input').prop('disabled', true);
-
     // load departments in other select
     $('.load-departments').change(function () {
         let path = $(this).attr('data-url') + '?parentId=' + $(this).val();
