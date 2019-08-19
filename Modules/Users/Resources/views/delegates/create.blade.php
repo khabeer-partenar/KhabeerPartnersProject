@@ -30,7 +30,7 @@
 
             </div>
             <div class="modal-footer">
-                <input class="btn blue" type="submit" value="{{__('users::delegates.action_add')}}">
+                <button class="btn blue" type="submit" >{{__('users::delegates.action_add')}}</button>
                 {{--{{ Form::button(__('users::delegates.action_add'), ['type' => 'button','id'=>'btn-save', 'class' => 'btn blue']) }}--}}
 
                 <button type="button" class="btn btn-danger"

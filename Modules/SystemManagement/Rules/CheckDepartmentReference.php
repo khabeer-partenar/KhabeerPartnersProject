@@ -16,6 +16,8 @@ class CheckDepartmentReference implements Rule
      */
     public function passes($attribute, $value)
     {
+        return true;
+
         if (!$value) {
             return true;
         }
