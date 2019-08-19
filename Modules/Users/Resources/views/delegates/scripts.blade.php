@@ -124,9 +124,10 @@
         $('#addDelegateModal').on('show.bs.modal', function () {
             $('.has-error').removeClass('has-error');
             $('.span-error').text('');
-            $(this)
-                .find("select")
-                .select2("val", "0");
+            $('#main_department_id').select2("val", "0");
+            $('#parent_department_id').select2("val", "0");
+            $('#direct_department_id').select2("val", "0");
+
             $(this)
                 .find("input,textarea")
                 .val('')
