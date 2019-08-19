@@ -167,7 +167,7 @@
                     //console.log(request);
                     $('.has-error').removeClass('has-error');
                     $('.span-error').text('');
-                    let errors = request.responseJSON;
+                    let errors = request.responseJSON['errors'];
                     console.log(errors);
                     let keys = Object.keys(errors);
 //console.log(keys);

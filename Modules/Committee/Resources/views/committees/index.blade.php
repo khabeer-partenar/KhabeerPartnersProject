@@ -34,6 +34,11 @@
                         <br/> {{ __('committee::committees.members count') }}</th>
                     <th style="font-weight: bold;" scope="col">{{ __('committee::committees.president_id') }}</th>
                     <th style="font-weight: bold;" scope="col">{{ __('committee::committees.status') }}</th>
+
+                    @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Employee::ADVISOR)
+                        <th style="font-weight: bold;" scope="col">{{ __('committee::committees.advisor_status') }}</th>
+                    @endif
+
                     <th style="font-weight: bold;" scope="col">{{ __('committee::committees.options') }}</th>
 
 
@@ -84,6 +89,14 @@
                         <td>
                             {{__('committee::committees.' . $committee->status)}}
                         </td>
+
+                        @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Employee::ADVISOR)
+                            <td>
+                               {{ $committee->advisor_id == auth()->id() ?
+                                __('committee::committees.committee advisor')
+                                : __('committee::committees.committee participant')}}
+                            </td>
+                        @endif
 
                         <td>
                             @include('committee::committees.actions')
