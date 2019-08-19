@@ -25,8 +25,6 @@ class ValidationGovEmailRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        return true;
-
         $email = explode('.', $value);
 
         if(count($email) < 3) {
