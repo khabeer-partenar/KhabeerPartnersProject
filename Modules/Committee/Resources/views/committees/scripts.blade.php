@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function () {
         $('.select2').select2({
-            placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder'):''
+            placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder') : ''
         });
 
         $('.date-picker').datepicker({
@@ -14,7 +14,7 @@
             let selectedOption = $('#departments').find(":selected")[0];
             const val = $(selectedOption).val();
             const text = $(selectedOption).text();
-            if (selectedOption && !$(selectedOption).is(":disabled")  && val != 0) {
+            if (selectedOption && !$(selectedOption).is(":disabled") && val != 0) {
                 let trow = `
                     <tr class="trow" id="trow-${val}">
                       <th scope="row">
@@ -42,7 +42,7 @@
         });
 
         // Files
-        $(document).on('click', '#upload-file', function() {
+        $(document).on('click', '#upload-file', function () {
             let uploadBtn = $('#upload-file-browse');
             $(uploadBtn).trigger('click');
         });
@@ -52,12 +52,14 @@
             $('#fileName').html(fileName);
         });
 
-        $(document).on('click', '#saveFiles', function() {
+        $(document).on('click', '#saveFiles', function () {
             let btn = $(this);
             let uploadBtn = $('#upload-file-browse');
             let nextOrder = parseInt($(btn).attr('data-order')) + 1;
             let formData = new FormData();
-            $.each($(uploadBtn)[0].files, function(i, file) {formData.append('file', file);});
+            $.each($(uploadBtn)[0].files, function (i, file) {
+                formData.append('file', file);
+            });
             formData.append('description', $('[name=file_description]').val());
             let url = $(this).data('url');
             $.post({
@@ -71,7 +73,7 @@
                     let trow = `
                     <tr id="file-${document.id}">
                         <td>${nextOrder}</td>
-                        <td>${document.description ? document.description:''}</td>
+                        <td>${document.description ? document.description : ''}</td>
                         <td>
                             <a href="${document.full_path}">${document.name}</a>
                         </td>
@@ -129,7 +131,7 @@
         })
 
         // On Submit
-        $( "#save-committee").click(function(e) {
+        $("#save-committee").click(function (e) {
             e.preventDefault();
             let participantAdvisors = $('#participant_advisors').val();
             if (!participantAdvisors) {
@@ -140,5 +142,58 @@
             }, 400);
         });
 
+        $(document).on('click', '#btn-send-nomination', function () {
+
+            var url = '{{(isset($committee))? route("committees.send.nomination",compact("committee")):''}}';
+            if (url=='') return;
+            Swal.fire({
+                title: 'هل تريد إرسال الترشيحات الى سكرتير المستشار؟',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#337ab7',
+                cancelButtonColor: '#ed6b75',
+                confirmButtonText: 'موافق',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (result) {
+                            if (result == 'done') {
+                                //console.log(result);
+                                Swal.fire({
+                                    title: 'تم ارسال الترشيح بنجاح',
+                                    type: 'info',
+                                    confirmButtonText: 'حسنا'
+                                })
+                            }
+
+                        },
+                        error: function (data) {
+                            var errors = data.responseJSON;
+                            console.log(data);
+                            Swal.fire({
+                                title: 'لم يتم ارسال الترشيح',
+                                type: 'error',
+                                confirmButtonText: 'حسنا'
+                            })
+                        }
+
+
+                    });
+                }
+            })
+
+
+        });
+
+
+
     });
+
 </script>
+

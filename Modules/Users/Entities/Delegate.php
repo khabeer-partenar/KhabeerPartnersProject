@@ -6,12 +6,23 @@ namespace Modules\Users\Entities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\CommitteeDelegate;
+
+use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Entities\Group;
+use Modules\Core\Traits\Log;
+use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
+use DB;
+use Modules\Users\Events\DelegateCreatedEvent;
+use Modules\Users\Events\DelegateDeletedEvent;
+
 
 class Delegate extends User
 {
+    use SharedModel, Log, SoftDeletes;
     const TYPE = 'delegate';
     const JOB = 'delegate';
 
@@ -28,6 +39,100 @@ class Delegate extends User
         });
     }
 
+    public function addDelegatesToCommittee(Request $request)
+    {
+        $committee = Committee::where('id', $request->committee_id)->first();
+        $committee->delegates()->attach($request->delegates_ids, array('nominated_department_id' => $request->department_id));
+
+        $committee = Committee::where('id', $request->committee_id)->with('nominationDepartments')->first();
+        $department = $committee->nominationDepartments->find($request->department_id);
+        $department->pivot->has_nominations = 1;
+        $department->pivot->save();
+        $this->sendNotificationToNominatedDelegates($request->delegates_ids, $committee);
+
+
+    }
+
+    public function sendNotificationToNominatedDelegates($delegates, $committee)
+    {
+        foreach ($delegates as $delegate_id) {
+            $delegate = Delegate::find($delegate_id);
+            event(new DelegateCreatedEvent($delegate, $committee));
+        }
+
+    }
+
+    public function removeDelegateFromCommittee(Delegate $delegate, $committee_id, $department_id, $reason)
+    {
+        CommitteeDelegate::where('user_id',$delegate->id)
+            ->where('nominated_department_id',$department_id)
+            ->where ('committee_id',$committee_id)->delete();
+
+        $committee = Committee::find($committee_id)->with('delegates')->first();
+        $delegatesCount = CommitteeDelegate::where('committee_id', $committee_id)
+            ->where('nominated_department_id', $department_id)->get()->count();
+        if ($delegatesCount == 0) {
+            $committee = Committee::where('id', $committee_id)->with('nominationDepartments')->first();
+            $department = $committee->nominationDepartments->find($department_id);
+            $department->pivot->has_nominations = 0;
+            $department->pivot->save();
+        }
+
+        event(new DelegateDeletedEvent($delegate, $committee, $reason));
+    }
+
+    public function addDelegateToCommittee(Request $request, int $delegate_id)
+    {
+        $committee = Committee::findOrFail($request->committee_id)->with('delegates')->first();;
+        $committee->delegates()->attach($delegate_id, array('nominated_department_id' => $request->parent_department_id));
+
+        $committee1 = Committee::findOrFail($request->committee_id)->with('nominationDepartments')->first();
+        $department = $committee1->nominationDepartments->find($request->parent_department_id);
+
+        $department->pivot->has_nominations = 1;
+        $department->pivot->save();
+
+        $delegate = Delegate::find($delegate_id);
+        event(new DelegateCreatedEvent($delegate, $committee));
+
+    }
+
+    public function scopeNotInCommittee($query, $department_id, $committee_id)
+    {
+        return $query->with('committees')->wherePivot('nominated_department_id',$department_id);
+    }
+
+    public static function getDepartmentDelegatesNotInCommittee($department_id, $committee_id)
+    {
+        $department = Department::find($department_id);
+        if ($department->is_reference) {
+            $delegatesQuery = Delegate::with('department')->where('parent_department_id', $department_id)
+                ->orWhere('direct_department_id', $department_id)
+                ->whereDoesntHave('committees')
+                ->get();
+
+        } else {
+
+            $user_ids = CommitteeDelegate::pluck('user_id')->toArray();
+            $department_ids = CommitteeDelegate::pluck('nominated_department_id');
+
+            $referenceDepartment = Department::with('referenceDepartment')->where('id', $department_id)
+                ->first()->referenceDepartment;
+            $refAndchildrenDepartments = $referenceDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
+            array_push($refAndchildrenDepartments,$referenceDepartment->id);
+            $delegatesQuery = Delegate::with(['department' => function ($query) {
+                $query->with('referenceDepartment');
+            }])
+                ->WhereIn('parent_department_id', $refAndchildrenDepartments)
+                ->whereDoesntHave('committees')
+                ->distinct()
+                ->get();
+        }
+        $depart_id = collect();
+        $depart_id->put('department_id', $department_id);
+        return [$delegatesQuery, $depart_id];
+    }
+
     /**
      * Functions
      *
@@ -41,11 +146,13 @@ class Delegate extends User
             array_merge(
                 $request->only(
                     'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
-                    'main_department_id', 'parent_department_id', 'department_reference_id', 'job_role_id'
+                    'specialty','main_department_id', 'parent_department_id', 'department_reference_id', 'job_role_id'
                 ), ['user_type' => self::TYPE]
             )
         );
         $delegate->groups()->attach($delegate->job_role_id);
+        $committee = Committee::find($request->committee_id);
+
         return $delegate;
     }
 
@@ -54,7 +161,7 @@ class Delegate extends User
     {
         $this->update(
             $request->only(
-                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'specialty', 'title',
                 'main_department_id', 'parent_department_id', 'job_role_id', 'department_reference_id'
             )
         );
@@ -78,7 +185,7 @@ class Delegate extends User
             })->pluck('id');
         }
         if ($request->has('name')) {
-            $query->where('name', 'LIKE', '%'.$request->name.'%');
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
         }
         if ($request->has('main_department_id') && $request->main_department_id != 0) {
             $query->where('main_department_id', $request->main_department_id);
@@ -99,11 +206,18 @@ class Delegate extends User
      */
     public function committees()
     {
-        return $this->belongsToMany(Committee::class, 'committee_user', 'user_id', 'committee_id');
+        return $this->belongsToMany(Committee::class, 'committee_delegate', 'user_id', 'committee_id')
+            ->withPivot('user_id', 'committee_id', 'nominated_department_id');
+    }
+
+    public function delegateCommittees()
+    {
+        return $this->hasMany(CommitteeDelegate::class,'user_id','id');
     }
 
     public function department()
     {
         return $this->belongsTo(Department::class, 'parent_department_id');
     }
+
 }

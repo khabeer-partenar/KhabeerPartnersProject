@@ -12,7 +12,7 @@
 
         {{--Title--}}
         <title>{{ __('messages.title') }} @yield('title')</title>
-        
+
         {{--Common App Styles--}}
         @include('layouts.dashboard.css')
 
@@ -22,10 +22,10 @@
     </head>
 
     <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-        
+
         {{--Page--}}
         @include('layouts.dashboard.main_wrapper')
-        
+
         @include('layouts.dashboard.js')
     </body>
 

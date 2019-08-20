@@ -11,6 +11,8 @@
 |
 */
 
+
+
 Route::group(['middleware' => 'guest'], function()
 {
     Route::get('/login', 'AuthController@showLoginForm')->name('showLoginForm');
@@ -29,6 +31,16 @@ Route::group(['middleware' => 'auth'], function()
         Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');
         Route::put('/coordinators/{coordinator}/update-by-co', 'CoordinatorController@updateByCoordinator')->name('coordinators.update_by_co')->middleware('coordinator.can');
         Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');
+
+        // Delegate
+
+        Route::get('/delegates/deleteUser/{delegate_id}/{committee_id}/{department_id}/{reason?}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
+        Route::resource('/delegates','DelegateController');
+
+        //Route::get('/delegates/deleteUser/{delegate_id}/{committee_id/{department_id}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
+
+        Route::post('/delegates/add_delegate','DelegateController@addDelegatesToCommittee')->name('delegates.add_delegates');
+        Route::get('/delegates/DepartmentDelegatesNotInCommittee/{department_id}/{committee_id}','DelegateController@getDepartmentDelegatesNotInCommittee');
 
         // Assign Committe Controller
         Route::get('/employees/assign-committees/search/{groupID}/{columnType}', 'AssignCommitteController@search')->name('employees.assign_committees.search');

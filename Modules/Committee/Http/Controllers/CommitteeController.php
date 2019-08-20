@@ -2,22 +2,28 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Crypt;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Committee\Entities\CommitteeDocument;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
+use Modules\Committee\Events\NominationDoneEvent;
 use Modules\Committee\Http\Requests\SaveCommitteeRequest;
 use Modules\Core\Entities\Group;
 use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Coordinator;
+use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
-
+use Illuminate\Support\Carbon;
 class CommitteeController extends Controller
 {
     use SessionFlash, Log;
@@ -29,9 +35,9 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
+        $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request)->paginate(10);
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
-
             $dataTable = Datatables::of($committeesQuery)
                 ->addColumn('id_with_date', function ($committee) {
                     $data = [__('committee::committees.committee number') . $committee->treatment_number, $committee->created_at->format('d-m-Y')];
@@ -59,10 +65,10 @@ class CommitteeController extends Controller
                 });
 
             if (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-                $dataTable ->addColumn('advisor_status', function ($committee) {
+                $dataTable->addColumn('advisor_status', function ($committee) {
                     return $committee->advisor_id == auth()->id() ?
                         __('committee::committees.committee advisor')
-                        :__('committee::committees.committee participant');
+                        : __('committee::committees.committee participant');
                 });
             }
 
@@ -72,7 +78,7 @@ class CommitteeController extends Controller
         }
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
-        return view('committee::committees.index', compact('advisors', 'status'));
+        return view('committee::committees.index', compact('committeesQuery','advisors', 'status'));
     }
 
     /**
@@ -115,10 +121,24 @@ class CommitteeController extends Controller
      * @return Response
      * @internal param int $id
      */
+    public function getDelegatesWithDetails($committee_id)
+    {
+        $commitee_id = $committee_id;
+        $committee = Committee::find($commitee_id);
+        return $committee->getDelegatesWithDetails();
+    }
+
+    public function getNominationDepartmentsWithRef(Committee $committee)
+    {
+        return $committee->getNominationDepartmentsWithRef();
+    }
+
     public function show(Committee $committee)
     {
         $delegates = $committee->getDelegatesWithDetails();
-        return view('committee::committees.show', compact('committee', 'delegates'));
+        $mainDepartments = Department::getDepartments();
+        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+        return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
     }
 
     /**
@@ -137,7 +157,7 @@ class CommitteeController extends Controller
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         return view('committee::committees.edit', compact(
-            'committee','treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
+            'committee', 'treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
             'presidents', 'studyCommission', 'departmentsWithRef', 'advisors'
         ));
     }
@@ -168,5 +188,12 @@ class CommitteeController extends Controller
         $committee->log('delete_committee');
         $committee->delete();
         return response()->json(['msg' => __('committee::committees.deleted')]);
+    }
+
+    public function sendNomination(Committee $committee)
+    {
+        $committee->log('send nomination');
+        event(new NominationDoneEvent($committee));
+        return 'done';
     }
 }

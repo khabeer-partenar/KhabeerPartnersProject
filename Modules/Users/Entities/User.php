@@ -12,7 +12,7 @@ use Modules\Core\Entities\Group;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Core\Traits\SharedModel;
 use Modules\Core\Traits\Log;
-use Modules\Users\Notifications\NotifyNewUserViaMail;
+use Modules\Users\Notifications\NotifyNewUser;
 
 class User extends Authenticatable
 {
@@ -27,7 +27,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id', 'department_reference_id',
-        'job_title', 'title', 'main_department_id', 'parent_department_id', 'user_type'
+        'job_title','specialty', 'title', 'main_department_id', 'parent_department_id', 'user_type'
     ];
 
     /**
@@ -62,8 +62,8 @@ class User extends Authenticatable
         static::created(function ($userData) {
 
             // Send notification mail after 5 minutes when user created
-            $when = now()->addMinutes(5);
-//            $userData->notify((new NotifyNewUserViaMail($userData))->delay($when));
+            $when = now()->addMinutes(1);
+            $userData->notify((new NotifyNewUser($userData))->delay($when));
 
         });
     }

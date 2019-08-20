@@ -174,6 +174,46 @@ class CoreUsersAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        // delegate controller
+        $manageDelegatesID = App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@index', 'name' => 'إدارة المندوبين',
+            'icon' => 'fa fa-users','sort' => 3, 'parent_id' => $userAppId, 'frontend_path' => 'users/delegates', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+        
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@addDelegatesToCommittee', 'name' => 'ترشيح مندوب جديد',
+            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $manageDelegatesID, 'frontend_path' => '/delegates/add_delegate', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@create', 'name' => 'اضافة مندوب جديد',
+            'icon' => 'fa fa-users', 'sort' => 1, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/create', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@store', 'name' => 'حفظ مندوب جديد',
+            'icon' => 'fa fa-users','sort' => 2, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@destroy', 'name' => 'حذف مندوب',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@removeFromCommitte', 'name' => 'ازالة مندوب من اللجنة',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/deleteUser/{delegate_id}/{committee_id/{department_id}', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@getDepartmentDelegatesNotInCommittee', 'name' => 'عرض المندوبين',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/DepartmentDelegatesNotInCommittee', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
     }
 
 }

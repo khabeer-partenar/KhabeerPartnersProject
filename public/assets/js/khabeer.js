@@ -32,6 +32,7 @@ $(document).ready(function() {
                     },
 
                     error: function (request, status, error) {
+                        console.log(error);
                         Swal.fire({
                             title: 'حدث خطأ',
                             text: request.responseJSON.msg,
@@ -45,6 +46,10 @@ $(document).ready(function() {
             }
         })
     });
+
+    // Delete row in dataTable using Ajax
+
+
 
 
     // apply select2
@@ -79,11 +84,8 @@ $(document).ready(function() {
         },
         minimumInputLength: 3,
     });
-
-
     // disable all form fields
     $('#diable-form-fields :input').prop('disabled', true);
-
     // load departments in other select
     $('.load-departments').change(function () {
         let path = $(this).attr('data-url') + '?parentId=' + $(this).val();

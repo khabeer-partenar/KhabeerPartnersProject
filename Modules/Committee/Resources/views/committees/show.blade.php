@@ -10,13 +10,17 @@
                 <i class="fa fa-eye"></i>
                 <span class="caption-subject sbold">{{ __('committee::committees.information') }}</span>
             </div>
-            
-            <div class="actions">
+            <div class="actions" style="margin-right: 10px">
                 @if(auth()->user()->hasPermissionWithAccess('edit'))
                     <a href="{{ route('committees.edit', $committee) }}" class="btn btn-sm btn-warning">
                         <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
                     </a>
                 @endif
+            </div>
+            <div class="actions">
+                    <a onclick="window.print();" class="btn btn-sm btn-primary">
+                        <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
+                    </a>
             </div>
         
         </div>
@@ -145,10 +149,16 @@
                 </tbody>
             </table>
             @include('committee::delegates.nomination_departments',compact('committee'))
+            {{--@include('users::delegates.index')--}}
             @include('committee::delegates.committee_delegates',compact('committee'))
 
 
         </div>
     </div>
 
+@endsection
+
+@section('scripts_2')
+    @include('committee::committees.scripts')
+    @include('users::delegates.scripts')
 @endsection

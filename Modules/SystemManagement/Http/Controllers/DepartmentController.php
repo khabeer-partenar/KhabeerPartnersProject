@@ -36,6 +36,7 @@ class DepartmentController extends UserBaseController
     public function loadDepartmentsByParentId(Request $request)
     {
         $departments = Department::getDepartmentsWithRef($request->get('parentId'));
+        //dd($departments);
         return response()->json($departments);
     }
     
@@ -201,7 +202,7 @@ class DepartmentController extends UserBaseController
                     return @$departmentData->parent->name;
                 })
                 ->addColumn('reference_name', function ($departmentData) {
-                    return (!$departmentData->is_reference ? @$departmentData->referenceDepartment->name : '---');
+                    return (!$departmentData->is_reference && $departmentData->reference_id != 0 ? @$departmentData->referenceDepartment->name : '---');
                 })
                 ->addColumn('action', function ($departmentData) {
                     return view('systemmanagement::departmentsManagement.actions', compact('departmentData'));

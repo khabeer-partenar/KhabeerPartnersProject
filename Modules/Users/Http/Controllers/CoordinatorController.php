@@ -50,7 +50,6 @@ class CoordinatorController extends UserBaseController
         if ($request->wantsJson() || $request->ajax()) {
             $coordinatorsQuery = Coordinator::with('mainDepartment', 'parentDepartment', 'directDepartment')
                 ->search($request);
-
             return Datatables::of($coordinatorsQuery)
                 ->addColumn('department_info', function ($coordinator) {
                     $data = [
@@ -90,6 +89,7 @@ class CoordinatorController extends UserBaseController
      */
     public function store(SaveCoordinatorRequest $request)
     {
+       // return $request;
         $coordinator = Coordinator::createFromRequest($request);
         $coordinator->log('create_coordinator');
         self::sessionSuccess('users::coordinators.created');

@@ -55,7 +55,7 @@ class CommitteeCreated extends Notification implements ShouldQueue
      * @return array
      */
     public function toArray($notifiable)
-    {
+        {
         return [
             'committee' => $this->committee,
             'notified_user' => $notifiable
