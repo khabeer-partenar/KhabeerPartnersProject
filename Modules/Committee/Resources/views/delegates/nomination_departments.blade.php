@@ -1,3 +1,5 @@
+@if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB
+|| auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB)
     <table class="table table-striped table-responsive-md">
         <thead>
         <label class="underLine">{{ __('committee::committees.nomination_departments') }}
@@ -41,6 +43,7 @@
     </table>
     @include('users::delegates.index',compact('committee'))
     @include('users::delegates.create',compact('committee'))
+@endif
 
 
 

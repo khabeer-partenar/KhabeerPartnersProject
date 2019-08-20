@@ -53,6 +53,8 @@
                 confirmButtonText: 'حذف',
                 cancelButtonText: 'إلغاء',
                 preConfirm: (result) => {
+                    Swal.fire('من فضلك انتظر')
+                    Swal.showLoading()
                     if (result) {
                         // alert(result);
                         path += '/' + result;
@@ -63,9 +65,11 @@
                                 $(btn).parent().parent().remove();
                                 getNominationDepartments();
                                 getDelegates();
+                                Swal.close();
                             },
 
                             error: function (request, status, error) {
+                                Swal.close();
                                 console.log(error);
                                 Swal.fire({
                                     title: 'حدث خطأ',
@@ -93,6 +97,10 @@
         });
         $(document).on('submit', 'form#delegate-form', function (event) {
             event.preventDefault();
+            $('#nominationsListModal').modal('hide');
+            Swal.zIndex=999999999999;
+            Swal.fire('من فضلك انتظر')
+            Swal.showLoading()
 
             var form = $(this);
             var formData = new FormData($(this)[0]);
@@ -106,14 +114,25 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    $('#nominationsListModal').modal('hide');
+
                     getNominationDepartments();
                     getDelegates();
+                    Swal.close();
                 },
                 error: function (request) {
                    // console.log(request);
                     let errors = request.responseJSON;
                     console.log(errors);
+                    Swal.close();
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        text: request.responseJSON.msg,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#D3D3D3',
+                        confirmButtonText: 'حسنا',
+                    });
+                    $('#nominationsListModal').modal('show');
 
 
                 }
@@ -121,12 +140,12 @@
             //return false;
         });
 
-        $('#addDelegateModal').on('show.bs.modal', function () {
+        $('#addDelegateModal').on('hidden.bs.modal', function () {
             $('.has-error').removeClass('has-error');
             $('.span-error').text('');
-            $('#main_department_id').select2("val", "0");
-            $('#parent_department_id').select2("val", "0");
-            $('#direct_department_id').select2("val", "0");
+            //$('#main_department_id').select2("val", "0");
+            //$('#parent_department_id').select2("val", "0");
+            //$('#direct_department_id').select2("val", "0");
 
             $(this)
                 .find("input,textarea")
@@ -140,7 +159,11 @@
         $(document).on('submit', 'form#delegate-form-create', function (event) {
             event.preventDefault();
 
+
             $("#job_role_id").prop('disabled', false);
+            $("#parent_department_id").prop('disabled', false);
+            $("#main_department_id").prop('disabled', false);
+
             var form = $(this);
             var formData = new FormData($(this)[0]);
            // console.log(formData);
@@ -160,12 +183,29 @@
 
                     console.log(data);
                     $("#job_role_id").prop('disabled', true);
+
                     getNominationDepartments();
                     getDelegates();
+                    Swal.fire({
+                        title: 'تمت الاضافة بنجاح',
+                        type: 'info',
+                        confirmButtonText: 'حسنا'
+                    })
 
                 },
                 error: function (request) {
-                    //console.log(request);
+                    console.log(request);
+                    if (request.status==401) {
+                        $('#addDelegateModal').modal('hide');
+                        Swal.fire({
+                            title: 'لا تملك صلاحية اضافة مندوب من فضلك تواصل مع مدير النظام',
+                            type: 'error',
+                            confirmButtonText: 'موافق'
+                        })
+
+                        return;
+                    }
+
                     $('.has-error').removeClass('has-error');
                     $('.span-error').text('');
                     let errors = request.responseJSON['errors'];
@@ -179,6 +219,19 @@
                         console.log(errors[keys[index]]);*/
                     }
                     $("#job_role_id").prop('disabled', true);
+                    $("#parent_department_id").prop('disabled', true);
+                    $("#main_department_id").prop('disabled', true);
+
+
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        text: request.responseJSON.msg,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#D3D3D3',
+                        confirmButtonText: 'حسنا',
+                    });
+
 
                 }
             });
@@ -198,6 +251,7 @@
                 contentType: false,
                 processData: false,
                 success: function (result) {
+                   // console.log(result.status);
                     console.log(result);
                     if (result[0].length > 0) {
                         //console.log(result);
@@ -240,6 +294,22 @@
                 error: function (data) {
                     var errors = data.responseJSON;
                     console.log(data);
+                    if (data.status==401) {
+                        Swal.fire({
+                            title: 'لا تملك صلاحية الترشيح من فضلك تواصل مع مدير النظام',
+                            type: 'error',
+                            confirmButtonText: 'موافق'
+                        })
+                        return;
+                    }
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        text: request.responseJSON.msg,
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#D3D3D3',
+                        confirmButtonText: 'حسنا',
+                    });
                     // let keys = Object.keys(errors);
                     //console.log(errors);
                     /*
@@ -321,10 +391,12 @@
                  contentType: false,
                  processData: false,
                  success: function (result) {
+                     $('#delegatesTable').html('');
+                     var html = "";
                      if (result.length > 0) {
                          //console.log(result);
-                         $('#delegatesTable').html('');
-                         var html = "";
+
+
                          for (var i = 0; i < result.length; i++) {
                              html += '<tr>';
                              html += '<td>' + (i + 1) + '</td>';
@@ -354,6 +426,16 @@
                              html +='</td>';
                              html += '</tr>';
                          }
+                         html +='<tr>';
+                         html +='<td colspan="6" style="font-weight:bold">';
+                         html +='   اجمالى عددالمرشحين :  ' + result.length;
+                         html +='</td>';
+                         html +='</tr>';
+                         $('#delegatesTable').html(html);
+
+                     }
+                     else
+                     {
                          html +='<tr>';
                          html +='<td colspan="6" style="font-weight:bold">';
                          html +='   اجمالى عددالمرشحين :  ' + result.length;

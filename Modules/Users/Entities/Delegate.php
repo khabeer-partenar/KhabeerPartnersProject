@@ -107,7 +107,6 @@ class Delegate extends User
         $department = Department::find($department_id);
         if ($department->is_reference) {
             $delegatesQuery = Delegate::with('department')->where('parent_department_id', $department_id)
-                ->orWhere('direct_department_id', $department_id)
                 ->whereDoesntHave('committees')
                 ->get();
 
@@ -151,7 +150,6 @@ class Delegate extends User
             )
         );
         $delegate->groups()->attach($delegate->job_role_id);
-        $committee = Committee::find($request->committee_id);
 
         return $delegate;
     }
