@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use Modules\Committee\Entities\Committee;
 use Modules\Core\Entities\Group;
+use Modules\SystemManagement\Entities\Department;
 
 class Employee extends User
 {
@@ -42,7 +43,14 @@ class Employee extends User
      */
     public static function createNewEmployee($request)
     {
-        $userData = self::create($request->only('direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
+        $departmentData = Department::find($request->direct_department_id);
+        
+        $request->merge([
+            'main_department_id' => $departmentData->parent->parent_id,
+            'parent_department_id' => $departmentData->parent_id,
+        ]);
+
+        $userData = self::create($request->only('main_department_id', 'parent_department_id', 'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_role_id'));
         $userData->groups()->attach($request->job_role_id);
         return $userData;
     }
