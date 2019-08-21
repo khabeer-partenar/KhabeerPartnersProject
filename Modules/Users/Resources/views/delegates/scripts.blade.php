@@ -36,7 +36,10 @@
                 $(this).submit();
             }, 1000);
         });
-        $(document).on('click', '.delete-row-delegate', function(){
+        $(document).on('click', '.delete-row-delegate', function () {
+            Swal.fire('من فضلك انتظر...')
+            Swal.showLoading()
+
             let btn = $(this);
             let path = $(this).attr('data-href');
 
@@ -53,15 +56,14 @@
                 confirmButtonText: 'حذف',
                 cancelButtonText: 'إلغاء',
                 preConfirm: (result) => {
-                    Swal.fire('من فضلك انتظر')
-                    Swal.showLoading()
+
                     if (result) {
                         // alert(result);
                         path += '/' + result;
                         $.ajax({
                             type: 'GET',
                             url: path,
-                            success: function(response){
+                            success: function (response) {
                                 $(btn).parent().parent().remove();
                                 getNominationDepartments();
                                 getDelegates();
@@ -81,8 +83,7 @@
                                 });
                             }
                         });
-                    }
-                    else {
+                    } else {
                         //alert('error');
                         Swal.showValidationMessage(
                             `من فضلك ادخل سبب الحذف`
@@ -95,10 +96,10 @@
 
             })
         });
-        $(document).on('submit', 'form#delegate-form', function (event) {
+        $(document).on('submit', 'form#from-add-delegates-to-committees', function (event) {
             event.preventDefault();
             $('#nominationsListModal').modal('hide');
-            Swal.zIndex=999999999999;
+            Swal.zIndex = 999999999999;
             Swal.fire('من فضلك انتظر')
             Swal.showLoading()
 
@@ -120,7 +121,7 @@
                     Swal.close();
                 },
                 error: function (request) {
-                   // console.log(request);
+                    // console.log(request);
                     let errors = request.responseJSON;
                     console.log(errors);
                     Swal.close();
@@ -140,7 +141,7 @@
             //return false;
         });
 
-        $('#addDelegateModal').on('hidden.bs.modal', function () {
+       /* $('#addDelegateModal').on('hidden.bs.modal', function () {
             $('.has-error').removeClass('has-error');
             $('.span-error').text('');
             //$('#main_department_id').select2("val", "0");
@@ -155,18 +156,21 @@
                 .prop("checked", "")
                 .end();
 
-        })
+        })*/
         $(document).on('submit', 'form#delegate-form-create', function (event) {
             event.preventDefault();
-
+            $('#addDelegateModal').css('opacity','0.0');
+            $('#loadingSpinner').css('display','block');
 
             $("#job_role_id").prop('disabled', false);
-            $("#parent_department_id").prop('disabled', false);
-            $("#main_department_id").prop('disabled', false);
+            @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
+                $("#parent_department_id").prop('disabled', false);
+                $("#main_department_id").prop('disabled', false);
+            @endif
 
             var form = $(this);
             var formData = new FormData($(this)[0]);
-           // console.log(formData);
+            // console.log(formData);
             var url = form.attr("action");
 
             $.ajax({
@@ -186,16 +190,21 @@
 
                     getNominationDepartments();
                     getDelegates();
+                    $('#addDelegateModal').css('opacity','1');
+                    $('#loadingSpinner').css('display','none');
                     Swal.fire({
                         title: 'تمت الاضافة بنجاح',
                         type: 'info',
                         confirmButtonText: 'حسنا'
                     })
+                    return;
 
                 },
                 error: function (request) {
-                    console.log(request);
-                    if (request.status==401) {
+
+
+                    //console.log(request);
+                    if (request.status == 401) {
                         $('#addDelegateModal').modal('hide');
                         Swal.fire({
                             title: 'لا تملك صلاحية اضافة مندوب من فضلك تواصل مع مدير النظام',
@@ -205,7 +214,6 @@
 
                         return;
                     }
-
                     $('.has-error').removeClass('has-error');
                     $('.span-error').text('');
                     let errors = request.responseJSON['errors'];
@@ -219,27 +227,20 @@
                         console.log(errors[keys[index]]);*/
                     }
                     $("#job_role_id").prop('disabled', true);
-                    $("#parent_department_id").prop('disabled', true);
-                    $("#main_department_id").prop('disabled', true);
-
-
-                    Swal.fire({
-                        title: 'حدث خطأ',
-                        text: request.responseJSON.msg,
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonColor: '#D3D3D3',
-                        confirmButtonText: 'حسنا',
-                    });
-
-
+                    @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
+                        $("#parent_department_id").prop('disabled', true);
+                        $("#main_department_id").prop('disabled', true);
+                    @endif
+                    $('#addDelegateModal').css('opacity','1');
+                    $('#loadingSpinner').css('display','none');
                 }
             });
+
             //return false;
         });
         $(document).on('click', '.nominateBtn', function () {
             var department_id = this.value;
-            var committe_id= '{{$committee->id}}';
+            var committe_id = '{{$committee->id}}';
             //console.log("id : " + department_id);
             var url = '{{url('/users/delegates/DepartmentDelegatesNotInCommittee')}}' + '/' + department_id + '/' + committe_id;
 
@@ -251,7 +252,7 @@
                 contentType: false,
                 processData: false,
                 success: function (result) {
-                   // console.log(result.status);
+                    // console.log(result.status);
                     console.log(result);
                     if (result[0].length > 0) {
                         //console.log(result);
@@ -263,27 +264,25 @@
                             html += '<td>' + (i + 1) + '</td>';
 
                             var department = result[0][i]['department']['name'];
-                            if (result[0][i]['department']['referenceDepartment'])
-                            {
-                                department +='/' + result[i]['department']['referenceDepartment']['name'];
+                            if (result[0][i]['department']['referenceDepartment']) {
+                                department += '/' + result[i]['department']['referenceDepartment']['name'];
                             }
                             var specialty = result[0][i]['specialty'];
-                            if (specialty==null) specialty='';
-                            html +='<td>' + department + '</td>';
-                            html +='<td>' + result[0][i]['name'] + '</td>';
-                            html +='<td>' + result[0][i]['job_title'] + '</td>';
-                            html +='<td>' + result[0][i]['national_id'] + '</td>';
-                            html +='<td>' + result[0][i]['phone_number'] + '</td>';
-                            html +='<td>' + result[0][i]['email'] + '</td>';
-                            html +='<td>' + specialty + '</td>';
-                            html +='<td><input type="checkbox" name="delegates_ids[]" value="' + result[0][i]['id'] +'"/></td>';
+                            if (specialty == null) specialty = '';
+                            html += '<td>' + department + '</td>';
+                            html += '<td>' + result[0][i]['name'] + '</td>';
+                            html += '<td>' + result[0][i]['job_title'] + '</td>';
+                            html += '<td>' + result[0][i]['national_id'] + '</td>';
+                            html += '<td>' + result[0][i]['phone_number'] + '</td>';
+                            html += '<td>' + result[0][i]['email'] + '</td>';
+                            html += '<td>' + specialty + '</td>';
+                            html += '<td><input type="checkbox" name="delegates_ids[]" value="' + result[0][i]['id'] + '"/></td>';
                             html += '</tr>';
                         }
                         $('#department_id').val(result[1]['department_id']);
                         $('#table_delegates').html(html);
                         $("#nominationsListModal").modal();
-                    }
-                    else {
+                    } else {
                         Swal.fire({
                             title: 'لا يوجد مندوبين لهذه الجهة من فضلك قم باضافة مندوب جديد',
                             type: 'error',
@@ -294,7 +293,7 @@
                 error: function (data) {
                     var errors = data.responseJSON;
                     console.log(data);
-                    if (data.status==401) {
+                    if (data.status == 401) {
                         Swal.fire({
                             title: 'لا تملك صلاحية الترشيح من فضلك تواصل مع مدير النظام',
                             type: 'error',
@@ -324,10 +323,11 @@
             });
 
         });
+
         function getNominationDepartments() {
             var committee_id = '{{$committee->id}}';
             //console.log('committee_id : ' + committee_id);
-            var url ='{{route('committee.get.NominationDepartments',':id')}}';
+            var url = '{{route('committee.get.NominationDepartments',':id')}}';
             url = url.replace(':id', committee_id);
             $.ajax({
                 type: 'GET',
@@ -337,7 +337,7 @@
                 processData: false,
                 success: function (result) {
                     //console.log(result);
-                   if (result.length > 0) {
+                    if (result.length > 0) {
                         $('#nominationTable').html('');
                         var html = "";
                         for (var i = 0; i < result.length; i++) {
@@ -345,23 +345,21 @@
                             html += '<td>' + (i + 1) + '</td>';
 
                             var department = result[i]['name'];
-                            if (result[i]['reference_department'])
-                            {
-                                department +='/' + result[i]['reference_department']['name'];
+                            if (result[i]['reference_department']) {
+                                department += '/' + result[i]['reference_department']['name'];
                             }
-                            html +='<td>' + department + '</td>';
-                            nomination_criteria="لا يوجد";
-                            if ( result[i]['pivot']['nomination_criteria']!=null)
-                            {
-                                nomination_criteria =result[i]['pivot']['nomination_criteria'];
+                            html += '<td>' + department + '</td>';
+                            nomination_criteria = "لا يوجد";
+                            if (result[i]['pivot']['nomination_criteria'] != null) {
+                                nomination_criteria = result[i]['pivot']['nomination_criteria'];
                             }
 
-                            html +='<td>' + nomination_criteria + '</td>';
-                            html +='<td>' ;
-                            html +=  (result[i]['pivot']['has_nominations']==1)?'{{__('committee::committees.nomination_done')}}':'{{__('committee::committees.nomination_not_done') }}';
+                            html += '<td>' + nomination_criteria + '</td>';
+                            html += '<td>';
+                            html += (result[i]['pivot']['has_nominations'] == 1) ? '{{__('committee::committees.nomination_done')}}' : '{{__('committee::committees.nomination_not_done') }}';
                             html += '</td>';
                             html += '<td>';
-                            html += '<button  data-toggle="modal"  value="' + result[i]['id'] +'" class="btn btn-primary nominateBtn">{{__('committee::committees.nominate')}}</button>';
+                            html += '<button  data-toggle="modal"  value="' + result[i]['id'] + '" class="btn btn-primary nominateBtn">{{__('committee::committees.nominate')}}</button>';
                             html += '</td>';
                             html += '</tr>';
                         }
@@ -379,82 +377,80 @@
 
             });
         }
-         function getDelegates() {
-             var committee_id = '{{$committee->id}}';
-             //console.log('committee_id : ' + committee_id);
-             var url ='{{route('committees.get.delegate',':id')}}';
-             url = url.replace(':id', committee_id);
-             $.ajax({
-                 type: 'GET',
-                 url: url,
-                 cache: false,
-                 contentType: false,
-                 processData: false,
-                 success: function (result) {
-                     $('#delegatesTable').html('');
-                     var html = "";
-                     if (result.length > 0) {
-                         //console.log(result);
+
+        function getDelegates() {
+            var committee_id = '{{$committee->id}}';
+            //console.log('committee_id : ' + committee_id);
+            var url = '{{route('committees.get.delegate',':id')}}';
+            url = url.replace(':id', committee_id);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    $('#delegatesTable').html('');
+                    var html = "";
+                    if (result.length > 0) {
+                        //console.log(result);
 
 
-                         for (var i = 0; i < result.length; i++) {
-                             html += '<tr>';
-                             html += '<td>' + (i + 1) + '</td>';
+                        for (var i = 0; i < result.length; i++) {
+                            html += '<tr>';
+                            html += '<td>' + (i + 1) + '</td>';
 
-                             var department = result[i]['department']['name'];
-                             if (result[i]['department']['reference_department'])
-                             {
-                                 department +='/' + result[i]['department']['reference_department']['name'];
-                             }
+                            var department = result[i]['department']['name'];
+                            if (result[i]['department']['reference_department']) {
+                                department += '/' + result[i]['department']['reference_department']['name'];
+                            }
 
-                             html +='<td>' + department + '</td>';
-                             html +='<td>' + result[i]['name'] + '</td>';
-                             html +='<td>' + result[i]['national_id'] + '</td>';
-                             html +='<td>' + result[i]['phone_number'] + '</td>';
-                             html +='<td>' + result[i]['email'] + '</td>';
+                            html += '<td>' + department + '</td>';
+                            html += '<td>' + result[i]['name'] + '</td>';
+                            html += '<td>' + result[i]['national_id'] + '</td>';
+                            html += '<td>' + result[i]['phone_number'] + '</td>';
+                            html += '<td>' + result[i]['email'] + '</td>';
 
-                             dataHref="{{ route('delegate.remove.from.committee',['delegate_id'=>':delegate_id','committee_id'=>':committee_id','department_id'=>':delegate_department_id']) }}"
-                             dataHref = dataHref.replace(':delegate_id', result[i]['id']);
-                             dataHref = dataHref.replace(':committee_id','{{$committee->id}}');
-                             dataHref = dataHref.replace(':delegate_department_id',result[i]['pivot']['nominated_department_id']);
-                             //dataHref = dataHref.replace(':reason','');
+                            dataHref = "{{ route('delegate.remove.from.committee',['delegate_id'=>':delegate_id','committee_id'=>':committee_id','department_id'=>':delegate_department_id']) }}"
+                            dataHref = dataHref.replace(':delegate_id', result[i]['id']);
+                            dataHref = dataHref.replace(':committee_id', '{{$committee->id}}');
+                            dataHref = dataHref.replace(':delegate_department_id', result[i]['pivot']['nominated_department_id']);
+                            //dataHref = dataHref.replace(':reason','');
 
-                             html += '<td> ' ;
-                             html +='<a data-href="'+ dataHref +'"  class="btn btn-sm btn-danger delete-row-delegate">';
-                             html +='<i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}';
-                             html +='</a>' ;
-                             html +='</td>';
-                             html += '</tr>';
-                         }
-                         html +='<tr>';
-                         html +='<td colspan="6" style="font-weight:bold">';
-                         html +='   اجمالى عددالمرشحين :  ' + result.length;
-                         html +='</td>';
-                         html +='</tr>';
-                         $('#delegatesTable').html(html);
+                            html += '<td> ';
+                            html += '<a data-href="' + dataHref + '"  class="btn btn-sm btn-danger delete-row-delegate">';
+                            html += '<i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}';
+                            html += '</a>';
+                            html += '</td>';
+                            html += '</tr>';
+                        }
+                        html += '<tr>';
+                        html += '<td colspan="6" style="font-weight:bold">';
+                        html += '   اجمالى عددالمرشحين :  ' + result.length;
+                        html += '</td>';
+                        html += '</tr>';
+                        $('#delegatesTable').html(html);
 
-                     }
-                     else
-                     {
-                         html +='<tr>';
-                         html +='<td colspan="6" style="font-weight:bold">';
-                         html +='   اجمالى عددالمرشحين :  ' + result.length;
-                         html +='</td>';
-                         html +='</tr>';
-                         $('#delegatesTable').html(html);
+                    } else {
+                        html += '<tr>';
+                        html += '<td colspan="6" style="font-weight:bold">';
+                        html += '   اجمالى عددالمرشحين :  ' + result.length;
+                        html += '</td>';
+                        html += '</tr>';
+                        $('#delegatesTable').html(html);
 
-                     }
+                    }
 
-                 },
-                 error: function (data) {
-                     var errors = data.responseJSON;
-                     console.log(data);
+                },
+                error: function (data) {
+                    var errors = data.responseJSON;
+                    console.log(data);
 
-                 }
+                }
 
 
-             });
-         }
+            });
+        }
 
     });
 

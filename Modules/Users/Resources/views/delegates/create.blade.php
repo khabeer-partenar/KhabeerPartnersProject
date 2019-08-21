@@ -1,10 +1,12 @@
-
 <!-- Modal -->
-<div  id="addDelegateModal"  class="modal fade" role="dialog">
-    <div class="modal-lg modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
+<div   id="addDelegateModal"  class="modal fade" role="dialog">
+    <div  class="modal-lg modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
 
         <!-- Modal content-->
         <div class="modal-content">
+            <div id="loadingSpinner" style="display:none; position: fixed; z-index: 1031;top: 50%;right: 50%">
+                <span  class="fa fa-spinner fa-spin fa-5x"></span>
+            </div>
             <div style="height: 50px; background-color: #057d54"
                  class="modal-header d-flex text-center justify-content-center">
                 <p style="color: white" class="heading">
