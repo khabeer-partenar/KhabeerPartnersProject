@@ -99,7 +99,6 @@
         $(document).on('submit', 'form#from-add-delegates-to-committees', function (event) {
             event.preventDefault();
             $('#nominationsListModal').modal('hide');
-            Swal.zIndex = 999999999999;
             Swal.fire('من فضلك انتظر')
             Swal.showLoading()
 
@@ -141,7 +140,7 @@
             //return false;
         });
 
-       /* $('#addDelegateModal').on('hidden.bs.modal', function () {
+        $('#addDelegateModal').on('hidden.bs.modal', function () {
             $('.has-error').removeClass('has-error');
             $('.span-error').text('');
             //$('#main_department_id').select2("val", "0");
@@ -156,11 +155,13 @@
                 .prop("checked", "")
                 .end();
 
-        })*/
+        })
         $(document).on('submit', 'form#delegate-form-create', function (event) {
             event.preventDefault();
             $('#addDelegateModal').css('opacity','0.0');
-            $('#loadingSpinner').css('display','block');
+            //$('#loadingSpinner').css('display','block');
+            Swal.fire('من فضلك انتظر')
+            Swal.showLoading()
 
             $("#job_role_id").prop('disabled', false);
             @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
@@ -190,8 +191,10 @@
 
                     getNominationDepartments();
                     getDelegates();
+                    Swal.close();
                     $('#addDelegateModal').css('opacity','1');
-                    $('#loadingSpinner').css('display','none');
+                    //$('#loadingSpinner').css('display','none');
+
                     Swal.fire({
                         title: 'تمت الاضافة بنجاح',
                         type: 'info',
@@ -231,8 +234,9 @@
                         $("#parent_department_id").prop('disabled', true);
                         $("#main_department_id").prop('disabled', true);
                     @endif
+                    Swal.close();
                     $('#addDelegateModal').css('opacity','1');
-                    $('#loadingSpinner').css('display','none');
+                    //$('#loadingSpinner').css('display','none');
                 }
             });
 
@@ -264,8 +268,8 @@
                             html += '<td>' + (i + 1) + '</td>';
 
                             var department = result[0][i]['department']['name'];
-                            if (result[0][i]['department']['referenceDepartment']) {
-                                department += '/' + result[i]['department']['referenceDepartment']['name'];
+                            if (result[0][i]['department']['reference_department']!=null) {
+                                department += '/' + result[0][i]['department']['reference_department']['name'];
                             }
                             var specialty = result[0][i]['specialty'];
                             if (specialty == null) specialty = '';

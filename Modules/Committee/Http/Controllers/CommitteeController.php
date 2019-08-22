@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -24,7 +25,8 @@ use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
-class CommitteeController extends Controller
+
+class CommitteeController extends UserBaseController
 {
     use SessionFlash, Log;
 
