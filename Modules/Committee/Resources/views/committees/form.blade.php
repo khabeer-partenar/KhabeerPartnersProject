@@ -340,7 +340,7 @@
                             $participantIds = old('participant_advisors');
                         }
                     @endphp
-                    @foreach($advisors as $id => $name)
+                    @foreach($allAdvisors as $id => $name)
                         <option value="{{ $id }}"
                                 {{ in_array($id, $participantIds) ? 'selected':'' }}>
                             {{ $name }}

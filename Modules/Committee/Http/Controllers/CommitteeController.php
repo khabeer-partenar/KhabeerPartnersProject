@@ -94,11 +94,12 @@ class CommitteeController extends Controller
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
+        $allAdvisors = Group::advisorUsersFilter()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         $documents = CommitteeDocument::where('user_id', auth()->id())->whereNull('committee_id')->get();
         return view('committee::committees.create', compact(
             'treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
-            'presidents', 'studyCommission', 'departmentsWithRef', 'documents', 'advisors'
+            'presidents', 'studyCommission', 'departmentsWithRef', 'documents', 'advisors', 'allAdvisors'
         ));
     }
 
