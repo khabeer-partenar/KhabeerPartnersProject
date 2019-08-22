@@ -15,7 +15,7 @@
                 <div class="clearfix"></div>
 
             </div>
-            {{ Form::open(['route' => 'delegates.add_delegates', 'method' => 'POST', 'id' => 'delegate-form']) }}
+            {{ Form::open(['route' => 'delegates.add_delegates', 'method' => 'POST', 'id' => 'from-add-delegates-to-committees']) }}
 
             <div class="modal-body" style="height: 400px;overflow-y: auto;">
 

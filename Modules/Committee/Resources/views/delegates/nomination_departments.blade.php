@@ -1,11 +1,16 @@
+@if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users'))
+
     <table class="table table-striped table-responsive-md">
         <thead>
         <label class="underLine">{{ __('committee::committees.nomination_departments') }}
 
         </label>
-        <a style="color:blue; float: left;margin-left: 10%;" data-toggle="modal" data-target="#addDelegateModal">
-            {{ __('committee::committees.nomination_add_delegte') }}
-        </a>
+        @if(auth()->user()->hasPermissionWithAccess('create','DelegateController','Users'))
+
+            <a style="color:blue; float: left;margin-left: 10%;" data-toggle="modal" data-target="#addDelegateModal">
+                {{ __('committee::committees.nomination_add_delegte') }}
+            </a>
+        @endif
         <tr>
             <th style="width: 8%" scope="col"></th>
             <th scope="col">{{ __('committee::committees.nomination_deparment_name') }}</th>
@@ -31,8 +36,10 @@
                         {{ $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done') }}
                     </td>
                     <td>
-                        <button data-toggle="modal" value="{{$department->id}}"
-                                class="btn btn-primary nominateBtn">{{__('committee::committees.nominate')}}</button>
+                        @if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users'))
+                            <button data-toggle="modal" value="{{$department->id}}"
+                                    class="btn btn-primary nominateBtn">{{__('committee::committees.nominate')}}</button>
+                        @endif
                     </td>
                 </tr>
             @endforeach
@@ -41,6 +48,7 @@
     </table>
     @include('users::delegates.index',compact('committee'))
     @include('users::delegates.create',compact('committee'))
+@endif
 
 
 

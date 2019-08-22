@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -24,7 +25,8 @@ use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
-class CommitteeController extends Controller
+
+class CommitteeController extends UserBaseController
 {
     use SessionFlash, Log;
 
@@ -35,7 +37,6 @@ class CommitteeController extends Controller
      */
     public function index(Request $request)
     {
-        $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request)->paginate(10);
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
             $dataTable = Datatables::of($committeesQuery)
@@ -78,7 +79,7 @@ class CommitteeController extends Controller
         }
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
-        return view('committee::committees.index', compact('committeesQuery','advisors', 'status'));
+        return view('committee::committees.index', compact('advisors', 'status'));
     }
 
     /**
