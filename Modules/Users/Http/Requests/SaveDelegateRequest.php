@@ -3,6 +3,7 @@
 namespace Modules\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Input;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\User;
 use App\Rules\NationalIDRule;
@@ -11,6 +12,11 @@ use App\Rules\ValidationPhoneNumberRule;
 use App\Rules\ValidationGovEmailRule;
 use Modules\SystemManagement\Rules\CheckDepartmentReference;
 use Modules\SystemManagement\Rules\CheckDepartmentType;
+use Modules\SystemManagement\Rules\CheckCoordinatorDepartmentType;
+use Modules\SystemManagement\Rules\CheckCoordinatorParentDepartmentType;
+use Modules\SystemManagement\Rules\CheckCoordinatorDirectDepartmentType;
+
+
 use Modules\Users\Rules\CheckInDelegateJobs;
 
 class SaveDelegateRequest extends FormRequest
@@ -23,9 +29,9 @@ class SaveDelegateRequest extends FormRequest
     public function rules()
     {
         return [
-            'main_department_id' => ['required', 'integer', 'exists:' . Department::table() . ',id', new CheckDepartmentType(Department::mainDepartment)],
-            'parent_department_id' => ['required', 'integer', 'exists:' . Department::table() . ',id', new CheckDepartmentType(Department::parentDepartment)],
-            'direct_department_id' => ['nullable', 'integer', new CheckDepartmentType(Department::directDepartment, false)],
+            'main_department_id' => ['required', 'integer',  new CheckCoordinatorDepartmentType],
+            'parent_department_id' => ['required', 'integer', new CheckCoordinatorParentDepartmentType],
+            'direct_department_id' => ['nullable', 'integer', new CheckCoordinatorDirectDepartmentType(request()->parent_department_id)],
             'job_title' => ['required'],
             'national_id' => ['required', new NationalIDRule, 'unique:' . User::table()],
             'name' => ['required', new FilterStringRule, 'string'],

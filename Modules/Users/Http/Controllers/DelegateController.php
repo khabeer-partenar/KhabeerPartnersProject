@@ -11,6 +11,8 @@ use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Delegate;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Http\Requests\SaveDelegateRequest;
+use Modules\Users\Http\Requests\AddDelegatesToCommittee;
+
 use Modules\Users\Http\Requests\SaveCoordinatorRequestByCo;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequestByCo;
@@ -77,7 +79,7 @@ class DelegateController extends UserBaseController
         return response()->json(['msg' => __('users::delegates.deleted')]);
     }
 
-    public function addDelegatesToCommittee(Request $request, Delegate $delegate)
+    public function addDelegatesToCommittee(AddDelegatesToCommittee $request, Delegate $delegate)
     {
         if ($request->has('delegates_ids')) {
             //$delegate->log('add_Delegates_To_Committee');

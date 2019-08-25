@@ -110,6 +110,7 @@ class CommitteeController extends UserBaseController
      */
     public function store(SaveCommitteeRequest $request)
     {
+        dd($request);
         $committee = Committee::createFromRequest($request);
         $committee->log('create_committee');
         self::sessionSuccess('committee::committees.created');
@@ -133,7 +134,6 @@ class CommitteeController extends UserBaseController
     {
         return $committee->getNominationDepartmentsWithRef();
     }
-
     public function show(Committee $committee)
     {
         $delegates = $committee->getDelegatesWithDetails();

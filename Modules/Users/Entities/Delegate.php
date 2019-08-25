@@ -43,7 +43,7 @@ class Delegate extends User
     {
         $committee = Committee::find($committee_id);
         $nominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
-        $committeeNominationDepartments = $committee->delegates()->whereIn('nominated_department_id', $nominationDepartmentsIds)->get();
+        $committeeNominationDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
         if ($nominationDepartmentsIds->count() == $committeeNominationDepartments->count()) {
             $committee->status = Committee::NOMINATIONS_COMPLETED;
             $committee->save();
