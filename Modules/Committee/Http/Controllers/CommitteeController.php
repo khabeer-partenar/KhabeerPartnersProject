@@ -3,7 +3,6 @@
 namespace Modules\Committee\Http\Controllers;
 
 use App\Http\Controllers\UserBaseController;
-use function foo\func;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;

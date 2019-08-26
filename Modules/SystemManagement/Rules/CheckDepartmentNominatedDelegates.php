@@ -33,11 +33,9 @@ protected  $committee_id;
     public function passes($attribute, $value)
     {
         $delegates_ids = Delegate::getDepartmentDelegatesNotInCommitteeIds($this->department_id,$this->committee_id);
-        //dd($value);
         foreach ($value as $val) {
             if (in_array((int)$val, $delegates_ids)==false) return false;
         }
-        //dd(true);
         return true;
     }
 

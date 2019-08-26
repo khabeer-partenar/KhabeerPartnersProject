@@ -82,9 +82,8 @@ class DelegateController extends UserBaseController
     public function addDelegatesToCommittee(AddDelegatesToCommittee $request, Delegate $delegate)
     {
         if ($request->has('delegates_ids')) {
-            //$delegate->log('add_Delegates_To_Committee');
+            $delegate->log('add_Delegates_To_Committee');
             $delegate->addDelegatesToCommittee($request);
-            //dd($request->all());
             return back();
 
         }
