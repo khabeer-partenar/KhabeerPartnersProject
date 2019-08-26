@@ -99,27 +99,9 @@ class DelegateController extends UserBaseController
         $delegate = Delegate::createFromRequest($request);
         $delegate->log('create_delegate');
        $delegate2->addDelegateToCommittee($request, $delegate->id);
-        //self::sessionSuccess('users::delegates.created');
-       // return back();
+
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     * @param Coordinator $coordinator
-     * @return Response
-     * @internal param int $id
-     */
-
-    public function destroy(Delegate $delegate,Committee $committee)
-    {
-       // return $committee;
-
-        $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate);
-
-        return response()->json(['msg' => __('users::delegates.deleted'),'did'=>$delegate->department->id,'committee'=>$committee]);
-    }
     public function removeFromCommitte($delegate_id,$committee_id,$department_id,$reason)
     {
         $delegate = Delegate::find($delegate_id);
@@ -127,5 +109,13 @@ class DelegateController extends UserBaseController
         $delegate->removeDelegateFromCommittee($delegate,$committee_id,$department_id,$reason);
         return response()->json(['msg' => __('users::delegates.deleted')]);
     }
+    /**
+     * Remove the specified resource from storage.
+     * @param Coordinator $coordinator
+     * @return Response
+     * @internal param int $id
+     */
+
+
 
 }
