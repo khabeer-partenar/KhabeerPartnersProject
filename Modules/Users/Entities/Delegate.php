@@ -43,12 +43,11 @@ class Delegate extends User
     {
         $committee = Committee::find($committee_id);
         $nominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
-        $committeeNominationDepartments = $committee->delegates()->whereIn('nominated_department_id', $nominationDepartmentsIds)->get();
+        $committeeNominationDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
         if ($nominationDepartmentsIds->count() == $committeeNominationDepartments->count()) {
             $committee->status = Committee::NOMINATIONS_COMPLETED;
             $committee->save();
-        }
-        else {
+        } else {
             $committee->status = Committee::WAITING_DELEGATES;
             $committee->save();
         }
@@ -119,22 +118,20 @@ class Delegate extends User
         return $query->with('committees')->wherePivot('nominated_department_id', $department_id);
     }
 
-    public static function getDepartmentDelegatesNotInCommittee($department_id, $committee_id)
+
+
+    public static function getDepartmentDelegatesNotInCommitteeIds($department_id, $committee_id)
     {
         $department = Department::find($department_id);
         if ($department->is_reference) {
             $delegatesQuery = Delegate::with('department')
-                ->where('parent_department_id', $department_id)
-                ->whereDoesntHave('committees', function ($query) use ($department_id, $committee_id) {
-                    $query->where("committee_delegate.nominated_department_id", '=', $department_id)
-                        ->where("committee_delegate.committee_id", '=', $committee_id);
-                })
-                ->get();
+                    ->where('parent_department_id', $department_id)
+                    ->whereDoesntHave('committees', function ($query) use ($department_id, $committee_id) {
+                        $query->where("committee_delegate.nominated_department_id", '=', $department_id)
+                            ->where("committee_delegate.committee_id", '=', $committee_id);
+                    })->pluck('id')->toArray();
 
         } else {
-
-            //$user_ids = CommitteeDelegate::pluck('user_id')->toArray();
-            //$department_ids = CommitteeDelegate::pluck('nominated_department_id');
 
             $referenceDepartment = Department::with('referenceDepartment')->where('id', $department_id)
                 ->first()->referenceDepartment;
@@ -148,8 +145,38 @@ class Delegate extends User
                     $query->where("committee_delegate.nominated_department_id", '=', $department_id)
                         ->where("committee_delegate.committee_id", '=', $committee_id);
                 })
-                ->distinct()
-                ->get();
+                ->distinct()->pluck('id')->toArray();
+        }
+
+        return $delegatesQuery;
+    }
+
+    public static function getDepartmentDelegatesNotInCommittee($department_id, $committee_id)
+    {
+        $department = Department::find($department_id);
+        if ($department->is_reference) {
+            $delegatesQuery = Delegate::with('department')
+                ->where('parent_department_id', $department_id)
+                ->whereDoesntHave('committees', function ($query) use ($department_id, $committee_id) {
+                    $query->where("committee_delegate.nominated_department_id", '=', $department_id)
+                        ->where("committee_delegate.committee_id", '=', $committee_id);
+                })-get();
+
+        } else {
+
+            $referenceDepartment = Department::with('referenceDepartment')->where('id', $department_id)
+                ->first()->referenceDepartment;
+            $refAndchildrenDepartments = $referenceDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
+            array_push($refAndchildrenDepartments, $referenceDepartment->id);
+            $delegatesQuery = Delegate::with(['department' => function ($query) {
+                $query->with('referenceDepartment');
+            }])
+                ->WhereIn('parent_department_id', $refAndchildrenDepartments)
+                ->whereDoesntHave('committees', function ($query) use ($department_id, $committee_id) {
+                    $query->where("committee_delegate.nominated_department_id", '=', $department_id)
+                        ->where("committee_delegate.committee_id", '=', $committee_id);
+                })
+                ->distinct()->get();
         }
         $depart_id = collect();
         $depart_id->put('department_id', $department_id);

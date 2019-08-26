@@ -132,7 +132,7 @@
                         confirmButtonColor: '#D3D3D3',
                         confirmButtonText: 'حسنا',
                     });
-                    $('#nominationsListModal').modal('show');
+                    //$('#nominationsListModal').modal('show');
 
 
                 }
@@ -205,7 +205,8 @@
                 },
                 error: function (request) {
 
-
+                    Swal.close();
+                    $('#addDelegateModal').css('opacity','1');
                     //console.log(request);
                     if (request.status == 401) {
                         $('#addDelegateModal').modal('hide');
@@ -234,8 +235,7 @@
                         $("#parent_department_id").prop('disabled', true);
                         $("#main_department_id").prop('disabled', true);
                     @endif
-                    Swal.close();
-                    $('#addDelegateModal').css('opacity','1');
+
                     //$('#loadingSpinner').css('display','none');
                 }
             });
