@@ -30,17 +30,17 @@
                 <tbody>
                     <tr>
                         <th scope="row">{{ __('users::employees.department_type') }}</th>
-                        <td>{{ $employee->mainDepartment->name }}</td>
+                        <td>{{ @$employee->mainDepartment->name }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{{ __('users::employees.parent_department_id') }}</th>
                         <td>
-                            {{ $employee->parentDepartment->name }}
+                            {{ @$employee->parentDepartment->name }}
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">{{ __('users::employees.direct_department_id') }}</th>
-                        <td>{{ $employee->directDepartment->name }}</td>
+                        <td>{{ @$employee->directDepartment->name }}</td>
                     </tr>
                     <tr>
                         <th scope="row">{{ __('users::employees.national_id') }}</th>
@@ -60,7 +60,7 @@
                     </tr>
                     <tr>
                         <th scope="row">{{ __('users::employees.job_role_id') }}</th>
-                        <td>{{ $employee->jobRole->name }}</td>
+                        <td>{{ @$employee->jobRole->name }}</td>
                     </tr>
                 </tbody>
             </table>
