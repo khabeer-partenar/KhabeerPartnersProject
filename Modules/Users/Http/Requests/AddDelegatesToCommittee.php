@@ -15,7 +15,7 @@ class AddDelegatesToCommittee extends FormRequest
     public function rules()
     {
         return [
-            'delegates_ids' => ['required', 'integer',  new CheckDepartmentNominatedDelegates(request()->delegates_ids,request()->department_id,request()->committee_id)]
+            'delegates_ids' => ['required',  new CheckDepartmentNominatedDelegates(request()->delegates_ids,request()->department_id,request()->committee_id)]
         ];
     }
 

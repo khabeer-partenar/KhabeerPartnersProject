@@ -132,7 +132,7 @@
                         confirmButtonColor: '#D3D3D3',
                         confirmButtonText: 'حسنا',
                     });
-                    $('#nominationsListModal').modal('show');
+                    //$('#nominationsListModal').modal('show');
 
 
                 }

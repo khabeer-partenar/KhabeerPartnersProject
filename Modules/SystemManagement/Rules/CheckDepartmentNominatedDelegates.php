@@ -32,9 +32,13 @@ protected  $committee_id;
      */
     public function passes($attribute, $value)
     {
-        $delegates_ids = Delegate::getDepartmentDelegatesNotInCommittee($this->department_id,$this->committee_id);
-        dd($delegates_ids);
-        return in_array($value,$delegates_ids);
+        $delegates_ids = Delegate::getDepartmentDelegatesNotInCommitteeIds($this->department_id,$this->committee_id);
+        //dd($value);
+        foreach ($value as $val) {
+            if (in_array((int)$val, $delegates_ids)==false) return false;
+        }
+        //dd(true);
+        return true;
     }
 
     /**
@@ -44,6 +48,7 @@ protected  $committee_id;
      */
     public function message()
     {
-        return 'The validation error message.';
+        return __('validation.wrong choice');
+
     }
 }
