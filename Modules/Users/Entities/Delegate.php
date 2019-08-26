@@ -160,7 +160,7 @@ class Delegate extends User
                 ->whereDoesntHave('committees', function ($query) use ($department_id, $committee_id) {
                     $query->where("committee_delegate.nominated_department_id", '=', $department_id)
                         ->where("committee_delegate.committee_id", '=', $committee_id);
-                })-get();
+                })->get();
 
         } else {
 

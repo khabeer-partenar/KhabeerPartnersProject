@@ -285,7 +285,6 @@ class Committee extends Model
             return $this->nominationDepartments()->where('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
 
         }
-        //return $this->nominationDepartments()->with('referenceDepartment')->get();
 
     }
 

@@ -34,10 +34,9 @@ protected  $committee_id;
     {
         $delegates_ids = Delegate::getDepartmentDelegatesNotInCommitteeIds($this->department_id,$this->committee_id);
         $resultArr = array_diff($value,$delegates_ids);
-
         if (count($resultArr) > 0) return false;
         return true;
-    
+
     }
 
     /**
