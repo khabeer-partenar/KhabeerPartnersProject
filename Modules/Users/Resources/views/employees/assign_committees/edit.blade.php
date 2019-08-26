@@ -11,7 +11,7 @@
             </div>
             
             <div class="actions">
-                <a href="{{ route('employees.show', $employee) }}" class="btn red">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('employees.assign_committees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
