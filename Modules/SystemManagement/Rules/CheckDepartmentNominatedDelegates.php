@@ -37,11 +37,7 @@ protected  $committee_id;
 
         if (count($resultArr) > 0) return false;
         return true;
-      /*
-        foreach ($value as $val) {
-            if (in_array((int)$val, $delegates_ids)==false) return false;
-        }
-        return true;*/
+    
     }
 
     /**
