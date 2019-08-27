@@ -155,10 +155,11 @@ class CommitteeController extends UserBaseController
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
+        $allAdvisors = Group::advisorUsersFilter()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         return view('committee::committees.edit', compact(
             'committee', 'treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
-            'presidents', 'studyCommission', 'departmentsWithRef', 'advisors'
+            'presidents', 'studyCommission', 'departmentsWithRef', 'advisors', 'allAdvisors'
         ));
     }
 
