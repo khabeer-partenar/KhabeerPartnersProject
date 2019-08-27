@@ -1,4 +1,5 @@
-@if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users'))
+@if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users')
+&& auth()->user()->hasPermissionWithAccess('getNominationDepartmentsWithRef','CommitteeController','Committee'))
 
     <table class="table table-striped table-responsive-md">
         <thead>
