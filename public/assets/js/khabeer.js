@@ -7,7 +7,7 @@ $(document).ready(function() {
         }
     });
 
-    
+
     // Delete row in dataTable using Ajax
     $(document).on('click', '.delete-row', function(){
         let btn = $(this);
@@ -32,7 +32,6 @@ $(document).ready(function() {
                     },
 
                     error: function (request, status, error) {
-                        console.log(error);
                         Swal.fire({
                             title: 'حدث خطأ',
                             text: request.responseJSON.msg,
@@ -46,10 +45,6 @@ $(document).ready(function() {
             }
         })
     });
-
-    // Delete row in dataTable using Ajax
-
-
 
 
     // apply select2
@@ -84,8 +79,11 @@ $(document).ready(function() {
         },
         minimumInputLength: 3,
     });
+
+
     // disable all form fields
     $('#diable-form-fields :input').prop('disabled', true);
+
     // load departments in other select
     $('.load-departments').change(function () {
         let path = $(this).attr('data-url') + '?parentId=' + $(this).val();
@@ -119,5 +117,19 @@ $(document).ready(function() {
             });
         }
     });
-    
+
+    // Remove Error when changing Values
+    $('input').change(function () {
+        var helpBlockDiv = $(this).parent().find('.help-block');
+        $(helpBlockDiv).remove();
+        var formGroup = $(this).closest('.form-group');
+        $(formGroup).removeClass('has-error');
+    });
+
+    $('select').change(function () {
+        var helpBlockDiv = $(this).parent().find('.help-block');
+        $(helpBlockDiv).remove();
+        var formGroup = $(this).closest('.form-group');
+        $(formGroup).removeClass('has-error');
+    });
 });

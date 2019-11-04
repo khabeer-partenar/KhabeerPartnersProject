@@ -118,4 +118,18 @@ $(document).ready(function() {
         }
     });
 
+    // Remove Error when changing Values
+    $('input').change(function () {
+        var helpBlockDiv = $(this).parent().find('.help-block');
+        $(helpBlockDiv).remove();
+        var formGroup = $(this).closest('.form-group');
+        $(formGroup).removeClass('has-error');
+    });
+
+    $('select').change(function () {
+        var helpBlockDiv = $(this).parent().find('.help-block');
+        $(helpBlockDiv).remove();
+        var formGroup = $(this).closest('.form-group');
+        $(formGroup).removeClass('has-error');
+    });
 });
