@@ -266,18 +266,16 @@ class Department extends Model
         ]);
     }
 
-    public static function scopeGetParentDepartmentsCo($query, $parentId)
-    {
-        $query->where(function ($query) {
-            $query->where('reference_id', auth()->user()->parent_department_id)
-                ->orWhere('id', auth()->user()->parent_department_id)->pluck('id');
-        });
-        return $query->parentDepartments($parentId)
-            ->pluck('name', 'id');
-    }
 
     public static function scopeGetParentDepartments($query, $parentId)
     {
+        if (auth()->user()->user_type == Coordinator::TYPE){
+            $query->where(function ($query) {
+                $query->where('reference_id', auth()->user()->parent_department_id)
+                    ->orWhere('id', auth()->user()->parent_department_id)->pluck('id');
+            });
+            return $query->parentDepartments($parentId)->pluck('name', 'id');
+        }
         return $query->parentDepartments($parentId)->pluck('name', 'id');
     }
 

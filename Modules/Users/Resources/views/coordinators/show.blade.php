@@ -51,7 +51,7 @@
                     </tr>
                     <tr>
                         <th scope="row">الإدارة</th>
-                        <td>{{ $coordinator->directDepartment ? $coordinator->directDepartment->name:'-' }}</td>
+                        <td>{{ $coordinator->direct_department ? $coordinator->direct_department:'-' }}</td>
                     </tr>
                     <tr>
                         <th scope="row">اللقب</th>

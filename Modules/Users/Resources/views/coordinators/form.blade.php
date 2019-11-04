@@ -7,8 +7,7 @@
 
             <div class="col-md-8">
                 <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
-                        data-url="{{ route('system-management.departments.children') }}"
-                        data-child="#parent_department_id">
+                    data-url="{{ route('system-management.departments.children') }}" data-child="#parent_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
                     @php
                         $mainDepartment = isset($coordinator) ? $coordinator->main_department_id:'';
@@ -37,10 +36,7 @@
             {!! Form::label('parent_department_id', 'اسم الجهة', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                <select name="parent_department_id" id="parent_department_id"
-                        class="form-control select2 load-departments change-reference"
-                        data-url="{{ route('system-management.departments.children') }}"
-                        data-child="#direct_department_id">
+                <select name="parent_department_id" id="parent_department_id" class="form-control select2 change-reference">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
                     @php
                         $parentDepartment = isset($coordinator) ? $coordinator->parent_department_id:'';
@@ -95,21 +91,10 @@
             {!! Form::label('direct_department_id', 'الإدارة', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                <select name="direct_department_id" id="direct_department_id" class="form-control select2">
-                    <option value="0">{{ __('users::departments.choose a department') }}</option>
-                    @php
-                        $directDepartment = isset($coordinator) ? $coordinator->direct_department_id:'';
-                        if (old('direct_department_id')){
-                            $directDepartment = old('direct_department_id');
-                        }
-                    @endphp
-                    @foreach(\Modules\SystemManagement\Entities\Department::getDirectDepartments($parentDepartment) as $key => $department)
-                        <option value="{{ $key }}" {{ $directDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
-                    @endforeach
-                </select>
+                {!! Form::text('direct_department', null, ['id' => 'direct_department', 'class' => 'form-control']) !!}
 
-                @if ($errors->has('direct_department_id'))
-                    <span class="help-block"><strong>{{ $errors->first('direct_department_id') }}</strong></span>
+                @if ($errors->has('direct_department'))
+                    <span class="help-block" ><strong>{{ $errors->first('direct_department') }}</strong></span>
                 @endif
             </div>
 
@@ -235,9 +220,8 @@
                         }
                     @endphp
                     @foreach($coordinatorJobs as $job)
-                        <option value="{{ $job->id }}"
-                                data-main="{{ $job->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB ? '1':'0'}}"
-                                {{ $jobId == $job->id ? 'selected':''}}>
+                        <option value="{{ $job->id }}" data-main="{{ $job->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB ? '1':'0'}}"
+                            {{ $jobId == $job->id ? 'selected':''}}>
                             {{ $job->name }}
                         </option>
                     @endforeach
