@@ -38,7 +38,7 @@ class DepartmentController extends UserBaseController
         $departments = Department::getDepartmentsWithRef($request->get('parentId'));
         return response()->json($departments);
     }
-    
+
     /**
      * Remove the specified resource from storage.
      * @return Response
@@ -88,7 +88,7 @@ class DepartmentController extends UserBaseController
                 $departmentWithNewOrder->update([
                 'order' => $department->order,
             ]);
-        
+
             // update order of current dept
             $department->update(['order' => $newOrder]);
             $department->log('update_department_order');
@@ -100,9 +100,9 @@ class DepartmentController extends UserBaseController
     }
 
     /**
-     * 
+     *
      * departments types functions
-     * 
+     *
      */
 
     /**
@@ -124,7 +124,7 @@ class DepartmentController extends UserBaseController
                ->toJson();
         }
 
-        $mainDepartmentsData = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        $mainDepartmentsData = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('systemmanagement::departmentsTypes.index', compact('mainDepartmentsData'));
     }
 
@@ -147,7 +147,7 @@ class DepartmentController extends UserBaseController
         $department = Department::createNewDepartment($data);
         $department->log('create_department');
 
-        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeCreated')); 
+        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeCreated'));
         return redirect()->route('system-management.departments-types.index');
     }
 
@@ -171,15 +171,15 @@ class DepartmentController extends UserBaseController
         $department->update($request->only('name'));
         $department->log('update_department');
 
-        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeUpdated')); 
+        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeUpdated'));
         return redirect()->route('system-management.departments-types.index');
     }
 
 
     /**
-     * 
+     *
      * departments management functions
-     * 
+     *
      */
 
     /**
@@ -209,7 +209,7 @@ class DepartmentController extends UserBaseController
                 ->toJson();
         }
 
-        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         $parentDepartmentsData = Department::getParentDepartments($request->parent_department_id);
         return view('systemmanagement::departmentsManagement.index', compact('mainDepartmentsData', 'parentDepartmentsData'));
     }
@@ -220,8 +220,8 @@ class DepartmentController extends UserBaseController
      */
     public function departmentsManagementCreate()
     {
-        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
-        $parentDepartmentsData = Department::getDepartmentsData(Department::parentDepartment)->where('is_reference', 1)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
+        $parentDepartmentsData = Department::getDepartmentsData(Department::parentDepartment)->where('is_reference', 1)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('systemmanagement::departmentsManagement.create', compact('mainDepartmentsData', 'parentDepartmentsData'));
     }
 
@@ -234,7 +234,7 @@ class DepartmentController extends UserBaseController
         $data = ['parent_id' => $request->main_department_id, 'name' => $request->name, 'type' => 2, 'telephone' => $request->telephone, 'address' => $request->address, 'email' => $request->email, 'is_reference' => $request->is_reference, 'reference_id' => $request->reference_id];
         $department = Department::createNewDepartment($data);
         $department->log('create_department');
-        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeCreated')); 
+        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeCreated'));
         return redirect()->route('system-management.departments-management.index');
     }
 
@@ -246,8 +246,8 @@ class DepartmentController extends UserBaseController
      */
     public function departmentsManagementEdit(Request $request, Department $department)
     {
-        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
-        $parentDepartmentsData = Department::getDepartmentsData(Department::parentDepartment)->where('is_reference', 1)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
+        $parentDepartmentsData = Department::getDepartmentsData(Department::parentDepartment)->where('is_reference', 1)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('systemmanagement::departmentsManagement.edit', compact('department', 'mainDepartmentsData', 'parentDepartmentsData'));
     }
 
@@ -260,15 +260,15 @@ class DepartmentController extends UserBaseController
         $data = ['name' => $request->name, 'type' => 2, 'telephone' => $request->telephone, 'address' => $request->address, 'email' => $request->email];
         $department->updateDepartment($data);
         $department->log('update_department');
-        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeUpdated')); 
+        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentTypeUpdated'));
         return redirect()->route('system-management.departments-management.index');
     }
 
 
     /**
-     * 
+     *
      * departments authorities functions
-     * 
+     *
      */
 
     /**
@@ -294,7 +294,7 @@ class DepartmentController extends UserBaseController
                 ->toJson();
         }
 
-        $directDepartmentsData = Department::getDepartmentsData(Department::directDepartment)->where('parent_id', $staffExpertsDepartmentId)->pluck('name', 'id')->prepend(__('users::departments.choose a department'), '');
+        $directDepartmentsData = Department::getDepartmentsData(Department::directDepartment)->where('parent_id', $staffExpertsDepartmentId)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('systemmanagement::departmentsAuthorities.index', compact('directDepartmentsData'));
     }
 
@@ -307,7 +307,8 @@ class DepartmentController extends UserBaseController
         $staffsDepartment       = Department::staffsDepartments()->select('name', 'id')->get();
         $staffExpertsDepartment = Department::staffExpertsDepartments($staffsDepartment[0]->id)->pluck('name', 'id');
         $staffsDepartment = $staffsDepartment->pluck('name', 'id');
-        return view('systemmanagement::departmentsAuthorities.create', compact('staffsDepartment', 'staffExpertsDepartment'));
+        $directManager = [0 => __('messages.choose_option')];
+        return view('systemmanagement::departmentsAuthorities.create', compact('staffsDepartment', 'staffExpertsDepartment', 'directManager'));
     }
 
     /**
@@ -322,7 +323,7 @@ class DepartmentController extends UserBaseController
         $data = ['parent_id' => $staffExpertsDepartmentId, 'name' => $request->department_name, 'type' => 3, 'direct_manager_id' => $request->direct_manager_id];
         $department = Department::createNewDepartment($data);
         $department->log('create_department');
-        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesCreated')); 
+        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesCreated'));
         return redirect()->route('system-management.departments-authorities.index');
     }
 
@@ -335,9 +336,9 @@ class DepartmentController extends UserBaseController
     public function departmentsAuthoritiesEdit(Request $request, Department $department)
     {
         $staffsDepartment       = Department::staffsDepartments()->select('name', 'id')->get();
-        $staffExpertsDepartment = Department::staffExpertsDepartments($staffsDepartment[0]->id)->pluck('name', 'id');
-        $staffsDepartment = $staffsDepartment->pluck('name', 'id');
-        $directManager = $department->directManager()->pluck('name', 'id');
+        $staffExpertsDepartment = Department::staffExpertsDepartments($staffsDepartment[0]->id)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
+        $staffsDepartment = $staffsDepartment->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
+        $directManager = $department->directManager()->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('systemmanagement::departmentsAuthorities.edit', compact('department', 'staffsDepartment', 'staffExpertsDepartment', 'directManager'));
     }
 
@@ -350,7 +351,7 @@ class DepartmentController extends UserBaseController
         $data = ['name' => $request->department_name, 'direct_manager_id' => $request->direct_manager_id];
         $department->updateDepartment($data);
         $department->log('update_department');
-        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesUpdated')); 
+        session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesUpdated'));
         return redirect()->route('system-management.departments-authorities.index');
     }
 }
