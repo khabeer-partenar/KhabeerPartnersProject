@@ -13,9 +13,9 @@ use Modules\SystemManagement\Entities\Department;
 
 class AssignCommitteController extends UserBaseController
 {
-    
+
     /**
-     * search 
+     * search
      */
     public function search(Request $request, $groupID, $columnType)
     {
@@ -77,20 +77,7 @@ class AssignCommitteController extends UserBaseController
                ->toJson();
         }
 
-        $employeesIdsData      = [];
-        if((int)$request->employee_id && $request->employee_id > 0) {
-            $employeesIdsData = [$request->employee_id => optional(Employee::where('job_role_id', $secretaryGroupId)->where('id', $request->employee_id)->first())->name];
-        }
-
-        $employeesNationalIdData = [];
-        if((int)$request->national_id && $request->national_id > 0) {
-            $employeesNationalIdData = [$request->national_id => optional(Employee::where('job_role_id', $secretaryGroupId)->where('national_id', $request->national_id)->first())->national_id];
-        }
-
-        $employeesEmailData      = [];
-        if($request->employee_email) {
-            $employeesEmailData = [$request->employee_email => optional(Employee::where('job_role_id', $secretaryGroupId)->where('id', $request->employee_email)->first())->email];
-        }
+        $employeesIdsData = $employeesNationalIdData = $employeesEmailData = [0 => __('messages.choose_option')];
         return view('users::employees.assign_committees.index', compact('secretaryGroupId', 'employeesIdsData', 'employeesNationalIdData', 'employeesEmailData'));
     }
 
@@ -123,7 +110,7 @@ class AssignCommitteController extends UserBaseController
         }
         $employee->advisors()->sync($request->advisors_ids);
         $employee->log('update_employee_advisors', json_encode($request->advisors_ids));
-        session()->flash('alert-success', __('users::employees.assignCommittees.advisorsUpdated')); 
+        session()->flash('alert-success', __('users::employees.assignCommittees.advisorsUpdated'));
         return redirect()->route('employees.assign_committees.index');
     }
 

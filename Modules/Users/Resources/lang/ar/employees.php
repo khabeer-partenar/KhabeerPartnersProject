@@ -38,6 +38,6 @@ return [
         'editAdvisorsTitle' => 'تعديل مجلدات المعاملات للسكرتير',
         'advisorsSelectedTitle'   => 'مجلدات المعاملات',
         'advisorsUnSelectedTitle' => 'مجلدات المستندة للموظف',
-        'advisorsUpdated' => 'تم تحديث مجلدات المعاملات.',
+        'advisorsUpdated' => 'تم تحديث المجلد بنجاح',
     ]
 ];
