@@ -128,6 +128,11 @@ class CommitteeController extends UserBaseController
     {
         return $committee->getNominationDepartmentsWithRef();
     }
+
+    /**
+     * @param Committee $committee
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show(Committee $committee)
     {
         $delegates = $committee->getDelegatesWithDetails();

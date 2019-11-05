@@ -102,6 +102,18 @@
                             {{ $committee->advisor->phone_number }}
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">المستشارين المشاركين</th>
+                        <td>
+                            <ul>
+                            @foreach($committee->participantAdvisors as $advisor)
+                                <li>
+                                    {{ $advisor->name }}
+                                </li>
+                            @endforeach
+                            </ul>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -149,10 +161,10 @@
                 </tbody>
             </table>
             @include('committee::delegates.nomination_departments',compact('committee'))
-            {{--@include('users::delegates.index')--}}
+
+            <br />
+
             @include('committee::delegates.committee_delegates',compact('committee'))
-
-
         </div>
     </div>
 
