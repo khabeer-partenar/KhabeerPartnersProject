@@ -25,8 +25,6 @@ return [
     'userUpdated' => 'تم تحديث المستخدم',
     'userDeleted' => 'تم حذف المستخدم بنجاح.',
 
-    'job_role_id' => 'الدور الوظيفي',
-
     'secretaries' => 'السكرتاريين',
     'edit_secretaries_btn' => 'تعديل السكرتاريين',
 
@@ -38,6 +36,6 @@ return [
         'editAdvisorsTitle' => 'تعديل مجلدات المعاملات للسكرتير',
         'advisorsSelectedTitle'   => 'مجلدات المعاملات',
         'advisorsUnSelectedTitle' => 'مجلدات المستندة للموظف',
-        'advisorsUpdated' => 'تم تحديث مجلدات المعاملات.',
+        'advisorsUpdated' => 'تم تحديث المجلد بنجاح',
     ]
 ];
