@@ -36,6 +36,7 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
+        $committeeCount = Committee::search($request)->count();
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
             $dataTable = Datatables::of($committeesQuery)
@@ -78,7 +79,7 @@ class CommitteeController extends UserBaseController
         }
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
-        return view('committee::committees.index', compact('advisors', 'status'));
+        return view('committee::committees.index', compact('advisors', 'status', 'committeeCount'));
     }
 
     /**

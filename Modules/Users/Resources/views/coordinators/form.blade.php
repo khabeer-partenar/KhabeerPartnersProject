@@ -3,7 +3,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('main_department_id') ? ' has-error' : '' }}">
 
-            {!! Form::label('main_department_id', 'نوع الجهة', ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('main_department_id', 'نوع الجهة *', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
                 <select name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
@@ -33,7 +33,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('parent_department_id') ? ' has-error' : '' }}">
 
-            {!! Form::label('parent_department_id', 'اسم الجهة', ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('parent_department_id', 'اسم الجهة *', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
                 <select name="parent_department_id" id="parent_department_id" class="form-control select2 change-reference">
@@ -140,7 +140,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('national_id') ? ' has-error' : '' }}">
 
-            {!! Form::label('national_id', 'رقم الهوية', ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('national_id', 'رقم الهوية *', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
                 {!! Form::text('national_id', null, ['id' => 'national_id', 'class' => 'form-control']) !!}
@@ -156,7 +156,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
 
-            {!! Form::label('name', 'الإسم', ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('name', 'الإسم *', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
                 {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) !!}
@@ -172,7 +172,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('phone_number') ? ' has-error' : '' }}">
 
-            {!! Form::label('phone_number', 'رقم الجوال', ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('phone_number', 'رقم الجوال *', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
                 {!! Form::text('phone_number', null, ['id' => 'phone_number', 'class' => 'form-control']) !!}
@@ -193,7 +193,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
 
-            {!! Form::label('email', 'البريد الإلكتروني', ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('email', 'البريد الإلكتروني *', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
                 {!! Form::text('email', null, ['id' => 'email', 'class' => 'form-control']) !!}
