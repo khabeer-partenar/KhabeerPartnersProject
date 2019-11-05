@@ -131,8 +131,8 @@ return [
     |
     */
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'first_meeting_at' => [
+            'after' => 'يجب على :attribute أن يكون تاريخًا لاحقًا لتاريخ اليوم',
         ],
     ],
     /*

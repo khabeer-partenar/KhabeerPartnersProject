@@ -6,6 +6,11 @@
 
         $('.date-picker').datepicker({
             language: "ar"
+        }).on('changeDate', function(e) {
+            var helpBlockDiv = $(this).parent().find('.help-block');
+            $(helpBlockDiv).remove();
+            var formGroup = $(this).closest('.form-group');
+            $(formGroup).removeClass('has-error');
         });
 
         // Departments
