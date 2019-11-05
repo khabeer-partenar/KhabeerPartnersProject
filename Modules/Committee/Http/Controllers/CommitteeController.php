@@ -5,10 +5,7 @@ namespace Modules\Committee\Http\Controllers;
 use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Crypt;
 use Modules\Committee\Entities\Committee;
-use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Committee\Entities\CommitteeDocument;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
@@ -18,12 +15,10 @@ use Modules\Committee\Http\Requests\SaveCommitteeRequest;
 use Modules\Core\Entities\Group;
 use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
-use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Carbon;
 
 class CommitteeController extends UserBaseController
 {
@@ -36,7 +31,6 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $committeeCount = Committee::search($request)->count();
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
             $dataTable = Datatables::of($committeesQuery)
@@ -79,7 +73,7 @@ class CommitteeController extends UserBaseController
         }
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
-        return view('committee::committees.index', compact('advisors', 'status', 'committeeCount'));
+        return view('committee::committees.index', compact('advisors', 'status'));
     }
 
     /**

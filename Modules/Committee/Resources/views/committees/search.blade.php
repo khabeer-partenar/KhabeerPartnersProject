@@ -1,11 +1,10 @@
 <div class="row">
     <form class="" method="get" id="search-committees" action="{{ route('committees.index') }}">
         <div class="row">
-            {{--form-inline--}}
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="advisor_id">معاملات المستشار</label>
-                    <div class="col-md-10">
+                    <label class="col-md-3 control-label" for="advisor_id">المستشار المسؤول</label>
+                    <div class="col-md-9">
                         <select name="advisor_id" id="advisor_id" class="form-control select2">
                             <option value="0">{{ __('committee::committees.all') }}</option>
                             @foreach($advisors as $key => $name)
@@ -16,16 +15,26 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
-                    <label for="status" class="col-md-2 control-label">اسم الجهة</label>
-                    <div class="col-md-10">
+                    <label for="status" class="col-md-3 control-label">حالة اللجنة</label>
+                    <div class="col-md-9">
                         <select name="status" id="status" class="form-control select2">
                             <option value="0">{{ __('committee::committees.choose a status') }}</option>
                             @foreach($status as $key => $name)
                                 <option value="{{ $key }}" {{ Request::input('status') == $key ? 'selected':'' }}>{{ __('committee::committees.' . $name) }}</option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="created_at" class="col-md-3 control-label">تاريخ الطلب</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control date-picker" value="{{ Request::input('created_at') }}" name="created_at" id="treatment_time"
+                               placeholder="" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -72,6 +81,7 @@
                 </div>
             </div>
         </div>
-        <button style="float: left;margin: 0px 15px;" type="submit" class="btn btn-default search-table">بحث</button>
+        <a style="float: left;margin: 0px 5px 0 15px;" href="{{ route('committees.index') }}" class="btn btn-default search-table">إلغاء</a>
+        <button style="float: left;margin: 0px 5px;" type="submit" class="btn btn-default search-table">بحث</button>
     </form>
 </div>

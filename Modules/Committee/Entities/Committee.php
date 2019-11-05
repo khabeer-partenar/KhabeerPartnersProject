@@ -118,10 +118,15 @@ class Committee extends Model
         if ($request->has('treatment_number')) {
             $query->where('treatment_number', $request->treatment_number);
         }
+        if ($request->has('treatment_time')) {
+            $query->whereDate('treatment_time', '=', Carbon::createFromFormat('m/d/Y', $request->treatment_time));
+        }
         if ($request->has('uuid')) {
             $query->where('uuid', $request->uuid);
         }
-
+        if ($request->has('created_at')) {
+            $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $request->created_at));
+        }
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             // Secretary Should see Committees for his Advisors Only
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
