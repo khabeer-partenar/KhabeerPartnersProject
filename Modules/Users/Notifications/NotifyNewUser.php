@@ -2,12 +2,13 @@
 
 namespace Modules\Users\Notifications;
 
+use App\Channels\MobilyChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NotifyNewUserViaMail extends Notification implements ShouldQueue
+class NotifyNewUser extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -32,7 +33,7 @@ class NotifyNewUserViaMail extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', MobilyChannel::class];
     }
 
     /**
@@ -44,10 +45,6 @@ class NotifyNewUserViaMail extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         $user = $this->user;
-
-        // Send SMS message
-
-
         return (new MailMessage)
                 ->subject(__('users::mail.message_subject'))
                 ->markdown('users::users.welcomeMail', compact('user'));
@@ -65,4 +62,12 @@ class NotifyNewUserViaMail extends Notification implements ShouldQueue
             //
         ];
     }
+
+    public function toMobily($notifiable)
+    {
+        return [
+            'message' => 'test'
+        ];
+    }
+
 }

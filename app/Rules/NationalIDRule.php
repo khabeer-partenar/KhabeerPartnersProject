@@ -31,7 +31,7 @@ class NationalIDRule implements Rule
         }
 
         // Check if starting digit is not either 1 or 2
-        if (substr($value, 0, 1) != 1 && substr($value, 0, 1) != 2) {
+        if (substr($value, 0, 1) != 1) {
             return false;
         }
 
@@ -48,7 +48,7 @@ class NationalIDRule implements Rule
                 $sum += $num[$i];
             }
         }
-        
+
         return ($sum % 10 == 0);
     }
 

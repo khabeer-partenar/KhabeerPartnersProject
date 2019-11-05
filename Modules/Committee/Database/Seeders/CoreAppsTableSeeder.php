@@ -29,7 +29,7 @@ class CoreAppsTableSeeder extends Seeder
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@delegate', 'name' => 'طلب المندوبين',
             'icon' => 'fa fa-user-plus', 'sort' => 1, 'parent_id' => $committeeAppId, 'frontend_path' => 'committees/assign-delegate', 'is_main_root' => 0,
-            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         $committeesId = App::create([
@@ -82,6 +82,21 @@ class CoreAppsTableSeeder extends Seeder
 
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeDocumentController@delete', 'name' => 'حذف ملفات اللجنة',
+            'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@sendNomination', 'name' => 'ارسال الترشيحات',
+            'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@getNominationDepartmentsWithRef', 'name' => 'عرض الجهات المطلوب ترشيح مندوبين لها',
+            'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@getDelegatesWithDetails', 'name' => 'عرض المندوبين فى تفاصيل اللجنة',
             'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);

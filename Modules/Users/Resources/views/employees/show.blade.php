@@ -18,17 +18,52 @@
             </div>
         
         </div>
-
+        
         <div class="portlet-body form">
-            
-            <div class="form-body">
-
-                {{ Form::model($employee, ['id' => 'diable-form-fields']) }}
-                    @include('users::employees.form')
-                {{ Form::close() }}
-
-            </div>
-
+            <table class="table table-striped table-responsive-md">
+                <thead>
+                    <tr>
+                        <th style="width: 16.666%" scope="col">#</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">{{ __('users::employees.department_type') }}</th>
+                        <td>{{ @$employee->mainDepartment->name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('users::employees.parent_department_id') }}</th>
+                        <td>
+                            {{ @$employee->parentDepartment->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('users::employees.direct_department_id') }}</th>
+                        <td>{{ @$employee->directDepartment->name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('users::employees.national_id') }}</th>
+                        <td>{{ $employee->national_id }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('users::employees.name') }}</th>
+                        <td>{{ $employee->name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('users::employees.phone_number') }}</th>
+                        <td>{{ $employee->phone_number }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('users::employees.email') }}</th>
+                        <td>{{ $employee->email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">{{ __('users::employees.job_role_id') }}</th>
+                        <td>{{ @$employee->jobRole->name }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
        
 

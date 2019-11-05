@@ -7,37 +7,17 @@ namespace Modules\Users\Http\Controllers;
 use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Coordinator;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Http\Requests\SaveCoordinatorRequest;
-use Modules\Users\Http\Requests\SaveCoordinatorRequestByCo;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
-use Modules\Users\Http\Requests\UpdateCoordinatorRequestByCo;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
 
 class CoordinatorController extends UserBaseController
 {
     use SessionFlash;
-
-    protected $userType = '';
-
-    /**
-     * CoordinatorController constructor.
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        parent::__construct($request);
-        $this->middleware(function ($request, $next) {
-            if (Auth::user()->user_type == Coordinator::TYPE){
-                $this->userType = Coordinator::TYPE;
-            }
-            return $next($request);
-        });
-    }
 
     /**
      * Display a listing of the resource.
@@ -50,13 +30,12 @@ class CoordinatorController extends UserBaseController
         if ($request->wantsJson() || $request->ajax()) {
             $coordinatorsQuery = Coordinator::with('mainDepartment', 'parentDepartment', 'directDepartment')
                 ->search($request);
-
             return Datatables::of($coordinatorsQuery)
                 ->addColumn('department_info', function ($coordinator) {
                     $data = [
                         $coordinator->mainDepartment->name,
                         $coordinator->parentDepartment->name,
-                        $coordinator->directDepartment ? $coordinator->directDepartment->name:null
+                        $coordinator->direct_department ? $coordinator->direct_department:null
                     ];
                     return view('users::coordinators.commas_separated_data', ['data' => $data]);
                 })
@@ -80,7 +59,7 @@ class CoordinatorController extends UserBaseController
     {
         $mainDepartments = Department::getDepartments();
         $coordinatorJobs = Group::whereIn('key', [Coordinator::MAIN_CO_JOB, Coordinator::NORMAL_CO_JOB])->get(['id', 'name', 'key']);
-        return view("users::coordinators.$this->userType.create", compact('mainDepartments', 'coordinatorJobs'));
+        return view("users::coordinators.create", compact('mainDepartments', 'coordinatorJobs'));
     }
 
     /**
@@ -93,7 +72,7 @@ class CoordinatorController extends UserBaseController
         $coordinator = Coordinator::createFromRequest($request);
         $coordinator->log('create_coordinator');
         self::sessionSuccess('users::coordinators.created');
-        return back();
+        return redirect()->route('coordinators.index');
     }
 
     /**
@@ -117,7 +96,7 @@ class CoordinatorController extends UserBaseController
     {
         $mainDepartments = Department::getDepartments();
         $coordinatorJobs = Group::whereIn('key', [Coordinator::MAIN_CO_JOB, Coordinator::NORMAL_CO_JOB])->get(['id', 'name', 'key']);
-        return view("users::coordinators.$this->userType.edit", compact('coordinator',  'mainDepartments', 'coordinatorJobs'));
+        return view("users::coordinators.edit", compact('coordinator',  'mainDepartments', 'coordinatorJobs'));
     }
 
     /**
@@ -131,35 +110,6 @@ class CoordinatorController extends UserBaseController
     {
         $coordinator->updateFromRequest($request);
         $coordinator->log('update_coordinator');
-        self::sessionSuccess('users::coordinators.updated');
-        return redirect()->route('coordinators.index');
-    }
-
-    /**
-     * Store Coordinator by Coordinator
-     *
-     * @param SaveCoordinatorRequestByCo $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function storeByCoordinator(SaveCoordinatorRequestByCo $request)
-    {
-        $coordinator = Coordinator::createFromRequest($request);
-        $coordinator->log('create_coordinator_by_main_coordinator');
-        self::sessionSuccess('users::coordinators.created');
-        return back();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param UpdateCoordinatorRequestByCo $request
-     * @param Coordinator $coordinator
-     * @return Response
-     * @internal param int $id
-     */
-    public function updateByCoordinator(UpdateCoordinatorRequestByCo $request, Coordinator $coordinator)
-    {
-        $coordinator->updateFromRequest($request);
-        $coordinator->log('update_coordinator_by_main_coordinator');
         self::sessionSuccess('users::coordinators.updated');
         return redirect()->route('coordinators.index');
     }

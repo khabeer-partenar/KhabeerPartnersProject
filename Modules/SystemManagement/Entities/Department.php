@@ -5,6 +5,9 @@ namespace Modules\SystemManagement\Entities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\CommitteeDepartment;
+use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\Coordinator;
@@ -12,7 +15,7 @@ use Modules\Users\Entities\Coordinator;
 class Department extends Model
 {
     use SoftDeletes, \Modules\Core\Traits\SharedModel, \Modules\Core\Traits\Log;
-    
+
     const mainDepartment = 1;
     const parentDepartment = 2;
     const directDepartment = 3;
@@ -37,17 +40,17 @@ class Department extends Model
      * Here you should add Functions
     */
 
-    public static function boot() 
+    public static function boot()
     {
         parent::boot();
-        
+
         static::addGlobalScope('orderByorder', function (Builder $builder) {
             $builder->orderBy('order');
         });
-        
+
         static::creating(function (Department $department) {
             $currentOrder = self::where('type', $department->type)->max('order');
-            $department->order = $currentOrder+1;
+            $department->order = $currentOrder + 1;
         });
 
     }
@@ -70,26 +73,37 @@ class Department extends Model
 
     /**
      * Get attached users
-    */
-    public function users($key) 
+     */
+    public function users($key)
     {
-        return $this->hasMany(User::class, $key .'_department_id', 'id');
+        return $this->hasMany(User::class, $key . '_department_id', 'id');
     }
 
     /**
      * Get attached employees
-    */
-    public function employees($key) 
+     */
+    public function employees($key)
     {
-        return $this->hasMany(Employee::class, $key .'_department_id', 'id');
+        return $this->hasMany(Employee::class, $key . '_department_id', 'id');
     }
 
     /**
      * Get attached coordinators
-    */
-    public function coordinators($key) 
+     */
+    public function coordinators($key)
     {
-        return $this->hasMany(Coordinator::class, $key .'_department_id', 'id');
+        return $this->hasMany(Coordinator::class, $key . '_department_id', 'id');
+    }
+
+    public function getDepartmentDelegates($department_id)
+
+    {
+        // $this->delegates('direct')->where('direct_department_id',$department_id)->get();
+    }
+
+    public function delegates()
+    {
+        return $this->hasMany(Delegate::class, 'parent_department_id', 'id');
     }
 
     public static function getEmptyObjectForSelectAjax()
@@ -109,16 +123,16 @@ class Department extends Model
 
     /**
      * Get Departments data for users forms
-    */
+     */
     public static function getDepartmentsDataForUsersForms()
     {
-        $staffsDepartments       = self::staffsDepartments()->select('name', 'id')->get();
+        $staffsDepartments = self::staffsDepartments()->select('name', 'id')->get();
         $staffExpertsDepartments = self::staffExpertsDepartments($staffsDepartments[0]->id)->select('name', 'id')->get();
-        $directDepartments       = self::directDepartments($staffExpertsDepartments[0]->id)->select('name', 'id')->get();
+        $directDepartments = self::directDepartments($staffExpertsDepartments[0]->id)->select('name', 'id')->get();
 
-        $staffsDepartments       = $staffsDepartments->pluck('name', 'id');
+        $staffsDepartments = $staffsDepartments->pluck('name', 'id');
         $staffExpertsDepartments = $staffExpertsDepartments->pluck('name', 'id');
-        $directDepartments       = $directDepartments->pluck('name', 'id')->prepend('', '');
+        $directDepartments = $directDepartments->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
 
         return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
     }
@@ -126,26 +140,22 @@ class Department extends Model
     /**
      * Create new record in table
      */
-    public static function createNewDepartment($data) 
+    public static function createNewDepartment($data)
     {
-        if(!isset($data['parent_id'])) {
+        if (!isset($data['parent_id'])) {
             $data['parent_id'] = 0;
         }
 
-        if(!isset($data['key'])) {
+        if (!isset($data['key'])) {
             $data['key'] = time();
         }
 
-        if(!isset($data['is_reference'])) {
+        if (!isset($data['is_reference'])) {
             $data['is_reference'] = 0;
         }
 
-        if($data['is_reference'] == 1) {
+        if ($data['is_reference'] == 1) {
             $data['reference_id'] = null;
-        }
-
-        if(!isset($data['reference_id'])) {
-            $data['is_reference'] = 0;         
         }
 
         return self::create($data);
@@ -154,25 +164,25 @@ class Department extends Model
     /**
      * Update department
      */
-    public function updateDepartment($data) 
+    public function updateDepartment($data)
     {
-        if(!isset($data['direct_manager_id'])) {
+        if (!isset($data['direct_manager_id'])) {
             $data['direct_manager_id'] = null;
         }
         return $this->update($data);
     }
 
     /**
-     * 
+     *
      */
     public static function scopeGetDepartmentsData($query, $type)
     {
         return $query->where('type', $type);
     }
-    
+
     /**
      * Scopes
-     *
+     * getting main coordinator main depaertments
      * Here you should add Scopes
      */
     public static function scopeGetDepartmentsWithRef($query, $parentId)
@@ -184,7 +194,7 @@ class Department extends Model
         if (auth()->user()->user_type == Coordinator::TYPE && $parentDepartment->type == self::mainDepartment) {
             $departmentsIds = self::query()
                 ->where('reference_id', auth()->user()->parent_department_id)
-                ->orWhere(function($query){
+                ->orWhere(function ($query) {
                     $query->where('id', auth()->user()->parent_department_id)->where('is_reference', true);
                 })
                 ->pluck('id');
@@ -210,10 +220,24 @@ class Department extends Model
      */
     public static function scopeMainDepartments($query)
     {
-        return $query->where([
-            ['type', 1],
-            ['parent_id', 0]
-        ]);
+        if (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+            $mainDepartmentsIds = array();
+            $coordinator = Coordinator::find(auth()->user()->id);
+            array_push($mainDepartmentsIds, $coordinator->main_department_id);
+            $childrenMainDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('parent_id')->toArray();
+            $finalMainDepartmentsIds = array_merge($mainDepartmentsIds, $childrenMainDepartments);
+            $mainDepartments = $query->whereIn('id', $finalMainDepartmentsIds);
+            return $mainDepartments;
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+            $coordinator = Coordinator::find(auth()->user()->id);
+            $mainDepartments = $query->Where('id', $coordinator->main_department_id);
+            return $mainDepartments;
+        } else {
+            return $query->where([
+                ['type', 1],
+                ['parent_id', 0]
+            ]);
+        }
     }
 
     /**
@@ -228,7 +252,7 @@ class Department extends Model
     }
 
     /**
-     * Get direct depts  that are under another dept where type equal to 2 
+     * Get direct depts  that are under another dept where type equal to 2
      */
     public static function scopeDirectDepartments($query, $parentID)
     {
@@ -238,18 +262,16 @@ class Department extends Model
         ]);
     }
 
-    public static function scopeGetParentDepartmentsCo($query, $parentId)
-    {
-        $query->where(function ($query){
-            $query->where('reference_id', auth()->user()->parent_department_id)
-                ->orWhere('id', auth()->user()->parent_department_id)->pluck('id');
-        });
-        return $query->parentDepartments($parentId)
-            ->pluck('name', 'id');
-    }
 
     public static function scopeGetParentDepartments($query, $parentId)
     {
+        if (auth()->user()->user_type == Coordinator::TYPE){
+            $query->where(function ($query) {
+                $query->where('reference_id', auth()->user()->parent_department_id)
+                    ->orWhere('id', auth()->user()->parent_department_id)->pluck('id');
+            });
+            return $query->parentDepartments($parentId)->pluck('name', 'id');
+        }
         return $query->parentDepartments($parentId)->pluck('name', 'id');
     }
 
@@ -271,10 +293,10 @@ class Department extends Model
      */
     public static function scopeStaffExpertsDepartments($query, $parentID = 0)
     {
-        if($parentID != 0) {
+        if ($parentID != 0) {
             $query = $query->parentDepartments($parentID);
         }
-        
+
         return $query->where('key', 'staff_experts');
     }
 
@@ -284,19 +306,19 @@ class Department extends Model
      */
     public static function scopeSearch($query, $request)
     {
-        $department_id        = (int)$request->department_id;
-        $main_department_id   = (int)$request->main_department_id;
+        $department_id = (int)$request->department_id;
+        $main_department_id = (int)$request->main_department_id;
         $parent_department_id = (int)$request->parent_department_id;
 
-        if($department_id) {
+        if ($department_id) {
             $query->where('id', $department_id);
         }
 
-        if($main_department_id) {
+        if ($main_department_id) {
             $query->where('parent_id', $main_department_id);
         }
 
-        if($parent_department_id) {
+        if ($parent_department_id) {
             $query->where('id', $parent_department_id);
         }
 
@@ -318,11 +340,28 @@ class Department extends Model
         return $this->belongsTo(self::class, 'reference_id', 'id');
     }
 
+    public function referenceChildrenDepartments()
+    {
+        return $this->hasMany(self::class, 'reference_id', 'id');
+    }
+
     /**
      * Get parent of dept
      */
     public function directManager()
     {
         return $this->hasOne(Employee::class, 'id', 'direct_manager_id');
+    }
+
+//    public function committeesPivot()
+//    {
+//        return $this->hasMany(CommitteeDepartment::class, 'department_id');
+//    }
+
+    public function committees()
+    {
+        return $this->belongsToMany(Committee::class, 'committees_participant_departments', 'department_id', 'committee_id')
+            ->withTimestamps()
+            ->withPivot('nomination_criteria');
     }
 }

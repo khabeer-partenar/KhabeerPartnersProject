@@ -13,7 +13,7 @@ return [
     'nomination_done' => 'تم الترشيح',
     'nomination_not_done' => 'لم يتم الترشيح',
     'nominate' => 'ترشيح',
-
+    'nomination_add_delegte' =>'إضافة مندوب جديد',
     // delegates
     'delegates_title' => 'المندوب المرشح الممثل للجهه',
     'delegates_department' => 'الجهة/مرجعية الجهة',
@@ -96,4 +96,9 @@ return [
     'advisor_status' => 'دور المستشار',
     'committee advisor' => 'مسؤول',
     'committee participant' => 'مشارك',
+    'committee_export'=>'تصدير طلب التسمية',
+    'nomination done'=>'تم ترشيح المندوبين',
+    'nomination done for committee'=>'تم ترشيح المندوبين للجنة'
+
+
 ];
