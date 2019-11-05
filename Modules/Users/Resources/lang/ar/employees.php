@@ -24,7 +24,7 @@ return [
     'userNotUpdated' => 'حدث خطأ محاولة تحديث المستخدم',
     'userUpdated' => 'تم تحديث المستخدم',
     'userDeleted' => 'تم حذف المستخدم بنجاح.',
-    
+
     'secretaries' => 'السكرتاريين',
     'edit_secretaries_btn' => 'تعديل السكرتاريين',
 
