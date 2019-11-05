@@ -10,7 +10,7 @@ use Modules\Core\Traits\Log;
 class Group extends Model
 {
     use SharedModel, Log;
-    
+
     /**
     * The table associated with the model.
     *
@@ -24,7 +24,7 @@ class Group extends Model
     * @var array
     */
     protected $fillable = ['parent_id', 'name', 'key'];
-  
+
     /**
     * unified groups keys
     *
@@ -59,18 +59,18 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class, 'core_users_groups', 'core_group_id', 'user_id');
     }
-  
+
     public static function findByKey($key)
     {
         return self::where('key', '=' ,$key)->with('users')->first();
     }
-  
+
     public static function hasUserByKey($key, $user)
     {
         $group = self::findByKey($key);
         return $group->hasUser($user);
     }
-  
+
     public function hasUser($user)
     {
         $user = $this->users()
@@ -190,5 +190,13 @@ class Group extends Model
     public static function viceChairmanOfCommission()
     {
         return optional(self::findByKey('vice_chairman_of_the_commission'))->users;
+    }
+
+    /**
+     * Get all users roles except coordinator
+     */
+    public static function scopeEmployeeRoles($query)
+    {
+        return $query->whereNotIn('key', ['coordinator']);
     }
 }

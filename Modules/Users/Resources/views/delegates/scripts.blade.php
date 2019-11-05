@@ -375,6 +375,17 @@
                 error: function (data) {
                     var errors = data.responseJSON;
                     console.log(data);
+                    if (request.status == 401) {
+                       // $('#addDelegateModal').modal('hide');
+                        Swal.fire({
+                            title: 'لا تملك صلاحية عرض الجهات المطلوب ترشيح مندوبين لها داخل تفاصيل اللجنة',
+                            type: 'error',
+                            confirmButtonText: 'موافق'
+                        })
+
+                        return;
+                    }
+
 
                 }
 
@@ -449,6 +460,16 @@
                 error: function (data) {
                     var errors = data.responseJSON;
                     console.log(data);
+                    if (request.status == 401) {
+                        // $('#addDelegateModal').modal('hide');
+                        Swal.fire({
+                            title: 'لا تملك صلاحية عرض المندوبين فى تفاصيل اللجنة',
+                            type: 'error',
+                            confirmButtonText: 'موافق'
+                        })
+
+                        return;
+                    }
 
                 }
 
