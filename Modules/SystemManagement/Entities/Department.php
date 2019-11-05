@@ -15,7 +15,7 @@ use Modules\Users\Entities\Coordinator;
 class Department extends Model
 {
     use SoftDeletes, \Modules\Core\Traits\SharedModel, \Modules\Core\Traits\Log;
-    
+
     const mainDepartment = 1;
     const parentDepartment = 2;
     const directDepartment = 3;
@@ -40,14 +40,14 @@ class Department extends Model
      * Here you should add Functions
     */
 
-    public static function boot() 
+    public static function boot()
     {
         parent::boot();
-        
+
         static::addGlobalScope('orderByorder', function (Builder $builder) {
             $builder->orderBy('order');
         });
-        
+
         static::creating(function (Department $department) {
             $currentOrder = self::where('type', $department->type)->max('order');
             $department->order = $currentOrder + 1;
@@ -132,7 +132,7 @@ class Department extends Model
 
         $staffsDepartments = $staffsDepartments->pluck('name', 'id');
         $staffExpertsDepartments = $staffExpertsDepartments->pluck('name', 'id');
-        $directDepartments = $directDepartments->pluck('name', 'id')->prepend('', '');
+        $directDepartments = $directDepartments->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
 
         return ['staffsDepartments' => $staffsDepartments, 'staffExpertsDepartments' => $staffExpertsDepartments, 'directDepartments' => $directDepartments];
     }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
     'title'      => 'إدارة مستخدمي الهيئة',
@@ -8,7 +8,7 @@ return [
     'information_action' => 'تفاصيل المستخدم',
     'delete_btn' => 'حذف',
     'delete_action' => 'حذف المستخدم',
-    
+
     'name' => 'الإسم',
     'department_type' => 'نوع الجهة',
     'parent_department_id' => 'اسم الجهة',
@@ -20,7 +20,7 @@ return [
     'contact_options' => 'معلومات الاتصال',
 
     'userNotCreated' => 'حدث خطأ اثناء محاولة انشاء المستخدم',
-    'userCreated' => 'تم انشاء المستخدم بنجاح',
+    'userCreated' => 'تمت إضافة المستخدم للنظام بنجاح',
     'userNotUpdated' => 'حدث خطأ محاولة تحديث المستخدم',
     'userUpdated' => 'تم تحديث المستخدم',
     'userDeleted' => 'تم حذف المستخدم بنجاح.',

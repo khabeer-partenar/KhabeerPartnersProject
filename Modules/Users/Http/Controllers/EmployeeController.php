@@ -15,7 +15,7 @@ use Modules\SystemManagement\Entities\Department;
 
 class EmployeeController extends UserBaseController
 {
-    
+
     /**
      * Display a listing of the apps.
      * @return Response
@@ -44,14 +44,10 @@ class EmployeeController extends UserBaseController
                ->rawColumns(['action', 'contact_options'])
                ->toJson();
         }
-        
-        $employeesData      = [];
-        if((int)$request->employee_id && $request->employee_id > 0) {
-            $employeesData = [$request->employee_id => optional(Employee::where('id', $request->employee_id)->first())->name];
-        }
 
-        $directDepartments  = Department::where('type', 3)->pluck('name', 'id')->prepend('', '');
-        $rolesData          = Group::pluck('name', 'id')->prepend('', '');
+        $employeesData      = [0 => __('messages.choose_option')];
+        $directDepartments  = Department::where('type', 3)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
+        $rolesData          = Group::pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('users::employees.index', compact('employeesData', 'directDepartments', 'rolesData'));
     }
 
@@ -62,7 +58,7 @@ class EmployeeController extends UserBaseController
     public function create()
     {
         $departmentsDataForForms = Department::getDepartmentsDataForUsersForms();
-        $rolesData               = Group::pluck('name', 'id')->prepend('', '');
+        $rolesData               = Group::employeeRoles()->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('users::employees.create', compact(['departmentsDataForForms', 'rolesData']));
     }
 
@@ -75,7 +71,7 @@ class EmployeeController extends UserBaseController
     {
         $employee = Employee::createNewEmployee($request);
         $employee->log('create_employee');
-        session()->flash('alert-success', __('users::employees.userCreated')); 
+        session()->flash('alert-success', __('users::employees.userCreated'));
         return redirect()->route('employees.index');
     }
 
@@ -86,8 +82,7 @@ class EmployeeController extends UserBaseController
     public function show(Request $request, Employee $employee)
     {
         $departmentsDataForForms = $employee->getDepartmentsDataForForms();
-        $rolesData               = Group::pluck('name', 'id')->prepend('', '');
-        return view('users::employees.show', compact(['employee', 'departmentsDataForForms', 'rolesData']));
+        return view('users::employees.show', compact(['employee', 'departmentsDataForForms']));
     }
 
     /**
@@ -99,7 +94,7 @@ class EmployeeController extends UserBaseController
     public function edit(Request $request, Employee $employee)
     {
         $departmentsDataForForms = Department::getDepartmentsDataForUsersForms();
-        $rolesData               = Group::pluck('name', 'id')->prepend('', '');
+        $rolesData               = Group::employeeRoles()->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('users::employees.edit', compact(['employee', 'departmentsDataForForms', 'rolesData']));
     }
 
@@ -112,7 +107,7 @@ class EmployeeController extends UserBaseController
     {
         $employee->updateEmployee($request);
         $employee->log('update_employee');
-        session()->flash('alert-success', __('users::employees.userUpdated')); 
+        session()->flash('alert-success', __('users::employees.userUpdated'));
         return redirect()->route('employees.index');
     }
 
@@ -148,7 +143,7 @@ class EmployeeController extends UserBaseController
 
         $employee->save();
         $employee->log('update_employee_to_super_admin');
-        session()->flash('alert-success', __('messages.updatedـsuccessfully')); 
+        session()->flash('alert-success', __('messages.updatedـsuccessfully'));
         return redirect()->route('employees.index');
     }
 }
