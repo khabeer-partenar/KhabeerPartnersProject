@@ -119,7 +119,7 @@ $(document).ready(function() {
     });
 
     // Remove Error when changing Values
-    $('input').change(function () {
+    $('input').not(".date-picker").change(function () {
         var helpBlockDiv = $(this).parent().find('.help-block');
         $(helpBlockDiv).remove();
         var formGroup = $(this).closest('.form-group');
