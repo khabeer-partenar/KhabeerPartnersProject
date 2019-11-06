@@ -27,29 +27,30 @@
 
         <div class="portlet-body form">
             {{-- Treatment Info Table --}}
-            <p class="underLine">{{ __('committee::committees.treatment information') }}</p>
+            <label class="underLine">{{ __('committee::committees.treatment information') }}</label>
             <table class="table table-striped table-responsive-md">
                 <tbody>
                     <tr>
                         <th style="width: 16.66%" scope="row">رقم الطلب و تاريخه</th>
                         <td>
-                            {{ __('committee::committees.committee uuid') }}
                             {{ $committee->uuid }}
                             {{ __('committee::committees.on_date') }}
                             {{ $committee->created_at_hijri }}
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">اعجلية المعاملة</th>
-                        <td>
-                            {{ $committee->treatmentUrgency->name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">رقم المعاملة و وجهة طلب دراسة المعاملة</th>
+                        <th style="width: 16.66%" scope="row">جهة التوريد و رقم وارد الهيئة</th>
                         <td>
                             {{ $committee->resourceDepartment->name }}
                             {{ __('committee::committees.with_number') }}
+                            ({{ $committee->resource_staff_number }})
+                            {{ __('committee::committees.on_date') }}
+                            {{ $committee->resource_at_hijri }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">رقم المعاملة و تاريخها</th>
+                        <td>
                             ({{ $committee->treatment_number }})
                             {{ __('committee::committees.on_date') }}
                             {{ $committee->resource_at_hijri }}
@@ -63,6 +64,30 @@
                             ({{ $committee->recommendation_number }})
                             {{ __('committee::committees.on_date') }}
                             {{ $committee->recommended_at_hijri }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">الجهة مصدر الدراسة</th>
+                        <td>
+                            {{ $committee->sourceOfStudy->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">نوع المعاملة</th>
+                        <td>
+                            {{ $committee->treatmentType->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">سرية المعاملة</th>
+                        <td>
+                            {{ $committee->treatmentImportance->name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">اعجلية المعاملة</th>
+                        <td>
+                            {{ $committee->treatmentUrgency->name }}
                         </td>
                     </tr>
                     <tr>
@@ -102,23 +127,31 @@
                             {{ $committee->advisor->phone_number }}
                         </td>
                     </tr>
+                    @if ($committee->participantAdvisors->count() > 0)
+                        <tr>
+                            <th scope="row">المستشارين المشاركين</th>
+                            <td>
+                                <ul>
+                                @foreach($committee->participantAdvisors as $advisor)
+                                    <li>
+                                        {{ $advisor->name }}
+                                    </li>
+                                @endforeach
+                                </ul>
+                            </td>
+                        </tr>
+                    @endif
                     <tr>
-                        <th scope="row">المستشارين المشاركين</th>
-                        <td>
-                            <ul>
-                            @foreach($committee->participantAdvisors as $advisor)
-                                <li>
-                                    {{ $advisor->name }}
-                                </li>
-                            @endforeach
-                            </ul>
-                        </td>
+                        <th scope="row">عدد الأعضاء</th>
+                        <td>{{ $committee->members_count }}</td>
                     </tr>
                 </tbody>
             </table>
 
+            <br />
+
             {{-- Participant Department --}}
-            <p class="underLine">{{ __('committee::committees.treatment information') }}</p>
+            <label class="underLine">{{ __('committee::committees.treatment information') }}</label>
             <table class="table table-striped table-responsive-md">
                 <thead>
                 <tr>
@@ -138,8 +171,10 @@
                 </tbody>
             </table>
 
+            <br />
+
             {{-- Participant Department --}}
-            <p class="underLine">{{ __('committee::committees.files') }}</p>
+            <label class="underLine">{{ __('committee::committees.files') }}</label>
             <table class="table table-striped table-responsive-md">
                 <thead>
                 <tr>
@@ -160,6 +195,9 @@
                 @endforeach
                 </tbody>
             </table>
+
+            <br />
+
             @include('committee::delegates.nomination_departments',compact('committee'))
 
             <br />

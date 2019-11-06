@@ -24,7 +24,7 @@ return [
     'delegate_options' => 'خيارات',
     'delegate_delete' => 'حذف',
     'resource_staff_number' => 'رقم وارد الهيئة',
-    'resource_at' => 'تاريخ التوريد',
+    'resource_at' => 'تاريخ الوارد',
     'please choose' => 'من فضلك قم بالاختيار',
     'treatment_type_id' => 'نوع المعاملة',
     'resource_by' => 'وردت من',

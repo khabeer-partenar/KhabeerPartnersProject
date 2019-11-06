@@ -267,6 +267,11 @@ class Committee extends Model
         return $this->belongsTo(Department::class, 'recommended_by_id');
     }
 
+    public function sourceOfStudy()
+    {
+        return $this->belongsTo(Department::class, 'source_of_study_id');
+    }
+
     public function participantAdvisors()
     {
         return $this->belongsToMany(User::class, 'committees_participant_advisors', 'committee_id', 'advisor_id')->withTimestamps();
