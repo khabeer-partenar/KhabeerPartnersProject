@@ -267,7 +267,7 @@ class Committee extends Model
         return $this->belongsTo(Department::class, 'recommended_by_id');
     }
 
-    public function SourceOfStudy()
+    public function sourceOfStudy()
     {
         return $this->belongsTo(Department::class, 'source_of_study_id');
     }

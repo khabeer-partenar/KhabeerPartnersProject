@@ -69,7 +69,7 @@
                     <tr>
                         <th scope="row">الجهة مصدر الدراسة</th>
                         <td>
-                            {{ $committee->SourceOfStudy->name }}
+                            {{ $committee->sourceOfStudy->name }}
                         </td>
                     </tr>
                     <tr>

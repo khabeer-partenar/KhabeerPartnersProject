@@ -4,7 +4,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('resource_staff_number') ? ' has-error' : '' }}">
-            {!! Form::label('resource_staff_number', __('committee::committees.resource_staff_number'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="resource_staff_number" class="col-md-4 control-label">
+                {{ __('committee::committees.resource_staff_number') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 {!! Form::text('resource_staff_number', null, ['id' => 'resource_staff_number', 'class' => 'form-control']) !!}
@@ -15,7 +18,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('resource_at') ? ' has-error' : '' }}">
-            {!! Form::label('resource_at',  __('committee::committees.resource_at'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="resource_at" class="col-md-4 control-label">
+                {{ __('committee::committees.resource_at') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 @php
@@ -32,7 +38,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_type_id') ? ' has-error' : '' }}">
-            {!! Form::label('treatment_type_id',  __('committee::committees.treatment_type_id'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="treatment_type_id" class="col-md-4 control-label">
+                {{ __('committee::committees.treatment_type_id') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 <select name="treatment_type_id" id="treatment_type_id" class="form-control select2">
@@ -60,7 +69,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('resource_by') ? ' has-error' : '' }}">
-            {!! Form::label('resource_by',  __('committee::committees.resource_by'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="resource_by" class="col-md-4 control-label">
+                {{ __('committee::committees.resource_by') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 <select name="resource_by" id="resource_by" class="form-control select2">
@@ -82,7 +94,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_number') ? ' has-error' : '' }}">
-            {!! Form::label('treatment_number', __('committee::committees.treatment_number'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="treatment_number" class="col-md-4 control-label">
+                {{ __('committee::committees.treatment_number') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 {!! Form::number('treatment_number', null, ['id' => 'treatment_number', 'class' => 'form-control']) !!}
@@ -93,7 +108,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_time') ? ' has-error' : '' }}">
-            {!! Form::label('treatment_time',  __('committee::committees.treatment_time'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="treatment_time" class="col-md-4 control-label">
+                {{ __('committee::committees.treatment_time') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 @php
@@ -115,7 +133,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('recommended_by_id') ? ' has-error' : '' }}">
-            {!! Form::label('recommended_by_id',  __('committee::committees.recommended_by_id'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="recommended_by_id" class="col-md-4 control-label">
+                {{ __('committee::committees.recommended_by_id') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 <select name="recommended_by_id" id="recommended_by_id" class="form-control select2">
@@ -137,7 +158,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('recommendation_number') ? ' has-error' : '' }}">
-            {!! Form::label('recommendation_number', __('committee::committees.recommendation_number'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="recommendation_number" class="col-md-4 control-label">
+                {{ __('committee::committees.recommendation_number') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 {!! Form::text('recommendation_number', null, ['id' => 'recommendation_number', 'class' => 'form-control']) !!}
@@ -148,7 +172,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('recommended_at') ? ' has-error' : '' }}">
-            {!! Form::label('recommended_at',  __('committee::committees.recommended_at'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="recommended_at" class="col-md-4 control-label">
+                {{ __('committee::committees.recommended_at') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 @php
@@ -169,7 +196,10 @@
 <div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('source_of_study_id') ? ' has-error' : '' }}">
-            {!! Form::label('source_of_study_id',  __('committee::committees.source_of_study_id'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="source_of_study_id" class="col-md-4 control-label">
+                {{ __('committee::committees.source_of_study_id') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 <select name="source_of_study_id" id="source_of_study_id" class="form-control select2">
@@ -191,7 +221,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_urgency_id') ? ' has-error' : '' }}">
-            {!! Form::label('treatment_urgency_id',  __('committee::committees.treatment_urgency_id'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="treatment_urgency_id" class="col-md-4 control-label">
+                {{ __('committee::committees.treatment_urgency_id') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 <select name="treatment_urgency_id" id="treatment_urgency_id" class="form-control select2">
@@ -213,7 +246,10 @@
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_importance_id') ? ' has-error' : '' }}">
-            {!! Form::label('treatment_importance_id',  __('committee::committees.treatment_importance_id'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="treatment_importance_id" class="col-md-4 control-label">
+                {{ __('committee::committees.treatment_importance_id') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 <select name="treatment_importance_id" id="treatment_importance_id" class="form-control select2">
@@ -239,7 +275,10 @@
 <div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('first_meeting_at') ? ' has-error' : '' }}">
-            {!! Form::label('first_meeting_at',  __('committee::committees.first_meeting_at'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="first_meeting_at" class="col-md-4 control-label">
+                {{ __('committee::committees.first_meeting_at') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 @php
@@ -256,7 +295,10 @@
 
     <div class="col-md-8">
         <div class="form-group {{ $errors->has('subject') ? ' has-error' : '' }}">
-            {!! Form::label('subject',  __('committee::committees.subject'), ['class' => 'col-md-2 control-label']) !!}
+            <label for="subject" class="col-md-2 control-label">
+                {{ __('committee::committees.subject') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-10">
                 {!! Form::text('subject', null, ['id' => 'subject', 'class' => 'form-control']) !!}
@@ -308,7 +350,10 @@
 <div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('advisor_id') ? ' has-error' : '' }}">
-            {!! Form::label('advisor_id',  __('committee::committees.advisor_id'), ['class' => 'col-md-4 control-label']) !!}
+            <label for="advisor_id" class="col-md-4 control-label">
+                {{ __('committee::committees.advisor_id') }}
+                <span style="color: red">*</span>
+            </label>
 
             <div class="col-md-8">
                 <select name="advisor_id" id="advisor_id" class="form-control select2">
@@ -329,7 +374,7 @@
     </div>
     <div class="col-md-8">
         <div class="form-group {{ $errors->has('participant_advisors') ? ' has-error' : '' }}">
-            {!! Form::label('tasks',  __('committee::committees.participant_advisors'), ['class' => 'col-md-2 control-label']) !!}
+            {!! Form::label('participant_advisors',  __('committee::committees.participant_advisors'), ['class' => 'col-md-2 control-label']) !!}
 
             <div class="col-md-10">
                 <select name="participant_advisors[]" data-placeholder="{{ __('committee::committees.please choose') }}"
