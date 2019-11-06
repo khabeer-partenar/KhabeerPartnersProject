@@ -180,12 +180,15 @@ class CommitteeController extends UserBaseController
 
     /**
      * Remove the specified resource from storage.
+     * @param Request $request
      * @param Committee $committee
      * @return Response
      * @internal param int $id
      */
-    public function destroy(Committee $committee)
+    public function destroy(Request $request, Committee $committee)
     {
+        $request->validate(['reason' => 'required|string|max:300']);
+        $committee->update(['reason_of_deletion' => $request->reason]);
         $committee->log('delete_committee');
         $committee->delete();
         return response()->json(['msg' => __('committee::committees.deleted')]);

@@ -46,6 +46,56 @@ $(document).ready(function() {
         })
     });
 
+    $(document).on('click', '.delete-row-reason', function(){
+        let btn = $(this);
+        let path = $(this).attr('data-href');
+
+        // const { value: reason } = await
+
+        Swal.fire({
+            title: 'هل انت متأكد من عملية الحذف؟',
+            type: 'warning',
+            input: 'text',
+            inputPlaceholder: 'سبب الحذف',
+            inputAttributes: {
+                maxlength: 300,
+            },
+            showCancelButton: true,
+            confirmButtonColor: '#ed6b75',
+            cancelButtonColor: '#337ab7',
+            confirmButtonText: 'حذف',
+            cancelButtonText: 'إلغاء',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'سبب الحذف مطلوب'
+                }
+            },
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: path,
+                    data: {'reason': result.value},
+                    type: 'delete',
+
+                    success: function(response){
+                        $(btn).parent().parent().remove();
+                    },
+
+                    error: function (request, status, error) {
+                        Swal.fire({
+                            title: 'حدث خطأ',
+                            text: request.responseJSON.msg,
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: '#D3D3D3',
+                            confirmButtonText: 'حسنا',
+                        });
+                    }
+                });
+            }
+        });
+        // console.log(reason);
+    });
 
     // apply select2
     $('.select2').select2();

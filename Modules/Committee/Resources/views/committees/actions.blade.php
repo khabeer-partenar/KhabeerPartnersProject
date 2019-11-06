@@ -5,7 +5,7 @@
         </a>
     @endif
     @if(auth()->user()->hasPermissionWithAccess('destroy'))
-        <a data-href="{{ route('committees.destroy', $committee) }}" class="btn btn-sm btn-danger delete-row">
+        <a data-href="{{ route('committees.destroy', $committee) }}" class="btn btn-sm btn-danger delete-row-reason">
             <i class="fa fa-trash"></i> {{ __('committee::committees.delete') }}
         </a>
     @endif
