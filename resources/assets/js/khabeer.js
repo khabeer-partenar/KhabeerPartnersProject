@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     // Setup Ajax to use CSRF
     $.ajaxSetup({
         headers: {
@@ -7,11 +6,12 @@ $(document).ready(function() {
         }
     });
 
-
-    // Delete row in dataTable using Ajax
+    // Delete row in dataTable
     $(document).on('click', '.delete-row', function(){
         let btn = $(this);
         let path = $(this).attr('data-href');
+        let table = $('#table-ajax').DataTable();
+
         Swal.fire({
             title: 'هل انت متأكد من عملية الحذف؟',
             text: "لن يمكنك الرجوع عن العملية",
@@ -28,7 +28,7 @@ $(document).ready(function() {
                     type: 'delete',
 
                     success: function(response){
-                        $(btn).parent().parent().remove();
+                        table.row( btn.parents('tr') ).remove().draw();
                     },
 
                     error: function (request, status, error) {
@@ -46,11 +46,11 @@ $(document).ready(function() {
         })
     });
 
+    // Delete a row in dataTable with a reason
     $(document).on('click', '.delete-row-reason', function(){
         let btn = $(this);
         let path = $(this).attr('data-href');
-
-        // const { value: reason } = await
+        let table = $('#table-ajax').DataTable();
 
         Swal.fire({
             title: 'هل انت متأكد من عملية الحذف؟',
@@ -78,7 +78,7 @@ $(document).ready(function() {
                     type: 'delete',
 
                     success: function(response){
-                        $(btn).parent().parent().remove();
+                        table.row( btn.parents('tr') ).remove().draw();
                     },
 
                     error: function (request, status, error) {
