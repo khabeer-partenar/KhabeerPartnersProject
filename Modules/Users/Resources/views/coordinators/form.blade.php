@@ -92,7 +92,7 @@
 <div class="row">
 
     <div class="col-md-4">
-        <div class="form-group {{ $errors->has('direct_department_id') ? ' has-error' : '' }}">
+        <div class="form-group {{ $errors->has('direct_department') ? ' has-error' : '' }}">
 
             {!! Form::label('direct_department_id', 'الإدارة', ['class' => 'col-md-4 control-label']) !!}
 
