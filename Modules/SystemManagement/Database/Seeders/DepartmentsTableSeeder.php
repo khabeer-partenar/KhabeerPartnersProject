@@ -18,7 +18,7 @@ class DepartmentsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        
+
         DB::table(Department::table())->truncate();
 
         $bodiesId = Department::create([
@@ -27,7 +27,7 @@ class DepartmentsTableSeeder extends Seeder
         ])->id;
 
         $BodyExpertsID = Department::create([
-            'parent_id' => $bodiesId, 'name' => 'هيئة￼￼￼ الخبراء', 'type' => '2', 'key' => 'staff_experts', 'can_deleted' => false, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
+            'parent_id' => $bodiesId, 'name' => 'هيئة الخبرا', 'type' => '2', 'key' => 'staff_experts', 'can_deleted' => false, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now(),
             'is_reference' => 1
         ])->id;
 
