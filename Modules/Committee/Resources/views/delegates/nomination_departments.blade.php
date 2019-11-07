@@ -1,29 +1,30 @@
 @if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users')
 && auth()->user()->hasPermissionWithAccess('getNominationDepartmentsWithRef','CommitteeController','Committee'))
+    @if ($committee->getNominationDepartmentsWithRef()!==null)
 
-    <table class="table table-striped table-responsive-md">
-        <thead>
-        <label class="underLine">{{ __('committee::committees.nomination_departments') }}
+        <table class="table table-striped table-responsive-md">
+            <thead>
+            <label class="underLine">{{ __('committee::committees.nomination_departments') }}
 
-        </label>
-        @if(auth()->user()->hasPermissionWithAccess('create','DelegateController','Users'))
+            </label>
+            @if(auth()->user()->hasPermissionWithAccess('create','DelegateController','Users'))
 
-            <a style="color:blue; float: left;margin-left: 10%;" data-toggle="modal" data-target="#addDelegateModal">
-                {{ __('committee::committees.nomination_add_delegte') }}
-            </a>
-        @endif
-        <tr>
-            <th style="width: 8%" scope="col"></th>
-            <th scope="col">{{ __('committee::committees.nomination_deparment_name') }}</th>
-            <th scope="col">{{ __('committee::committees.nomination_criteria') }}</th>
-            <th scope="col">{{ __('committee::committees.nomination_has_nomination') }}</th>
-            <th scope="col">{{ __('committee::committees.nomination_options') }}</th>
+                <a class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
+                   data-target="#addDelegateModal">
+                    {{ __('committee::committees.nomination_add_delegte') }}
+                </a>
+            @endif
+            <tr>
+                <th style="width: 8%" scope="col"></th>
+                <th scope="col">{{ __('committee::committees.nomination_deparment_name') }}</th>
+                <th scope="col">{{ __('committee::committees.nomination_criteria') }}</th>
+                <th scope="col">{{ __('committee::committees.nomination_has_nomination') }}</th>
+                <th scope="col">{{ __('committee::committees.nomination_options') }}</th>
 
-        </tr>
-        </thead>
-        <tbody id="nominationTable">
+            </tr>
+            </thead>
+            <tbody id="nominationTable">
 
-        @if ($committee->getNominationDepartmentsWithRef()!==null)
             @foreach($committee->getNominationDepartmentsWithRef() as $department)
                 <tr>
                     <td>{{ $loop->index + 1 }}</td>
@@ -44,9 +45,10 @@
                     </td>
                 </tr>
             @endforeach
-        @endif
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    @endif
+
     @include('users::delegates.index',compact('committee'))
     @include('users::delegates.create',compact('committee'))
 @endif

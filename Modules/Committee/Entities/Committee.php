@@ -278,7 +278,6 @@ class Committee extends Model
         if (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
             $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
             $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
-
             return $this->nominationDepartments()->whereIn('department_id', $departmentsId)->with('referenceDepartment')->get();
         } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
             $parentDepartmentId = auth()->user()->parentDepartment->id;

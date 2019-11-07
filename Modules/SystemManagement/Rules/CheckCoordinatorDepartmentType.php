@@ -34,7 +34,7 @@ class CheckCoordinatorDepartmentType implements Rule
 
             } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
                 $coordinator = Coordinator::find(auth()->user()->id);
-                $finalMainDepartmentsIds = Department::where('id', $coordinator->main_department_id)->toArry();
+                $finalMainDepartmentsIds = Department::where('id', $coordinator->main_department_id)->pluck('id')->toArray();
             }
             return in_array((int) $value,$finalMainDepartmentsIds,true);
         }

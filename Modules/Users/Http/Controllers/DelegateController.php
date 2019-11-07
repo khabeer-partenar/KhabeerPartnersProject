@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Core\Entities\Group;
 use Modules\Users\Entities\Delegate;
 use Modules\SystemManagement\Entities\Department;
@@ -57,10 +58,10 @@ class DelegateController extends UserBaseController
         //return response()->json(['name' => 'Abigail', 'state' => 'CA']);
     }
 
-    public function getDepartmentDelegatesNotInCommittee($department_id,$committee_id)
+    public function getDepartmentDelegatesNotInCommittee($department_id, $committee_id)
     {
-        $delegates = Delegate::getDepartmentDelegatesNotInCommittee($department_id,$committee_id);
-         return $delegates;
+        $delegates = Delegate::getDepartmentDelegatesNotInCommittee($department_id, $committee_id);
+        return $delegates;
     }
 
     /**
@@ -81,12 +82,20 @@ class DelegateController extends UserBaseController
 
     public function addDelegatesToCommittee(AddDelegatesToCommittee $request, Delegate $delegate)
     {
+        $result = CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($request->department_id, $request->committee_id);
+        if ($result == true) {
+            return response()->json(["error" => 'error']);
+        }
         if ($request->has('delegates_ids')) {
-//            $delegate->log('add_Delegates_To_Committee');
             $delegate->addDelegatesToCommittee($request);
             return back();
 
         }
+    }
+
+    public function checkIfMainCoordinatorNominateDelegates($department_id, $committee_id)
+    {
+        return CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($department_id, $committee_id);
     }
 
     /**
@@ -98,15 +107,15 @@ class DelegateController extends UserBaseController
     {
         $delegate = Delegate::createFromRequest($request);
         $delegate->log('create_delegate');
-       $delegate2->addDelegateToCommittee($request, $delegate->id);
+        $delegate2->addDelegateToCommittee($request, $delegate->id);
 
     }
 
-    public function removeFromCommitte($delegate_id,$committee_id,$department_id,$reason)
+    public function removeFromCommitte($delegate_id, $committee_id, $department_id, $reason)
     {
         $delegate = Delegate::find($delegate_id);
         $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate,$committee_id,$department_id,$reason);
+        $delegate->removeDelegateFromCommittee($delegate, $committee_id, $department_id, $reason);
         return response()->json(['msg' => __('users::delegates.deleted')]);
     }
     /**
@@ -115,7 +124,6 @@ class DelegateController extends UserBaseController
      * @return Response
      * @internal param int $id
      */
-
 
 
 }

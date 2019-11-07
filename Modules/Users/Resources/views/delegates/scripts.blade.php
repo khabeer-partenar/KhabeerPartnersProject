@@ -158,16 +158,16 @@
         })
         $(document).on('submit', 'form#delegate-form-create', function (event) {
             event.preventDefault();
-            $('#addDelegateModal').css('opacity','0.0');
+            $('#addDelegateModal').css('opacity', '0.0');
             //$('#loadingSpinner').css('display','block');
             Swal.fire('من فضلك انتظر')
             Swal.showLoading()
 
             $("#job_role_id").prop('disabled', false);
             @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
-                $("#parent_department_id").prop('disabled', false);
-                $("#main_department_id").prop('disabled', false);
-            @endif
+            $("#parent_department_id").prop('disabled', false);
+            $("#main_department_id").prop('disabled', false);
+                    @endif
 
             var form = $(this);
             var formData = new FormData($(this)[0]);
@@ -192,9 +192,13 @@
                     getNominationDepartments();
                     getDelegates();
                     Swal.close();
-                    $('#addDelegateModal').css('opacity','1');
+                    $('#addDelegateModal').css('opacity', '1');
                     //$('#loadingSpinner').css('display','none');
-
+                    $("#job_role_id").prop('disabled', true);
+                    @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
+                    $("#parent_department_id").prop('disabled', true);
+                    $("#main_department_id").prop('disabled', true);
+                    @endif
                     Swal.fire({
                         title: 'تمت الاضافة بنجاح',
                         type: 'info',
@@ -206,7 +210,7 @@
                 error: function (request) {
 
                     Swal.close();
-                    $('#addDelegateModal').css('opacity','1');
+                    $('#addDelegateModal').css('opacity', '1');
                     //console.log(request);
                     if (request.status == 401) {
                         $('#addDelegateModal').modal('hide');
@@ -232,8 +236,8 @@
                     }
                     $("#job_role_id").prop('disabled', true);
                     @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
-                        $("#parent_department_id").prop('disabled', true);
-                        $("#main_department_id").prop('disabled', true);
+                    $("#parent_department_id").prop('disabled', true);
+                    $("#main_department_id").prop('disabled', true);
                     @endif
 
                     //$('#loadingSpinner').css('display','none');
@@ -245,7 +249,9 @@
         $(document).on('click', '.nominateBtn', function () {
             var department_id = this.value;
             var committe_id = '{{$committee->id}}';
-            //console.log("id : " + department_id);
+
+            check
+
             var url = '{{url('/users/delegates/DepartmentDelegatesNotInCommittee')}}' + '/' + department_id + '/' + committe_id;
 
             //console.log(url);
@@ -268,7 +274,7 @@
                             html += '<td>' + (i + 1) + '</td>';
 
                             var department = result[0][i]['department']['name'];
-                            if (result[0][i]['department']['reference_department']!=null) {
+                            if (result[0][i]['department']['reference_department'] != null) {
                                 department += '/' + result[0][i]['department']['reference_department']['name'];
                             }
                             var specialty = result[0][i]['specialty'];
@@ -376,7 +382,7 @@
                     var errors = data.responseJSON;
                     console.log(data);
                     if (request.status == 401) {
-                       // $('#addDelegateModal').modal('hide');
+                        // $('#addDelegateModal').modal('hide');
                         Swal.fire({
                             title: 'لا تملك صلاحية عرض الجهات المطلوب ترشيح مندوبين لها داخل تفاصيل اللجنة',
                             type: 'error',
