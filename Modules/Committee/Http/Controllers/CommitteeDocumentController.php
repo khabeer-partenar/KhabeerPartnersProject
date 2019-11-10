@@ -2,7 +2,7 @@
 
 namespace Modules\Committee\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Classes\PDF\WaterMarker;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Modules\Committee\Entities\Committee;
@@ -15,6 +15,8 @@ class CommitteeDocumentController extends Controller
     {
         $file = $request->file('file');
         $path = Storage::put('temp-committees', $file);
+        $waterMarker = new WaterMarker($path);
+        $waterMarker->updatePdf();
         $document = CommitteeDocument::create([
             'path' => $path,
             'name' => $file->getClientOriginalName(),
@@ -32,6 +34,8 @@ class CommitteeDocumentController extends Controller
     {
         $file = $request->file('file');
         $path = Storage::put("committees/$committee->id", $file);
+        $waterMarker = new WaterMarker($path);
+        $waterMarker->updatePdf();
         $document = $committee->documents()->create([
             'path' => $path,
             'name' => $file->getClientOriginalName(),
