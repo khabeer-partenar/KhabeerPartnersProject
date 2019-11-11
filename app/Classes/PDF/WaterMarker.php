@@ -14,9 +14,7 @@ class WaterMarker
 {
     private $logo = 'assets/images/logo.png';
     private $pdf;
-    private $fromPage;
-    private $toPage;
-    private $position;
+    private $position = 'bottomleft';
 
     public function __construct($pdf)
     {
@@ -29,7 +27,7 @@ class WaterMarker
         $watermark = new PDFWatermark(public_path($this->logo));
 
         //Set the position
-        $watermark->setPosition('bottomleft');
+        $watermark->setPosition($this->position);
 
         //Place watermark behind original PDF content. Default behavior places it over the content.
         $watermark->setAsOverlay();
@@ -46,22 +44,6 @@ class WaterMarker
 
         //Save the new PDF to its specified location
         $watermarker->savePdf();
-    }
-
-    /**
-     * @param mixed $toPage
-     */
-    public function setToPage($toPage)
-    {
-        $this->toPage = $toPage;
-    }
-
-    /**
-     * @param mixed $fromPage
-     */
-    public function setFromPage($fromPage)
-    {
-        $this->fromPage = $fromPage;
     }
 
     /**
