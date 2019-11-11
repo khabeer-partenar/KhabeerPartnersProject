@@ -47,7 +47,7 @@ class EmployeeController extends UserBaseController
 
         $employeesData      = [0 => __('messages.choose_option')];
         $directDepartments  = Department::where('type', 3)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
-        $rolesData          = Group::pluck('name', 'id')->prepend(__('messages.choose_option'), '');
+        $rolesData          = Group::employeeRoles()->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         return view('users::employees.index', compact('employeesData', 'directDepartments', 'rolesData'));
     }
 
