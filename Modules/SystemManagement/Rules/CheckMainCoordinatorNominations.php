@@ -31,9 +31,9 @@ class CheckMainCoordinatorNominations implements Rule
      */
     public function passes($attribute, $value)
     {
-        $result  = CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($this->department_id,$this->committee_id);
-        if ($result==true) return true;
-        return flase;
+        $result  = CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($this->committee_id);
+        if ($result==true) return false;
+        return true;
     }
 
     /**

@@ -19,10 +19,10 @@ class CommitteeDelegate extends Model
 
     }
 
-    public static function checkIfMainCoordinatorNominateDelegates($department_id, $committee_id)
+    public static function checkIfMainCoordinatorNominateDelegates($committee_id)
     {
         if (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
-            $delegates = CommitteeDelegate::getDelegates($department_id, $committee_id);
+            $delegates = CommitteeDelegate::getDelegates(auth()->user()->parentDepartment()->first()->id, $committee_id);
             foreach ($delegates as $delegate) {
                 $mainCoordinator = Coordinator::with('jobRole')->get()->find($delegate->coordinator_id);
                 if ($mainCoordinator->jobRole->key == Coordinator::MAIN_CO_JOB) {

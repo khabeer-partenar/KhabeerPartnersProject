@@ -45,7 +45,7 @@
                     <td>
                         @if(auth()->user()->hasPermissionWithAccess('removeFromCommitte','DelegateController','Users'))
 
-                            <a data-href="{{ route('delegate.remove.from.committee',['delegate_id'=>$delegate->id,'committee_id'=>$committee->id,'department_id'=>$delegate->pivot->nominated_department_id,'reason'=>'']) }}"
+                            <a  data-href="{{ route('delegate.remove.from.committee',['delegate_id'=>$delegate->id,'committee_id'=>$committee->id,'department_id'=>$delegate->pivot->nominated_department_id,'reason'=>'']) }}"
                                class="btn btn-sm btn-danger delete-row-delegate">
                                 <i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}
                             </a>
@@ -66,8 +66,7 @@
     <a onclick="window.history.back();" style="float: left;margin-right: 10px" class="btn btn-sm btn-primary">
         <i class="fa fa-step-backward"></i> {{ __('users::delegates.back') }}
     </a>
-    @if(auth()->user()->hasPermissionWithAccess('sendNomination','CommitteeController','Committee')
-     && $committee->status == \Modules\Committee\Entities\Committee::NOMINATIONS_COMPLETED)
+    @if(auth()->user()->hasPermissionWithAccess('sendNomination','CommitteeController','Committee'))
 
         <a id="btn-send-nomination" style="float: left;background-color: #057d54" class="btn btn-sm btn-info">
             <i class="fa fa-send"></i> {{ __('users::delegates.sendNomination') }}

@@ -151,7 +151,7 @@
             {!! Form::label('national_id', 'رقم الهوية', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('national_id', null, ['id' => 'national_id', 'class' => 'form-control']) !!}
+                {!! Form::text('national_id', null, ['id' => 'national_id',"onkeyup" => "this.value=this.value.replace(/[^\d]/,'')", 'class' => 'form-control','maxlength' => 10]) !!}
 
                 <span id="span_national_id" class="help-block span-error"></span>
             </div>
@@ -179,7 +179,7 @@
             {!! Form::label('phone_number', 'رقم الجوال', ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('phone_number', null, ['id' => 'phone_number', 'class' => 'form-control']) !!}
+                {!! Form::text('phone_number', null, ['id' => 'phone_number',"onkeyup" => "this.value=this.value.replace(/[^\d]/,'')", 'class' => 'form-control','maxlength' => 10]) !!}
 
                 <span id="span_phone_number" class="help-block span-error"></span>
             </div>

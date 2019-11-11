@@ -5,6 +5,8 @@ namespace Modules\Users\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Input;
 use Modules\SystemManagement\Entities\Department;
+use Modules\SystemManagement\Rules\CheckDepartmentNominatedDelegates;
+use Modules\SystemManagement\Rules\CheckMainCoordinatorNominations;
 use Modules\Users\Entities\User;
 use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
@@ -29,8 +31,9 @@ class SaveDelegateRequest extends FormRequest
     public function rules()
     {
         return [
+            'parent_department_id' =>   ['bail','required','integer',  new CheckMainCoordinatorNominations(request()->parent_department_id,request()->committee_id)
+                , new CheckCoordinatorParentDepartmentType],
             'main_department_id' => ['required', 'integer',  new CheckCoordinatorDepartmentType],
-            'parent_department_id' => ['required', 'integer', new CheckCoordinatorParentDepartmentType],
             'direct_department_id' => ['nullable', 'integer', new CheckCoordinatorDirectDepartmentType(request()->parent_department_id)],
             'job_title' => ['required'],
             'national_id' => ['required', new NationalIDRule, 'unique:' . User::table()],

@@ -145,7 +145,7 @@
         $(document).on('click', '#btn-send-nomination', function () {
 
             var url = '{{(isset($committee))? route("committees.send.nomination",compact("committee")):''}}';
-            if (url=='') return;
+            if (url == '') return;
             Swal.fire({
                 title: 'هل تريد إرسال الترشيحات الى سكرتير المستشار؟',
                 type: 'warning',
@@ -190,9 +190,6 @@
 
 
         });
-
-
-
     });
 
 </script>

@@ -63,11 +63,24 @@
                         $.ajax({
                             type: 'GET',
                             url: path,
+                            async:true,
                             success: function (response) {
-                                $(btn).parent().parent().remove();
-                                getNominationDepartments();
-                                getDelegates();
+                                console.log(response.msg);
+                                if (response.code==1)
+                                {
+                                    $(btn).parent().parent().remove();
+                                    getNominationDepartments();
+                                    getDelegates();
+                                }
                                 Swal.close();
+                                Swal.fire({
+                                    title: response.msg,
+                                    type: 'info',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#D3D3D3',
+                                    confirmButtonText: 'حسنا',
+                                });
+
                             },
 
                             error: function (request, status, error) {
@@ -95,6 +108,8 @@
                 //console.log(result.value);
 
             })
+
+
         });
         $(document).on('submit', 'form#from-add-delegates-to-committees', function (event) {
             event.preventDefault();
@@ -118,15 +133,30 @@
                     getNominationDepartments();
                     getDelegates();
                     Swal.close();
+                    Swal.fire({
+                        title: 'تم الترشيح بنجاح',
+                        type: 'info',
+                        confirmButtonText: 'حسنا'
+                    })
                 },
                 error: function (request) {
-                    // console.log(request);
-                    let errors = request.responseJSON;
+                    console.log(request);
+                    let errors = request.responseJSON['errors'];
                     console.log(errors);
+                        console.log(errors.delegates_ids[0]);
                     Swal.close();
+                    if (errors.delegates_ids) {
+                        Swal.fire({
+                            title: errors.delegates_ids[0],
+                            type: 'error',
+                            showCancelButton: false,
+                            confirmButtonColor: '#D3D3D3',
+                            confirmButtonText: 'حسنا',
+                        });
+                        return;
+                    }
                     Swal.fire({
-                        title: 'حدث خطأ',
-                        text: request.responseJSON.msg,
+                        title: 'حدث خطأ من فضلك اتصل بمدير النظام',
                         type: 'error',
                         showCancelButton: false,
                         confirmButtonColor: '#D3D3D3',
@@ -200,7 +230,7 @@
                     $("#main_department_id").prop('disabled', true);
                     @endif
                     Swal.fire({
-                        title: 'تمت الاضافة بنجاح',
+                        title: 'تم الحفظ والترشيح بنجاح',
                         type: 'info',
                         confirmButtonText: 'حسنا'
                     })
@@ -209,6 +239,7 @@
                 },
                 error: function (request) {
 
+                    //console.log(request);
                     Swal.close();
                     $('#addDelegateModal').css('opacity', '1');
                     //console.log(request);
@@ -250,7 +281,7 @@
             var department_id = this.value;
             var committe_id = '{{$committee->id}}';
 
-            check
+            //check
 
             var url = '{{url('/users/delegates/DepartmentDelegatesNotInCommittee')}}' + '/' + department_id + '/' + committe_id;
 
@@ -264,40 +295,52 @@
                 success: function (result) {
                     // console.log(result.status);
                     console.log(result);
-                    if (result[0].length > 0) {
-                        //console.log(result);
-
-                        $('#table_delegates').html('');
-                        var html = "";
-                        for (var i = 0; i < result[0].length; i++) {
-                            html += '<tr>';
-                            html += '<td>' + (i + 1) + '</td>';
-
-                            var department = result[0][i]['department']['name'];
-                            if (result[0][i]['department']['reference_department'] != null) {
-                                department += '/' + result[0][i]['department']['reference_department']['name'];
-                            }
-                            var specialty = result[0][i]['specialty'];
-                            if (specialty == null) specialty = '';
-                            html += '<td>' + department + '</td>';
-                            html += '<td>' + result[0][i]['name'] + '</td>';
-                            html += '<td>' + result[0][i]['job_title'] + '</td>';
-                            html += '<td>' + result[0][i]['national_id'] + '</td>';
-                            html += '<td>' + result[0][i]['phone_number'] + '</td>';
-                            html += '<td>' + result[0][i]['email'] + '</td>';
-                            html += '<td>' + specialty + '</td>';
-                            html += '<td><input type="checkbox" name="delegates_ids[]" value="' + result[0][i]['id'] + '"/></td>';
-                            html += '</tr>';
-                        }
-                        $('#department_id').val(result[1]['department_id']);
-                        $('#table_delegates').html(html);
-                        $("#nominationsListModal").modal();
-                    } else {
+                    if (result.code ==0)
+                    {
                         Swal.fire({
-                            title: 'لا يوجد مندوبين لهذه الجهة من فضلك قم باضافة مندوب جديد',
+                            title: result.msg,
                             type: 'error',
-                            confirmButtonText: 'موافق'
+                            confirmButtonText: 'حسنا'
                         })
+                    }
+                    else {
+
+
+                        if (result[0].length > 0) {
+                            //console.log(result);
+
+                            $('#table_delegates').html('');
+                            var html = "";
+                            for (var i = 0; i < result[0].length; i++) {
+                                html += '<tr>';
+                                html += '<td>' + (i + 1) + '</td>';
+
+                                var department = result[0][i]['department']['name'];
+                                if (result[0][i]['department']['reference_department'] != null) {
+                                    department += '/' + result[0][i]['department']['reference_department']['name'];
+                                }
+                                var specialty = result[0][i]['specialty'];
+                                if (specialty == null) specialty = '';
+                                html += '<td>' + department + '</td>';
+                                html += '<td>' + result[0][i]['name'] + '</td>';
+                                html += '<td>' + result[0][i]['job_title'] + '</td>';
+                                html += '<td>' + result[0][i]['national_id'] + '</td>';
+                                html += '<td>' + result[0][i]['phone_number'] + '</td>';
+                                html += '<td>' + result[0][i]['email'] + '</td>';
+                                html += '<td>' + specialty + '</td>';
+                                html += '<td><input type="checkbox" name="delegates_ids[]" value="' + result[0][i]['id'] + '"/></td>';
+                                html += '</tr>';
+                            }
+                            $('#department_id').val(result[1]['department_id']);
+                            $('#table_delegates').html(html);
+                            $("#nominationsListModal").modal();
+                        } else {
+                            Swal.fire({
+                                title: 'لا يوجد مندوبين لهذه الجهة من فضلك قم باضافة مندوب جديد',
+                                type: 'error',
+                                confirmButtonText: 'موافق'
+                            })
+                        }
                     }
                 },
                 error: function (data) {

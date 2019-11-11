@@ -101,7 +101,8 @@ class Delegate extends User
     public function addDelegateToCommittee(Request $request, int $delegate_id)
     {
         $committee = Committee::findOrFail($request->committee_id)->with('delegates')->first();
-        $committee->delegates()->attach($delegate_id, array('nominated_department_id' => $request->parent_department_id));
+        $committee->delegates()->attach($delegate_id, array('nominated_department_id' => $request->parent_department_id
+            ,'coordinator_id' => auth()->user()->id));
 
         $committee1 = Committee::findOrFail($request->committee_id)->with('nominationDepartments')->first();
         $department = $committee1->nominationDepartments->find($request->parent_department_id);

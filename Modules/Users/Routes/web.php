@@ -34,9 +34,9 @@ Route::group(['middleware' => 'auth'], function()
         {
            // $mainCoordinator  = Coordinator::with('jobRole')->get()->find(14);
            // dd($mainCoordinator->jobRole->key);
-
-           $result  =\Modules\Committee\Entities\CommitteeDelegate::checkIfMainCoordinatorNominateDelegates(17,6);
-           dd($result);
+$id = auth()->user()->parentDepartment()->first()->id;
+           //$result  =\Modules\Committee\Entities\CommitteeDelegate::checkIfMainCoordinatorNominateDelegates(17,6);
+           dd($id);
         });
         // Coordinator Controller
         Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');

@@ -39,7 +39,10 @@ return [
     'committee first meeting date'=>'تاريخ اول الجتماع',
     'delegate deleted'=>'لقد تم حذف المندوب',
     'delegate deleted for committee'=>'من لجنة',
-    'delegate deleted reason'=>'سبب الحذف'
+    'delegate deleted reason'=>'سبب الحذف',
+    'delegate_can_not_delete'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك حذفه',
+    'delegate_can_not_delegate'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك الترشيح'
+
 
 
 ];
