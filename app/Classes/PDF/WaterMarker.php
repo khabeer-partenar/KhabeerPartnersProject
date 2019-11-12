@@ -1,30 +1,28 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: DELL
- * Date: 10/11/19
- * Time: 01:01 م
+ * @author Mamdouh Magdy <mamdouh95@mu.edu.sa>
  */
-
 namespace App\Classes\PDF;
 
 use Illuminate\Support\Facades\Storage;
+use Modules\Committee\Entities\CommitteeDocument;
 
 class WaterMarker
 {
-    private $logo = 'assets/images/logo.png';
-    private $pdf;
-    private $position = 'bottomleft';
+    private $watermarkPath;
+    private $document;
+    private $position = 'center';
 
-    public function __construct($pdf)
+    public function __construct(CommitteeDocument $document, $watermarkPath)
     {
-        $this->pdf = $pdf;
+        $this->document = $document;
+        $this->watermarkPath = $watermarkPath;
     }
 
-    public function updatePdf()
+    public function drawWaterMark()
     {
         //Specify path to image. The image must have a 96 DPI resolution.
-        $watermark = new PDFWatermark(public_path($this->logo));
+        $watermark = new PDFWatermark($this->watermarkPath);
 
         //Set the position
         $watermark->setPosition($this->position);
@@ -33,9 +31,17 @@ class WaterMarker
         $watermark->setAsOverlay();
 
         //Specify the path to the existing pdf, the path to the new pdf file, and the watermark object
+        $tempPath = public_path('temp-downloads/');
+
+        if (!file_exists($tempPath)) {
+            mkdir($tempPath, 666, true);
+        }
+
+        $savedPath = $tempPath . md5($this->document->id + auth()->id()) . '.pdf';
+
         $watermarker = new PDFWatermarker(
-            Storage::path($this->pdf),
-            Storage::path($this->pdf),
+            Storage::path($this->document->path),
+            $savedPath,
             $watermark
         );
 
@@ -44,14 +50,16 @@ class WaterMarker
 
         //Save the new PDF to its specified location
         $watermarker->savePdf();
+
+        return $savedPath;
     }
 
     /**
-     * @param string $logo
+     * @param string $watermarkPath
      */
-    public function setLogo(string $logo)
+    public function setWatermarkPath(string $watermarkPath)
     {
-        $this->logo = $logo;
+        $this->watermarkPath = $watermarkPath;
     }
 
     /**

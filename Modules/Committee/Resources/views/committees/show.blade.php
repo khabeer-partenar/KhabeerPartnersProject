@@ -189,7 +189,10 @@
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $document->description }}</td>
                         <td>
-                            <a type="button" class="btn btn-default" href="{{ $document->full_path }}" download>تحميل</a>
+                            {{--<a type="button" class="btn btn-default" href="{{ $document->full_path }}" download>تحميل</a>--}}
+                            <a type="button" class="btn btn-default"
+                               href="{{ route('committees.document.download', ['document' => $document]) }}"
+                               download>تحميل</a>
                         </td>
                     </tr>
                 @endforeach
