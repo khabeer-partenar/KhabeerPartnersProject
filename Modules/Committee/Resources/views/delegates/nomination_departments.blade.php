@@ -9,7 +9,7 @@
             </label>
             @if(auth()->user()->hasPermissionWithAccess('create','DelegateController','Users'))
 
-                <a class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
+                <a  class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
                    data-target="#addDelegateModal">
                     {{ __('committee::committees.nomination_add_delegte') }}
                 </a>

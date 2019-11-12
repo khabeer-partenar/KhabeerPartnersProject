@@ -163,11 +163,17 @@
                         contentType: false,
                         processData: false,
                         success: function (result) {
-                            if (result == 'done') {
-                                //console.log(result);
+                            if (result.status == '{{\Modules\Committee\Entities\Committee::NOMINATIONS_COMPLETED}}') {
                                 Swal.fire({
-                                    title: 'تم ارسال الترشيح بنجاح',
-                                    type: 'info',
+                                    title: result.msg,
+                                    type:  'info',
+                                    confirmButtonText: 'حسنا'
+                                })
+                            }
+                            else {
+                                Swal.fire({
+                                    title: result.msg,
+                                    type: 'error',
                                     confirmButtonText: 'حسنا'
                                 })
                             }

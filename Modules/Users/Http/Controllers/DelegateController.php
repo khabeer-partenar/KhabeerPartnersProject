@@ -99,7 +99,8 @@ class DelegateController extends UserBaseController
 
     public function checkIfMainCoordinatorNominateDelegates($committee_id)
     {
-        return response()->json(CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($committee_id));
+        return response()->json(['status' => CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($committee_id)
+            ,'msg'=>__('users::delegates.delegate_can_not_delegate')]);
     }
 
     /**

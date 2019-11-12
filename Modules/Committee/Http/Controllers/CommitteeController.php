@@ -194,7 +194,15 @@ class CommitteeController extends UserBaseController
     public function sendNomination(Committee $committee)
     {
         $committee->log('send nomination');
-        event(new NominationDoneEvent($committee));
-        return 'done';
+        if ($committee->status==Committee::NOMINATIONS_COMPLETED) {
+            return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_send_successfully')]);
+        }
+        else
+        {
+            event(new NominationDoneEvent($committee));
+            return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_not_compeleted')]);
+
+        }
+
     }
 }

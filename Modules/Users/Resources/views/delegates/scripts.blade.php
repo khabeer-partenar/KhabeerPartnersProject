@@ -76,8 +76,6 @@
                                 Swal.fire({
                                     title: response.msg,
                                     type: 'info',
-                                    showCancelButton: false,
-                                    confirmButtonColor: '#D3D3D3',
                                     confirmButtonText: 'حسنا',
                                 });
 
@@ -173,9 +171,6 @@
         $('#addDelegateModal').on('hidden.bs.modal', function () {
             $('.has-error').removeClass('has-error');
             $('.span-error').text('');
-            //$('#main_department_id').select2("val", "0");
-            //$('#parent_department_id').select2("val", "0");
-            //$('#direct_department_id').select2("val", "0");
 
             $(this)
                 .find("input,textarea")
@@ -186,6 +181,50 @@
                 .end();
 
         })
+
+        $('#addDelegateModal').on('show.bs.modal', function () {
+            $('#addDelegateModal').css('opacity', '0.0');
+            var committe_id = '{{$committee->id}}';
+            var url = '{{url('/users/delegates/getMainCoordinatorNominatedDelegates')}}' + '/' +  committe_id;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    console.log(result);
+                    if (result.status ==true)
+                    {
+                        $('#addDelegateModal').modal('hide');
+                        Swal.fire({
+                            title: result.msg,
+                            type: 'error',
+                            confirmButtonText: 'حسنا'
+                        })
+
+                    }
+                    else {
+                        $('#addDelegateModal').css('opacity', '1');
+                    }
+
+                },
+                error: function (data) {
+
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'حسنا',
+                    });
+
+                }
+
+
+            });
+
+        })
+
         $(document).on('submit', 'form#delegate-form-create', function (event) {
             event.preventDefault();
             $('#addDelegateModal').css('opacity', '0.0');

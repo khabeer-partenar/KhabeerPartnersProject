@@ -34,9 +34,9 @@ Route::group(['middleware' => 'auth'], function()
         {
            // $mainCoordinator  = Coordinator::with('jobRole')->get()->find(14);
            // dd($mainCoordinator->jobRole->key);
-$id = auth()->user()->parentDepartment()->first()->id;
+            //$id = auth()->user()->parentDepartment()->first()->id;
            //$result  =\Modules\Committee\Entities\CommitteeDelegate::checkIfMainCoordinatorNominateDelegates(17,6);
-           dd($id);
+           //dd($id);
         });
         // Coordinator Controller
         Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');
@@ -52,7 +52,7 @@ $id = auth()->user()->parentDepartment()->first()->id;
 
         Route::post('/delegates/add_delegate','DelegateController@addDelegatesToCommittee')->name('delegates.add_delegates');
         Route::get('/delegates/DepartmentDelegatesNotInCommittee/{department_id}/{committee_id}','DelegateController@getDepartmentDelegatesNotInCommittee');
-        Route::get('/delegates/getMainCoordinatorNominatedDelegates/{department_id}/{committee_id}','DelegateController@checkIfMainCoordinatorNominateDelegates');
+        Route::get('/delegates/getMainCoordinatorNominatedDelegates/{committee_id}','DelegateController@checkIfMainCoordinatorNominateDelegates');
 
         // Assign Committe Controller
         Route::get('/employees/assign-committees/search/{groupID}/{columnType}', 'AssignCommitteController@search')->name('employees.assign_committees.search');
