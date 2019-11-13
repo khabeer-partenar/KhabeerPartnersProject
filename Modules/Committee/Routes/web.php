@@ -14,6 +14,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
     Route::get('committees/delegates/{committee_id}', 'CommitteeController@getDelegatesWithDetails')->name('committees.get.delegate');
     Route::get('/committees/sendNomination/{committee}', 'CommitteeController@sendNomination')->name('committees.send.nomination');
     Route::get('/committees/NominationDepartments/{committee}', 'CommitteeController@getNominationDepartmentsWithRef')->name('committee.get.NominationDepartments');
+    Route::get('committees/export/{committee}', 'CommitteeReportController@exportAllInfo')->name('committee.export.all.info');
 
 });
 
