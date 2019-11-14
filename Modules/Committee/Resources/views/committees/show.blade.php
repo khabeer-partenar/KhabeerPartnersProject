@@ -18,7 +18,7 @@
                 @endif
             </div>
             <div class="actions">
-                <a onclick="window.open('{{route('committee.export.all.info',$committee)}}', '_blank', 'directories=no,scrollbars=yes,titlebar=no,toolbar=no,toolbar=no,location=no,status=no,menubar=no');" class="btn btn-sm btn-primary">
+                <a onclick="window.open('{{route('committee.export.all.info',$committee)}}', '_blank', 'directories=no,scrollbars=yes,titlebar=no,toolbar=no,location=no,status=no,menubar=no');" class="btn btn-sm btn-primary">
                         <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
                     </a>
             </div>
@@ -148,9 +148,9 @@
                 @endforeach
                 </tbody>
             </table>
-            @include('committee::delegates.nomination_departments',compact('committee'))
+            @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
             {{--@include('users::delegates.index')--}}
-            @include('committee::delegates.committee_delegates',compact('committee'))
+            @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
 
         </div>

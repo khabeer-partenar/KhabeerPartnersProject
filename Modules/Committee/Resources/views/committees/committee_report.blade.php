@@ -1,7 +1,7 @@
-@extends('layouts.dashboard.index')
+@extends('layouts.report')
 
 
-
+@section('page')
 
     <div class="portlet light bordered">
 
@@ -139,11 +139,12 @@
                 @endforeach
                 </tbody>
             </table>
-            {{--@include('committee::delegates.nomination_departments',compact('committee'))
-            @include('committee::delegates.committee_delegates',compact('committee'))--}}
+            @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>true])
+            @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>true])
 
 
         </div>
     </div>
+@endsection
 
 
