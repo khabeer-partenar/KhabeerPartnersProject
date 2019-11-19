@@ -108,7 +108,7 @@ class CommitteeController extends UserBaseController
         $committee = Committee::createFromRequest($request);
         $committee->log('create_committee');
         self::sessionSuccess('committee::committees.created');
-        return back();
+        return redirect()->route('committees.index');
     }
 
     /**
