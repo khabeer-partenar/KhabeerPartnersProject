@@ -50,4 +50,11 @@ Route::group(['middleware' => 'auth', 'as' => 'system-management.', 'prefix' => 
         Route::put('/{department}/edit', 'DepartmentController@departmentsAuthoritiesUpdate')->name('update');
     });
 
+    Route::group(['as' => 'source-recommendation-study.', 'prefix' => 'source-recommendation-study'], function()
+    {
+        Route::get('/', 'SourceRecommendationStudyController@index')->name('index');
+        Route::get('/{department}/edit', 'SourceRecommendationStudyController@edit')->name('edit');
+        Route::put('/{department}/edit', 'SourceRecommendationStudyController@update')->name('update');
+    });
+
 });

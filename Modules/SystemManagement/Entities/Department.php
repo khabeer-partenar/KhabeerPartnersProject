@@ -32,7 +32,10 @@ class Department extends Model
      *
      * @var array
      */
-    protected $fillable = ['parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id', 'telephone', 'address', 'email', 'direct_manager_id', 'order'];
+    protected $fillable = [
+        'parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id', 'telephone', 'address', 'email', 'direct_manager_id', 'order',
+        'shown_in_committee_recommended', 'shown_in_committee_source_of_study'
+    ];
 
     /**
      * Functions

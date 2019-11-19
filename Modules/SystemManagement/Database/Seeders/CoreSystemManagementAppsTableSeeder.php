@@ -146,6 +146,24 @@ class CoreSystemManagementAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        $sourceRecommendationStudyId = App::create([
+            'resource_name' => $generalResourceName . '\SourceRecommendationStudyController@index', 'name' => 'مصدر وتوصية الدراسة',
+            'icon' => 'fa fa-bars', 'sort' => 6, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/source-recommendation-study', 'is_main_root' => 1,
+            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        App::create([
+            'resource_name' => $generalResourceName . '\SourceRecommendationStudyController@edit', 'name' => 'تعديل',
+            'icon' => 'fa fa-bars', 'sort' => 1, 'parent_id' => $sourceRecommendationStudyId, 'frontend_path' => 'system-management/source-recommendation-study/:department/edit', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\SourceRecommendationStudyController@update', 'name' => 'تحديث',
+            'icon' => 'fa fa-bars', 'sort' => 2, 'parent_id' => $sourceRecommendationStudyId, 'frontend_path' => 'system-management/source-recommendation-study/:department/edit', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
     }
 
 }
