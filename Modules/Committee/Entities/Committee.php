@@ -66,7 +66,7 @@ class Committee extends Model
 
     public function setFirstMeetingAtAttribute($value)
     {
-        $this->attributes['first_meeting_at'] = self::getDateFromFormat($value);
+        $this->attributes['first_meeting_at'] = self::getDateFromFormat($value, 'd/m/Y H:i');
     }
 
     public function setRecommendedAtAttribute($value)

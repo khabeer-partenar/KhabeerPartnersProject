@@ -282,12 +282,12 @@
 
             <div class="col-md-8">
                 @php
-                    $meetingAt = isset($committee) ? $committee->first_meeting_at->format('m/d/Y'):null;
+                    $meetingAt = isset($committee) ? $committee->first_meeting_at->format('m/d/Y H:i'):null;
                     if (old('first_meeting_at')){
                         $meetingAt = old('first_meeting_at');
                     }
                 @endphp
-                <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form-control date-picker" autocomplete="off">
+                <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form-control datetime-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'first_meeting_at'])
             </div>
         </div>

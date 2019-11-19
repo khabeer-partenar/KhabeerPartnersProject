@@ -80,6 +80,7 @@ return [
     'with_number' => 'برقم',
     'meeting in' => 'الاجتماع بيوم',
     'same as' => 'الموافق',
+    'hour' => 'الساعة',
     'files' => 'الملفات المرفقة',
     'upload_files' => 'إرفاق ملفات',
     'number' => 'رقم',

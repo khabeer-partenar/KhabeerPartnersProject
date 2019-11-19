@@ -28,6 +28,7 @@ mix
         'resources/assets/css/select2-bootstrap_ar.min.css',
         'resources/assets/css/datatables.min.css',
         'resources/assets/css/bootstrap-datepicker.css',
+        'resources/assets/css/jquery.datetimepicker.min.css',
         'resources/assets/css/datatables.bootstrap.css',
         'resources/assets/css/datatables.bootstrap-rtl.css',
         'resources/assets/css/jquery.calendars.picker.css',
@@ -149,6 +150,7 @@ mix
     .copy('resources/assets/js/vendor/bootstrap-select.min.js', 'public/assets/js/bootstrap-select.min.js')
     .copy('resources/assets/js/vendor/bootstrap-datepicker.min.js', 'public/assets/js/bootstrap-datepicker.min.js')
     .copy('resources/assets/js/vendor/locals/bootstrap-datepicker-ar.js', 'public/assets/js/bootstrap-datepicker-ar.min.js')
+    .copy('resources/assets/js/vendor/jquery.datetimepicker.full.min.js', 'public/assets/js/bootstrap-datetimepicker.min.js')
     .copy('resources/assets/js/vendor/components-multi-select.min.js', 'public/assets/js/components-multi-select.min.js')
     .copy('resources/assets/js/vendor/table-datatables-editable.min.js', 'public/assets/js/table-datatables-editable.min.js')
       

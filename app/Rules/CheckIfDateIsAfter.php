@@ -10,7 +10,8 @@ class CheckIfDateIsAfter implements Rule
     private $date;
     private $translationPath;
     private $format;
-
+    private $secondFormat;
+    
     /**
      * Create a new rule instance.
      *
@@ -19,11 +20,12 @@ class CheckIfDateIsAfter implements Rule
      * @param string $format
      * @internal param $attribute
      */
-    public function __construct($date, $translationPath, $format = 'm/d/Y')
+    public function __construct($date, $translationPath, $format = 'm/d/Y', $secondFormat = 'm/d/Y')
     {
         $this->date = $date;
         $this->translationPath = $translationPath;
         $this->format = $format;
+        $this->secondFormat = $secondFormat;
     }
 
     /**
@@ -39,7 +41,7 @@ class CheckIfDateIsAfter implements Rule
             return false;
         } else {
             $newDate = Carbon::createFromFormat($this->format, $value);
-            $olderDate = Carbon::createFromFormat($this->format, \Request::post($this->date));
+            $olderDate = Carbon::createFromFormat($this->secondFormat, \Request::post($this->date));
             return $newDate->greaterThan($olderDate);
         }
     }
