@@ -49,4 +49,5 @@
 
 {{ Html::script(mix('assets/js/menu-toggler-sidebar.js')) }}
 {{ Html::script(mix('assets/js/bootstrap-datepicker.min.js')) }}
+{{ Html::script(mix('assets/js/bootstrap-datetimepicker.min.js')) }}
 {{ Html::script(mix('assets/js/bootstrap-datepicker-ar.min.js')) }}

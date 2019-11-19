@@ -117,6 +117,8 @@
                             {{ $committee->first_meeting_at_hijri }}
                             {{ __('committee::committees.same as') }}
                             {{ $committee->first_meeting_at->format('Y-m-d') }}
+                            {{ __('committee::committees.hour') }}
+                            {{ $committee->first_meeting_at->format('H:i') }}
                         </td>
                     </tr>
                     <tr>

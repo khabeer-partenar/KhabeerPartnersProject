@@ -3,7 +3,7 @@
     "/assets/js/custom.js": "/assets/js/custom.js?id=dad73bc827da9832c494",
     "/assets/js/laravel-forms.js": "/assets/js/laravel-forms.js?id=23dfbd4154cb56736ad8",
     "/assets/js/multi-input.js": "/assets/js/multi-input.js?id=282e999ce9c28e6d8131",
-    "/assets/css/main.css": "/assets/css/main.css?id=6ce7bc2e8083d752bb17",
+    "/assets/css/main.css": "/assets/css/main.css?id=ec9c342a7c0f578f3634",
     "/assets/css/global.css": "/assets/css/global.css?id=adb7721b893f9613b536",
     "/assets/css/layout.css": "/assets/css/layout.css?id=28fe45e399276cb3b2ac",
     "/assets/css/dashboard_layout.css": "/assets/css/dashboard_layout.css?id=6eff39b87daffde750c2",
@@ -33,8 +33,9 @@
     "/assets/js/bootstrap-select.min.js": "/assets/js/bootstrap-select.min.js?id=723f3c8e3ffff41bba75",
     "/assets/js/bootstrap-datepicker.min.js": "/assets/js/bootstrap-datepicker.min.js?id=8280e0b1d570c64567ad",
     "/assets/js/bootstrap-datepicker-ar.min.js": "/assets/js/bootstrap-datepicker-ar.min.js?id=35d26b024f96e3fb2af4",
+    "/assets/js/bootstrap-datetimepicker.min.js": "/assets/js/bootstrap-datetimepicker.min.js?id=68ddbe7012d7faf73403",
     "/assets/js/components-multi-select.min.js": "/assets/js/components-multi-select.min.js?id=c8fb99eb16fcc8cb5bf6",
     "/assets/js/table-datatables-editable.min.js": "/assets/js/table-datatables-editable.min.js?id=00bde71789faf2fcf414",
     "/assets/js/menu-toggler-sidebar.js": "/assets/js/menu-toggler-sidebar.js?id=26fbff8c14a053f06724",
-    "/assets/js/khabeer.js": "/assets/js/khabeer.js?id=73c3fe6d21c96f905d2e"
+    "/assets/js/khabeer.js": "/assets/js/khabeer.js?id=bb6b7a70783b597764c6"
 }

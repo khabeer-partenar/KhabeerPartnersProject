@@ -37,10 +37,10 @@ class SaveCommitteeRequest extends FormRequest
             'subject' => ['required', 'string', new FilterStringRule],
             'first_meeting_at' => [
                 'required',
-                'date',
+                'date_format:d/m/Y H:i',
                 'after:today',
-                new CheckIfDateIsAfter('treatment_time', 'committee::committees'),
-                new CheckIfDateIsAfter('resource_at', 'committee::committees')
+                new CheckIfDateIsAfter('treatment_time', 'committee::committees', 'd/m/Y H:i'),
+                new CheckIfDateIsAfter('resource_at', 'committee::committees', 'd/m/Y H:i')
             ],
             'tasks' => ['nullable', 'string', new FilterStringRule],
             'president_id' => 'nullable',

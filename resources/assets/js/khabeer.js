@@ -100,6 +100,10 @@ $(document).ready(function() {
     // apply select2
     $('.select2').select2();
 
+    $('.datetime-picker').datetimepicker({
+        rtl: true,
+        format:'d/m/Y H:i',
+    });
 
     // users search using select 2
     $('.select2-search-employees').select2({
