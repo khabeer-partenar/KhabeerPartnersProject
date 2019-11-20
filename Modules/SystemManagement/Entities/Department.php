@@ -328,6 +328,16 @@ class Department extends Model
         return $query;
     }
 
+    public function scopeRecommended($query)
+    {
+        return $query->where('shown_in_committee_recommended', 1);
+    }
+
+    public function scopeSourceOfStudy($query)
+    {
+        return $query->where('shown_in_committee_source_of_study', 1);
+    }
+
     /**
      * Relations
      *

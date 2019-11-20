@@ -86,6 +86,8 @@ class CommitteeController extends UserBaseController
         $treatmentUrgency = TreatmentUrgency::pluck('name', 'id');
         $treatmentImportance = TreatmentImportance::pluck('name', 'id');
         $departments = Department::where('type', Department::parentDepartment)->pluck('name', 'id');
+        $recommendedDepartments = Department::where('type', Department::parentDepartment)->recommended()->pluck('name', 'id');
+        $sourceOfStudiesDepartments = Department::where('type', Department::parentDepartment)->sourceOfStudy()->pluck('name', 'id');
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
@@ -93,8 +95,9 @@ class CommitteeController extends UserBaseController
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         $documents = CommitteeDocument::where('user_id', auth()->id())->whereNull('committee_id')->get();
         return view('committee::committees.create', compact(
-            'treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
-            'presidents', 'studyCommission', 'departmentsWithRef', 'documents', 'advisors', 'allAdvisors'
+            'treatmentTypes', 'recommendedDepartments', 'departments', 'sourceOfStudiesDepartments',
+            'treatmentImportance', 'treatmentUrgency', 'presidents', 'studyCommission', 'departmentsWithRef',
+            'documents', 'advisors', 'allAdvisors'
         ));
     }
 

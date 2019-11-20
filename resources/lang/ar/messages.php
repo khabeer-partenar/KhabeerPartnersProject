@@ -49,4 +49,6 @@ return [
     'Sat' => 'السبت',
 
     'choose_option' => 'أختر',
+
+    'error with the :attribute' => 'قيمة :attribute بها خطأ'
 ];

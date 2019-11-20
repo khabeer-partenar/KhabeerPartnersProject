@@ -147,7 +147,7 @@
                             $recommendedBy = old('recommended_by_id');
                         }
                     @endphp
-                    @foreach($departments as $id => $name)
+                    @foreach($recommendedDepartments as $id => $name)
                         <option value="{{ $id }}" {{ $recommendedBy == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
@@ -210,7 +210,7 @@
                             $sourceOfStudy = old('source_of_study_id');
                         }
                     @endphp
-                    @foreach($departments as $id => $name)
+                    @foreach($sourceOfStudiesDepartments as $id => $name)
                         <option value="{{ $id }}" {{ $sourceOfStudy == $id ? 'selected':'' }}>{{ $name }}</option>
                     @endforeach
                 </select>
