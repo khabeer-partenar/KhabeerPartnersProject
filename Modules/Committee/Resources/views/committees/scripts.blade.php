@@ -166,9 +166,10 @@
                             if (result.status == '{{\Modules\Committee\Entities\Committee::NOMINATIONS_COMPLETED}}') {
                                 Swal.fire({
                                     title: result.msg,
-                                    type:  'info',
+                                    type: 'info',
                                     confirmButtonText: 'حسنا'
                                 })
+                                window.location.href = '{{ url("committees")}}';
                             }
                             else {
                                 Swal.fire({

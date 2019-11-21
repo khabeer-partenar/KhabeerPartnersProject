@@ -1,12 +1,13 @@
 {
-    "/assets/js/app.js": "/assets/js/app.js?id=dd57b5f2af4c72147e3a",
-    "/assets/js/custom.js": "/assets/js/custom.js?id=dad73bc827da9832c494",
-    "/assets/js/laravel-forms.js": "/assets/js/laravel-forms.js?id=23dfbd4154cb56736ad8",
-    "/assets/js/multi-input.js": "/assets/js/multi-input.js?id=282e999ce9c28e6d8131",
-    "/assets/css/main.css": "/assets/css/main.css?id=522a842093c063a964b2",
+    "/assets/js/app.js": "/assets/js/app.js?id=ff6ed1b96f9fdb305c57",
+    "/assets/js/custom.js": "/assets/js/custom.js?id=22dc6c291edcd30511a7",
+    "/assets/js/laravel-forms.js": "/assets/js/laravel-forms.js?id=efc091baa1e10ef82cd8",
+    "/assets/js/multi-input.js": "/assets/js/multi-input.js?id=b340edc10ccebbadcae4",
+    "/assets/css/main.css": "/assets/css/main.css?id=6ce7bc2e8083d752bb17",
+    "/assets/css/main_report.css": "/assets/css/main_report.css?id=d41d8cd98f00b204e980",
     "/assets/css/global.css": "/assets/css/global.css?id=adb7721b893f9613b536",
     "/assets/css/layout.css": "/assets/css/layout.css?id=28fe45e399276cb3b2ac",
-    "/assets/css/dashboard_layout.css": "/assets/css/dashboard_layout.css?id=23f736ab7379f1e355f7",
+    "/assets/css/dashboard_layout.css": "/assets/css/dashboard_layout.css?id=6eff39b87daffde750c2",
     "/assets/css/login.css": "/assets/css/login.css?id=eca57541975965629ef9",
     "/assets/css/statement-print.css": "/assets/css/statement-print.css?id=4fd82a2eedc3e94cde7d",
     "/assets/css/fonts.css": "/assets/css/fonts.css?id=9cc7aca1e811f925214d",
@@ -36,5 +37,5 @@
     "/assets/js/components-multi-select.min.js": "/assets/js/components-multi-select.min.js?id=c8fb99eb16fcc8cb5bf6",
     "/assets/js/table-datatables-editable.min.js": "/assets/js/table-datatables-editable.min.js?id=00bde71789faf2fcf414",
     "/assets/js/menu-toggler-sidebar.js": "/assets/js/menu-toggler-sidebar.js?id=26fbff8c14a053f06724",
-    "/assets/js/khabeer.js": "/assets/js/khabeer.js?id=1823970f368a2245497f"
+    "/assets/js/khabeer.js": "/assets/js/khabeer.js?id=f88a29025601828479fd"
 }

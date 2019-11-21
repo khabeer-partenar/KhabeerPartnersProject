@@ -1,4 +1,4 @@
-@extends('layouts.report')
+@extends('layouts.report.report')
 
 
 @section('page')
@@ -11,8 +11,6 @@
                 <i class="fa fa-eye"></i>
                 <span class="caption-subject sbold">{{ __('committee::committees.information') }}</span>
             </div>
-
-
         </div>
 
         <div class="portlet-body form">
@@ -95,7 +93,7 @@
                 </tbody>
             </table>
 
-            {{-- Participant Department --}}
+             Participant Department
             <p class="underLine">{{ __('committee::committees.treatment information') }}</p>
             <table class="table table-striped table-responsive-md">
                 <thead>
@@ -116,7 +114,7 @@
                 </tbody>
             </table>
 
-            {{-- Participant Department --}}
+             Participant Department
             <p class="underLine">{{ __('committee::committees.files') }}</p>
             <table class="table table-striped table-responsive-md">
                 <thead>

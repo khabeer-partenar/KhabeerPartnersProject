@@ -12,15 +12,15 @@
     <title>{{ __('messages.title') }} @yield('title')</title>
 
     {{--Common App Styles--}}
-    @include('layouts.dashboard.css')
-    @include('layouts.report_header')
+    @include('layouts.report.css')
+    @include('layouts.report.report_header')
 
 </head>
 
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+<body style="font-family: 'Droid Arabic Kufi', serif;" dir="rtl">
 @yield('page')
 
 </body>
-@include('layouts.report_footer')
+@include('layouts.report.report_footer')
 
 </html>

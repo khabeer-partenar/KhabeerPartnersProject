@@ -199,7 +199,7 @@ class Delegate extends User
         $delegate = self::create(
             array_merge(
                 $request->only(
-                    'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                    'direct_department', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
                     'specialty', 'main_department_id', 'parent_department_id', 'department_reference_id', 'job_role_id'
                 ), ['user_type' => self::TYPE]
             )

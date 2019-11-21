@@ -36015,7 +36015,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\DELL\Desktop\Projects\khabeer\resources\assets\js\app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! D:\MU\khabeer\KhabeerPartnersProject\resources\assets\js\app.js */"./resources/assets/js/app.js");
 
 
 /***/ })
