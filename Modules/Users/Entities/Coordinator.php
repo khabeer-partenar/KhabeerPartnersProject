@@ -38,7 +38,7 @@ class Coordinator extends User
         $coordinator = self::create(
             array_merge(
             $request->only(
-                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                'department_reference_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
                 'main_department_id', 'parent_department_id', 'direct_department', 'job_role_id'
             ), ['user_type' => self::TYPE]
             )
@@ -52,7 +52,7 @@ class Coordinator extends User
     {
         $this->update(
             $request->only(
-                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
+                'direct_department', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'title',
                 'main_department_id', 'parent_department_id', 'job_role_id', 'department_reference_id'
             )
         );
