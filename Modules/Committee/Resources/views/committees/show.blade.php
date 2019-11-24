@@ -19,8 +19,11 @@
             </div>
             <div class="actions">
                 <a onclick="window.open('{{route('committee.export.all.info',$committee)}}', '_blank', 'directories=no,scrollbars=yes,titlebar=no,toolbar=no,location=no,status=no,menubar=no');" class="btn btn-sm btn-primary">
-                        <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
-                    </a>
+                    <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
+                </a>
+               {{-- <a href="{{route('committee.export.all.info',$committee)}}" class="btn btn-sm btn-primary">
+                    <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
+                </a>--}}
             </div>
 
         </div>

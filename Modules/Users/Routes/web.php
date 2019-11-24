@@ -32,11 +32,7 @@ Route::group(['middleware' => 'auth'], function()
 
         Route::get('test',function ()
         {
-           // $mainCoordinator  = Coordinator::with('jobRole')->get()->find(14);
-           // dd($mainCoordinator->jobRole->key);
-            //$id = auth()->user()->parentDepartment()->first()->id;
-           //$result  =\Modules\Committee\Entities\CommitteeDelegate::checkIfMainCoordinatorNominateDelegates(17,6);
-           //dd($id);
+            dd($_SERVER['DOCUMENT_ROOT']. '/assets/images/logo.png');
         });
         // Coordinator Controller
         Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');

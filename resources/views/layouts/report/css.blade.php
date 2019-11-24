@@ -1,6 +1,5 @@
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
-{{--{{ Html::style(mix('assets/css/fonts.css')) }}--}}
-{{--{{ Html::style('assets/css/main_report.css') }}--}}
+<link rel="stylesheet" type="text/css" href="{{$_SERVER['DOCUMENT_ROOT'].'/assets/css/main_report.css'}}">
 
 <!-- END GLOBAL MANDATORY STYLES -->
 
@@ -9,13 +8,13 @@
 <!-- END PAGE LEVEL PLUGINS -->
 
 <!-- BEGIN THEME GLOBAL STYLES -->
-{{--{{ Html::style(mix('assets/css/global.css')) }}--}}
+<link rel="stylesheet" type="text/css" href="{{$_SERVER['DOCUMENT_ROOT'].'/assets/css/global.css'}}">
+
 <!-- END THEME GLOBAL STYLES -->
 
 <!-- BEGIN THEME LAYOUT STYLES -->
 {{--{{ Html::style(mix('assets/css/layout.css')) }}--}}
 <!-- END THEME LAYOUT STYLES -->
-
-{{ Html::style('http://fonts.googleapis.com/earlyaccess/droidarabickufi.css') }}
+{{--{{ Html::style('http://fonts.googleapis.com/earlyaccess/droidarabickufi.css') }}--}}
 
 

@@ -19,15 +19,14 @@ class CommitteeReportController extends Controller
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
 
-        //$pdf = PDF::loadView('committee::committees.committee_report', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
-        /*$pdf = PDF::loadView('committee::committees.committee_report', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));*/
-        //$pdf = PDF::loadView('test');
-
-        //return $pdf->stream('document.pdf');
-
-        return view('test');
-
         //return view('committee::committees.committee_report', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
+
+        $pdf = PDF::loadView('committee::committees.committee_report', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
+        $pdf->mpdf->SetWatermarkText(auth()->user()->name);
+        $pdf->mpdf->showWatermarkText = true;
+        $pdf->mpdf->watermark_font = 'DejaVuSansCondensed';
+        return $pdf->stream('document.pdf');
+
     }
 
 

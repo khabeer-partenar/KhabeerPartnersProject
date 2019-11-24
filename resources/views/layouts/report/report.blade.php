@@ -12,7 +12,7 @@
     <title>{{ __('messages.title') }} @yield('title')</title>
 
     {{--Common App Styles--}}
-    @include('layouts.report.css')
+    {{--@include('layouts.report.css')--}}
     @include('layouts.report.report_header')
 
 </head>
