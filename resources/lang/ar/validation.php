@@ -211,5 +211,6 @@ return [
         'participant_advisors' => 'مستشارين مشاركين',
         'members_count' => 'عدد الأعضاء',
         'file' => 'الملف',
+        'direct_department' => 'الإدارة',
     ],
 ];
