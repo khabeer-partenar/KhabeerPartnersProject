@@ -19,9 +19,13 @@ class EmployeesTableSeeder extends Seeder
     {
         Model::unguard();
         
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         DB::table('users_advisors_secretaries')->truncate();
         DB::table('committee_delegate')->truncate();
         DB::table(User::table())->truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $usersData = [
 
