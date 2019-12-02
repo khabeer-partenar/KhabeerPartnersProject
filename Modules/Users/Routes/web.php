@@ -12,8 +12,12 @@
 */
 
 
+use Modules\Committee\Entities\Committee;
+use Modules\Core\Entities\Group;
+use Modules\Core\Entities\Status;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Coordinator;
+use Modules\Users\Entities\Employee;
 
 Route::group(['middleware' => 'guest'], function()
 {
@@ -32,7 +36,17 @@ Route::group(['middleware' => 'auth'], function()
 
         Route::get('test',function ()
         {
-            dd($_SERVER['DOCUMENT_ROOT']. '/assets/images/logo.png');
+            //$committeesQuery = Committee::with('advisor', 'president','groupStatus')->get();
+            /*$committeesQuery = Committee::with('advisor', 'president',['groupStatuses'=>function($q)
+            {
+                $q->where('id',4);
+            }])->get();*/
+            //dd($committeesQuery[0]->groupStatus->first()->status()->first()->status_ar);
+
+            //dd($committeesQuery[0]->status->status_ar);
+            //dd(auth()->user());
+            //$secretaryGroupId = Group::where('key',Employee::SECRETARY)->first()->id;
+            //dd($secretaryGroupId);
         });
         // Coordinator Controller
         Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');

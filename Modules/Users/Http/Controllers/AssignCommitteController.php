@@ -54,7 +54,7 @@ class AssignCommitteController extends UserBaseController
         $secretaryGroupId = optional(Group::findByKey('secretary'))->id;
 
         if ($request->wantsJson() || $request->ajax()) {
-            $employees = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'job_role_id', 'direct_department_id')
+            $employees = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'job_role_id', 'direct_department')
                                 ->where('job_role_id', $secretaryGroupId)
                                 ->with('jobRole', 'directDepartment')
                                 ->search($request);

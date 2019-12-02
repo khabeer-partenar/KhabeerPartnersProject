@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Crypt;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Committee\Entities\CommitteeDocument;
+use Modules\Committee\Entities\CommitteeStatus;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
@@ -58,7 +59,8 @@ class CommitteeController extends UserBaseController
                     return $committee->president ? $committee->president->name : '-';
                 })
                 ->addColumn('status', function ($committee) {
-                    return __('committee::committees.' . $committee->status);
+                    //return __('committee::committees.' . $committee->status);
+                    return $committee->status->status_ar;
                 })
                 ->addColumn('action', function ($committee) {
                     return view('committee::committees.actions', compact('committee'));
@@ -111,6 +113,7 @@ class CommitteeController extends UserBaseController
     public function store(SaveCommitteeRequest $request)
     {
         $committee = Committee::createFromRequest($request);
+        CommitteeStatus::createCommitteeGroupsStatus($committee);
         $committee->log('create_committee');
         self::sessionSuccess('committee::committees.created');
         return back();

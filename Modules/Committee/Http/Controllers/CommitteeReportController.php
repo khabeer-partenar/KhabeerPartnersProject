@@ -16,16 +16,11 @@ class CommitteeReportController extends Controller
     public function exportAllInfo(Committee $committee)
     {
         $delegates = $committee->getDelegatesWithDetails();
-        $mainDepartments = Department::getDepartments();
-        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
-
-        //return view('committee::committees.committee_report', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
-
-        $pdf = PDF::loadView('committee::committees.committee_report', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
+        $pdf = PDF::loadView('committee::reports.committee_detail_report', compact('committee', 'delegates'));
         $pdf->mpdf->SetWatermarkText(auth()->user()->name);
         $pdf->mpdf->showWatermarkText = true;
-        $pdf->mpdf->watermark_font = 'DejaVuSansCondensed';
-        return $pdf->stream('document.pdf');
+        $pdf->mpdf->watermark_font = 'XBZar, XBRiyaz - Arabic';
+        return $pdf->stream($committee->subject . '.pdf');
 
     }
 

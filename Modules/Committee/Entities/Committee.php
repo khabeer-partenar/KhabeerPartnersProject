@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Modules\Committee\Events\CommitteeCreatedEvent;
+use Modules\Core\Entities\Group;
+use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
@@ -150,7 +152,7 @@ class Committee extends Model
         return $query;
     }
 
-    /**
+     /**
      * Functions
      */
     public function getDelegatesWithDetails()
@@ -182,6 +184,8 @@ class Committee extends Model
         );
         $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $committee->participantDepartments()->sync($request->departments);
+        //
+
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
         event(new CommitteeCreatedEvent($committee));
@@ -273,6 +277,24 @@ class Committee extends Model
             ->withPivot('nomination_criteria');
     }
 
+    public function getStatusAttribute()
+    {
+        return $this->groupStatus->first()->status()->first();
+    }
+
+    public function groupStatus()
+    {
+        return $this->hasMany(CommitteeGroupStatus::class,'committee_id')
+            ->with('status')->where('group_id',auth()->user()->job_role_id);
+    }
+
+    public function groupsStatuses()
+    {
+        return $this->belongsToMany(Group::class, 'committee_group_status', 'committee_id', 'group_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
     public function getNominationDepartmentsWithRef()
     {
         if (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
@@ -299,4 +321,5 @@ class Committee extends Model
             ->withPivot('nominated_department_id')
             ->withTimestamps();
     }
+
 }

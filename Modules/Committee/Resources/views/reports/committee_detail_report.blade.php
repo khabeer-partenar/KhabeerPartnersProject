@@ -5,9 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <img class="text-center" src="{{$_SERVER['DOCUMENT_ROOT'] .'/assets/images/logo.png'}}">
-    <link rel="stylesheet" type="text/css" href="{{$_SERVER['DOCUMENT_ROOT'] .'/assets/css/main_report.css'}}">
-    <link rel="stylesheet" type="text/css" href="{{$_SERVER['DOCUMENT_ROOT'] .'/assets/css/global.css'}}">
+    @include('layouts.report.report_header')
 
     {{--    <img src="https://www.google.pl/images/srpr/logo11w.png"/>--}}
 
