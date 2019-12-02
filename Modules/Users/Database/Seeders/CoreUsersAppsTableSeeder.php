@@ -209,8 +209,13 @@ class CoreUsersAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
         App::create([
-            'resource_name' => $generalResourceName . '\DelegateController@getDepartmentDelegatesNotInCommittee', 'name' => 'عرض المندوبين',
+            'resource_name' => $generalResourceName . '\DelegateController@getDepartmentDelegatesNotInCommittee', 'name' => 'عرض المندوبين الغير موجودين فى لجنة',
             'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/DepartmentDelegatesNotInCommittee', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateController@checkIfMainCoordinatorNominateDelegates', 'name' => 'عرض المندوبين التابعين للمنسق المرجعى',
+            'icon' => 'fa fa-users','sort' => 8, 'parent_id' => $manageDelegatesID, 'frontend_path' => 'users/delegates/getMainCoordinatorNominatedDelegates', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 

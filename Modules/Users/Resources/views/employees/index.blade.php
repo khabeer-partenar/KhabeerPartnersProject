@@ -25,7 +25,7 @@
             <table id="table-ajax" class="table" data-url="{{ route('employees.index', [
                     'employee_id' => Request::input('employee_id'),
                     'job_role_id' => Request::input('job_role_id'),
-                    'direct_department_id' => Request::input('direct_department_id')])
+                    'direct_department' => Request::input('direct_department')])
                 }}"
                 data-fields='[
                     {"data": "name","title":"{{ __('messages.name') }}","searchable":"false"},

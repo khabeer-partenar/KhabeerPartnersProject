@@ -12,6 +12,8 @@
 */
 
 
+use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Coordinator;
 
 Route::group(['middleware' => 'guest'], function()
 {
@@ -27,6 +29,11 @@ Route::group(['middleware' => 'auth'], function()
 
 
     Route::prefix('users')->group(function(){
+
+        Route::get('test',function ()
+        {
+            dd($_SERVER['DOCUMENT_ROOT']. '/assets/images/logo.png');
+        });
         // Coordinator Controller
         Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');
 
@@ -39,6 +46,7 @@ Route::group(['middleware' => 'auth'], function()
 
         Route::post('/delegates/add_delegate','DelegateController@addDelegatesToCommittee')->name('delegates.add_delegates');
         Route::get('/delegates/DepartmentDelegatesNotInCommittee/{department_id}/{committee_id}','DelegateController@getDepartmentDelegatesNotInCommittee');
+        Route::get('/delegates/getMainCoordinatorNominatedDelegates/{committee_id}','DelegateController@checkIfMainCoordinatorNominateDelegates');
 
         // Assign Committe Controller
         Route::get('/employees/assign-committees/search/{groupID}/{columnType}', 'AssignCommitteController@search')->name('employees.assign_committees.search');

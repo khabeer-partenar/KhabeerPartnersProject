@@ -18,11 +18,14 @@
                 @endif
             </div>
             <div class="actions">
-                    <a onclick="window.print();" class="btn btn-sm btn-primary">
-                        <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
-                    </a>
+                {{--<a onclick="window.open('{{route('committee.export.all.info',$committee)}}', '_blank', 'directories=no,scrollbars=yes,titlebar=no,toolbar=no,location=no,status=no,menubar=no');" class="btn btn-sm btn-primary">
+                    <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
+                </a>--}}
+                <a href="{{route('committee.export.all.info',$committee)}}" class="btn btn-sm btn-primary">
+                    <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
+                </a>
             </div>
-        
+
         </div>
 
         <div class="portlet-body form">
@@ -200,10 +203,9 @@
                 @endforeach
                 </tbody>
             </table>
-
-            <br />
-
-            @include('committee::delegates.nomination_departments',compact('committee'))
+            @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
+            {{--@include('users::delegates.index')--}}
+            @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
             <br />
 

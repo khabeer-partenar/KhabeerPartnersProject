@@ -99,7 +99,11 @@ return [
     'committee participant' => 'مشارك',
     'committee_export'=>'تصدير طلب التسمية',
     'nomination done'=>'تم ترشيح المندوبين',
-    'nomination done for committee'=>'تم ترشيح المندوبين للجنة'
+    'nomination done for committee'=>'تم ترشيح المندوبين للجنة',
+    'nomination_not_compeleted'=>'الترشيح لجميع الجهات لم يكتمل',
+    'nomination_send_successfully'=>'تم ارسال الترشيح بنجاح'
+
+
 
 
 ];

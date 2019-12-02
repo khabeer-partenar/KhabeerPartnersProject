@@ -2,8 +2,8 @@
 
     <div class="col-md-4">
         <div id="div_main_department_id" class="form-group ">
-
             {!! Form::label('main_department_id', 'نوع الجهة', ['class' => 'col-md-4 control-label']) !!}
+            <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
 
             <div class="col-md-8">
                 @php
@@ -14,7 +14,8 @@
                         }
                 @endphp
 
-                <select {{$mainDepartment!=0?'disabled':''}} name="main_department_id" id="main_department_id" class="form-control select2 load-departments"
+                <select {{$mainDepartment!=0?'disabled':''}} name="main_department_id" id="main_department_id"
+                        class="form-control select2 load-departments"
                         data-url="{{ route('system-management.departments.children') }}"
                         data-child="#parent_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
@@ -25,6 +26,7 @@
                         </option>
                     @endforeach
                 </select>
+
                 <span id="span_main_department_id" class="help-block span-error"></span>
             </div>
 
@@ -35,7 +37,7 @@
         <div id="div_parent_department_id" class="form-group ">
 
             {!! Form::label('parent_department_id', 'اسم الجهة', ['class' => 'col-md-4 control-label']) !!}
-
+            <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
             <div class="col-md-8">
                 @php
                     $parentDepartment = 0;
@@ -65,7 +67,6 @@
     <div class="col-md-4">
         <div id="div_department_reference_id" class="form-group ">
             {!! Form::label('department_reference', 'مرجعية الجهة', ['class' => 'col-md-4 control-label']) !!}
-
             <div class="col-md-8">
                 @php
                     $referenceDepartmentId = isset($delegate) ? $delegate->department_reference_id:'';
@@ -89,25 +90,11 @@
 <div class="row">
 
     <div class="col-md-4">
-        <div id="div_direct_department_id" class="form-group ">
-
+        <div id="div_direct_department" class="form-group ">
             {!! Form::label('direct_department_id', 'الإدارة', ['class' => 'col-md-4 control-label']) !!}
-
             <div class="col-md-8">
-                <select name="direct_department_id" id="direct_department_id" class="form-control select2">
-                    <option value="0">{{ __('users::departments.choose a department') }}</option>
-                    @php
-                        $directDepartment = isset($delegate) ? $delegate->direct_department_id:'';
-                        if (old('direct_department_id')){
-                            $directDepartment = old('direct_department_id');
-                        }
-                    @endphp
-                    @foreach(\Modules\SystemManagement\Entities\Department::getDirectDepartments($parentDepartment) as $key => $department)
-                        <option value="{{ $key }}" {{ $directDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
-                    @endforeach
-                </select>
-
-                <span id="span_direct_department_id" class="help-block span-error"></span>
+                {!! Form::text('direct_department', null, ['id' => 'direct_department', 'class' => 'form-control']) !!}
+                <span id="span_job_title" class="help-block span-error"></span>
             </div>
 
         </div>
@@ -117,6 +104,7 @@
         <div id="div_job_title" class="form-group ">
 
             {!! Form::label('job_title', 'المسمي الوظيفي', ['class' => 'col-md-4 control-label']) !!}
+            <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
 
             <div class="col-md-8">
                 {!! Form::text('job_title', null, ['id' => 'job_title', 'class' => 'form-control']) !!}
@@ -149,9 +137,10 @@
         <div id="div_national_id" class="form-group ">
 
             {!! Form::label('national_id', 'رقم الهوية', ['class' => 'col-md-4 control-label']) !!}
+            <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
 
             <div class="col-md-8">
-                {!! Form::text('national_id', null, ['id' => 'national_id', 'class' => 'form-control']) !!}
+                {!! Form::text('national_id', null, ['id' => 'national_id',"onkeyup" => "this.value=this.value.replace(/[^\d]/,'')", 'class' => 'form-control','maxlength' => 10]) !!}
 
                 <span id="span_national_id" class="help-block span-error"></span>
             </div>
@@ -163,6 +152,7 @@
         <div id="div_name" class="form-group ">
 
             {!! Form::label('name', 'الإسم', ['class' => 'col-md-4 control-label']) !!}
+            <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
 
             <div class="col-md-8">
                 {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) !!}
@@ -177,9 +167,10 @@
         <div id="div_phone_number" class="form-group ">
 
             {!! Form::label('phone_number', 'رقم الجوال', ['class' => 'col-md-4 control-label']) !!}
+            <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
 
             <div class="col-md-8">
-                {!! Form::text('phone_number', null, ['id' => 'phone_number', 'class' => 'form-control']) !!}
+                {!! Form::text('phone_number', null, ['id' => 'phone_number',"onkeyup" => "this.value=this.value.replace(/[^\d]/,'')", 'class' => 'form-control','maxlength' => 10]) !!}
 
                 <span id="span_phone_number" class="help-block span-error"></span>
             </div>
@@ -196,6 +187,7 @@
         <div id="div_email" class="form-group ">
 
             {!! Form::label('email', 'البريد الإلكتروني', ['class' => 'col-md-4 control-label']) !!}
+            <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
 
             <div class="col-md-8">
                 {!! Form::text('email', null, ['id' => 'email', 'class' => 'form-control']) !!}

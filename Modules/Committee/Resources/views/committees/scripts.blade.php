@@ -150,7 +150,7 @@
         $(document).on('click', '#btn-send-nomination', function () {
 
             var url = '{{(isset($committee))? route("committees.send.nomination",compact("committee")):''}}';
-            if (url=='') return;
+            if (url == '') return;
             Swal.fire({
                 title: 'هل تريد إرسال الترشيحات الى سكرتير المستشار؟',
                 type: 'warning',
@@ -168,11 +168,18 @@
                         contentType: false,
                         processData: false,
                         success: function (result) {
-                            if (result == 'done') {
-                                //console.log(result);
+                            if (result.status == '{{\Modules\Committee\Entities\Committee::NOMINATIONS_COMPLETED}}') {
                                 Swal.fire({
-                                    title: 'تم ارسال الترشيح بنجاح',
+                                    title: result.msg,
                                     type: 'info',
+                                    confirmButtonText: 'حسنا'
+                                })
+                                window.location.href = '{{ url("committees")}}';
+                            }
+                            else {
+                                Swal.fire({
+                                    title: result.msg,
+                                    type: 'error',
                                     confirmButtonText: 'حسنا'
                                 })
                             }
@@ -195,9 +202,6 @@
 
 
         });
-
-
-
     });
 
 </script>

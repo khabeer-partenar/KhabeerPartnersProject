@@ -17,6 +17,7 @@
         "laravel/passport": "^7.3",
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8.0",
+        "niklasravnsborg/laravel-pdf": "^3.1",
         "nwidart/laravel-modules": "^5.0",
         "rap2hpoutre/laravel-log-viewer": "^1.2",
         "setasign/fpdf": "1.8.1",

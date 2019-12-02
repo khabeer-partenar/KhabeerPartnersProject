@@ -20,6 +20,7 @@ class EmployeesTableSeeder extends Seeder
         Model::unguard();
         
         DB::table('users_advisors_secretaries')->truncate();
+        DB::table('committee_delegate')->truncate();
         DB::table(User::table())->truncate();
 
         $usersData = [

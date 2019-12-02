@@ -37,19 +37,38 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Users\Http\Controllers\CoordinatorController@updateByCoordinator',
             'Modules\SystemManagement\Http\Controllers\DepartmentController@loadDepartmentsByParentId',
             'Modules\Users\Http\Controllers\CoordinatorController@storeByCoordinator',
+            'Modules\Users\Http\Controllers\DelegateController@index',
+            'Modules\Users\Http\Controllers\DelegateController@create',
+            'Modules\Users\Http\Controllers\DelegateController@store',
+            'Modules\Users\Http\Controllers\DelegateController@destroy',
+            'Modules\Users\Http\Controllers\DelegateController@addDelegatesToCommittee',
+            'Modules\Users\Http\Controllers\DelegateController@removeFromCommitte',
+            'Modules\Users\Http\Controllers\DelegateController@getDepartmentDelegatesNotInCommittee',
+            'Modules\Users\Http\Controllers\DelegateController@checkIfMainCoordinatorNominateDelegates'
         ];
         // Apps Ids
         $basicIds = App::whereIn('resource_name', $basicResources)->pluck('id');
         $cordId = App::whereIn('resource_name', $coordinatorsResources)->pluck('id');
         // Coordinator Permissions
-        $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
+        $mainCoordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
         foreach($basicIds as $appId){
-            $coordinatorGroup->permissions()->create([
+            $mainCoordinatorGroup->permissions()->create([
                 'app_id' => $appId
             ]);
         }
         foreach($cordId as $appId){
-            $coordinatorGroup->permissions()->create([
+            $mainCoordinatorGroup->permissions()->create([
+                'app_id' => $appId
+            ]);
+        }
+        $normalCoordinatorGroup = Group::where('key', Coordinator::NORMAL_CO_JOB)->first();
+        foreach($basicIds as $appId){
+            $normalCoordinatorGroup->permissions()->create([
+                'app_id' => $appId
+            ]);
+        }
+        foreach($cordId as $appId){
+            $normalCoordinatorGroup->permissions()->create([
                 'app_id' => $appId
             ]);
         }
