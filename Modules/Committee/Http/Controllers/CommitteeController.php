@@ -138,6 +138,7 @@ class CommitteeController extends UserBaseController
      */
     public function show(Committee $committee)
     {
+//        dd($committee->creator);
         $delegates = $committee->getDelegatesWithDetails();
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);

@@ -129,6 +129,14 @@
                             {{ $committee->advisor->phone_number }}
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">السكرتير و رقم التواصل</th>
+                        <td>
+                            {{ $committee->creator->name }}
+                            <br />
+                            {{ $committee->creator->phone_number }}
+                        </td>
+                    </tr>
                     @if ($committee->participantAdvisors->count() > 0)
                         <tr>
                             <th scope="row">المستشارين المشاركين</th>
@@ -191,7 +199,6 @@
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $document->description }}</td>
                         <td>
-                            {{--<a type="button" class="btn btn-default" href="{{ $document->full_path }}" download>تحميل</a>--}}
                             <a type="button" class="btn btn-default"
                                href="{{ route('committees.document.download', ['document' => $document]) }}"
                                download>تحميل</a>
