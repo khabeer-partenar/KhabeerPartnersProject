@@ -38,7 +38,7 @@ class Committee extends Model
         'resource_staff_number', 'resource_at', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
         'treatment_urgency_id', 'treatment_importance_id', 'source_of_study_id', 'recommendation_number', 'recommended_by_id',
         'recommended_at', 'subject', 'first_meeting_at', 'tasks', 'president_id', 'advisor_id', 'members_count', 'status',
-        'reason_of_deletion',
+        'reason_of_deletion', 'created_by'
     ];
 
     protected $appends = [
@@ -181,9 +181,7 @@ class Committee extends Model
         $committee = self::query()->create(
             array_merge(
                 $request->all(),
-                [
-                    'status' => self::WAITING_DELEGATES,
-                ]
+                ['status' => self::WAITING_DELEGATES, 'created_by' => auth()->id()]
             )
         );
         $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors : []);
@@ -309,5 +307,10 @@ class Committee extends Model
         return $this->belongsToMany(Delegate::class, 'committee_delegate', 'committee_id', 'user_id')
             ->withPivot('nominated_department_id')
             ->withTimestamps();
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }
