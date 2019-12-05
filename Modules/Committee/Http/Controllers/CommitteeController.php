@@ -17,6 +17,7 @@ use Modules\Committee\Entities\TreatmentUrgency;
 use Modules\Committee\Events\NominationDoneEvent;
 use Modules\Committee\Http\Requests\SaveCommitteeRequest;
 use Modules\Core\Entities\Group;
+use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Coordinator;
@@ -59,8 +60,7 @@ class CommitteeController extends UserBaseController
                     return $committee->president ? $committee->president->name : '-';
                 })
                 ->addColumn('status', function ($committee) {
-                    //return __('committee::committees.' . $committee->status);
-                    return $committee->status->status_ar;
+                    return $committee->GroupStatus;
                 })
                 ->addColumn('action', function ($committee) {
                     return view('committee::committees.actions', compact('committee'));
@@ -191,6 +191,7 @@ class CommitteeController extends UserBaseController
     {
         $committee->log('delete_committee');
         $committee->delete();
+        $committee->groupsStatuses()->detach();
         return response()->json(['msg' => __('committee::committees.deleted')]);
     }
 
@@ -198,14 +199,21 @@ class CommitteeController extends UserBaseController
     {
         $committee->log('send nomination');
         if ($committee->status==Committee::NOMINATIONS_COMPLETED) {
+            event(new NominationDoneEvent($committee));
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::NOMINATIONS_COMPLETED);
             return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
         else
         {
-            event(new NominationDoneEvent($committee));
             return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_not_compeleted')]);
 
         }
 
+    }
+
+    public function approveCommittee(Committee $committee)
+    {
+        $committee->approveCommittee();
+        return response()->json(['status' => 1]);
     }
 }

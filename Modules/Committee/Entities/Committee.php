@@ -39,7 +39,7 @@ class Committee extends Model
     protected $fillable = [
         'resource_staff_number', 'resource_at', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
         'treatment_urgency_id', 'treatment_importance_id', 'source_of_study_id', 'recommendation_number', 'recommended_by_id',
-        'recommended_at', 'subject', 'first_meeting_at', 'tasks', 'president_id', 'advisor_id', 'members_count', 'status'
+        'recommended_at', 'subject', 'first_meeting_at', 'tasks', 'president_id', 'advisor_id', 'members_count', 'status','approved'
     ];
 
     protected $appends = [
@@ -108,6 +108,15 @@ class Committee extends Model
     {
 
         // Filter By Request
+        if (auth()->user()->authorizedApps->key == Employee::ADVISOR || auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $query->where('approved', true);
+            $query->orWhere('approved', false);
+        }
+        else
+        {
+            $query->where('approved', true);
+        }
+
         if ($request->has('subject')) {
             $query->where('subject', 'LIKE', '%' . $request->subject . '%');
         }
@@ -152,7 +161,7 @@ class Committee extends Model
         return $query;
     }
 
-     /**
+    /**
      * Functions
      */
     public function getDelegatesWithDetails()
@@ -277,15 +286,25 @@ class Committee extends Model
             ->withPivot('nomination_criteria');
     }
 
-    public function getStatusAttribute()
+    public function getGroupStatusAttribute()
     {
-        return $this->groupStatus->first()->status()->first();
+        $group_id = auth()->user()->job_role_id;
+        $groupStatus = $this->groupStatus($group_id)->first();
+        if ($groupStatus == null) {
+            // default if the user group dose not exist
+            $group_id = Group::where('key', Employee::SECRETARY)->first()->id;
+            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
+
+        } else {
+            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
+        }
+        return $groupStatus;
     }
 
-    public function groupStatus()
+    public function groupStatus($groupId)
     {
-        return $this->hasMany(CommitteeGroupStatus::class,'committee_id')
-            ->with('status')->where('group_id',auth()->user()->job_role_id);
+        return $this->hasMany(CommitteeGroupStatus::class, 'committee_id')
+            ->with('status')->where('group_id', $groupId);
     }
 
     public function groupsStatuses()
@@ -322,4 +341,9 @@ class Committee extends Model
             ->withTimestamps();
     }
 
+    public function approveCommittee()
+    {
+        $this->approved = true;
+        $this->save();
+    }
 }

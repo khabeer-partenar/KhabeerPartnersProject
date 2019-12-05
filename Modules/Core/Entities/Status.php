@@ -16,7 +16,7 @@ class Status extends Model
     // so if you changed the table you must change it here or vice versa
 
     const WAITING_DELEGATES = 1; // بانتظار ترشيح المناديب
-    const NOMINATIONS_COMPLETED = 2; // مكتمل الترشيح
+    const NOMINATIONS_COMPLETED = 2; // تم ارسال الرتشيح
     const NOMINATIONS_DONE = 3; // تم الترشيحح
     const NOMINATIONS_NOT_DONE = 4; // لم يتم الترشيح
 

@@ -36,17 +36,13 @@ Route::group(['middleware' => 'auth'], function()
 
         Route::get('test',function ()
         {
-            //$committeesQuery = Committee::with('advisor', 'president','groupStatus')->get();
-            /*$committeesQuery = Committee::with('advisor', 'president',['groupStatuses'=>function($q)
-            {
-                $q->where('id',4);
-            }])->get();*/
-            //dd($committeesQuery[0]->groupStatus->first()->status()->first()->status_ar);
+            $committee = Committee::where('id',8)->first();
+            $group_id = auth()->user()->job_role_id;
+            $committee->groupsStatuses()->syncWithoutDetaching([$group_id => ['status' => Status::NOMINATIONS_DONE]]);
 
-            //dd($committeesQuery[0]->status->status_ar);
-            //dd(auth()->user());
-            //$secretaryGroupId = Group::where('key',Employee::SECRETARY)->first()->id;
-            //dd($secretaryGroupId);
+            dd('done');
+            //$committee->groupsStatuses()->detach();
+
         });
         // Coordinator Controller
         Route::post('/coordinators/store-by-co', 'CoordinatorController@storeByCoordinator')->name('coordinators.store_by_co');

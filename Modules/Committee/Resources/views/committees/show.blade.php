@@ -33,78 +33,78 @@
             <p class="underLine">{{ __('committee::committees.treatment information') }}</p>
             <table class="table table-striped table-responsive-md">
                 <tbody>
-                    <tr>
-                        <th style="width: 16.66%" scope="row">رقم الطلب و تاريخه</th>
-                        <td>
-                            {{ __('committee::committees.committee uuid') }}
-                            {{ $committee->uuid }}
-                            {{ __('committee::committees.on_date') }}
-                            {{ $committee->created_at_hijri }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">اعجلية المعاملة</th>
-                        <td>
-                            {{ $committee->treatmentUrgency->name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">رقم المعاملة و وجهة طلب دراسة المعاملة</th>
-                        <td>
-                            {{ $committee->resourceDepartment->name }}
-                            {{ __('committee::committees.with_number') }}
-                            ({{ $committee->treatment_number }})
-                            {{ __('committee::committees.on_date') }}
-                            {{ $committee->resource_at_hijri }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">الجهة الموصية بدراسة المعاملة و رقمها</th>
-                        <td>
-                            {{ $committee->recommendedByDepartment->name }}
-                            {{ __('committee::committees.with_number') }}
-                            ({{ $committee->recommendation_number }})
-                            {{ __('committee::committees.on_date') }}
-                            {{ $committee->recommended_at_hijri }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">الموضوع</th>
-                        <td>
-                            {{ $committee->subject }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">المهام</th>
-                        <td>
-                            {{ $committee->tasks }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">برئاسة</th>
-                        <td>
-                            {{ $committee->president ? $committee->president->name:'-'  }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">تاريخ الاجتماع و مقره</th>
-                        <td>
-                            {{ __('committee::committees.meeting in') }}
-                            {{ __('messages.'.$committee->first_meeting_at->format('D')) }}
-                            {{ __('committee::committees.on_date') }}
-                            {{ $committee->first_meeting_at_hijri }}
-                            {{ __('committee::committees.same as') }}
-                            {{ $committee->first_meeting_at->format('Y-m-d') }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">المستشار المسؤول عن الدراسة و رقم التواصل</th>
-                        <td>
-                            {{ $committee->advisor->name  }}
-                            <br />
-                            {{ $committee->advisor->phone_number }}
-                        </td>
-                    </tr>
+                <tr>
+                    <th style="width: 16.66%" scope="row">رقم الطلب و تاريخه</th>
+                    <td>
+                        {{ __('committee::committees.committee uuid') }}
+                        {{ $committee->uuid }}
+                        {{ __('committee::committees.on_date') }}
+                        {{ $committee->created_at_hijri }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">اعجلية المعاملة</th>
+                    <td>
+                        {{ $committee->treatmentUrgency->name }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">رقم المعاملة و وجهة طلب دراسة المعاملة</th>
+                    <td>
+                        {{ $committee->resourceDepartment->name }}
+                        {{ __('committee::committees.with_number') }}
+                        ({{ $committee->treatment_number }})
+                        {{ __('committee::committees.on_date') }}
+                        {{ $committee->resource_at_hijri }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">الجهة الموصية بدراسة المعاملة و رقمها</th>
+                    <td>
+                        {{ $committee->recommendedByDepartment->name }}
+                        {{ __('committee::committees.with_number') }}
+                        ({{ $committee->recommendation_number }})
+                        {{ __('committee::committees.on_date') }}
+                        {{ $committee->recommended_at_hijri }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">الموضوع</th>
+                    <td>
+                        {{ $committee->subject }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">المهام</th>
+                    <td>
+                        {{ $committee->tasks }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">برئاسة</th>
+                    <td>
+                        {{ $committee->president ? $committee->president->name:'-'  }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">تاريخ الاجتماع و مقره</th>
+                    <td>
+                        {{ __('committee::committees.meeting in') }}
+                        {{ __('messages.'.$committee->first_meeting_at->format('D')) }}
+                        {{ __('committee::committees.on_date') }}
+                        {{ $committee->first_meeting_at_hijri }}
+                        {{ __('committee::committees.same as') }}
+                        {{ $committee->first_meeting_at->format('Y-m-d') }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">المستشار المسؤول عن الدراسة و رقم التواصل</th>
+                    <td>
+                        {{ $committee->advisor->name  }}
+                        <br/>
+                        {{ $committee->advisor->phone_number }}
+                    </td>
+                </tr>
                 </tbody>
             </table>
 
@@ -145,7 +145,8 @@
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $document->description }}</td>
                         <td>
-                            <a type="button" class="btn btn-default" href="{{ $document->full_path }}" download>تحميل</a>
+                            <a type="button" class="btn btn-default" href="{{ $document->full_path }}"
+                               download>تحميل</a>
                         </td>
                     </tr>
                 @endforeach
@@ -155,6 +156,11 @@
             {{--@include('users::delegates.index')--}}
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
+            @if(auth()->user()->hasPermissionWithAccess('approveCommittee','CommitteeController','Committee'))
+                <a id="btn-approve" style="float: right;background-color: #057d54" class="btn btn-sm btn-info">
+                    <i class="fa fa-check"></i> {{ __('committee::committees.approve') }}
+                </a>
+            @endif
 
         </div>
     </div>

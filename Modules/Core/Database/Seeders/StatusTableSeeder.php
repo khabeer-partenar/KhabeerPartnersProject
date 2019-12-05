@@ -27,7 +27,7 @@ class StatusTableSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
-                'status_ar' => 'مكتمل الترشيح',
+                'status_ar' => 'تم ارسال ا لترشيح',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

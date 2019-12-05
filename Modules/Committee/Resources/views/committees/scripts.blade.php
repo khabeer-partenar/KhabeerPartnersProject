@@ -170,8 +170,7 @@
                                     confirmButtonText: 'حسنا'
                                 })
                                 window.location.href = '{{ url("committees")}}';
-                            }
-                            else {
+                            } else {
                                 Swal.fire({
                                     title: result.msg,
                                     type: 'error',
@@ -185,6 +184,54 @@
                             console.log(data);
                             Swal.fire({
                                 title: 'لم يتم ارسال الترشيح',
+                                type: 'error',
+                                confirmButtonText: 'حسنا'
+                            })
+                        }
+
+
+                    });
+                }
+            })
+
+
+        });
+
+        $(document).on('click', '#btn-approve', function () {
+
+            var url = '{{(isset($committee))? route("committees.approve",compact("committee")):''}}';
+            if (url == '') return;
+            Swal.fire({
+                title: 'هل تريد اعتماد اللجنة؟',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#337ab7',
+                cancelButtonColor: '#ed6b75',
+                confirmButtonText: 'موافق',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (result) {
+                            Swal.fire({
+                                title: 'تم الاعتماد بنجاح',
+                                type: 'info',
+                                confirmButtonText: 'حسنا'
+                            })
+                            window.location.href = '{{ url("committees")}}';
+
+
+                        },
+                        error: function (data) {
+                            var errors = data.responseJSON;
+                            console.log(data);
+                            Swal.fire({
+                                title: 'لم يتم الاعتماد',
                                 type: 'error',
                                 confirmButtonText: 'حسنا'
                             })

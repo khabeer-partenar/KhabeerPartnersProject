@@ -100,9 +100,7 @@ return [
     'nomination done'=>'تم ترشيح المندوبين',
     'nomination done for committee'=>'تم ترشيح المندوبين للجنة',
     'nomination_not_compeleted'=>'الترشيح لجميع الجهات لم يكتمل',
-    'nomination_send_successfully'=>'تم ارسال الترشيح بنجاح'
-
-
-
+    'nomination_send_successfully'=>'تم ارسال الترشيح بنجاح',
+    'approve'=>'اعتماد'
 
 ];

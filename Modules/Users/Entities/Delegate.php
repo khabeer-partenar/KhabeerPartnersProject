@@ -10,8 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
 
+use Modules\Committee\Entities\CommitteeStatus;
 use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Entities\Group;
+use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
@@ -47,14 +49,21 @@ class Delegate extends User
         if ($nominationDepartmentsIds->count() == $committeeNominationDepartments->count()) {
             $committee->status = Committee::NOMINATIONS_COMPLETED;
             $committee->save();
+            CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_DONE);
+            //CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::NOMINATIONS_COMPLETED);
+
         } else {
             $committee->status = Committee::WAITING_DELEGATES;
             $committee->save();
+            CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_NOT_DONE);
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::WAITING_DELEGATES);
+
         }
     }
 
     public function addDelegatesToCommittee(Request $request)
     {
+        //dd($request->all());
         $committee = Committee::where('id', $request->committee_id)->first();
         $committee->delegates()->attach($request->delegates_ids,
             array('nominated_department_id' => $request->department_id,'coordinator_id' => auth()->user()->id));
@@ -109,7 +118,7 @@ class Delegate extends User
 
         $department->pivot->has_nominations = 1;
         $department->pivot->save();
-
+        $this->setCommitteeNominationStatus($committee->id);
         $delegate = Delegate::find($delegate_id);
         event(new DelegateCreatedEvent($delegate, $committee));
 
