@@ -99,7 +99,7 @@ class Committee extends Model
         return CarbonHijri::toHijriFromMiladi($date);
     }
 
-    public function getfirstMeetingTimeAttribute()
+    public function getFirstMeetingTimeAttribute()
     {
         $time = Carbon::parse($this->attributes['first_meeting_at'])->format('h:i A');
         if (strpos($time, ' AM')) {

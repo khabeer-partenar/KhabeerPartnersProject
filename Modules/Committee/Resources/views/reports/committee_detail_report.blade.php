@@ -23,7 +23,7 @@
         </p>
         <br>
         <label>موعد الاجتماع يوم {{__('messages.'.$committee->first_meeting_at->format('D'))}}
-            تاريخ {{ $committee->first_meeting_at_hijri }} هـ الساعة  {{$committee->firstMeetingTime}}</label>
+            تاريخ {{ $committee->first_meeting_at_hijri }} هـ الساعة  {{$committee->first_meeting_time}}</label>
         <br><br>
         <label>مقر الاجتماع : هيئة الخبراء بمجلس الوزراء بقصر اليمامة</label>
 
