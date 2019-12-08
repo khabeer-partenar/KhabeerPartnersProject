@@ -17,8 +17,8 @@ $.extend(true, $.fn.dataTable.defaults, {
 /* Default class modification */
 $.extend($.fn.dataTableExt.oStdClasses, {
     "sWrapper": "dataTables_wrapper",
-    "sFilterInput": "form-control input-sm input-small input-inline",
-    "sLengthSelect": "form-control input-sm input-xsmall input-inline"
+    "sFilterInput": "form_control input-sm input-small input-inline",
+    "sLengthSelect": "form_control input-sm input-xsmall input-inline"
 });
 
 // In 1.10 we use the pagination renderers to draw the Bootstrap paging,
@@ -334,7 +334,7 @@ $.extend($.fn.dataTableExt.oPagination, {
             $(nPaging).append(
                 '<div class="pagination-panel"> ' + (oLang.page ? oLang.page : '') + ' ' +
                 '<a href="#" class="btn btn-sm default prev disabled"><i class="fa fa-angle-left"></i></a>' +
-                '<input type="text" class="pagination-panel-input form-control input-sm input-inline input-mini" maxlenght="5" style="text-align:center; margin: 0 5px;">' +
+                '<input type="text" class="pagination-panel-input form_control input-sm input-inline input-mini" maxlenght="5" style="text-align:center; margin: 0 5px;">' +
                 '<a href="#" class="btn btn-sm default next disabled"><i class="fa fa-angle-right"></i></a> ' +
                 (oLang.pageOf ? oLang.pageOf + ' <span class="pagination-panel-total"></span>': '') + 
                 '</div>'

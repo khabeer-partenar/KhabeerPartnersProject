@@ -15,79 +15,20 @@ mix
 
     /*
     |--------------------------------------------------------------------------
-    | Main css
+    | css
     |--------------------------------------------------------------------------
     |
     */
-    .combine([
-        'resources/assets/css/font-awesome.min.css',
-        'resources/assets/css/simple-line-icons.min.css',
-        'resources/assets/css/bootstrap-rtl.min.css',
-        'resources/assets/css/bootstrap-switch-rtl.min.css',
+   .copy('resources/assets/css/bootstrap-rtl.min.css', 'public/assets/css/bootstrap-rtl.min.css')
+   .copy('resources/assets/css/fonts.css', 'public/assets/css/fonts.css')
+   .copy('resources/assets/css/colorbox.css', 'public/assets/css/colorbox.css')
+   .copy('resources/assets/css/styles_ar.css', 'public/assets/css/styles_ar.css')
+
+   .combine([
         'resources/assets/css/select2_ar.min.css',
         'resources/assets/css/select2-bootstrap_ar.min.css',
-        'resources/assets/css/datatables.min.css',
-        'resources/assets/css/bootstrap-datepicker.css',
-        'resources/assets/css/jquery.datetimepicker.min.css',
-        'resources/assets/css/datatables.bootstrap.css',
-        'resources/assets/css/datatables.bootstrap-rtl.css',
-        'resources/assets/css/jquery.calendars.picker.css',
-        'resources/assets/css/multi-select-rtl.css',
-        'resources/assets/css/custom.css'
+        'resources/assets/css/custom.css',        
     ], 'public/assets/css/main.css')
-
-    /*
-       |--------------------------------------------------------------------------
-       | Main css
-       |--------------------------------------------------------------------------
-       |
-       */
-    .combine([
-    ], 'public/assets/css/main_report.css')
-    /*
-    |--------------------------------------------------------------------------
-    | Global css
-    |--------------------------------------------------------------------------
-    |
-    */
-    .combine([
-        'resources/assets/css/components-rtl.min.css',
-        'resources/assets/css/plugins-rtl.min.css'
-    ], 'public/assets/css/global.css')
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Layout css
-    |--------------------------------------------------------------------------
-    |
-    */
-    .combine([
-       'resources/assets/css/layout-rtl.min.css',
-       'resources/assets/css/darkblue-rtl.min.css'
-    ], 'public/assets/css/layout.css')
-
-    .copy('resources/assets/css/dashboard_layout.css', 'public/assets/css/dashboard_layout.css')
-
-    /*
-    |--------------------------------------------------------------------------
-    | Login css
-    |--------------------------------------------------------------------------
-    |
-    */
-    .copy('resources/assets/css/login-rtl.min.css', 'public/assets/css/login.css')
-    .copy('resources/assets/css/statement-print.css', 'public/assets/css/statement-print.css')
-
-    /*
-    |--------------------------------------------------------------------------
-    | Fonts css
-    |--------------------------------------------------------------------------
-    |
-    */
-    .copy('resources/assets/css/fonts.css', 'public/assets/css/fonts.css')
-    
-
-
 
     /*
     |--------------------------------------------------------------------------
@@ -136,7 +77,7 @@ mix
     */
     .copy('resources/assets/js/vendor/jquery.validate.min.js', 'public/assets/js/jquery.validate.js')
     .copy('resources/assets/js/vendor/jquery.validate_ar.min.js', 'public/assets/js/jquery.validate_ar.js')
-    .copy('resources/assets/js/vendor/additional-methods.min.js', 'public/assets/js/additional-methods.js')
+    //.copy('resources/assets/js/vendor/additional-methods.min.js', 'public/assets/js/additional-methods.js')
     .copy('resources/assets/js/vendor/jquery.backstretch.min.js', 'public/assets/js/jquery.backstretch.js')
     .copy('resources/assets/js/vendor/select2.full.min.js', 'public/assets/js/select2.full.js')
     .copy('resources/assets/js/vendor/components-select2.js', 'public/assets/js/components-select2.js')
@@ -148,7 +89,6 @@ mix
     .js('resources/assets/js/vendor/laravel-forms.js', 'public/assets/js/laravel-forms.js')
     .copy('resources/assets/js/vendor/form-wizard.min.js', 'public/assets/js/form-wizard.js')
     .copy('resources/assets/js/vendor/jquery-bootstrap-wizard.min.js', 'public/assets/js/jquery-bootstrap-wizard.js')
-    .copy('resources/assets/js/vendor/additional-methods.js', 'public/assets/js/additional-methods.js')
     .js('resources/assets/js/custom.js', 'public/assets/js/custom.js')
     .js('resources/assets/js/vendor/multi-input.js', 'public/assets/js/multi-input.js')
     .copy('resources/assets/js/vendor/jquery.form.min.js', 'public/assets/js/jquery.form.min.js')
@@ -161,5 +101,13 @@ mix
     .copy('resources/assets/js/vendor/components-multi-select.min.js', 'public/assets/js/components-multi-select.min.js')
     .copy('resources/assets/js/vendor/table-datatables-editable.min.js', 'public/assets/js/table-datatables-editable.min.js')
       
+
+    .copy('resources/assets/js/vendor/jquery.hoverIntent.minified.js', 'public/assets/js/jquery.hoverIntent.minified.js')
+    .copy('resources/assets/js/vendor/jquery.slicknav.js', 'public/assets/js/jquery.slicknav.js')
+    .copy('resources/assets/js/vendor/slick.js', 'public/assets/js/slick.js')
+    .copy('resources/assets/js/vendor/tabs.js', 'public/assets/js/tabs.js')
+    .copy('resources/assets/js/vendor/jquery.colorbox-min.js', 'public/assets/js/jquery.colorbox-min.js')
+
+
     .copy('resources/assets/js/vendor/menu-toggler-sidebar.js', 'public/assets/js/menu-toggler-sidebar.js')
     .copy('resources/assets/js/khabeer.js', 'public/assets/js/khabeer.js');

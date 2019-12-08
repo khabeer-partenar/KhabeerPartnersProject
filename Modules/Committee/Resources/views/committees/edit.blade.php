@@ -21,7 +21,7 @@
                 {!! Form::label('committee uuid', __('committee::committees.committee uuid'), ['class' => 'col-md-4 control-label']) !!}
 
                 <div class="col-md-8">
-                    <input class="form-control" value="{{ $committee->uuid }}" disabled>
+                    <input class="form_control" value="{{ $committee->uuid }}" disabled>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                 {!! Form::label('committee date', __('committee::committees.committee date'), ['class' => 'col-md-4 control-label']) !!}
 
                 <div class="col-md-8">
-                    <input class="form-control" value="{{ $committee->created_at_hijri }}" disabled>
+                    <input class="form_control" value="{{ $committee->created_at_hijri }}" disabled>
                 </div>
             </div>
         </div>

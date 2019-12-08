@@ -1,6 +1,6 @@
 
-Vue.component('side-menu-wrapper', require('./components/sideMenuWrapper.vue').default);
-Vue.component('side-menu-item', require('./components/sideMenuItem.vue').default);
+Vue.component('top-menu-wrapper', require('./components/topMenuWrapper.vue').default);
+Vue.component('top-menu-item', require('./components/topMenuItem.vue').default);
 
 
 Vue.component('core-app', require('./components/CoreModule/CoreApp.vue').default);

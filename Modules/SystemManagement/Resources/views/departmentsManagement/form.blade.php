@@ -9,7 +9,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::select('main_department_id', $mainDepartmentsData, @$department->parent_id, ['id' => 'main_department_id', 'class' => 'form-control select2', (@$department ? 'disabled' : '')]) !!}
+                {!! Form::select('main_department_id', $mainDepartmentsData, @$department->parent_id, ['id' => 'main_department_id', 'class' => 'form_control select2', (@$department ? 'disabled' : '')]) !!}
 
                 @if ($errors->has('main_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('main_department_id') }}</strong></span>
@@ -28,7 +28,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) !!}
+                {!! Form::text('name', null, ['id' => 'name', 'class' => 'form_control']) !!}
 
                 @if ($errors->has('name'))
                     <span class="help-block" ><strong>{{ $errors->first('name') }}</strong></span>
@@ -51,7 +51,7 @@
             {!! Form::label('telephone', __('systemmanagement::systemmanagement.departmentManagementTelephone'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('telephone', null, ['id' => 'telephone', 'class' => 'form-control']) !!}
+                {!! Form::text('telephone', null, ['id' => 'telephone', 'class' => 'form_control']) !!}
 
                 @if ($errors->has('telephone'))
                     <span class="help-block" ><strong>{{ $errors->first('telephone') }}</strong></span>
@@ -67,7 +67,7 @@
             {!! Form::label('address', __('systemmanagement::systemmanagement.departmentManagementAddress'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('address', null, ['id' => 'address', 'class' => 'form-control']) !!}
+                {!! Form::text('address', null, ['id' => 'address', 'class' => 'form_control']) !!}
 
                 @if ($errors->has('address'))
                     <span class="help-block" ><strong>{{ $errors->first('address') }}</strong></span>
@@ -89,7 +89,7 @@
             {!! Form::label('email', __('systemmanagement::systemmanagement.departmentManagementEmail'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                {!! Form::text('email', null, ['id' => 'email', 'class' => 'form-control']) !!}
+                {!! Form::text('email', null, ['id' => 'email', 'class' => 'form_control']) !!}
 
                 @if ($errors->has('email'))
                     <span class="help-block" ><strong>{{ $errors->first('email') }}</strong></span>
@@ -130,7 +130,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::select('reference_id', $parentDepartmentsData, null, ['id' => 'reference_id', 'class' => 'form-control select2', (old('is_reference') == 1 || @$department ? 'disabled' : '') ]) !!}
+                {!! Form::select('reference_id', $parentDepartmentsData, null, ['id' => 'reference_id', 'class' => 'form_control select2', (old('is_reference') == 1 || @$department ? 'disabled' : '') ]) !!}
 
                 @if ($errors->has('reference_id'))
                     <span class="help-block" ><strong>{{ $errors->first('reference_id') }}</strong></span>

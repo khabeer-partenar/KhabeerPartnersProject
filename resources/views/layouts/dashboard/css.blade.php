@@ -1,22 +1,14 @@
 <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+{{ Html::style(mix('assets/css/bootstrap-rtl.min.css')) }}
+{{ Html::style('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css') }}
 {{ Html::style(mix('assets/css/fonts.css')) }}
+{{ Html::style(mix('assets/css/colorbox.css')) }}
+{{ Html::style(mix('assets/css/styles_ar.css')) }}
 {{ Html::style(mix('assets/css/main.css')) }}
+
 <!-- END GLOBAL MANDATORY STYLES -->
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 @yield('styles')
 <!-- END PAGE LEVEL PLUGINS -->
-
-<!-- BEGIN THEME GLOBAL STYLES -->
-{{ Html::style(mix('assets/css/global.css')) }}
-<!-- END THEME GLOBAL STYLES -->
-
-<!-- BEGIN THEME LAYOUT STYLES -->
-{{ Html::style(mix('assets/css/layout.css')) }}
-<!-- END THEME LAYOUT STYLES -->
-
-{{ Html::style('https://fonts.googleapis.com/css?family=Cairo:400,600,700,900&amp;subset=arabic') }}
-
-<link href="/assets/img/favicon.ico" rel="shortcut icon">
-
-{{ Html::style(mix('assets/css/dashboard_layout.css')) }}

@@ -9,7 +9,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::select('main_department_id', $staffsDepartment, null, ['id' => 'main_department_id', 'class' => 'form-control select2', 'disabled']) !!}
+                {!! Form::select('main_department_id', $staffsDepartment, null, ['id' => 'main_department_id', 'class' => 'form_control select2', 'disabled']) !!}
 
                 @if ($errors->has('main_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('main_department_id') }}</strong></span>
@@ -28,7 +28,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::select('parent_department_id', $staffExpertsDepartment, null, ['id' => 'parent_department_id', 'class' => 'form-control select2', 'disabled' ]) !!}
+                {!! Form::select('parent_department_id', $staffExpertsDepartment, null, ['id' => 'parent_department_id', 'class' => 'form_control select2', 'disabled' ]) !!}
 
                 @if ($errors->has('parent_department_id'))
                     <span class="help-block" ><strong>{{ $errors->first('parent_department_id') }}</strong></span>
@@ -54,7 +54,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::text('department_name', old('department_name') ?? @$department->name, ['id' => 'department_name', 'class' => 'form-control', 'required' => true]) !!}
+                {!! Form::text('department_name', old('department_name') ?? @$department->name, ['id' => 'department_name', 'class' => 'form_control', 'required' => true]) !!}
 
                 @if ($errors->has('department_name'))
                     <span class="help-block" ><strong>{{ $errors->first('department_name') }}</strong></span>
@@ -72,7 +72,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::select('direct_manager_id', isset($directManager) ? $directManager : [], null, ['id' => 'direct_manager_id', 'class' => 'form-control select2-ajax-search', 'data-ajax--url' => route('employees.search_by_name')]) !!}
+                {!! Form::select('direct_manager_id', isset($directManager) ? $directManager : [], null, ['id' => 'direct_manager_id', 'class' => 'form_control select2-ajax-search', 'data-ajax--url' => route('employees.search_by_name')]) !!}
 
                 @if ($errors->has('direct_manager_id'))
                     <span class="help-block" ><strong>{{ $errors->first('direct_manager_id') }}</strong></span>

@@ -1,34 +1,28 @@
-<div class="top-menu">
+<header>
     
-    <ul class="nav navbar-nav pull-right">
-        
-        <!-- BEGIN USER LOGIN DROPDOWN -->
-        <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
-        <li class="dropdown dropdown-user">
-        
-            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                <img alt="" class="img-circle" src="" />
-                <span class="username username-hide-on-mobile"> {{ auth()->user()->name }}</span>
-                <i class="fa fa-angle-down"></i>
-            </a>
-            
-            <ul class="dropdown-menu dropdown-menu-default">
-
-                {{-- <li>
-                    <a href="#">تجربة ١</a>
-                </li>
-                
-                <li class="divider"></li> --}}
-
-                <li>
-                    <a href="{{ route('logout') }}">{{ __('messages.logout') }}</a>
-                </li>
-            
-            </ul>
-        
-        </li>
+    <a class="logo" href="{{ url('/') }}" title="الرئيسية"><img src="{{ asset('assets/images/logo.png') }}"></a>
     
+    <ul>
+        <li><a href="#!" title="خريطة الموقع"><i class="fas fa-sitemap"></i></a></li>
+        <li><a href="#!" title="اتصل بنا"><i class="far fa-envelope"></i></a></li>
     </ul>
-
-</div>
     
+    <span class="date">16 ربيع الأول 1441 هـ الموافق 13 نوفمبر 2019 م</span> <span class="clr"></span>
+</header>
+
+<nav>
+    
+    <div class="t_menu">
+        
+        <top-menu-wrapper></top-menu-wrapper>
+        
+        <a href="#!" class="login">مرحباً : {{ auth()->user()->name }} </a>
+
+        <span class="clr"></span>
+    
+    </div>
+
+</nav>
+
+
+<span class="clr"></span>

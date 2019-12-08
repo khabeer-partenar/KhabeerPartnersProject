@@ -27,12 +27,12 @@
             
             <div class="form-group">
                 <label class="control-label">{{ __('messages.national_id') }}</label>
-                {{ Form::text('national_id', old('national_id') , ['class' => 'form-control form-control-solid placeholder-no-fix', 'required' => true, 'placeholder' => __('messages.national_id')]) }}
+                {{ Form::text('national_id', old('national_id') , ['class' => 'form_control form_control-solid placeholder-no-fix', 'required' => true, 'placeholder' => __('messages.national_id')]) }}
             </div>
 
             <div class="form-group">
                 <label class="control-label">{{ __('messages.password') }}</label>
-                {{ Form::password('password', ['class' => 'form-control form-control-solid placeholder-no-fix', 'required' => true, 'placeholder' => __('messages.password')]) }}
+                {{ Form::password('password', ['class' => 'form_control form_control-solid placeholder-no-fix', 'required' => true, 'placeholder' => __('messages.password')]) }}
             </div>
         
             <div class="form-actions">

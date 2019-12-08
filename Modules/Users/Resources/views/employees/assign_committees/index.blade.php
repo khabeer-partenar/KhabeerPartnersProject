@@ -10,7 +10,7 @@
                 <span class="caption-subject sbold">{{ __('users::employees.assignCommittees.title') }}</span>
             </div>
             
-            <div class="actions">
+            <div class="actions" style="margin-bottom: 20px;">
             </div>
         
         </div>

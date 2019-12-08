@@ -28,7 +28,7 @@
                                         <div class="form-group" v-bind:class="{ 'has-error': form.errors.has('name') }">
                                             <label for="title" class="col-md-2 control-label">الاسم</label>
                                             <div class="col-md-10">
-                                                <input type="text" id="name" name="name" v-model="form.name" class="form-control">
+                                                <input type="text" id="name" name="name" v-model="form.name" class="form_control">
                                                 <span class="help-block" v-if="form.errors.has('name')"><strong>{{ form.errors.get('name') }}</strong></span>
                                             </div>
                                         </div>
@@ -44,7 +44,7 @@
                                         <div class="form-group" v-bind:class="{ 'has-error': form.errors.has('resource_name') }">
                                             <label for="title" class="col-md-2 control-label">مسار تحكم الصلاحية</label>
                                             <div class="col-md-10">
-                                                <input type="text" id="resource_name" name="resource_name" v-model="form.resource_name" class="form-control">
+                                                <input type="text" id="resource_name" name="resource_name" v-model="form.resource_name" class="form_control">
                                                 <span class="help-block" v-if="form.errors.has('resource_name')"><strong>{{ form.errors.get('resource_name') }}</strong></span>
                                             </div>
                                         </div>
@@ -60,7 +60,7 @@
                                         <div class="form-group" v-bind:class="{ 'has-error': form.errors.has('frontend_path') }">
                                             <label for="title" class="col-md-2 control-label">المسار في الموقع الخارجي</label>
                                             <div class="col-md-10">
-                                                <input type="text" id="frontend_path" name="frontend_path" v-model="form.frontend_path" class="form-control">
+                                                <input type="text" id="frontend_path" name="frontend_path" v-model="form.frontend_path" class="form_control">
                                                 <span class="help-block" v-if="form.errors.has('frontend_path')"><strong>{{ form.errors.get('frontend_path') }}</strong></span>
                                             </div>
                                         </div>
@@ -76,7 +76,7 @@
                                         <div class="form-group" v-bind:class="{ 'has-error': form.errors.has('li_color') }">
                                             <label for="title" class="col-md-2 control-label">تغيير لون التصنيف</label>
                                             <div class="col-md-10">
-                                                <input type="text" id="li_color" name="li_color" v-model="form.li_color" class="form-control">
+                                                <input type="text" id="li_color" name="li_color" v-model="form.li_color" class="form_control">
                                                 <span class="help-block" v-if="form.errors.has('li_color')"><strong>{{ form.errors.get('li_color') }}</strong></span>
                                             </div>
                                         </div>
@@ -92,7 +92,7 @@
                                         <div class="form-group" v-bind:class="{ 'has-error': form.errors.has('icon') }">
                                             <label for="title" class="col-md-4 control-label">الأيقونة</label>
                                             <div class="col-md-8">
-                                                <input type="text" id="icon" name="icon" v-model="form.icon" class="form-control">
+                                                <input type="text" id="icon" name="icon" v-model="form.icon" class="form_control">
                                                 <span class="help-block" v-if="form.errors.has('icon')"><strong>{{ form.errors.get('icon') }}</strong></span>
                                             </div>
                                         </div>
@@ -102,7 +102,7 @@
                                         <div class="form-group" v-bind:class="{ 'has-error': form.errors.has('sort') }">
                                             <label for="title" class="col-md-4 control-label">الترتيب</label>
                                             <div class="col-md-8">
-                                                <input type="number" id="sort" name="sort" v-model="form.sort" class="form-control">
+                                                <input type="number" id="sort" name="sort" v-model="form.sort" class="form_control">
                                                 <span class="help-block" v-if="form.errors.has('sort')"><strong>{{ form.errors.get('sort') }}</strong></span>
                                             </div>
                                         </div>
@@ -116,7 +116,7 @@
                                         <div class="form-group" v-bind:class="{ 'has-error': form.errors.has('displayed_in_menu') }">
                                             <label for="title" class="col-md-4 control-label">هل يظهر بالقائمة ؟</label>
                                             <div class="col-md-8">
-                                                <input type="checkbox"  id="displayed_in_menu" name="displayed_in_menu" v-model="form.displayed_in_menu" class="form-control">
+                                                <input type="checkbox"  id="displayed_in_menu" name="displayed_in_menu" v-model="form.displayed_in_menu" class="form_control">
                                                 <span class="help-block" v-if="form.errors.has('displayed_in_menu')"><strong>{{ form.errors.get('displayed_in_menu') }}</strong></span>
                                             </div>
                                         </div>

@@ -9,7 +9,7 @@
                 </label>
 
                 <div class="col-md-10">
-                {!! Form::text('name', null, ['id' => 'name', 'class' => 'form-control', 'required' => true]) !!}
+                {!! Form::text('name', null, ['id' => 'name', 'class' => 'form_control', 'required' => true]) !!}
 
                 @if ($errors->has('name'))
                     <span class="help-block" ><strong>{{ $errors->first('name') }}</strong></span>

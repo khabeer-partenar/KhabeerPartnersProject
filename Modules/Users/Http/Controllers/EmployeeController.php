@@ -29,7 +29,7 @@ class EmployeeController extends UserBaseController
 
             return Datatables::of($employees)
                ->addColumn('deptname', function ($employee) {
-                   return @$employee->directDepartment->name;
+                    return @$employee->directDepartment->name;
                })
                ->addColumn('job_role', function ($employee) {
                    return @$employee->jobRole->name;

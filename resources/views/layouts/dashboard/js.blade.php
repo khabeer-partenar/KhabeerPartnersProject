@@ -1,5 +1,14 @@
 {{--Common Scripts--}}
 {{ Html::script(mix('assets/js/jquery.js')) }}
+
+<script src="{{ url(mix('assets/js/jquery.hoverIntent.minified.js')) }}" defer></script>
+<script src="{{ url(mix('assets/js/jquery.slicknav.js')) }}" defer></script>
+<script src="{{ url(mix('assets/js/slick.js')) }}" defer></script>
+<script src="{{ url(mix('assets/js/tabs.js')) }}" defer></script>
+<script src="{{ url(mix('assets/js/jquery.colorbox-min.js')) }}" defer></script>
+
+{{ Html::script(mix('assets/js/jquery.colorbox-min.js')) }}
+
 {{ Html::script(mix('assets/js/select2.full.js'))}}
 {{ Html::script(mix('assets/js/components-select2.js'))}}
 
@@ -13,7 +22,6 @@
 @yield('scripts')
 
 {{ Html::script(mix('assets/js/table-datatables-editable.min.js'))}}
-{{ Html::script(mix('assets/js/additional-methods.js'))}}
 {{ Html::script(mix('assets/js/jquery-bootstrap-wizard.js'))}}
 
 {{ Html::script(mix('assets/js/jquery.validate_ar.js'))}}
@@ -33,7 +41,7 @@
 <!-- END THEME GLOBAL SCRIPTS -->
 
 {{ Html::script(mix('assets/js/custom.js')) }}
-<script src="{{ asset(mix('assets/js/khabeer.js')) }}"></script>
+{{ Html::script(mix('assets/js/khabeer.js')) }}
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 @yield('scripts_2')

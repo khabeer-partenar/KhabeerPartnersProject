@@ -5,20 +5,25 @@
     <div class="portlet light bordered">
 
         <div class="portlet-title">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="caption">
+                        <i class="fa fa-eye"></i>
+                        <span class="caption-subject sbold">{{ __('users::coordinators.information') }}</span>
+                    </div>
+                </div>
 
-            <div class="caption">
-                <i class="fa fa-eye"></i>
-                <span class="caption-subject sbold">{{ __('users::coordinators.information') }}</span>
+                <div class="col-md-3">
+                    <div class="actions item-fl item-mb20">
+                        @if(auth()->user()->hasPermissionWithAccess('edit'))
+                            <a href="{{ route('coordinators.edit', $coordinator) }}" class="btn btn-sm btn-warning">
+                                <i class="fa fa-edit"></i> {{ __('users::coordinators.edit') }}
+                            </a>
+                        @endif
+                    </div>
+                </div>
             </div>
             
-            <div class="actions">
-                @if(auth()->user()->hasPermissionWithAccess('edit'))
-                    <a href="{{ route('coordinators.edit', $coordinator) }}" class="btn btn-sm btn-warning">
-                        <i class="fa fa-edit"></i> {{ __('users::coordinators.edit') }}
-                    </a>
-                @endif
-            </div>
-        
         </div>
 
         <div class="portlet-body form">

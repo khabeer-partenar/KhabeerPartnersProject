@@ -9,7 +9,6 @@
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 {{ Html::script(mix('assets/js/jquery.validate.js'))}}
-{{ Html::script(mix('assets/js/additional-methods.js'))}}
 {{ Html::script(mix('assets/js/select2.full.js'))}}
 {{ Html::script(mix('assets/js/jquery.backstretch.js'))}}
 <!-- END PAGE LEVEL PLUGINS -->

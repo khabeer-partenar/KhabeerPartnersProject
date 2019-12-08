@@ -10,7 +10,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::text('resource_staff_number', null, ['id' => 'resource_staff_number', 'class' => 'form-control']) !!}
+                {!! Form::text('resource_staff_number', null, ['id' => 'resource_staff_number', 'class' => 'form_control']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'resource_staff_number'])
             </div>
         </div>
@@ -30,7 +30,7 @@
                         $resourceAt = old('resource_at');
                     }
                 @endphp
-                <input type="text" name="resource_at" id="resource_at" value="{{ $resourceAt }}" class="form-control date-picker" autocomplete="off">
+                <input type="text" name="resource_at" id="resource_at" value="{{ $resourceAt }}" class="form_control date-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'resource_at'])
             </div>
         </div>
@@ -44,7 +44,7 @@
             </label>
 
             <div class="col-md-8">
-                <select name="treatment_type_id" id="treatment_type_id" class="form-control select2">
+                <select name="treatment_type_id" id="treatment_type_id" class="form_control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
                     @php
                         $treatmentTypeId = isset($committee) ? $committee->treatment_type_id:'';
@@ -75,7 +75,7 @@
             </label>
 
             <div class="col-md-8">
-                <select name="resource_by" id="resource_by" class="form-control select2">
+                <select name="resource_by" id="resource_by" class="form_control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
                     @php
                         $resourceBy = isset($committee) ? $committee->resource_by:'';
@@ -100,7 +100,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::number('treatment_number', null, ['id' => 'treatment_number', 'class' => 'form-control']) !!}
+                {!! Form::number('treatment_number', null, ['id' => 'treatment_number', 'class' => 'form_control']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'treatment_number'])
             </div>
         </div>
@@ -120,7 +120,7 @@
                         $treatmentTime = old('treatment_time');
                     }
                 @endphp
-                <input type="text" name="treatment_time" id="treatment_time" value="{{ $treatmentTime }}" class="form-control date-picker" autocomplete="off">
+                <input type="text" name="treatment_time" id="treatment_time" value="{{ $treatmentTime }}" class="form_control date-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'treatment_time'])
             </div>
         </div>
@@ -139,7 +139,7 @@
             </label>
 
             <div class="col-md-8">
-                <select name="recommended_by_id" id="recommended_by_id" class="form-control select2">
+                <select name="recommended_by_id" id="recommended_by_id" class="form_control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
                     @php
                         $recommendedBy = isset($committee) ? $committee->recommended_by_id:'';
@@ -164,7 +164,7 @@
             </label>
 
             <div class="col-md-8">
-                {!! Form::text('recommendation_number', null, ['id' => 'recommendation_number', 'class' => 'form-control']) !!}
+                {!! Form::text('recommendation_number', null, ['id' => 'recommendation_number', 'class' => 'form_control']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'recommendation_number'])
             </div>
         </div>
@@ -184,7 +184,7 @@
                         $recommendedAt = old('recommended_at');
                     }
                 @endphp
-                <input type="text" name="recommended_at" id="recommended_at" value="{{ $recommendedAt }}" class="form-control date-picker" autocomplete="off">
+                <input type="text" name="recommended_at" id="recommended_at" value="{{ $recommendedAt }}" class="form_control date-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'recommended_at'])
             </div>
         </div>
@@ -202,7 +202,7 @@
             </label>
 
             <div class="col-md-8">
-                <select name="source_of_study_id" id="source_of_study_id" class="form-control select2">
+                <select name="source_of_study_id" id="source_of_study_id" class="form_control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
                     @php
                         $sourceOfStudy = isset($committee) ? $committee->source_of_study_id:'';
@@ -227,7 +227,7 @@
             </label>
 
             <div class="col-md-8">
-                <select name="treatment_urgency_id" id="treatment_urgency_id" class="form-control select2">
+                <select name="treatment_urgency_id" id="treatment_urgency_id" class="form_control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
                     @php
                         $treatmentUrgencyId = isset($committee) ? $committee->treatment_urgency_id:'';
@@ -252,7 +252,7 @@
             </label>
 
             <div class="col-md-8">
-                <select name="treatment_importance_id" id="treatment_importance_id" class="form-control select2">
+                <select name="treatment_importance_id" id="treatment_importance_id" class="form_control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
                     @php
                         $treatmentImportanceId = isset($committee) ? $committee->treatment_importance_id:'';
@@ -287,7 +287,7 @@
                         $meetingAt = old('first_meeting_at');
                     }
                 @endphp
-                <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form-control datetime-picker" autocomplete="off">
+                <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form_control datetime-picker" autocomplete="off">
                 @include('layouts.dashboard.form-error', ['key' => 'first_meeting_at'])
             </div>
         </div>
@@ -301,7 +301,7 @@
             </label>
 
             <div class="col-md-10">
-                {!! Form::text('subject', null, ['id' => 'subject', 'class' => 'form-control']) !!}
+                {!! Form::text('subject', null, ['id' => 'subject', 'class' => 'form_control']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'subject'])
             </div>
         </div>
@@ -316,7 +316,7 @@
             {!! Form::label('president_id',  __('committee::committees.president_id'), ['class' => 'col-md-4 control-label']) !!}
 
             <div class="col-md-8">
-                <select name="president_id" id="president_id" class="form-control select2">
+                <select name="president_id" id="president_id" class="form_control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
                     @php
                         $presidentId = isset($committee) ? $committee->president_id:'';
@@ -338,7 +338,7 @@
             {!! Form::label('tasks',  __('committee::committees.tasks'), ['class' => 'col-md-2 control-label']) !!}
 
             <div class="col-md-10">
-                {!! Form::textArea('tasks', null, ['id' => 'tasks', 'class' => 'form-control', 'rows' => '5']) !!}
+                {!! Form::textArea('tasks', null, ['id' => 'tasks', 'class' => 'form_control', 'rows' => '5']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'tasks'])
             </div>
         </div>
@@ -356,7 +356,7 @@
             </label>
 
             <div class="col-md-8">
-                <select name="advisor_id" id="advisor_id" class="form-control select2">
+                <select name="advisor_id" id="advisor_id" class="form_control select2">
                     <option value="0">{{ __('committee::committees.please choose') }}</option>
                     @php
                         $advisorId = isset($committee) ? $committee->advisor_id:'';
@@ -378,7 +378,7 @@
 
             <div class="col-md-10">
                 <select name="participant_advisors[]" data-placeholder="{{ __('committee::committees.please choose') }}"
-                        id="participant_advisors" class="form-control select2" multiple>
+                        id="participant_advisors" class="form_control select2" multiple>
                     @php
                         $participantIds = isset($committee) ? $committee->participantAdvisors()->pluck('users.id')->toArray():[];
                         if (old('participant_advisors')){
@@ -408,7 +408,7 @@
                 $count = isset($committee) ? $committee->members_count:0;
             @endphp
             <div class="col-md-8">
-                {!! Form::text('members_count', $count, ['id' => 'members_count', 'class' => 'form-control', 'disabled']) !!}
+                {!! Form::text('members_count', $count, ['id' => 'members_count', 'class' => 'form_control', 'disabled']) !!}
                 @include('layouts.dashboard.form-error', ['key' => 'members_count'])
             </div>
         </div>
@@ -425,7 +425,7 @@
         {!! Form::label('tasks',  __('committee::committees.department name'), ['class' => 'col-md-4 control-label']) !!}
 
         <div class="col-md-8">
-            <select id="departments" class="form-control select2">
+            <select id="departments" class="form_control select2">
                 <option value="0">{{ __('committee::committees.please choose') }}</option>
                 @php
                     $departmentsIds = isset($committee) ? $committee->participantDepartments()->pluck('departments.id')->toArray():[];
@@ -512,7 +512,7 @@
         </div>
 
         <div class="col-md-8">
-            {!! Form::text('file_description', null, ['id' => 'file_description', 'class' => 'form-control']) !!}
+            {!! Form::text('file_description', null, ['id' => 'file_description', 'class' => 'form_control']) !!}
         </div>
     </div>
 

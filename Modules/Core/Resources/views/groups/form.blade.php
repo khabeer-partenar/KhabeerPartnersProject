@@ -4,7 +4,7 @@
         <label for="name" class="col-md-4 control-label">{{ __('core::groups.name') }}</label>
         
         <div class="col-md-8">
-            {!! Form::text('name',old('name'), ['class' => 'form-control']) !!}
+            {!! Form::text('name',old('name'), ['class' => 'form_control']) !!}
             @if ($errors->has('name'))
                 <span class="help-block">
                     <strong>{{ $errors->first('name') }}</strong>
@@ -24,7 +24,7 @@
         <label for="key" class="col-md-4 control-label">{{ __('core::groups.key') }}</label>
         
         <div class="col-md-8">
-            {!! Form::text('key',old('key'), ['class' => 'form-control']) !!}
+            {!! Form::text('key',old('key'), ['class' => 'form_control']) !!}
             @if ($errors->has('key'))
                 <span class="help-block">
                     <strong>{{ $errors->first('key') }}</strong>
@@ -43,7 +43,7 @@
         <label for="parent_id" class="col-md-4 control-label">{{ __('core::groups.parent_id') }}</label>
         
         <div class="col-md-8">
-            {!! Form::select('parent_id', $groups, NULL, ['class' => 'form-control']) !!}
+            {!! Form::select('parent_id', $groups, NULL, ['class' => 'form_control']) !!}
             @if ($errors->has('parent_id'))
                 <span class="help-block"><strong>{{ $errors->first('parent_id') }}</strong></span>
             @endif
