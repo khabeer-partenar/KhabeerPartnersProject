@@ -101,6 +101,8 @@ return [
     'nomination done for committee'=>'تم ترشيح المندوبين للجنة',
     'nomination_not_compeleted'=>'الترشيح لجميع الجهات لم يكتمل',
     'nomination_send_successfully'=>'تم ارسال الترشيح بنجاح',
-    'approve'=>'اعتماد'
+    'approve'=>'اعتماد',
+    'am' => 'صباحا',
+    'pm' => 'مساءا'
 
 ];

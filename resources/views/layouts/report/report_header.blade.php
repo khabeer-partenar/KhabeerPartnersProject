@@ -1,5 +1,10 @@
 <link rel="stylesheet" type="text/css" href="{{$_SERVER['DOCUMENT_ROOT'] .'/assets/css/main_report.css'}}">
 <link rel="stylesheet" type="text/css" href="{{$_SERVER['DOCUMENT_ROOT'] .'/assets/css/global.css'}}">
+<style>
+    body {
+        font-size: 1.5em !important;
+    }
+</style>
 <div style="width: 100%; height: 20%" >
     <table>
 

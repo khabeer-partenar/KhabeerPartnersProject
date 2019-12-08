@@ -43,7 +43,7 @@ class Committee extends Model
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'recommended_at_hijri'
+        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri','first_meeting_time', 'recommended_at_hijri'
     ];
 
     protected $dates = [
@@ -97,6 +97,19 @@ class Committee extends Model
     {
         $date = Carbon::parse($this->attributes['created_at'])->format('Y-m-d');
         return CarbonHijri::toHijriFromMiladi($date);
+    }
+
+    public function getfirstMeetingTimeAttribute()
+    {
+        $time = Carbon::parse($this->attributes['first_meeting_at'])->format('h:i A');
+        if (strpos($time, ' AM')) {
+            return str_replace('AM', '', $time).__('committee::committees.am');
+        }
+        else
+        {
+            return str_replace('PM', '', $time).__('committee::committees.pm');
+        }
+
     }
 
     /**

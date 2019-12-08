@@ -10,6 +10,8 @@ use Modules\Users\Notifications\NotifyDelegatesOfAddetion;
 Route::group(['middleware' => ['auth', 'see.committee']], function() {
     Route::get('test',function ()
     {
+       $committee = Committee::find(12);
+        dd($committee->firstMeetingTime);
 
 
     });
