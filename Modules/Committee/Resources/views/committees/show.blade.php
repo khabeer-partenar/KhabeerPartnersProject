@@ -6,26 +6,36 @@
 
         <div class="portlet-title">
 
-            <div class="caption">
-                <i class="fa fa-eye"></i>
-                <span class="caption-subject sbold">{{ __('committee::committees.information') }}</span>
-            </div>
-            <div class="actions" style="margin-right: 10px">
-                @if(auth()->user()->hasPermissionWithAccess('edit'))
-                    <a href="{{ route('committees.edit', $committee) }}" class="btn btn-sm btn-warning">
-                        <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
-                    </a>
-                @endif
-            </div>
-            <div class="actions">
-                {{--<a onclick="window.open('{{route('committee.export.all.info',$committee)}}', '_blank', 'directories=no,scrollbars=yes,titlebar=no,toolbar=no,location=no,status=no,menubar=no');" class="btn btn-sm btn-primary">
-                    <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
-                </a>--}}
-                <a href="{{route('committee.export.all.info',$committee)}}" class="btn btn-sm btn-primary">
-                    <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
-                </a>
-            </div>
+            <div class="row">
 
+                <div class="col-md-7">
+                    <div class="caption">
+                        <i class="fa fa-eye"></i>
+                        <span class="caption-subject sbold">{{ __('committee::committees.information') }}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="actions item-fl item-mb20">
+
+                        @if(auth()->user()->hasPermissionWithAccess('edit'))
+                            <a href="{{ route('committees.edit', $committee) }}" class="btn btn-sm btn-warning">
+                                <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
+                            </a>
+                        @endif
+
+                        {{--<a onclick="window.open('{{route('committee.export.all.info',$committee)}}', '_blank', 'directories=no,scrollbars=yes,titlebar=no,toolbar=no,location=no,status=no,menubar=no');" class="btn btn-sm btn-primary">
+                        <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
+                        </a>--}}
+                        <a href="{{route('committee.export.all.info',$committee)}}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
+                        </a>
+                    </div>
+                    
+                </div>
+
+            </div>
+            
         </div>
 
         <div class="portlet-body form">
@@ -161,7 +171,7 @@
                 </tbody>
             </table>
 
-            <br />
+            <br /><br />
 
             {{-- Participant Department --}}
             <label class="underLine">{{ __('committee::committees.treatment information') }}</label>
@@ -184,7 +194,7 @@
                 </tbody>
             </table>
 
-            <br />
+            <br /><br />
 
             {{-- Participant Department --}}
             <label class="underLine">{{ __('committee::committees.files') }}</label>
@@ -210,6 +220,7 @@
                 @endforeach
                 </tbody>
             </table>
+            
             @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
             {{--@include('users::delegates.index')--}}
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])

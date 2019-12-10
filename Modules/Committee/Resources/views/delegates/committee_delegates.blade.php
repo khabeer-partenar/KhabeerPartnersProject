@@ -1,6 +1,6 @@
 @if(auth()->user()->hasPermissionWithAccess('getDepartmentDelegatesNotInCommittee','DelegateController','Users')
 && auth()->user()->hasPermissionWithAccess('getDelegatesWithDetails','CommitteeController','Committee'))
-
+    <br /><br />
     <p class="underLine">{{ __('committee::committees.delegates_title') }}</p>
 
     <table id="delegatestable2" class="table table-striped table-responsive-md">
@@ -64,6 +64,7 @@
         </tbody>
     </table>
     @if ($report==false)
+        <br>
         <a onclick="window.history.back();" style="float: left;margin-right: 10px" class="btn btn-sm btn-primary">
             <i class="fa fa-step-backward"></i> {{ __('users::delegates.back') }}
         </a>

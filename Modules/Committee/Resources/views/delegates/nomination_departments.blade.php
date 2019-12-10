@@ -1,5 +1,6 @@
 @if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users')
 && auth()->user()->hasPermissionWithAccess('getNominationDepartmentsWithRef','CommitteeController','Committee'))
+
     @if ($committee->getNominationDepartmentsWithRef()!==null)
 
         <table class="table table-striped table-responsive-md">

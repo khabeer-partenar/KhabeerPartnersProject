@@ -469,7 +469,7 @@
 <div class="row">
     <div class="col-md-5">
         <div class="col-md-4">
-            {!! Form::label('tasks',  __('committee::committees.file description'), ['class' => 'col-md-4 control-label']) !!}
+            {!! Form::label('tasks',  __('committee::committees.file description'), ['class' => 'control-label']) !!}
         </div>
 
         <div class="col-md-8">

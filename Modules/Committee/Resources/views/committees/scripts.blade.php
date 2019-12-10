@@ -33,7 +33,7 @@
                 `;
                 $(departmentsBody).append(trow);
                 $(selectedOption).prop('disabled', true);
-                $('.select2').select2();
+                //$('.select2').select2();
             }
         });
 

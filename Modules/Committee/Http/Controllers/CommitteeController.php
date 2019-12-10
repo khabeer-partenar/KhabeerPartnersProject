@@ -142,7 +142,8 @@ class CommitteeController extends UserBaseController
         $delegates = $committee->getDelegatesWithDetails();
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
-        return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
+        $report = true;
+        return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs', 'report'));
     }
 
     /**
@@ -156,13 +157,15 @@ class CommitteeController extends UserBaseController
         $treatmentUrgency = TreatmentUrgency::pluck('name', 'id');
         $treatmentImportance = TreatmentImportance::pluck('name', 'id');
         $departments = Department::where('type', Department::parentDepartment)->pluck('name', 'id');
+        $recommendedDepartments = Department::where('type', Department::parentDepartment)->recommended()->pluck('name', 'id');
+        $sourceOfStudiesDepartments = Department::where('type', Department::parentDepartment)->sourceOfStudy()->pluck('name', 'id');
         $studyCommission = Employee::studyChairman()->pluck('name', 'id');
         $presidents = Group::presidentsUsers()->pluck('name', 'id');
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $allAdvisors = Group::advisorUsersFilter()->pluck('users.name', 'users.id');
         $departmentsWithRef = Department::where('type', Department::parentDepartment)->with('referenceDepartment')->get();
         return view('committee::committees.edit', compact(
-            'committee', 'treatmentTypes', 'departments', 'treatmentImportance', 'treatmentUrgency',
+            'committee', 'treatmentTypes', 'departments', 'recommendedDepartments', 'sourceOfStudiesDepartments', 'treatmentImportance', 'treatmentUrgency',
             'presidents', 'studyCommission', 'departmentsWithRef', 'advisors', 'allAdvisors'
         ));
     }
