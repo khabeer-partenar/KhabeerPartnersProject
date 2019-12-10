@@ -5,13 +5,21 @@
 
         <div class="portlet-title">
 
-            <div class="caption">
-                <i class="fa fa-plus"></i>
-                <span class="caption-subject sbold">{{ __('committee::committees.add_co') }}</span>
-            </div>
+            <div class="row">
+                
+                <div class="col-md-9">
+                    <div class="caption">
+                        <i class="fa fa-plus"></i>
+                        <span class="caption-subject sbold">{{ __('committee::committees.add_co') }}</span>
+                    </div>
+                </div>
 
-            <div class="actions">
-                <a href="{{ route('committees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                <div class="col-md-3">
+                    <div class="actions item-fl item-mb20">
+                        <a href="{{ route('committees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -29,7 +37,7 @@
             </div>
 
             <div class="form-actions">
-                {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn blue', 'id' => 'save-committee']) }}
+                {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn blue item-fl item-mt20', 'id' => 'save-committee']) }}
             </div>
 
             {{ Form::close() }}

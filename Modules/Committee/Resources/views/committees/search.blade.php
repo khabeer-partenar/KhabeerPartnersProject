@@ -1,4 +1,3 @@
-<div class="row">
     <form class="" method="get" id="search-committees" action="{{ route('committees.index') }}">
         <div class="row">
             <div class="col-md-4">
@@ -68,7 +67,9 @@
                 </div>
             </div>
         </div>
-        <a style="float: left;margin: 0px 5px 0 15px;" href="{{ route('committees.index') }}" class="btn btn-default search-table">إلغاء</a>
-        <button style="float: left;margin: 0px 5px;" type="submit" class="btn btn-default search-table">بحث</button>
+
+        <div class="row">
+            <a style="float: left;margin: 0px 5px 0 15px;" href="{{ route('committees.index') }}" class="btn btn-default search-table">إلغاء</a>
+            <button style="float: left;margin: 0px 5px;" type="submit" class="btn btn-default search-table">بحث</button>
+        </div>
     </form>
-</div>
