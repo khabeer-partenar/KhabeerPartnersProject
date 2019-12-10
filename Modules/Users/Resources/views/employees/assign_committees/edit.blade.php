@@ -5,13 +5,21 @@
 
         <div class="portlet-title">
 
-            <div class="caption">
-                <i class="fa fa-edit"></i>
-                <span class="caption-subject sbold">{{ __('users::employees.assignCommittees.editAdvisorsTitle') }}: {{ $employee->name }}</span>
-            </div>
+            <div class="row">
+
+                <div class="col-md-9">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>
+                        <span class="caption-subject sbold">{{ __('users::employees.assignCommittees.editAdvisorsTitle') }}: {{ $employee->name }}</span>
+                    </div>
+                </div>
             
-            <div class="actions">
-                <a href="{{ route('employees.assign_committees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                <div class="col-md-3">
+                    <div class="actions" style="float:left;">
+                        <a href="{{ route('employees.assign_committees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                    </div>
+                </div>
+
             </div>
         
         </div>
@@ -42,7 +50,7 @@
 
                 </div>
 
-                <div class="form-actions">
+                <div class="form-actions  item-fl item-mt10">
                     {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue']) }}
                 </div>
 

@@ -5,17 +5,23 @@
 
         <div class="portlet-title">
 
-            <div class="caption">
-                <i class="fa fa-bars"></i>
-                <span class="caption-subject sbold">{{ __('systemmanagement::systemmanagement.departmentsTypes') }}</span>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="caption">
+                        <i class="fa fa-bars"></i>
+                        <span class="caption-subject sbold">{{ __('systemmanagement::systemmanagement.departmentsTypes') }}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="actions" style="float:left;">
+                        @if(auth()->user()->hasPermissionWithAccess('departmentsTypesCreate'))
+                            <a href="{{ route('system-management.departments-types.create') }}" class="btn btn-primary">{{ __('messages.add') }}</a>
+                        @endif
+                    </div>
+                </div>
             </div>
-            
-            <div class="actions">
-                @if(auth()->user()->hasPermissionWithAccess('departmentsTypesCreate'))
-                    <a href="{{ route('system-management.departments-types.create') }}" class="btn btn-primary">{{ __('messages.add') }}</a>
-                @endif
-            </div>
-        
+
         </div>
 
         <div class="portlet-body">
@@ -32,6 +38,18 @@
                 ]'
             >
             </table>
+
+            <table cellpadding="3" cellspacing="1" border="0" class="PagerContainerTable">
+                <tbody>
+                    <tr>
+                        <td class="PagerInfoCell"><span>صفحة 1 من 2</span></td>
+                        <td class="PagerCurrentPageCell"><span class="PagerHyperlinkStyle" title="عرض النتائج 1 إلى 10 من 14"><strong> 1 </strong></span></td>
+                        <td class="PagerOtherPageCells"><a class="PagerHyperlinkStyle" href="http://norportal.sure.com.sa/Elibrary/Eforms/Pages/default.aspx?PageIndex=2" title="عرض النتائج 11 إلى 14 من 14"> <span>2</span> </a></td>
+                        <td class="PagerOtherPageCells"><a class="PagerHyperlinkStyle" href="http://norportal.sure.com.sa/Elibrary/Eforms/Pages/default.aspx?PageIndex=2" title=" الصفحة التالية 2"> <span>التالية</span> </a></td>
+                    </tr>
+                </tbody>
+            </table>
+            
         </div>
        
 

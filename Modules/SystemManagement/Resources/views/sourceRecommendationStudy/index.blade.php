@@ -5,14 +5,20 @@
 
         <div class="portlet-title">
 
-            <div class="caption">
-                <i class="fa fa-bars"></i>
-                <span class="caption-subject sbold">{{ __('systemmanagement::sourceRecommendationStudy.title') }}</span>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="caption">
+                        <i class="fa fa-bars"></i>
+                        <span class="caption-subject sbold">{{ __('systemmanagement::sourceRecommendationStudy.title') }}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="actions">
+                    </div>
+                </div>
             </div>
             
-            <div class="actions">
-            </div>
-        
         </div>
 
         <div class="portlet-body">

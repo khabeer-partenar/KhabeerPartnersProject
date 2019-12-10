@@ -7,26 +7,19 @@
             <div class="col-md-10">
                 <div class="form-group {{ $errors->has('department_id') ? ' has-error' : '' }}">
 
-                    {!! Form::label('department_id', __('systemmanagement::systemmanagement.department'), ['class' => 'col-md-2 control-label']) !!}
+                    {!! Form::label('department_id', __('systemmanagement::systemmanagement.department'), ['class' => 'control-label']) !!}
 
-                    <div class="col-md-10">
-                        {!! Form::select('department_id', $directDepartmentsData, '', ['id' => 'department_id', 'class' => 'form_control select2']) !!}
+                    {!! Form::select('department_id', $directDepartmentsData, '', ['id' => 'department_id', 'class' => 'form_control select2']) !!}
 
-                        @if ($errors->has('department_id'))
-                            <span class="help-block" ><strong>{{ $errors->first('department_id') }}</strong></span>
-                        @endif
-                    </div>
-
+                    @if ($errors->has('department_id'))
+                        <span class="help-block" ><strong>{{ $errors->first('department_id') }}</strong></span>
+                    @endif
                 </div>
             </div>
 
             <div class="col-md-2">
                 <div class="form-group">
-
-                    <div class="col-md-12">
-                        {{ Form::button(__('messages.search_btn'), ['type' => 'submit', 'class' => 'btn btn-default col-md-12']) }}
-                    </div>
-
+                    {{ Form::button(__('messages.search_btn'), ['type' => 'submit', 'class' => 'btn btn-primary_s']) }}
                 </div>
             </div>
 

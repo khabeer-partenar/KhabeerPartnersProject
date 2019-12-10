@@ -5,17 +5,22 @@
 
         <div class="portlet-title">
 
-            <div class="caption">
-                <i class="fa fa-bars"></i>
-                <span class="caption-subject sbold">{{ __('systemmanagement::systemmanagement.departmentsAuthorities') }}</span>
-            </div>
-            
-            <div class="actions">
-                @if(auth()->user()->hasPermissionWithAccess('departmentsAuthoritiesCreate'))
-                    <a href="{{ route('system-management.departments-authorities.create') }}" class="btn btn-primary">{{ __('messages.add') }}</a>
-                @endif
-            </div>
-        
+            <div class="row">
+
+                <div class="col-md-9">            
+                    <div class="caption">
+                        <i class="fa fa-bars"></i>
+                        <span class="caption-subject sbold">{{ __('systemmanagement::systemmanagement.departmentsAuthorities') }}</span>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="actions" style="float:left;">
+                        @if(auth()->user()->hasPermissionWithAccess('departmentsAuthoritiesCreate'))
+                            <a href="{{ route('system-management.departments-authorities.create') }}" class="btn btn-primary">{{ __('messages.add') }}</a>
+                        @endif
+                    </div>
+                </div>
         </div>
 
         <div class="portlet-body">

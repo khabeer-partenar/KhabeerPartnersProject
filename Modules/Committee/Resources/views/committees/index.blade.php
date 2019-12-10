@@ -5,22 +5,32 @@
 
         <div class="portlet-title">
 
-            <div class="caption">
-                <i class="fa fa-users"></i>
-                <span class="caption-subject sbold">{{ __('committee::committees.manage') }}</span>
-            </div>
-
-            @if(auth()->user()->hasPermissionWithAccess('create'))
-                <div class="actions">
-                    <a href="{{ route('committees.create') }}"
-                       class="btn btn-primary">{{ __('committee::committees.action_add') }}</a>
+            <div class="row">
+                
+                <div class="col-md-9">
+                    <div class="caption">
+                        <i class="fa fa-users"></i>
+                        <span class="caption-subject sbold">{{ __('committee::committees.manage') }}</span>
+                    </div>
                 </div>
-            @endif
+
+                @if(auth()->user()->hasPermissionWithAccess('create'))
+                    <div class="col-md-3">
+                        <div class="actions item-fl item-mb20">
+                            <a href="{{ route('committees.create') }}"
+                            class="btn btn-primary">{{ __('committee::committees.action_add') }}</a>
+                        </div>
+                    </div>
+                @endif
+
+            </div>
 
         </div>
 
         <div class="portlet-body">
+
             @include('committee::committees.search')
+            <br>
 
             <table id="table-ajax" class="table" data-url="{{ route('committees.index', [
                 'subject' => Request::input('subject'),
