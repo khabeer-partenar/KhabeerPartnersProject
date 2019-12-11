@@ -43,7 +43,7 @@
             >
             </table>
 
-            <table cellpadding="3" cellspacing="1" border="0" class="PagerContainerTable">
+            <!-- <table cellpadding="3" cellspacing="1" border="0" class="PagerContainerTable">
                 <tbody>
                     <tr>
                         <td class="PagerInfoCell">
@@ -60,7 +60,7 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
 
         </div>
        

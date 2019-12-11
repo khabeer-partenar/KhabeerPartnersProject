@@ -15,6 +15,8 @@
 
 <!-- BEGIN CORE PLUGINS -->
 {{ Html::script(mix('assets/js/core.js')) }}
+{{ Html::script(mix('assets/js/app.js')) }}
+
 <!-- END CORE PLUGINS -->
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->

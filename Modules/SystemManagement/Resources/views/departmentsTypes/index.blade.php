@@ -39,7 +39,7 @@
             >
             </table>
 
-            <table cellpadding="3" cellspacing="1" border="0" class="PagerContainerTable">
+            <!-- <table cellpadding="3" cellspacing="1" border="0" class="PagerContainerTable">
                 <tbody>
                     <tr>
                         <td class="PagerInfoCell"><span>صفحة 1 من 2</span></td>
@@ -48,7 +48,7 @@
                         <td class="PagerOtherPageCells"><a class="PagerHyperlinkStyle" href="http://norportal.sure.com.sa/Elibrary/Eforms/Pages/default.aspx?PageIndex=2" title=" الصفحة التالية 2"> <span>التالية</span> </a></td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
             
         </div>
        
