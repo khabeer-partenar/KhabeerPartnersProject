@@ -103,11 +103,11 @@ class Committee extends Model
     {
         $time = Carbon::parse($this->attributes['first_meeting_at'])->format('h:i A');
         if (strpos($time, ' AM')) {
-            return str_replace('AM', '', $time).__('committee::committees.am');
+            return str_replace('AM', __('committee::committees.am'), $time);
         }
         else
         {
-            return str_replace('PM', '', $time).__('committee::committees.pm');
+            return str_replace('PM', __('committee::committees.pm'), $time);
         }
 
     }
