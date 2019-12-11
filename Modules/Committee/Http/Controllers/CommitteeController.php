@@ -142,8 +142,7 @@ class CommitteeController extends UserBaseController
         $delegates = $committee->getDelegatesWithDetails();
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
-        $report = true;
-        return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs', 'report'));
+        return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
     }
 
     /**
