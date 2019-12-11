@@ -1,7 +1,6 @@
 {{--Common Scripts--}}
 {{ Html::script(mix('assets/js/jquery.js')) }}
 
-{{ Html::script(mix('assets/js/app.js')) }}
 
 <!-- BEGIN CORE PLUGINS -->
 {{ Html::script(mix('assets/js/core.js')) }}

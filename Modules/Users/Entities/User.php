@@ -53,7 +53,6 @@ class User extends Authenticatable
      *
      * Here goes all functions
      */
-
      
     protected static function boot()
     {

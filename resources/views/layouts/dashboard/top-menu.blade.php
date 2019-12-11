@@ -7,14 +7,28 @@
         <li><a href="#!" title="اتصل بنا"><i class="far fa-envelope"></i></a></li>
     </ul>
     
-    <span class="date">16 ربيع الأول 1441 هـ الموافق 13 نوفمبر 2019 م</span> <span class="clr"></span>
+    <span class="date">{{ $currentDate }}</span>
+    <span class="clr"></span>
 </header>
 
 <nav>
     
     <div class="t_menu">
         
-        <top-menu-wrapper></top-menu-wrapper>
+        <ul id="menu">
+            @foreach($authorizedApps as $app)
+                <li>
+                    <a href="javascript:;">{{ $app->name }}</a>
+                    <ul class="dropdown">
+                        @foreach($app->menuChildrenRecursive as $subApp)
+                            <li>
+                                <a href="{{ url($subApp->frontend_path) }}">{{ $subApp->name }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+            @endforeach
+        </ul>
         
         <a href="#!" class="login">مرحباً : {{ auth()->user()->name }} </a>
 

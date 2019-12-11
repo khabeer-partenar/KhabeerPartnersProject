@@ -37,7 +37,7 @@ mix
     |
     */
     .copy('resources/assets/js/vendor/jquery.min.js', 'public/assets/js/jquery.js')
-    .js('resources/assets/js/app.js', 'public/assets/js/app.js').version()
+    //.js('resources/assets/js/app.js', 'public/assets/js/app.js').version()
     
     .combine([
         'resources/assets/js/vendor/bootstrap.min.js',

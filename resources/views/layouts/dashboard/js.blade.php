@@ -12,7 +12,6 @@
 {{ Html::script(mix('assets/js/select2.full.js'))}}
 {{ Html::script(mix('assets/js/components-select2.js'))}}
 
-{{ Html::script(mix('assets/js/app.js')) }}
 
 <!-- BEGIN CORE PLUGINS -->
 {{ Html::script(mix('assets/js/core.js')) }}
