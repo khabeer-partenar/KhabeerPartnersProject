@@ -225,7 +225,12 @@
             {{--@include('users::delegates.index')--}}
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
-            <br />
+            <br>
+            @if(auth()->user()->hasPermissionWithAccess('approveCommittee','CommitteeController','Committee'))
+                <a id="btn-approve" style="float: right;background-color: #057d54" class="btn btn-sm btn-info">
+                    <i class="fa fa-check"></i> {{ __('committee::committees.approve') }}
+                </a>
+            @endif
 
             @include('committee::delegates.committee_delegates',compact('committee'))
         </div>

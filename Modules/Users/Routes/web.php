@@ -12,8 +12,12 @@
 */
 
 
+use Modules\Committee\Entities\Committee;
+use Modules\Core\Entities\Group;
+use Modules\Core\Entities\Status;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Coordinator;
+use Modules\Users\Entities\Employee;
 
 Route::group(['middleware' => 'guest'], function()
 {
@@ -32,7 +36,13 @@ Route::group(['middleware' => 'auth'], function()
 
         Route::get('test',function ()
         {
-            dd($_SERVER['DOCUMENT_ROOT']. '/assets/images/logo.png');
+            $committee = Committee::where('id',8)->first();
+            $group_id = auth()->user()->job_role_id;
+            $committee->groupsStatuses()->syncWithoutDetaching([$group_id => ['status' => Status::NOMINATIONS_DONE]]);
+
+            dd('done');
+            //$committee->groupsStatuses()->detach();
+
         });
         // Coordinator Controller
         Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');

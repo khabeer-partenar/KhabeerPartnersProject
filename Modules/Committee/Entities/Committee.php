@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Modules\Committee\Events\CommitteeCreatedEvent;
+use Modules\Core\Entities\Group;
+use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
@@ -38,11 +40,11 @@ class Committee extends Model
         'resource_staff_number', 'resource_at', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
         'treatment_urgency_id', 'treatment_importance_id', 'source_of_study_id', 'recommendation_number', 'recommended_by_id',
         'recommended_at', 'subject', 'first_meeting_at', 'tasks', 'president_id', 'advisor_id', 'members_count', 'status',
-        'reason_of_deletion', 'created_by'
+        'reason_of_deletion', 'created_by', 'approved'
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'recommended_at_hijri'
+        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri','first_meeting_time', 'recommended_at_hijri'
     ];
 
     protected $dates = [
@@ -98,6 +100,19 @@ class Committee extends Model
         return CarbonHijri::toHijriFromMiladi($date);
     }
 
+    public function getFirstMeetingTimeAttribute()
+    {
+        $time = Carbon::parse($this->attributes['first_meeting_at'])->format('h:i A');
+        if (strpos($time, ' AM')) {
+            return str_replace('AM', __('committee::committees.am'), $time);
+        }
+        else
+        {
+            return str_replace('PM', __('committee::committees.pm'), $time);
+        }
+
+    }
+
     /**
      * Scopes
      *
@@ -107,6 +122,15 @@ class Committee extends Model
     {
 
         // Filter By Request
+        if (auth()->user()->authorizedApps->key == Employee::ADVISOR || auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $query->where('approved', true);
+            $query->orWhere('approved', false);
+        }
+        else
+        {
+            $query->where('approved', true);
+        }
+
         if ($request->has('subject')) {
             $query->where('subject', 'LIKE', '%' . $request->subject . '%');
         }
@@ -186,6 +210,8 @@ class Committee extends Model
         );
         $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $committee->participantDepartments()->sync($request->departments);
+        //
+
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
         event(new CommitteeCreatedEvent($committee));
@@ -282,6 +308,34 @@ class Committee extends Model
             ->withPivot('nomination_criteria');
     }
 
+    public function getGroupStatusAttribute()
+    {
+        $group_id = auth()->user()->job_role_id;
+        $groupStatus = $this->groupStatus($group_id)->first();
+        if ($groupStatus == null) {
+            // default if the user group dose not exist
+            $group_id = Group::where('key', Employee::SECRETARY)->first()->id;
+            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
+
+        } else {
+            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
+        }
+        return $groupStatus;
+    }
+
+    public function groupStatus($groupId)
+    {
+        return $this->hasMany(CommitteeGroupStatus::class, 'committee_id')
+            ->with('status')->where('group_id', $groupId);
+    }
+
+    public function groupsStatuses()
+    {
+        return $this->belongsToMany(Group::class, 'committee_group_status', 'committee_id', 'group_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
     public function getNominationDepartmentsWithRef()
     {
         if (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
@@ -312,5 +366,11 @@ class Committee extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+    
+    public function approveCommittee()
+    {
+        $this->approved = true;
+        $this->save();
     }
 }

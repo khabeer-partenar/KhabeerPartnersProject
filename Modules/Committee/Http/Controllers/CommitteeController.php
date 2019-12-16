@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDocument;
+use Modules\Committee\Entities\CommitteeStatus;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
 use Modules\Committee\Events\NominationDoneEvent;
 use Modules\Committee\Http\Requests\SaveCommitteeRequest;
 use Modules\Core\Entities\Group;
+use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Delegate;
@@ -53,7 +55,7 @@ class CommitteeController extends UserBaseController
                     return $committee->president ? $committee->president->name : '-';
                 })
                 ->addColumn('status', function ($committee) {
-                    return __('committee::committees.' . $committee->status);
+                    return $committee->GroupStatus;
                 })
                 ->addColumn('action', function ($committee) {
                     return view('committee::committees.actions', compact('committee'));
@@ -109,6 +111,7 @@ class CommitteeController extends UserBaseController
     public function store(SaveCommitteeRequest $request)
     {
         $committee = Committee::createFromRequest($request);
+        CommitteeStatus::createCommitteeGroupsStatus($committee);
         $committee->log('create_committee');
         self::sessionSuccess('committee::committees.created');
         return redirect()->route('committees.index');
@@ -197,6 +200,7 @@ class CommitteeController extends UserBaseController
         $committee->update(['reason_of_deletion' => $request->reason]);
         $committee->log('delete_committee');
         $committee->delete();
+        $committee->groupsStatuses()->detach();
         return response()->json(['msg' => __('committee::committees.deleted')]);
     }
 
@@ -204,14 +208,21 @@ class CommitteeController extends UserBaseController
     {
         $committee->log('send nomination');
         if ($committee->status==Committee::NOMINATIONS_COMPLETED) {
+            event(new NominationDoneEvent($committee));
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::NOMINATIONS_COMPLETED);
             return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
         else
         {
-            event(new NominationDoneEvent($committee));
             return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_not_compeleted')]);
 
         }
 
+    }
+
+    public function approveCommittee(Committee $committee)
+    {
+        $committee->approveCommittee();
+        return response()->json(['status' => 1]);
     }
 }
