@@ -23,7 +23,7 @@ class EmployeeController extends UserBaseController
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->ajax()) {
-            $employees = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department')
+            $employees = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')
                                 ->with('jobRole', 'directDepartment')
                                 ->search($request);
 

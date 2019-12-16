@@ -1,10 +1,10 @@
 @if($employee)
 
-    @if(auth()->user()->hasPermissionWithAccess('upgrateToSuperAdmin'))
+    <!-- @if(auth()->user()->hasPermissionWithAccess('upgrateToSuperAdmin'))
         <a href="{{ route('employees.upgrate_to_super_admin', $employee) }}" class="btn btn-sm btn-primary custom-action-btn">
             <i class="fa fa-key"></i> Admin
         </a>
-    @endif
+    @endif -->
 
     @if(auth()->user()->hasPermissionWithAccess('show'))
         <a href="{{ route('employees.show', $employee) }}" class="btn btn-sm btn-default custom-action-btn">
