@@ -35,9 +35,9 @@ class CustomUserServiceProvider extends UserProvider
         }
     
 
-        $currentDate       = Carbon::now()->format('Y-m-d');        
-        $currentHijriDate  = CarbonHijri::toHijriFromMiladi($currentDate, 'd F Y');
-        $currentDate = $currentHijriDate . ' هـ الموافق ' . date('d') . ' {month} ' . date('Y') . ' م';
+        $currentDate       = Carbon::now();    
+        $currentHijriDate  = CarbonHijri::toHijriFromMiladi($currentDate->format('Y-m-d'), 'd F Y');
+        $currentDate       = $currentHijriDate . ' هـ الموافق ' . date('d') . ' '. trans('months.en_' . $currentDate->format('F')) .' ' . date('Y') . ' م';
 
         \View::share([
             'currentDate' => $currentDate,

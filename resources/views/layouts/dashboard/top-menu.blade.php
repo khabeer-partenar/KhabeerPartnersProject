@@ -3,8 +3,8 @@
     <a class="logo" href="{{ url('/') }}" title="الرئيسية"><img src="{{ asset('assets/images/logo.png') }}"></a>
     
     <ul>
-        <li><a href="#!" title="خريطة الموقع"><i class="fas fa-sitemap"></i></a></li>
-        <li><a href="#!" title="اتصل بنا"><i class="far fa-envelope"></i></a></li>
+        <li><a href="#!" title="خريطة الموقع"><i class="fa fa-sitemap"></i></a></li>
+        <li><a href="#!" title="اتصل بنا"><i class="fa fa-envelope"></i></a></li>
     </ul>
     
     <span class="date">{{ $currentDate }}</span>
