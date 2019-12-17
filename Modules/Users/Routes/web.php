@@ -30,8 +30,6 @@ Route::group(['middleware' => 'auth'], function()
     // Auth Controller
     Route::get('/logout', 'AuthController@logout')->name('logout');
 
-
-
     Route::prefix('users')->group(function(){
 
         // Coordinator Controller

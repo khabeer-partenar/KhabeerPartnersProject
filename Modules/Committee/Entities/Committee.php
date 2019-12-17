@@ -122,7 +122,9 @@ class Committee extends Model
     {
 
         // Filter By Request
-        if (auth()->user()->authorizedApps->key == Employee::ADVISOR || auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+        if (auth()->user()->authorizedApps->key == Employee::ADVISOR
+            || auth()->user()->authorizedApps->key == Employee::SECRETARY
+            || auth()->user()->is_super_admin) {
             $query->where('approved', true);
             $query->orWhere('approved', false);
         }
