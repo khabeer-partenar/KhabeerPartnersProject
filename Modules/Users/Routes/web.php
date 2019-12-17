@@ -34,16 +34,6 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::prefix('users')->group(function(){
 
-        Route::get('test',function ()
-        {
-            $committee = Committee::where('id',8)->first();
-            $group_id = auth()->user()->job_role_id;
-            $committee->groupsStatuses()->syncWithoutDetaching([$group_id => ['status' => Status::NOMINATIONS_DONE]]);
-
-            dd('done');
-            //$committee->groupsStatuses()->detach();
-
-        });
         // Coordinator Controller
         Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');
 

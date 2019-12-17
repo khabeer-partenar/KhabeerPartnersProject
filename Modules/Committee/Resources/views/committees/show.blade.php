@@ -232,7 +232,6 @@
                 </a>
             @endif
 
-            @include('committee::delegates.committee_delegates',compact('committee'))
         </div>
     </div>
 

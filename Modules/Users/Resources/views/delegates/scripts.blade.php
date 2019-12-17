@@ -1,4 +1,4 @@
-<script>
+addDelegateModal<script>
     $(document).ready(function () {
         $.ajaxSetup({
             headers: {
