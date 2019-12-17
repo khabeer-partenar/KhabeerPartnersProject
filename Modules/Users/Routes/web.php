@@ -27,8 +27,14 @@ Route::group(['middleware' => 'guest'], function()
 
 Route::group(['middleware' => 'auth'], function()
 {
+    Route::get('/test',function ()
+    {
+        dd($_SERVER['DOCUMENT_ROOT']);
+    });
     // Auth Controller
     Route::get('/logout', 'AuthController@logout')->name('logout');
+
+
 
     Route::prefix('users')->group(function(){
 

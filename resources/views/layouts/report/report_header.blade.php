@@ -1,5 +1,5 @@
-<link rel="stylesheet" type="text/css" href="{{$_SERVER['DOCUMENT_ROOT'] .'/assets/css/main_report.css'}}">
-<link rel="stylesheet" type="text/css" href="{{$_SERVER['DOCUMENT_ROOT'] .'/assets/css/global.css'}}">
+<link rel="stylesheet" type="text/css" href="assets/css/dashboard_layout.css">
+
 <style>
     body {
         font-size: 1.5em !important;
@@ -10,7 +10,7 @@
 
         <tr>
             <td width="70%">
-                <img style="float: right" class="text-center"
+                <img style="float: right;width: 70%;" class="text-center"
                      src="{{$_SERVER['DOCUMENT_ROOT'] .'/assets/images/logo.png'}}">
             </td>
             <td width="300px">
