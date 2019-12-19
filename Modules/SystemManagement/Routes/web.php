@@ -57,4 +57,16 @@ Route::group(['middleware' => 'auth', 'as' => 'system-management.', 'prefix' => 
         Route::put('/{department}/edit', 'SourceRecommendationStudyController@update')->name('update');
     });
 
+
+    Route::group(['as' => 'meetings-rooms.', 'prefix' => 'meetings-rooms'], function()
+    {
+        Route::get('/', 'MeetingsRoomsController@index')->name('index');
+        Route::get('/create', 'MeetingsRoomsController@create')->name('create');
+        Route::post('/', 'MeetingsRoomsController@store')->name('store');
+        Route::get('/{meetingRoom}/edit', 'MeetingsRoomsController@edit')->name('edit');
+        Route::put('/{meetingRoom}/edit', 'MeetingsRoomsController@update')->name('update');
+        Route::delete('/{meetingRoom}/destroy', 'MeetingsRoomsController@destroy')->name('destroy');
+    });
+
+
 });

@@ -164,6 +164,45 @@ class CoreSystemManagementAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+
+
+        $meetingsRoomsId = App::create([
+            'resource_name' => $generalResourceName . '\MeetingsRoomsController@index', 'name' => 'الصالات',
+            'icon' => 'fa fa-bars', 'sort' => 7, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/meetings-rooms', 'is_main_root' => 1,
+            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingsRoomsController@create', 'name' => 'انشاء',
+            'icon' => 'fa fa-bars', 'sort' => 1, 'parent_id' => $meetingsRoomsId, 'frontend_path' => 'system-management/meetings-rooms/create', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingsRoomsController@store', 'name' => 'حفظ',
+            'icon' => 'fa fa-bars', 'sort' => 2, 'parent_id' => $meetingsRoomsId, 'frontend_path' => 'system-management/meetings-rooms', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+        
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingsRoomsController@edit', 'name' => 'تعديل',
+            'icon' => 'fa fa-bars', 'sort' => 3, 'parent_id' => $meetingsRoomsId, 'frontend_path' => 'system-management/meetings-rooms/:room/edit', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingsRoomsController@update', 'name' => 'تحديث',
+            'icon' => 'fa fa-bars', 'sort' => 4, 'parent_id' => $meetingsRoomsId, 'frontend_path' => 'system-management/meetings-rooms/:room/edit', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingsRoomsController@destroy', 'name' => 'حذف',
+            'icon' => 'fa fa-bars', 'sort' => 5, 'parent_id' => $meetingsRoomsId, 'frontend_path' => 'system-management/meetings-rooms/:room/edit', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
     }
 
 }

@@ -21,5 +21,6 @@ class CoreDatabaseSeeder extends Seeder
         $this->call(CoreAppsTableSeeder::class);
         $this->call(DefaultGroupsTableSeeder::class);
         $this->call(StatusTableSeeder::class);
+        $this->call(CitiesTableSeeder::class);
     }
 }
