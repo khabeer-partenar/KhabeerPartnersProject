@@ -50,8 +50,8 @@
         </table>
     @endif
 
-    @include('users::delegates.index',compact('committee'))
-    @include('users::delegates.create',compact('committee'))
+    @include('users::delegates.index_popup',compact('committee'))
+    @include('users::delegates.create_popup',compact('committee'))
 @endif
 
 

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Core\Entities\Group;
+use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Http\Requests\SaveDelegateRequest;
@@ -48,9 +49,30 @@ class DelegateController extends UserBaseController
      * @return Response
      * @internal param Request $request
      */
-    public function index(Request $request, Committee $committee)
+    public function index(Request $request)
     {
-
+        if ($request->wantsJson() || $request->ajax()) {
+            $delegatesQuery = Delegate::with('mainDepartment', 'parentDepartment', 'directDepartment')
+                ->search($request);
+            return Datatables::of($delegatesQuery)
+                ->addColumn('department_info', function ($delegate) {
+                    $data = [
+                        $delegate->mainDepartment->name,
+                        $delegate->parentDepartment->name,
+                        $delegate->direct_department ? $delegate->direct_department:null
+                    ];
+                    return view('users::delegates.commas_separated_data', ['data' => $data]);
+                })
+                ->addColumn('contact_options', function($delegate) {
+                    $data = [$delegate->phone_number, $delegate->email];
+                    return view('users::delegates.commas_separated_data', ['data' => $data, 'break' => 1 ]);
+                })
+                ->addColumn('action', function ($delegate) {
+                    return view('users::delegates.actions', compact('delegate'));
+                })->rawColumns(['action', 'contact_options'])->make(true);
+        }
+        $mainDepartments = Department::getDepartments();
+        return view('users::delegates.index', compact('mainDepartments'));
     }
 
     public function show()
@@ -78,7 +100,9 @@ class DelegateController extends UserBaseController
      */
     public function create()
     {
-        return view("users::delegates.$this->userType..create", compact('mainDepartments', 'delegateJobs'));
+        $mainDepartments = Department::getDepartments();
+        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+        return view("users::delegates.create", compact('mainDepartments', 'delegateJobs'));
     }
 
     public function removeDelegateFromCommittee(Delegate $delegate)
@@ -113,6 +137,21 @@ class DelegateController extends UserBaseController
         $delegate = Delegate::createFromRequest($request);
         $delegate->log('create_delegate');
         $delegate2->addDelegateToCommittee($request, $delegate->id);
+
+    }
+
+    public function edit(Delegate $delegate)
+    {
+
+    }
+
+    public function update(Request $request, Delegate $delegate)
+    {
+
+    }
+
+    public function destroy(Delegate $delegate)
+    {
 
     }
 
