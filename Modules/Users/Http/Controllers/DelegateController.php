@@ -75,9 +75,9 @@ class DelegateController extends UserBaseController
         return view('users::delegates.index', compact('mainDepartments'));
     }
 
-    public function show()
+    public function show(Delegate $delegate)
     {
-        //return response()->json(['name' => 'Abigail', 'state' => 'CA']);
+        return view('users::delegates.show', compact('delegate'));
     }
 
     public function getDepartmentDelegatesNotInCommittee($department_id, $committee_id)
@@ -136,13 +136,22 @@ class DelegateController extends UserBaseController
     {
         $delegate = Delegate::createFromRequest($request);
         $delegate->log('create_delegate');
-        $delegate2->addDelegateToCommittee($request, $delegate->id);
+        if (isset($request->committee_id)) {
+            $delegate2->addDelegateToCommittee($request, $delegate->id);
+        }
+        else
+        {
+            self::sessionSuccess('users::delegates.created');
+            return redirect()->route('delegates.index');
+        }
 
     }
 
     public function edit(Delegate $delegate)
     {
-
+        $mainDepartments = Department::getDepartments();
+        $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+        return view("users::delegates.edit", compact('mainDepartments', 'delegateJobs','delegate'));
     }
 
     public function update(Request $request, Delegate $delegate)

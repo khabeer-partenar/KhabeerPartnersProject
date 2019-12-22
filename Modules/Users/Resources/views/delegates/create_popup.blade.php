@@ -27,7 +27,7 @@
                 @endif
 
                 <div class="form-body">
-                    @include('users::delegates.form')
+                    @include('users::delegates.form_popup')
                 </div>
 
             </div>

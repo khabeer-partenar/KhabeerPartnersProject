@@ -22,31 +22,30 @@
         </div>
 
         <div class="portlet-body form">
-            
+
             {{ Form::open(['route' => 'delegates.store', 'method' => 'POST', 'id' => 'delegate-form']) }}
-                
-                @if($errors->any())
-                    <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
-                @endif
 
-                <div class="form-body">
-                    @include('users::delegates.form')
-                </div>
+            @if($errors->any())
+                <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
+            @endif
 
-                <div class="form-actions">
-                    {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn btn-primary item-fl item-mt10']) }}
-                </div>
+            <div class="form-body">
+                @include('users::delegates.form')
+            </div>
+
+            <div class="form-actions">
+                {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn btn-primary item-fl item-mt10']) }}
+            </div>
 
             {{ Form::close() }}
 
         </div>
-       
+
 
     </div>
 @endsection
 
 
-{{--
 @section('scripts_2')
-    @include('users::coordinators.scripts')
-@endsection--}}
+    @include('users::delegates.scripts2')
+@endsection
