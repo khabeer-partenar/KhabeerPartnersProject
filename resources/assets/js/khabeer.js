@@ -8,6 +8,8 @@ $(document).ready(function() {
 
     // Delete row in dataTable
     $(document).on('click', '.delete-row', function(){
+        alert('test');
+        return;
         let btn = $(this);
         let path = $(this).attr('data-href');
         let table = $('#table-ajax').DataTable();

@@ -56,7 +56,7 @@
                 </tr>
                 <tr>
                     <th scope="row">الاختصاص</th>
-                    <td>{{ $delegate->speciality }}</td>
+                    <td>{{ $delegate->specialty }}</td>
                 </tr>
                 <tr>
                     <th scope="row">الإدارة</th>

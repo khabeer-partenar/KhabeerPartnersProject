@@ -6,19 +6,20 @@
                 نوع الجهة
                 <span style="color: red">*</span>
             </label>
-                @php
-                    $mainDepartment = 0;
-                        if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
-                        {
-                            $mainDepartment = auth()->user()->main_department_id;
-                        }
-                @endphp
 
-                <select {{$mainDepartment!=0?'disabled':''}} name="main_department_id" id="main_department_id"
+
+                <select name="main_department_id" id="main_department_id"
                         class="form_control select2 load-departments"
                         data-url="{{ route('system-management.departments.children') }}"
                         data-child="#parent_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
+
+                    @php
+                        $mainDepartment = isset($delegate) ? $delegate->main_department_id:'';
+                        if (old('main_department_id')){
+                            $mainDepartment = old('main_department_id');
+                        }
+                    @endphp
 
                     @foreach($mainDepartments as $key => $department)
                         <option value="{{ $key }}" {{ $mainDepartment == $key ? 'selected':'' }}>
@@ -41,19 +42,19 @@
                 اسم الجهة
                 <span style="color: red">*</span>
             </label>
-                @php
-                    $parentDepartment = 0;
-                        if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
-                        {
-                            $parentDepartment = auth()->user()->parent_department_id;
-                        }
-                @endphp
 
-                <select {{$parentDepartment!=0?'disabled':''}} name="parent_department_id" id="parent_department_id"
+                <select  name="parent_department_id" id="parent_department_id"
                         class="form_control select2 load-departments change-reference"
                         data-url="{{ route('system-management.departments.children') }}"
                         data-child="#direct_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
+
+                    @php
+                        $parentDepartment = isset($delegate) ? $delegate->parent_department_id:'';
+                        if (old('parent_department_id')){
+                            $parentDepartment = old('parent_department_id');
+                        }
+                    @endphp
 
                     @foreach(\Modules\SystemManagement\Entities\Department::getParentDepartments($mainDepartment) as $key => $department)
                         <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>

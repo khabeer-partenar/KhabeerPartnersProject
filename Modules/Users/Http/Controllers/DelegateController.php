@@ -18,6 +18,7 @@ use Modules\Users\Http\Requests\AddDelegatesToCommittee;
 use Modules\Users\Http\Requests\SaveCoordinatorRequestByCo;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequestByCo;
+use Modules\Users\Http\Requests\UpdateDelegateRequest;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
 use Crypt;
@@ -154,14 +155,19 @@ class DelegateController extends UserBaseController
         return view("users::delegates.edit", compact('mainDepartments', 'delegateJobs','delegate'));
     }
 
-    public function update(Request $request, Delegate $delegate)
+    public function update(UpdateDelegateRequest $request, Delegate $delegate)
     {
-
+        $delegate->updateFromRequest($request);
+        $delegate->log('update_delegate');
+        self::sessionSuccess('users::delegates.updated');
+        return redirect()->route('delegates.index');
     }
 
     public function destroy(Delegate $delegate)
     {
-
+        $delegate->log('delete_delegate');
+        $delegate->delete();
+        return response()->json(['msg' => __('users::delegates.deleted')]);
     }
 
     public function removeFromCommitte($delegate_id, $committee_id, $department_id, $reason)

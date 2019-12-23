@@ -23,7 +23,7 @@
 
         <div class="portlet-body form">
 
-            {{ Form::model($delegate, ['route' => ['delegates.update', $delegate], 'method' => 'PUT', 'id' => 'delegate-form2']) }}
+            {{ Form::model($delegate, ['route' => ['delegates.update', $delegate], 'method' => 'PUT', 'id' => 'delegate-form']) }}
 
             @if($errors->any())
                 <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
