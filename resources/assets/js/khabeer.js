@@ -18,7 +18,7 @@ $(document).ready(function() {
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ed6b75',
-            cancelButtonColor: '#337ab7',
+            cancelButtonColor: '#d6a329',
             confirmButtonText: 'حذف',
             cancelButtonText: 'إلغاء'
         }).then((result) => {
@@ -62,7 +62,7 @@ $(document).ready(function() {
             },
             showCancelButton: true,
             confirmButtonColor: '#ed6b75',
-            cancelButtonColor: '#337ab7',
+            cancelButtonColor: '#d6a329',
             confirmButtonText: 'حذف',
             cancelButtonText: 'إلغاء',
             inputValidator: (value) => {

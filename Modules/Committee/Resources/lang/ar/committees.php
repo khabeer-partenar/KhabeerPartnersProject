@@ -104,6 +104,6 @@ return [
     'nomination_send_successfully'=>'تم ارسال الترشيح بنجاح',
     'approve'=>'اعتماد',
     'am' => 'صباحا',
-    'pm' => 'مساءا'
-
+    'pm' => 'مساءا',
+    'meetings' => 'الإجتماعات',
 ];
