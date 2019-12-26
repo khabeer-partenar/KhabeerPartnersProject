@@ -12,8 +12,11 @@ use Modules\Committee\Listeners\CommitteeCreatedListener;
 use Modules\Committee\Listeners\NominationDoneListener;
 use \Modules\Users\Events\DelegateCreatedEvent;
 use Modules\Users\Events\DelegateDeletedEvent;
+use Modules\Users\Events\DelegateUpdatedEvent;
 use Modules\Users\Listeners\DelegateCreatedListener;
 use Modules\Users\Listeners\DelegateDeletedListener;
+use Modules\Users\Listeners\DelegateDepartmentChangedListener;
+use Modules\Users\Notifications\DelegateDepartmentChangedNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -31,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         DelegateCreatedEvent::class => [
             DelegateCreatedListener::class
+        ],
+        DelegateUpdatedEvent::class => [
+            DelegateDepartmentChangedListener::class
         ],
         NominationDoneEvent::class => [
             NominationDoneListener::class

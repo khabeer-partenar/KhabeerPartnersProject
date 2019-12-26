@@ -43,7 +43,10 @@ return [
     'delegate deleted for committee'=>'من لجنة',
     'delegate deleted reason'=>'سبب الحذف',
     'delegate_can_not_delete'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك حذفه',
-    'delegate_can_not_delegate'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك الترشيح'
+    'delegate_can_not_delegate'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك الترشيح',
+    'delegate_department_changed'=>'تم نقل مندوب الى جهه اخرى',
+    'delegate_department_changed2'=>'من فضلك قم بترشيح مندوب اخر',
+
 
 
 

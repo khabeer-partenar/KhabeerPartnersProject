@@ -223,7 +223,7 @@ class Delegate extends User
     {
         $this->update(
             $request->only(
-                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'specialty', 'title',
+                'direct_department', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'specialty', 'title',
                 'main_department_id', 'parent_department_id', 'job_role_id', 'department_reference_id'
             )
         );
