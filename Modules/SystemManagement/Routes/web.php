@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth', 'as' => 'system-management.', 'prefix' => 
         Route::get('/{meetingRoom}/edit', 'MeetingsRoomsController@edit')->name('edit');
         Route::put('/{meetingRoom}/edit', 'MeetingsRoomsController@update')->name('update');
         Route::delete('/{meetingRoom}/destroy', 'MeetingsRoomsController@destroy')->name('destroy');
+        Route::get('/room-with-meetings', 'MeetingsRoomsController@roomWithMeetings')->name('room-with-meetings');
     });
 
 

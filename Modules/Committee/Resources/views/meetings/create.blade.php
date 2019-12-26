@@ -26,7 +26,7 @@
 
         <div class="portlet-body form">
 
-            {{ Form::open(['route' => 'committees.store', 'method' => 'POST', 'id' => 'committee-form']) }}
+            <form action="{{ route('committee.meetings.store', compact('committee')) }}" method="post" id="committee-meeting-form">
 
             @if($errors->any())
                 <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -40,8 +40,7 @@
                 {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn blue item-fl item-mt20', 'id' => 'save-committee']) }}
             </div>
 
-            {{ Form::close() }}
-
+            </form>
         </div>
 
 
@@ -50,5 +49,5 @@
 
 
 @section('scripts_2')
-    @include('committee::committees.scripts')
+    @include('committee::meetings.scripts')
 @endsection

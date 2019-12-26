@@ -6,9 +6,15 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\Meeting;
+use Modules\Committee\Entities\MeetingType;
+use Modules\Committee\Http\Requests\SaveMeetingRequest;
+use Modules\SystemManagement\Entities\MeetingRoom;
+use Modules\Users\Traits\SessionFlash;
 
 class CommitteeMeetingController extends Controller
 {
+    use SessionFlash;
     /**
      * Display a listing of the resource.
      * @param Committee $committee
@@ -27,17 +33,23 @@ class CommitteeMeetingController extends Controller
      */
     public function create(Committee $committee)
     {
-        return view('committee::meetings.create', compact('committee'));
+        $types = MeetingType::all()->pluck('name', 'id');
+        $rooms = MeetingRoom::active()->with('city')->get();
+        return view('committee::meetings.create', compact('committee', 'types', 'rooms'));
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param SaveMeetingRequest $request
+     * @param Committee $committee
      * @return Response
      */
-    public function store(Request $request)
+    public function store(SaveMeetingRequest $request, Committee $committee)
     {
-        //
+        $meeting = Meeting::createFromRequest($request, $committee);
+        $meeting->log('create_new_meeting_for_committee : ' . $committee->id);
+        self::sessionSuccess('committee::meetings.created successfully');
+        return back();
     }
 
     /**

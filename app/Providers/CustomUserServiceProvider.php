@@ -26,21 +26,15 @@ class CustomUserServiceProvider extends UserProvider
                     ->first();
 
         if ($userData->is_super_admin) {
-            $apps = App::parentsFormMenu() ->with('menuChildrenRecursive')->get();
+            $apps = App::parentsFormMenu()->with('menuChildrenRecursive')->get();
         }
         else {
             $authorizedAppIds = $userData->authorizedAppsIds();
             App::setAuthorizedApps($authorizedAppIds);
             $apps = App::parentsFormMenu()->with('menuChildrenRecursive')->get();
         }
-    
-
-        $currentDate       = Carbon::now();    
-        $currentHijriDate  = CarbonHijri::toHijriFromMiladi($currentDate->format('Y-m-d'), 'd F Y');
-        $currentDate       = $currentHijriDate . ' هـ الموافق ' . date('d') . ' '. trans('months.en_' . $currentDate->format('F')) .' ' . date('Y') . ' م';
 
         \View::share([
-            'currentDate' => $currentDate,
             'authorizedApps' => $apps
         ]);
         return $userData;

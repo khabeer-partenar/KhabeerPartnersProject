@@ -19,8 +19,8 @@ class CreateMeetingsTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('room_id');
-            $table->string('from');
-            $table->string('to');
+            $table->dateTime('from');
+            $table->dateTime('to');
             $table->softDeletes();
             $table->timestamps();
         });
