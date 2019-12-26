@@ -1,11 +1,11 @@
 @if($departmentData)
 
     @if(auth()->user()->hasPermissionWithAccess('updateOrder'))
-        <a class="btn btn-sm btn-default change_dept_order custom-action-btn" data-backend-url={{ route('system-management.departments.updateOrder', $departmentData) }} data-action="up">
+        <a class="btn btn-sm btn-primary change_dept_order custom-action-btn" data-backend-url={{ route('system-management.departments.updateOrder', $departmentData) }} data-action="up">
             <i class="fa fa-arrow-up" aria-hidden="true"></i>
         </a>
 
-        <a class="btn btn-sm btn-default change_dept_order custom-action-btn" data-backend-url={{ route('system-management.departments.updateOrder', $departmentData) }} data-action="down">
+        <a class="btn btn-sm btn-primary change_dept_order custom-action-btn" data-backend-url={{ route('system-management.departments.updateOrder', $departmentData) }} data-action="down">
             <i class="fa fa-arrow-down" aria-hidden="true"></i>
         </a>
     @endif

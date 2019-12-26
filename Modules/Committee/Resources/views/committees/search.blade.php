@@ -69,7 +69,7 @@
         </div>
 
         <div class="row">
-            <a style="float: left;margin: 0px 5px 0 15px;" href="{{ route('committees.index') }}" class="btn btn-default search-table">إلغاء</a>
-            <button style="float: left;margin: 0px 5px;" type="submit" class="btn btn-default search-table">بحث</button>
+            <a style="float: left;margin: 0px 5px 0 15px;" href="{{ route('committees.index') }}" class="btn btn-primary search-table">إلغاء</a>
+            <button style="float: left;margin: 0px 5px;" type="submit" class="btn btn-primary search-table">بحث</button>
         </div>
     </form>

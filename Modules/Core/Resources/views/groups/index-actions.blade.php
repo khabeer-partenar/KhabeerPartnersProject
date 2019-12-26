@@ -11,7 +11,7 @@
 @endif
 
 @if(auth()->user()->hasPermissionWithAccess('show'))
-    <a href="{{ route('core.groups.show', ['id' => $id]) }}" class="btn btn-xs btn-default">
+    <a href="{{ route('core.groups.show', ['id' => $id]) }}" class="btn btn-xs btn-primary">
         <i class="fa fa-eye"></i>{{ __('core::groups.action_show') }}
     </a>
 @endif

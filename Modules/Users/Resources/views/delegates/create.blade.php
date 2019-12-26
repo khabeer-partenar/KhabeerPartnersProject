@@ -32,11 +32,10 @@
 
             </div>
             <div class="modal-footer">
-                <button class="btn blue" type="submit" >{{__('users::delegates.action_add')}}</button>
-                {{--{{ Form::button(__('users::delegates.action_add'), ['type' => 'button','id'=>'btn-save', 'class' => 'btn blue']) }}--}}
+                <button class="btn btn-primary" type="submit" >{{__('users::delegates.action_add')}}</button>
+                {{--{{ Form::button(__('users::delegates.action_add'), ['type' => 'button','id'=>'btn-save', 'class' => 'btn btn-primary']) }}--}}
 
-                <button type="button" class="btn btn-danger"
-                        data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
 
             </div>
 

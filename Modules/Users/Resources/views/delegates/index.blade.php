@@ -41,7 +41,7 @@
 
             </div>
             <div class="modal-footer">
-                {{ Form::button(__('users::delegates.action_add'), ['type' => 'submit', 'class' => 'btn blue']) }}
+                {{ Form::button(__('users::delegates.action_add'), ['type' => 'submit', 'class' => 'btn btn-primary']) }}
 
                 <button  type="button" class="btn btn-danger"
                         data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
