@@ -11,7 +11,7 @@
             for (let index = 0; index < selectJobElm.length; index++) {
                 if ($(selectJobElm.options[index]).attr('data-main') == is_reference) {
                     $('#job_role_id').val($(selectJobElm.options[index]).val());
-                    $('#job_role_id').select2();
+                    //$('#job_role_id').select2();
                 }
             }
 
