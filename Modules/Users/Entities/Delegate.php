@@ -44,7 +44,7 @@ class Delegate extends User
     public function setCommitteeNominationStatus($committee_id)
     {
         $committee = Committee::find($committee_id);
-        $nominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
+        $nominationDepartmentsIds = $committee->nominationDepartments()->pluck('department_id');
         $committeeNominationDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
         if ($nominationDepartmentsIds->count() == $committeeNominationDepartments->count()) {
             $committee->status = Committee::NOMINATIONS_COMPLETED;

@@ -37,7 +37,7 @@ class UpdateDelegateRequest extends FormRequest
             'main_department_id' => ['required', 'integer','exists:'. Department::table(). ',id',  new CheckCoordinatorDepartmentType],
             'direct_department_id' => ['nullable', 'integer', new CheckCoordinatorDirectDepartmentType(request()->parent_department_id)],
             'job_title' => ['required'],
-            'national_id' => ['required', new NationalIDRule, Rule::unique(User::table())->ignore($delegate->id)],
+            /*'national_id' => ['required', new NationalIDRule, Rule::unique(User::table())->ignore($delegate->id)],*/
             'name' => ['required', new FilterStringRule, 'string'],
             'phone_number' => ['required', new ValidationPhoneNumberRule, Rule::unique(User::table())->ignore($delegate->id)],
             'email' => ['required', 'email', new ValidationGovEmailRule, Rule::unique(User::table())->ignore($delegate->id)],

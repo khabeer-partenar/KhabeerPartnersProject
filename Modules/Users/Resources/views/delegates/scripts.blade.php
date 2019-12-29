@@ -278,7 +278,7 @@
                 },
                 error: function (request) {
 
-                    //console.log(request);
+                    console.log(request);
                     Swal.close();
                     $('#addDelegateModal').css('opacity', '1');
                     //console.log(request);

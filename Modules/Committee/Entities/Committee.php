@@ -349,6 +349,10 @@ class Committee extends Model
             return $this->nominationDepartments()->where('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
 
         }
+        elseif (auth()->user()->is_super_admin)
+        {
+
+        }
 
     }
 

@@ -60,13 +60,13 @@ class DelegateController extends UserBaseController
                     $data = [
                         $delegate->mainDepartment->name,
                         $delegate->parentDepartment->name,
-                        $delegate->direct_department ? $delegate->direct_department:null
+                        $delegate->direct_department ? $delegate->direct_department : null
                     ];
                     return view('users::delegates.commas_separated_data', ['data' => $data]);
                 })
-                ->addColumn('contact_options', function($delegate) {
+                ->addColumn('contact_options', function ($delegate) {
                     $data = [$delegate->phone_number, $delegate->email];
-                    return view('users::delegates.commas_separated_data', ['data' => $data, 'break' => 1 ]);
+                    return view('users::delegates.commas_separated_data', ['data' => $data, 'break' => 1]);
                 })
                 ->addColumn('action', function ($delegate) {
                     return view('users::delegates.actions', compact('delegate'));
@@ -83,12 +83,9 @@ class DelegateController extends UserBaseController
 
     public function getDepartmentDelegatesNotInCommittee($department_id, $committee_id)
     {
-        if ( CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($committee_id))
-        {
-            return response()->json(['code'=> '0','msg' => __('users::delegates.delegate_can_not_delegate')]);
-        }
-        else
-        {
+        if (CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($committee_id)) {
+            return response()->json(['code' => '0', 'msg' => __('users::delegates.delegate_can_not_delegate')]);
+        } else {
             $delegates = Delegate::getDepartmentDelegatesNotInCommittee($department_id, $committee_id);
             return $delegates;
         }
@@ -124,8 +121,14 @@ class DelegateController extends UserBaseController
 
     public function checkIfMainCoordinatorNominateDelegates($committee_id)
     {
-        return response()->json(['status' => CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($committee_id)
-            ,'msg'=>__('users::delegates.delegate_can_not_delegate')]);
+        $status = CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($committee_id);
+        $message = '';
+        if ($status == true) {
+            $message = __('users::delegates.delegate_can_not_delegate');
+        }
+        return response()->json(['status' => $status
+            , 'msg' => $message]);
+
     }
 
     /**
@@ -139,9 +142,7 @@ class DelegateController extends UserBaseController
         $delegate->log('create_delegate');
         if (isset($request->committee_id)) {
             $delegate2->addDelegateToCommittee($request, $delegate->id);
-        }
-        else
-        {
+        } else {
             self::sessionSuccess('users::delegates.created');
             return redirect()->route('delegates.index');
         }
@@ -152,7 +153,7 @@ class DelegateController extends UserBaseController
     {
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
-        return view("users::delegates.edit", compact('mainDepartments', 'delegateJobs','delegate'));
+        return view("users::delegates.edit", compact('mainDepartments', 'delegateJobs', 'delegate'));
     }
 
     public function update(UpdateDelegateRequest $request, Delegate $delegate)
@@ -173,13 +174,13 @@ class DelegateController extends UserBaseController
     public function removeFromCommitte($delegate_id, $committee_id, $department_id, $reason)
     {
         if (CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($committee_id)) {
-            return response()->json(['code'=> '0','msg' => __('users::delegates.delegate_can_not_delete')]);
+            return response()->json(['code' => '0', 'msg' => __('users::delegates.delegate_can_not_delete')]);
 
         } else {
             $delegate = Delegate::find($delegate_id);
             $delegate->log('remove_delegate_from_committee');
             $delegate->removeDelegateFromCommittee($delegate, $committee_id, $department_id, $reason);
-            return response()->json(['code'=> '1','msg' => __('users::delegates.deleted')]);
+            return response()->json(['code' => '1', 'msg' => __('users::delegates.deleted')]);
         }
     }
     /**

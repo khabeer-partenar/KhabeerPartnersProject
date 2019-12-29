@@ -58,6 +58,7 @@ class DelegateObserver
                     $coordinator = Coordinator::findOrFail($nomination->coordinator_id);
                     $committee = Committee::findOrFail($nomination->committee_id);
 
+                    $delegate->removeDelegateFromCommittee($delegate, $nomination->committee_id, $nomination->nominated_department_id, '');
                     event(new DelegateUpdatedEvent($delegate,$coordinator,$committee,$message));
 
                 }
