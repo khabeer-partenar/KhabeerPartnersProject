@@ -88,12 +88,19 @@ class Delegate extends User
 
     }
 
-    public function removeDelegateFromCommittee(Delegate $delegate, $committee_id, $department_id, $reason)
+    public function removeDelegateFromCommittee(Delegate $delegate, $committee_id, $department_id, $reason,$forever=false)
     {
-        CommitteeDelegate::where('user_id', $delegate->id)
-            ->where('nominated_department_id', $department_id)
-            ->where('committee_id', $committee_id)->delete();
-
+        if ($forever)
+        {
+            CommitteeDelegate::where('user_id', $delegate->id)
+                ->where('nominated_department_id', $department_id)
+                ->where('committee_id', $committee_id)->forceDelete();
+        }
+        else {
+            CommitteeDelegate::where('user_id', $delegate->id)
+                ->where('nominated_department_id', $department_id)
+                ->where('committee_id', $committee_id)->delete();
+        }
         $committee = Committee::find($committee_id)->with('delegates')->first();
         $delegatesCount = CommitteeDelegate::where('committee_id', $committee_id)
             ->where('nominated_department_id', $department_id)->get()->count();

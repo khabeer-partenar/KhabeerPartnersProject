@@ -179,7 +179,7 @@ class DelegateController extends UserBaseController
         } else {
             $delegate = Delegate::find($delegate_id);
             $delegate->log('remove_delegate_from_committee');
-            $delegate->removeDelegateFromCommittee($delegate, $committee_id, $department_id, $reason);
+            $delegate->removeDelegateFromCommittee($delegate, $committee_id, $department_id, $reason,true);
             return response()->json(['code' => '1', 'msg' => __('users::delegates.deleted')]);
         }
     }
