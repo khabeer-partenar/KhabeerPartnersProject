@@ -13,7 +13,7 @@
                 <span style="color: red">*</span>
             </label>
             <select name="type_id" id="type_id" class="form_control select2">
-                <option value="0"><?php echo e(__('committee::committees.please choose')); ?></option>
+                <option value="0">{{ __('committee::committees.please choose') }}</option>
                 @foreach($types as $id => $name)
                     <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected':'' }}>{{ $name }}</option>
                 @endforeach
@@ -42,7 +42,9 @@
     <div class="col-md-2">
         <label class="control-label"></label>
         <button class="btn btn-default" type="button"
-                id="getRoomDetails" data-url="{{ route('system-management.meetings-rooms.room-with-meetings') }}" disabled>تفاصيل عن الصالة</button>
+                id="getRoomDetails" data-url="{{ route('system-management.meetings-rooms.room-with-meetings') }}"
+                {{ old('room_id') ? '':'disabled' }}
+        >تفاصيل عن الصالة</button>
     </div>
 </div>
 
@@ -60,7 +62,7 @@
     </div>
     {{-- From --}}
     <div class="col-md-4">
-        <div class="form-group {{ $errors->has('at') ? ' has-error' : '' }}">
+        <div class="form-group {{ $errors->has('from') ? ' has-error' : '' }}">
             <label for="from" class="control-label">
                 {{ __('committee::meetings.from') }}
                 <span style="color: red">*</span>

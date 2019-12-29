@@ -11,13 +11,14 @@ class CheckIfDateIsAfter implements Rule
     private $translationPath;
     private $format;
     private $secondFormat;
-    
+
     /**
      * Create a new rule instance.
      *
      * @param $date
      * @param $translationPath
      * @param string $format
+     * @param string $secondFormat
      * @internal param $attribute
      */
     public function __construct($date, $translationPath, $format = 'm/d/Y', $secondFormat = 'm/d/Y')
