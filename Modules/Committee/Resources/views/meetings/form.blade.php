@@ -108,6 +108,108 @@
     </div>
 </div>
 
+<hr>
+
+{{-- Files --}}
+<p class="underLine">الملفات</p>
+<div class="row">
+    <div class="col-md-5">
+        <div class="col-md-4">
+            {!! Form::label('tasks',  __('committee::committees.file description'), ['class' => 'control-label']) !!}
+        </div>
+
+        <div class="col-md-8">
+            {!! Form::text('file_description', null, ['id' => 'file_description', 'class' => 'form_control']) !!}
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="col-md-3">
+            <label>
+                <button type="button" id="upload-file" class="btn btn-warning">
+                    رفع
+                </button>
+            </label>
+        </div>
+        <div class="col-md-9">
+            <span id="fileName"></span>
+            <div class="hidden">
+                <input type="file" name="uploadedFile" id="upload-file-browse">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <button type="button" data-order="{{ $documents->count() }}" class="btn btn-primary" id="saveFiles"
+                data-url="{{ route('committee.meeting-document.store', compact('committee')) }}">إضافة</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered mt-10">
+            <thead>
+            <tr>
+                <th scope="col">{{ __('committee::committees.number') }}</th>
+                <th scope="col">{{ __('committee::committees.file description') }}</th>
+                <th scope="col">{{ __('committee::committees.file path') }}</th>
+                <th scope="col">{{ __('committee::committees.options') }}</th>
+            </tr>
+            </thead>
+            <tbody id="files">
+            @if(isset($meeting))
+                @foreach($meeting->documents as $meeting)
+                    <tr id="file-{{ $document->id }}">
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $document->description ? $document->description:''}}</td>
+                        <td>
+                            <a href="{{ $document->full_path }}">{{ $document->name }}</a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger file-remove"
+                                    data-remove-url="{{ route('committees.delete-document', $document) }}"
+                                    data-remove-row="#file-{{ $document->id }}">
+                                حذف
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                @foreach($documents as $document)
+                    <tr id="file-{{ $document->id }}">
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $document->description ? $document->description:''}}</td>
+                        <td>
+                            <a href="{{ $document->full_path }}">{{ $document->name }}</a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger file-remove"
+                                    data-remove-url="{{ route('committee.meeting-document.delete', compact('committee', 'document')) }}"
+                                    data-remove-row="#file-{{ $document->id }}">
+                                حذف
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<hr>
+
+{{-- Participants --}}
+<p class="underLine">المشاركين</p>
+<div class="row">
+    <div class="col-md-6">
+
+    </div>
+    <div class="col-md-6">
+
+    </div>
+</div>
+
 <!-- Modal -->
 <div id="roomDetailsModal" class="modal fade" role="dialog">
     <div class="modal-notify modal-info" role="document" style="overflow-y: initial !important;width: auto; margin: 5%;">

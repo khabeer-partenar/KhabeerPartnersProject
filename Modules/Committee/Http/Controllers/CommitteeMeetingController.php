@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
+use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Entities\MeetingType;
 use Modules\Committee\Http\Requests\SaveMeetingRequest;
 use Modules\SystemManagement\Entities\MeetingRoom;
@@ -35,7 +36,10 @@ class CommitteeMeetingController extends Controller
     {
         $types = MeetingType::all()->pluck('name', 'id');
         $rooms = MeetingRoom::active()->with('city')->get();
-        return view('committee::meetings.create', compact('committee', 'types', 'rooms'));
+        $documents = MeetingDocument::where('user_id', auth()->id())
+            ->where('committee_id', $committee->id)
+            ->whereNull('meeting_id')->get();
+        return view('committee::meetings.create', compact('committee', 'types', 'rooms', 'documents'));
     }
 
     /**
