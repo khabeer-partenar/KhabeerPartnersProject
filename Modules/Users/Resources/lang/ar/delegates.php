@@ -16,16 +16,18 @@ return [
     'action_add' => 'إضافة',
     'add_delegate' => 'إضافة مندوب جديد',
     'action_edit' => 'تعديل',
-    'edit_co' => 'تعديل منسق',
+    'edit_delegate' => 'تعديل مندوب',
     'department_type' => 'نوع الجهة',
 
     'manage' => 'المندوبين',
+    'manage2' => 'إدارة المندوبين',
+    'information' => 'تفصايل المندوب',
 
     'noDelgates'=>'لا يوجد مندوبين لهذه الجهة قم باضافة مندوب جديد',
     'notCreated' => 'حدث خطأ اثناء محاولة انشاء المنسق',
     'created' => 'تم انشاء المندوب بنجاح',
     'notUpdated' => 'حدث خطأ محاولة تحديث المنسق',
-    'updated' => 'تم تحديث المنسق',
+    'updated' => 'تم تحديث المندوب',
     'deleted' => 'تم الحذف',
     'edit' => 'تعديل',
     'delete' => 'حذف',
@@ -41,7 +43,10 @@ return [
     'delegate deleted for committee'=>'من لجنة',
     'delegate deleted reason'=>'سبب الحذف',
     'delegate_can_not_delete'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك حذفه',
-    'delegate_can_not_delegate'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك الترشيح'
+    'delegate_can_not_delegate'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك الترشيح',
+    'delegate_department_changed'=>'تم نقل مندوب الى جهه اخرى',
+    'delegate_department_changed2'=>'من فضلك قم بترشيح مندوب اخر',
+
 
 
 
