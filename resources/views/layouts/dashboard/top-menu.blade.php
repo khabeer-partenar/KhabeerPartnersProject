@@ -30,6 +30,7 @@
             @endforeach
         </ul>
         
+        <a href="{{ route('logout') }}" class="login">تسجيل الخروج</a>
         <a href="#!" class="login">مرحباً : {{ auth()->user()->name }} </a>
 
         <span class="clr"></span>
