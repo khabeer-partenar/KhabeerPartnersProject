@@ -18,4 +18,17 @@ class MeetingDocument extends Model
     {
         return Storage::url($this->attributes['path']);
     }
+
+    public static function updateDocumentsMeeting($meetingId, $committeeId)
+    {
+        $documents = self::where('user_id', auth()->id())->where('committee_id', $committeeId)->whereNull('meeting_id')->get();
+        foreach ($documents as $document) {
+            $fileName = basename($document->path);
+            $newPath = "meetings/$meetingId/$fileName";
+            $moved = Storage::move($document->path, $newPath);
+            if ($moved) {
+                $document->update(['meeting_id' => $meetingId, 'path' => $newPath]);
+            }
+        }
+    }
 }
