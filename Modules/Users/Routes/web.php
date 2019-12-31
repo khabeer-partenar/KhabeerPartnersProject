@@ -13,8 +13,10 @@
 
 
 use Modules\Committee\Entities\Committee;
+use Modules\Core\Entities\App;
 use Modules\Core\Entities\Group;
 use Modules\Core\Entities\Status;
+use Modules\Core\Transformers\App as AppTransformer;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Employee;
@@ -27,10 +29,6 @@ Route::group(['middleware' => 'guest'], function()
 
 Route::group(['middleware' => 'auth'], function()
 {
-    Route::get('/test',function ()
-    {
-        dd($_SERVER['DOCUMENT_ROOT']);
-    });
     // Auth Controller
     Route::get('/logout', 'AuthController@logout')->name('logout');
 
@@ -42,6 +40,7 @@ Route::group(['middleware' => 'auth'], function()
         Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');
 
         // Delegate
+        Route::resource('/delegates', 'DelegateController');
 
         Route::get('/delegates/deleteUser/{delegate_id}/{committee_id}/{department_id}/{reason?}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
         Route::resource('/delegates','DelegateController');

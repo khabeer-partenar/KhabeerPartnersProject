@@ -349,6 +349,10 @@ class Committee extends Model
             return $this->nominationDepartments()->where('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
 
         }
+        elseif (auth()->user()->is_super_admin)
+        {
+
+        }
 
     }
 
@@ -362,6 +366,7 @@ class Committee extends Model
     {
         return $this->belongsToMany(Delegate::class, 'committee_delegate', 'committee_id', 'user_id')
             ->withPivot('nominated_department_id')
+            ->whereNull('committee_delegate.deleted_at')
             ->withTimestamps();
     }
 

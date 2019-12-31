@@ -220,7 +220,7 @@ footer{background:url(../images/bg_footer.png) repeat}
 .bread_crumb ul{margin:0 0 10px; list-style:none;}
 .bread_crumb ul li{display:inline-block; vertical-align:middle;}
 .bread_crumb ul li a{color:#4b4b4b;font-size: 16px;font-weight: 500;}
-.app_inner_pages_bg>.container{position:relative;z-index:2;padding-bottom: 20px;}
+.app_inner_pages_bg>.container{position:relative;padding-bottom: 20px;}
 .bread_crumb ul li a svg{vertical-align: middle; margin: 0 5px; color:#808080}
 .bread_crumb ul li:last-child a svg{display: none}
 .bread_crumb ul li:last-child a{color:#737373; cursor: default; pointer-events: none}

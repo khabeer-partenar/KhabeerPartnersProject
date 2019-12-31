@@ -44,7 +44,7 @@ class Delegate extends User
     public function setCommitteeNominationStatus($committee_id)
     {
         $committee = Committee::find($committee_id);
-        $nominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
+        $nominationDepartmentsIds = $committee->nominationDepartments()->pluck('department_id');
         $committeeNominationDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
         if ($nominationDepartmentsIds->count() == $committeeNominationDepartments->count()) {
             $committee->status = Committee::NOMINATIONS_COMPLETED;
@@ -88,12 +88,19 @@ class Delegate extends User
 
     }
 
-    public function removeDelegateFromCommittee(Delegate $delegate, $committee_id, $department_id, $reason)
+    public function removeDelegateFromCommittee(Delegate $delegate, $committee_id, $department_id, $reason,$forever=false)
     {
-        CommitteeDelegate::where('user_id', $delegate->id)
-            ->where('nominated_department_id', $department_id)
-            ->where('committee_id', $committee_id)->delete();
-
+        if ($forever)
+        {
+            CommitteeDelegate::where('user_id', $delegate->id)
+                ->where('nominated_department_id', $department_id)
+                ->where('committee_id', $committee_id)->forceDelete();
+        }
+        else {
+            CommitteeDelegate::where('user_id', $delegate->id)
+                ->where('nominated_department_id', $department_id)
+                ->where('committee_id', $committee_id)->delete();
+        }
         $committee = Committee::find($committee_id)->with('delegates')->first();
         $delegatesCount = CommitteeDelegate::where('committee_id', $committee_id)
             ->where('nominated_department_id', $department_id)->get()->count();
@@ -223,7 +230,7 @@ class Delegate extends User
     {
         $this->update(
             $request->only(
-                'direct_department_id', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'specialty', 'title',
+                'direct_department', 'national_id', 'name', 'phone_number', 'email', 'job_title', 'specialty', 'title',
                 'main_department_id', 'parent_department_id', 'job_role_id', 'department_reference_id'
             )
         );

@@ -1,61 +1,100 @@
-{{--@extends('layouts.dashboard.index')--}}
+@extends('layouts.dashboard.index')
 
-<!-- Modal -->
-<div id="nominationsListModal" class="modal fade" role="dialog">
-    <div class="modal-lg modal-notify modal-info" role="document" style="overflow-y: initial !important;width: auto; margin: 5%;">
+@section('page')
+    <div class="portlet light bordered">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div style="height: 50px; background-color: #057d54"
-                 class="modal-header d-flex text-center justify-content-center">
-                <p style="color: white" class="heading">
-                    <strong>{{ __('users::delegates.nominate_title') }}</strong>
+        <div class="portlet-title">
 
-                </p>
-                <div class="clearfix"></div>
+            <div class="row">
 
-            </div>
-            {{ Form::open(['route' => 'delegates.add_delegates', 'method' => 'POST', 'id' => 'from-add-delegates-to-committees']) }}
+                <div class="col-md-9">
+                    <div class="caption">
+                        <i class="fa fa-users"></i>
+                        <span class="caption-subject sbold">{{ __('users::delegates.manage2') }}</span>
+                    </div>
+                </div>
 
-            <div class="modal-body" style="height: 400px;overflow-y: auto;">
-                <table class="table table-striped table-responsive-md">
-                    <thead>
-
-                    <tr style="font-weight:bold">
-                        <th style="width:7%" scope="col"></th>
-                        <th scope="col">{{ __('users::delegates.department_name') }}</th>
-                        <th scope="col">{{ __('users::delegates.delegate_name') }}</th>
-                        <th scope="col">{{ __('users::delegates.job_title') }}</th>
-                        <th scope="col">{{ __('users::delegates.national_id') }}</th>
-                        <th scope="col">{{ __('users::delegates.phone_number') }}</th>
-                        <th scope="col">{{ __('users::delegates.email') }}</th>
-                        <th scope="col">{{ __('users::delegates.specialty') }}</th>
-                        <th></th>
-
-                    </tr>
-                    </thead>
-                    <tbody id="table_delegates">
-
-                    </tbody>
-                </table>
+                <div class="col-md-3">
+                    <div class="actions item-fl item-mb20">
+                        @if(auth()->user()->hasPermissionWithAccess('create'))
+                            <a href="{{ route('delegates.create') }}" class="btn btn-primary">{{ __('users::delegates.action_add') }}</a>
+                        @endif
+                    </div>
+                </div>
 
             </div>
-            <div class="modal-footer">
-                {{ Form::button(__('users::delegates.action_add'), ['type' => 'submit', 'class' => 'btn btn-primary']) }}
+        
+        </div>
 
-                <button  type="button" class="btn btn-danger"
-                        data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
+        <div class="portlet-body">
 
+            {{-- Search Form --}}
+            <div class="row">
+                <form class="" method="get" id="search-delegates" action="{{ route('delegates.index') }}">
+                    {{--form-inline--}}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label" for="department_type">نوع الجهة</label>
+                            <select name="main_department_id" id="main_department_id" class="form_control select2 load-departments"
+                                    data-url="{{ route('system-management.departments.children') }}" data-child="#parent_department_id">
+                                <option value="0">{{ __('users::departments.choose a department') }}</option>
+                                @foreach($mainDepartments as $key => $department)
+                                    <option value="{{ $key }}" {{ Request::input('main_department_id') == $key ? 'selected':'' }}>{{ $department }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="parent_department_id" class="control-label">اسم الجهة</label>
+                            <select name="parent_department_id" id="parent_department_id" class="form_control select2 load-departments"
+                                    data-url="{{ route('system-management.departments.children') }}" data-child="#direct_department_id">
+                                <option value="0">{{ __('users::departments.choose a department') }}</option>
+                                @php $parentDepartment = Request::input('parent_department_id') @endphp
+                                @foreach(\Modules\SystemManagement\Entities\Department::getParentDepartments(Request::input('main_department_id')) as $key => $department)
+                                    <option value="{{ $key }}" {{ $parentDepartment == $key ? 'selected':'' }}>{{ $department }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="name" class="control-label">اسم المندوب</label>
+                            <input type="text" class="form_control" value="{{ Request::input('name') }}" name="name" id="name" placeholder="">
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary_s search-table" data-form="#search-delegates">بحث</button>
+                    </div>
+
+
+                </form>
             </div>
-            {{ Form::hidden('committee_id', $committee->id) }}
-            {{ Form::hidden('department_id', '',array('id' => 'department_id')) }}
 
-
-            {{ Form::close() }}
+            {{-- DataTable --}}
+            <table id="table-ajax" class="table" data-url="{{ route('delegates.index', [
+                'name' => Request::input('name'),
+                'main_department_id' => Request::input('main_department_id'),
+                'parent_department_id' => Request::input('parent_department_id')
+                ])
+             }}"
+                data-fields='[
+                    {"data": "name","title":"{{ __('messages.name') }}","searchable":"true"},
+                    {"data": "department_info","name":"actions","title":"{{ __('messages.department_info') }}","searchable":"false", "orderable":"false"},
+                    {"data": "contact_options","name":"actions","title":"{{ __('messages.contact_options') }}","searchable":"false", "orderable":"false"},
+                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
+                ]'
+            >
+            </table>
         </div>
 
     </div>
-</div>
+@endsection
 
-
-
+{{--@section('scripts_2')
+    @include('users::delegates.scripts')
+@endsection--}}
