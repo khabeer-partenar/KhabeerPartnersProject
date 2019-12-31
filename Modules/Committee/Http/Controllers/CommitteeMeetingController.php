@@ -36,10 +36,14 @@ class CommitteeMeetingController extends Controller
     {
         $types = MeetingType::all()->pluck('name', 'id');
         $rooms = MeetingRoom::active()->with('city')->get();
+        $participantAdvisors = $committee->participantAdvisors;
+        $delegates = $committee->delegates;
         $documents = MeetingDocument::where('user_id', auth()->id())
             ->where('committee_id', $committee->id)
             ->whereNull('meeting_id')->get();
-        return view('committee::meetings.create', compact('committee', 'types', 'rooms', 'documents'));
+        return view('committee::meetings.create', compact(
+            'committee', 'types', 'rooms', 'documents', 'participantAdvisors', 'delegates'
+        ));
     }
 
     /**

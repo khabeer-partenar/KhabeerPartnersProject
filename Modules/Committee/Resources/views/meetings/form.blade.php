@@ -147,7 +147,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <table class="table table-bordered mt-10">
+        <table style="width: 100%" class="table table-bordered mt-10">
             <thead>
             <tr>
                 <th scope="col">{{ __('committee::committees.number') }}</th>
@@ -200,13 +200,37 @@
 <hr>
 
 {{-- Participants --}}
-<p class="underLine">المشاركين</p>
+<p class="underLine">قائمة المدعوين من المرشحين</p>
 <div class="row">
     <div class="col-md-6">
-
+        <p>اختر المدعوين لحضور الإجتماع</p>
+        <table style="width: 100%" class="table table-bordered">
+            <thead>
+                <tr style="font-weight:bold">
+                    <th style="width:7%" scope="col"><input type="checkbox" id="checkAllDelegates"></th>
+                    <th scope="col">الكل</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="">
+                @foreach($delegates as $delegate)
+                    <tr>
+                        <td><input type="checkbox" name="delegates[]" value="{{ $delegate->id }}"></td>
+                        <td>{{ $delegate->name }}</td>
+                        <td>{{ $delegate->department->name }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
     <div class="col-md-6">
-
+        <p>اختر المشاركين من هيئة الخبراء لحضور الإجتماع</p>
+        <div style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
+            <input type="checkbox" id="all"> <span style="font-size: 14px">الكل</span> <br>
+            @foreach($participantAdvisors as $advisor)
+                <input type="checkbox" name="participantAdvisors[]" value="{{ $advisor->id }}"> <span style="font-size: 14px">{{ $advisor->name }}</span><br>
+            @endforeach
+        </div>
     </div>
 </div>
 
