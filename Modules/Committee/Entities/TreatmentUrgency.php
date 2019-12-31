@@ -10,4 +10,6 @@ class TreatmentUrgency extends Model
     use SharedModel;
     protected $table = 'treatment_urgency';
     protected $fillable = ['name', 'description'];
+
+    const URGENT = 3;
 }

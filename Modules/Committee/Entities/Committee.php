@@ -44,7 +44,7 @@ class Committee extends Model
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri','first_meeting_time', 'recommended_at_hijri'
+        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'first_meeting_time', 'recommended_at_hijri'
     ];
 
     protected $dates = [
@@ -105,9 +105,7 @@ class Committee extends Model
         $time = Carbon::parse($this->attributes['first_meeting_at'])->format('h:i A');
         if (strpos($time, ' AM')) {
             return str_replace('AM', __('committee::committees.am'), $time);
-        }
-        else
-        {
+        } else {
             return str_replace('PM', __('committee::committees.pm'), $time);
         }
 
@@ -127,9 +125,7 @@ class Committee extends Model
             || auth()->user()->is_super_admin) {
             $query->where('approved', true);
             $query->orWhere('approved', false);
-        }
-        else
-        {
+        } else {
             $query->where('approved', true);
         }
 
@@ -331,6 +327,18 @@ class Committee extends Model
             ->with('status')->where('group_id', $groupId);
     }
 
+    public function view()
+    {
+        return $this->hasOne(CommitteeView::class, 'committee_id');
+    }
+
+    public function scopeViewed()
+    {
+        $viewed = $this->view()->where('user_id',auth()->user()->id)->first();
+        if ($viewed) return true;
+        return false;
+    }
+
     public function groupsStatuses()
     {
         return $this->belongsToMany(Group::class, 'committee_group_status', 'committee_id', 'group_id')
@@ -348,9 +356,7 @@ class Committee extends Model
             $parentDepartmentId = auth()->user()->parentDepartment->id;
             return $this->nominationDepartments()->where('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
 
-        }
-        elseif (auth()->user()->is_super_admin)
-        {
+        } elseif (auth()->user()->is_super_admin) {
 
         }
 
@@ -374,7 +380,7 @@ class Committee extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
-    
+
     public function approveCommittee()
     {
         $this->approved = true;

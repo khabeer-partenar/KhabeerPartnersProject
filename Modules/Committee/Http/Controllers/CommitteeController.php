@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDocument;
 use Modules\Committee\Entities\CommitteeStatus;
+use Modules\Committee\Entities\CommitteeView;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
@@ -36,6 +37,9 @@ class CommitteeController extends UserBaseController
         if ($request->wantsJson() || $request->ajax()) {
             $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
             $dataTable = Datatables::of($committeesQuery)
+                ->addColumn('status_icon', function ($committee) {
+                    return view('committee::committees.status_icons', compact('committee'));
+                })
                 ->addColumn('id_with_date', function ($committee) {
                     $data = [__('committee::committees.committee number') . $committee->treatment_number, $committee->created_at->format('d-m-Y')];
                     return view('committee::committees.br_separated_data', compact('data'));
@@ -70,7 +74,7 @@ class CommitteeController extends UserBaseController
             }
 
             return $dataTable->rawColumns([
-                'action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count', 'advisor_status'
+                'status_icon','action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count', 'advisor_status'
             ])->make(true);
         }
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
@@ -141,10 +145,10 @@ class CommitteeController extends UserBaseController
      */
     public function show(Committee $committee)
     {
-//        dd($committee->creator);
         $delegates = $committee->getDelegatesWithDetails();
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+        CommitteeView::setCommitteeView($committee);
         return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
     }
 
