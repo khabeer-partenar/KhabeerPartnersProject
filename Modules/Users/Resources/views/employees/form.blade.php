@@ -66,7 +66,7 @@
                 <span style="color: red">*</span>
             </label>
 
-            {!! Form::number('national_id', null, ['id' => 'national_id', 'class' => 'form_control', 'min' => '1000000000', 'max' => '1999999999', 'required' => true]) !!}
+            {!! Form::text('national_id', null, ['id' => 'national_id', 'class' => 'form_control accept_saudi_national_id_only', 'required' => true]) !!}
 
             @if ($errors->has('national_id'))
                 <span class="help-block" ><strong>{{ $errors->first('national_id') }}</strong></span>
@@ -100,7 +100,7 @@
                 <span style="color: red">*</span>
             </label>
 
-            {!! Form::number('phone_number', null, ['id' => 'phone_number', 'class' => 'form_control', 'min' => '0500000000', 'max' => '0599999999', 'required' => true]) !!}
+            {!! Form::text('phone_number', null, ['id' => 'phone_number', 'class' => 'form_control accept_phone_numbers_only', 'required' => true]) !!}
 
             @if ($errors->has('phone_number'))
                 <span class="help-block" ><strong>{{ $errors->first('phone_number') }}</strong></span>
@@ -126,7 +126,7 @@
                 <span style="color: red">*</span>
             </label>
 
-            {!! Form::text('email', null, ['id' => 'email', 'class' => 'form_control', 'required' => true]) !!}
+            {!! Form::text('email', null, ['id' => 'email', 'class' => 'form_control accept_gov_email_only', 'required' => true]) !!}
 
             @if ($errors->has('email'))
                 <span class="help-block" ><strong>{{ $errors->first('email') }}</strong></span>

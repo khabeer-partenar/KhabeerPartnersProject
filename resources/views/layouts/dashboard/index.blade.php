@@ -21,7 +21,7 @@
 
     </head>
 
-    <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+    <body >
 
         <div id="vue-app">
             @include('layouts.dashboard.top-menu')
