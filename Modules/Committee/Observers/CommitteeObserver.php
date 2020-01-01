@@ -22,6 +22,17 @@ class CommitteeObserver
     }
 
     /**
+     * Handle the User "retrieved" event.
+     *
+     * @param $committee
+     * @return void
+     */
+    public function retrieved(Committee $committee)
+    {
+        //dd("retrieved");
+    }
+
+    /**
      * Handle the User "updated" event.
      *
      * @param $committee

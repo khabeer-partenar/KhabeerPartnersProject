@@ -212,7 +212,7 @@
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $document->description }}</td>
                         <td>
-                            <a type="button" class="btn btn-default"
+                            <a type="button" class="btn btn-primary"
                                href="{{ route('committees.document.download', ['document' => $document]) }}"
                                download>تحميل</a>
                         </td>

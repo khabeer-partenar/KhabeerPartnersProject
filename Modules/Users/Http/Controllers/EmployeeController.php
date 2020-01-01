@@ -117,6 +117,8 @@ class EmployeeController extends UserBaseController
      */
     public function destroy(Request $request, Employee $employee)
     {
+        return response()->json(['msg' => 'Disabled By Admin'], 422);
+
         $employee->delete();
         $employee->log('delere_employee');
         return response()->json(['msg' => __('users::employees.deleted')]);

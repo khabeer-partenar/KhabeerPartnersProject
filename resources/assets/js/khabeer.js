@@ -7,9 +7,7 @@ $(document).ready(function() {
     });
 
     // Delete row in dataTable
-    $(document).on('click', '.delete-row', function(){
-        alert('test');
-        return;
+    $(document).on('click', '.delete-row', function () {
         let btn = $(this);
         let path = $(this).attr('data-href');
         let table = $('#table-ajax').DataTable();
@@ -29,8 +27,8 @@ $(document).ready(function() {
                     url: path,
                     type: 'delete',
 
-                    success: function(response){
-                        table.row( btn.parents('tr') ).remove().draw();
+                    success: function (response) {
+                        table.row(btn.parents('tr')).remove().draw();
                     },
 
                     error: function (request, status, error) {
@@ -49,7 +47,7 @@ $(document).ready(function() {
     });
 
     // Delete a row in dataTable with a reason
-    $(document).on('click', '.delete-row-reason', function(){
+    $(document).on('click', '.delete-row-reason', function () {
         let btn = $(this);
         let path = $(this).attr('data-href');
         let table = $('#table-ajax').DataTable();
@@ -79,8 +77,8 @@ $(document).ready(function() {
                     data: {'reason': result.value},
                     type: 'delete',
 
-                    success: function(response){
-                        table.row( btn.parents('tr') ).remove().draw();
+                    success: function (response) {
+                        table.row(btn.parents('tr')).remove().draw();
                     },
 
                     error: function (request, status, error) {
@@ -104,7 +102,7 @@ $(document).ready(function() {
 
     $('.datetime-picker').datetimepicker({
         rtl: true,
-        format:'d/m/Y H:i',
+        format: 'd/m/Y H:i',
     });
 
     // users search using select 2
@@ -113,7 +111,7 @@ $(document).ready(function() {
             url: "/users/employees/search-by-name",
             dataType: 'json',
             delay: 500,
-            data: function(params) {
+            data: function (params) {
                 return {
                     search: params.term
                 };
@@ -127,7 +125,7 @@ $(document).ready(function() {
         ajax: {
             dataType: 'json',
             delay: 500,
-            data: function(params) {
+            data: function (params) {
                 return {
                     search: params.term
                 };
@@ -152,7 +150,7 @@ $(document).ready(function() {
             let childOfChild = $(child).attr('data-child');
             $(childOfChild).empty();
         }
-        if ($(this).val() != 0){
+        if ($(this).val() != 0) {
             $.ajax({
                 url: path,
                 success: function (response) {
@@ -162,7 +160,7 @@ $(document).ready(function() {
                         select.options[select.options.length] = new Option(response[index].name, response[index].id);
                     }
                     let children = $(select).children();
-                    for(let index = 0; index < length; index++) {
+                    for (let index = 0; index < length; index++) {
                         if (response[index].reference_department) {
                             $(children[index]).attr('data-ref-id', response[index].reference_department.id);
                             $(children[index]).attr('data-ref-name', response[index].reference_department.name);
@@ -174,25 +172,24 @@ $(document).ready(function() {
         }
     });
 
-    // Remove Error when changing Values
-    $('input').not(".date-picker,.timepicker").change(function () {
-        var helpBlockDiv = $(this).parent().find('.help-block');
-        $(helpBlockDiv).remove();
-        var formGroup = $(this).closest('.form-group');
-        $(formGroup).removeClass('has-error');
+    $('#menu').slicknav({
+        label: '',
+        duplicate: true
     });
 
-    $('.timepicker').timepicker().on('changeTime.timepicker', function(e) {
-        var helpBlockDiv = $(this).parent().find('.help-block');
-        $(helpBlockDiv).remove();
-        var formGroup = $(this).closest('.form-group');
-        $(formGroup).removeClass('has-error');
-    });
+    $(window).scroll(function () {
+        // go to top
+        if ($(this).scrollTop() > 100) {
+            $('.scrollup').fadeIn();
+        } else {
+            $('.scrollup').fadeOut();
+        }
 
-    $('select').change(function () {
-        var helpBlockDiv = $(this).parent().find('.help-block');
-        $(helpBlockDiv).remove();
-        var formGroup = $(this).closest('.form-group');
-        $(formGroup).removeClass('has-error');
+        // fixed menu
+        if ($(this).scrollTop() > 112) {
+            $('.top_menu').addClass('fixed');
+        } else {
+            $('.top_menu').removeClass('fixed');
+        }
     });
 });

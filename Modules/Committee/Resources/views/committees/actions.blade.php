@@ -1,6 +1,6 @@
 @if ($committee)
     @if(auth()->user()->hasPermissionWithAccess('show'))
-        <a href="{{ route('committees.show', $committee) }}" class="btn btn-sm btn-default custom-action-btn">
+        <a href="{{ route('committees.show', $committee) }}" class="btn btn-sm btn-primary custom-action-btn">
             <i class="fa fa-eye"></i> {{ __('committee::committees.show') }}
         </a>
     @endif

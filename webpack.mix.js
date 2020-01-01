@@ -113,4 +113,5 @@ mix
 
 
     .copy('resources/assets/js/vendor/menu-toggler-sidebar.js', 'public/assets/js/menu-toggler-sidebar.js')
-    .copy('resources/assets/js/khabeer.js', 'public/assets/js/khabeer.js');
+    .copy('resources/assets/js/khabeer.js', 'public/assets/js/khabeer.js')
+    .copy('resources/assets/js/khabeer-validations.js', 'public/assets/js/khabeer-validations.js');

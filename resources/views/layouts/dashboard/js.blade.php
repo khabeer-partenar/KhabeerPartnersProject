@@ -43,6 +43,7 @@
 
 {{ Html::script(mix('assets/js/custom.js')) }}
 {{ Html::script(mix('assets/js/khabeer.js')) }}
+{{ Html::script(mix('assets/js/khabeer-validations.js')) }}
 
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 @yield('scripts_2')

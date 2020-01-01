@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="actions item-fl item-mb20">
-                        <a href="{{ route('coordinators.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                        <a href="{{ route('coordinators.index') }}" class="btn btn-primary">{{ __('messages.goBack') }}</a>
                     </div>
                 </div>
             </div>

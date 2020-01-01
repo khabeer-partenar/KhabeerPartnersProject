@@ -16,7 +16,7 @@
             
                 <div class="col-md-3">
                     <div class="actions" style="float:left;">
-                        <a href="{{ route('employees.assign_committees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                        <a href="{{ route('employees.assign_committees.index') }}" class="btn btn-primary">{{ __('messages.goBack') }}</a>
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="form-actions  item-fl item-mt10">
-                    {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue']) }}
+                    {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn btn-primary']) }}
                 </div>
 
             {{ Form::close() }}

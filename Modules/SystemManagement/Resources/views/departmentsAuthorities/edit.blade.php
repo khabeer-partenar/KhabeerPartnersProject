@@ -16,7 +16,7 @@
             
             <div class="col-md-3">
                 <div class="actions" style="float:left;">
-                    <a href="{{ route('system-management.departments-authorities.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
+                    <a href="{{ route('system-management.departments-authorities.index') }}" class="btn btn-primary">{{ __('messages.goBack') }}</a>
                 </div>
             </div>
         
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="form-actions">
-                    {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue item-fl']) }}
+                    {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn btn-primary item-fl']) }}
                 </div>
 
             {{ Form::close() }}

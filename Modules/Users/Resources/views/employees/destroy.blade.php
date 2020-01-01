@@ -11,7 +11,7 @@
             </div>
             
             <div class="actions">
-                <a href="{{ route('employees.index') }}" class="btn blue">{{ __('messages.goBack') }}</a>
+                <a href="{{ route('employees.index') }}" class="btn btn-primary">{{ __('messages.goBack') }}</a>
             </div>
         
         </div>
@@ -23,7 +23,7 @@
                 <div class="alert alert-danger">{{ __('messages.destroyـconfirmation') }}</div>
 
                 <div class="form-actions">
-                    {{ Form::button(__('messages.delete'), ['type' => 'submit', 'class' => 'btn red']) }}
+                    {{ Form::button(__('messages.delete'), ['type' => 'submit', 'class' => 'btn btn-primary']) }}
                 </div>
 
             {{ Form::close() }}
