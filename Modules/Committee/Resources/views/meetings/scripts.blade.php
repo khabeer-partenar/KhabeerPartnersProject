@@ -5,7 +5,8 @@
         });
 
         $('.date-picker').datepicker({
-            language: "ar"
+            language: "ar",
+            startDate: new Date()
         }).on('changeDate', function(e) {
             var helpBlockDiv = $(this).parent().find('.help-block');
             $(helpBlockDiv).remove();
