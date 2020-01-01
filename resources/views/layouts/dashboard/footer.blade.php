@@ -36,16 +36,8 @@
     
     <div class="bottom_bar">
         <div>
-            <a href="#" class="scrollup" title="أعلى الصفحة"><i class="fas fa-angle-double-up"></i></a>
+            <a href="#" class="scrollup" title="أعلى الصفحة"><i class="fa fa-angle-double-up" style="color:white"></i></a>
 
-            <span class="bb_right">
-                <strong>يدعم هذا الموقع المتصفحات</strong>
-                <span title="safari"><i class="fab fa-safari"></i></span>
-                <span title="internet explorer"><i class="fab fa-internet-explorer"></i></span>
-                <span title="edge"><i class="fab fa-edge"></i></span>
-                <span title="firefox"><i class="fab fa-firefox"></i></span>
-                <span title="chrome"><i class="fab fa-chrome"></i></span>
-            </span>
             
             <span class="bb_left">
                 <a href="#!" title="title"><img src="{{ asset('assets/images/bb_left_img_04.png') }}"></a>

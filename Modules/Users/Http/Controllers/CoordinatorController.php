@@ -122,6 +122,8 @@ class CoordinatorController extends UserBaseController
      */
     public function destroy(Coordinator $coordinator)
     {
+        return response()->json(['msg' => 'Disabled By Admin'], 422);
+
         $coordinator->log('delete_coordinator');
         $coordinator->delete();
         return response()->json(['msg' => __('users::coordinators.deleted')]);

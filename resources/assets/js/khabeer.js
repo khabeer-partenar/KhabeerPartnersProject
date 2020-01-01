@@ -174,18 +174,27 @@ $(document).ready(function() {
         }
     });
 
-    // Remove Error when changing Values
-    $('input').not(".date-picker").change(function () {
-        var helpBlockDiv = $(this).parent().find('.help-block');
-        $(helpBlockDiv).remove();
-        var formGroup = $(this).closest('.form-group');
-        $(formGroup).removeClass('has-error');
+
+    $('#menu').slicknav({
+        label: '',
+        duplicate: true
     });
 
-    $('select').change(function () {
-        var helpBlockDiv = $(this).parent().find('.help-block');
-        $(helpBlockDiv).remove();
-        var formGroup = $(this).closest('.form-group');
-        $(formGroup).removeClass('has-error');
-    });
+});
+
+
+$(window).scroll(function () {
+    // go to top
+    if ($(this).scrollTop() > 100) {
+        $('.scrollup').fadeIn();
+    } else {
+        $('.scrollup').fadeOut();
+    }
+
+    // fixed menu
+    if ($(this).scrollTop() > 112) {
+        $('.top_menu').addClass('fixed');
+    } else {
+        $('.top_menu').removeClass('fixed');
+    }
 });

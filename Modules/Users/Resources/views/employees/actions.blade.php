@@ -7,7 +7,7 @@
     @endif -->
 
     @if(auth()->user()->hasPermissionWithAccess('show'))
-        <a href="{{ route('employees.show', $employee) }}" class="btn btn-sm btn-default custom-action-btn">
+        <a href="{{ route('employees.show', $employee) }}" class="btn btn-sm btn-danger custom-action-btn">
             <i class="fa fa-eye"></i> {{ __('users::employees.information_btn') }}
         </a>
     @endif
