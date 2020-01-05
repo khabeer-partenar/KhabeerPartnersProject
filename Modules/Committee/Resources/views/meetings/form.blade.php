@@ -213,7 +213,7 @@
                 </tr>
             </thead>
             <tbody id="">
-                @foreach($delegates as $delegate)
+                @foreach($committee->delegates as $delegate)
                     <tr>
                         <td><input type="checkbox" name="delegates[]" value="{{ $delegate->id }}"></td>
                         <td>{{ $delegate->name }}</td>
@@ -227,7 +227,7 @@
         <p>اختر المشاركين من هيئة الخبراء لحضور الإجتماع</p>
         <div style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
             <input type="checkbox" id="all"> <span style="font-size: 14px">الكل</span> <br>
-            @foreach($participantAdvisors as $advisor)
+            @foreach($committee->participantAdvisors as $advisor)
                 <input type="checkbox" name="participantAdvisors[]" value="{{ $advisor->id }}"> <span style="font-size: 14px">{{ $advisor->name }}</span><br>
             @endforeach
         </div>

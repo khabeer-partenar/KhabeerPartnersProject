@@ -11,4 +11,8 @@ class MeetingAdvisor extends Model
 
     protected $table = 'meetings_advisors';
     protected $fillable = [];
+
+    const INVITED = 0;
+    const ACCEPTED = 1;
+    const REJECTED = 2;
 }
