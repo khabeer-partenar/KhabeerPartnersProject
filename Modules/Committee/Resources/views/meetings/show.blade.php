@@ -101,17 +101,19 @@
                     <table style="width: 100%" class="table table-bordered">
                         <thead>
                         <tr style="font-weight:bold">
-                            <th style="width:7%" scope="col"><input type="checkbox" id="checkAllDelegates"></th>
-                            <th scope="col">الكل</th>
-                            <th scope="col"></th>
+                            <th scope="col">اسم المندوب</th>
+                            <th scope="col">الجهة</th>
+                            <th scope="col">حالة الدعوة</th>
+                            <th scope="col">سبب الإعتذار</th>
                         </tr>
                         </thead>
                         <tbody id="">
                         @foreach($meeting->delegates as $delegate)
                             <tr>
-                                <td><input type="checkbox" name="delegates[]" value="{{ $delegate->id }}"></td>
                                 <td>{{ $delegate->name }}</td>
                                 <td>{{ $delegate->department->name }}</td>
+                                <td>مدعو</td>
+                                <td>كنت نايم</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -120,9 +122,8 @@
                 <div class="col-md-6">
                     <p>المستشارين المشاركين من هيئة الخبراء لحضور الإجتماع</p>
                     <div style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
-                        <input type="checkbox" id="all"> <span style="font-size: 14px">الكل</span> <br>
                         @foreach($meeting->participantAdvisors as $advisor)
-                            <input type="checkbox" name="participantAdvisors[]" value="{{ $advisor->id }}"> <span style="font-size: 14px">{{ $advisor->name }}</span><br>
+                            <p style="font-size: 14px">{{ $advisor->name }}</p>
                         @endforeach
                     </div>
                 </div>
