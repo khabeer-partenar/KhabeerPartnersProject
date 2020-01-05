@@ -47,7 +47,7 @@ class DelegateMeetingController extends Controller
      */
     public function show(Meeting $meeting)
     {
-        return view('committee::meetings.delegates.show');
+        return view('committee::meetings.delegates.show',compact('meeting'));
     }
 
     /**
