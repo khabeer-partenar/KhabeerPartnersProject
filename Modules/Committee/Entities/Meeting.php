@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
+use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\User;
@@ -103,8 +104,23 @@ class Meeting extends Model
         return $this->belongsToMany(Delegate::class, MeetingDelegate::table(), 'meeting_id', 'delegate_id');
     }
 
+    public function type()
+    {
+        return $this->belongsTo(MeetingType::class);
+    }
+
+    public function room()
+    {
+        return $this->belongsTo(MeetingRoom::class);
+    }
+
     public function participantAdvisors()
     {
         return $this->belongsToMany(Employee::class, MeetingAdvisor::table(), 'meeting_id', 'advisor_id');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(MeetingDocument::class);
     }
 }

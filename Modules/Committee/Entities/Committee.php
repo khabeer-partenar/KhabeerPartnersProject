@@ -242,6 +242,12 @@ class Committee extends Model
         return $toBeNotifiedUsers;
     }
 
+    public function approveCommittee()
+    {
+        $this->approved = true;
+        $this->save();
+    }
+
     /**
      * Relations
      *
@@ -379,9 +385,8 @@ class Committee extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function approveCommittee()
+    public function meetings()
     {
-        $this->approved = true;
-        $this->save();
+        return $this->hasMany(Meeting::class);
     }
 }

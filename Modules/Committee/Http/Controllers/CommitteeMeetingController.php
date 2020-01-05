@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
+use Modules\Committee\Entities\MeetingAdvisor;
 use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Entities\MeetingType;
@@ -17,15 +18,25 @@ use Modules\Users\Traits\SessionFlash;
 class CommitteeMeetingController extends Controller
 {
     use SessionFlash;
+
     /**
      * Display a listing of the resource.
+     * @param Request $request
      * @param Committee $committee
      * @return Response
      */
-    public function index(Committee $committee)
+    public function index(Request $request, Committee $committee)
     {
-
-        return view('committee::meetings.index', compact('committee'));
+        $meetings = $committee->meetings()
+            ->orderBy('from', 'asc')
+            ->with([
+                'type',
+                'delegates'  => function ($query) {$query->where('status', MeetingDelegate::ACCEPTED);},
+                'participantAdvisors' => function ($query) {$query->where('status', MeetingAdvisor::ACCEPTED);},
+                'room'
+            ])
+            ->paginate(10);
+        return view('committee::meetings.index', compact('committee', 'meetings'));
     }
 
     /**
@@ -37,14 +48,12 @@ class CommitteeMeetingController extends Controller
     {
         $types = MeetingType::all()->pluck('name', 'id');
         $rooms = MeetingRoom::active()->with('city')->get();
-        $participantAdvisors = $committee->participantAdvisors;
-        $delegates = $committee->delegates;
         $documents = MeetingDocument::where('user_id', auth()->id())
             ->where('committee_id', $committee->id)
             ->whereNull('meeting_id')->get();
 
         return view('committee::meetings.create', compact(
-            'committee', 'types', 'rooms', 'documents', 'participantAdvisors', 'delegates'
+            'committee', 'types', 'rooms', 'documents'
         ));
     }
 
@@ -64,12 +73,14 @@ class CommitteeMeetingController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
+     * @param Committee $committee
+     * @param Meeting $meeting
      * @return Response
+     * @internal param int $id
      */
-    public function show($id)
+    public function show(Committee $committee, Meeting $meeting)
     {
-        return view('committee::show');
+        return view('committee::meetings.show', compact('committee', 'meeting'));
     }
 
     /**
