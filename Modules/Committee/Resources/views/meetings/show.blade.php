@@ -67,7 +67,6 @@
                             <th scope="col">{{ __('committee::committees.number') }}</th>
                             <th scope="col">{{ __('committee::committees.file description') }}</th>
                             <th scope="col">{{ __('committee::committees.file path') }}</th>
-                            <th scope="col">{{ __('committee::committees.options') }}</th>
                         </tr>
                         </thead>
                         <tbody id="files">
@@ -77,13 +76,6 @@
                                     <td>{{ $document->description ? $document->description:''}}</td>
                                     <td>
                                         <a href="{{ $document->full_path }}">{{ $document->name }}</a>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger file-remove"
-                                                data-remove-url="{{ route('committees.delete-document', $document) }}"
-                                                data-remove-row="#file-{{ $document->id }}">
-                                            حذف
-                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -112,7 +104,7 @@
                             <tr>
                                 <td>{{ $delegate->name }}</td>
                                 <td>{{ $delegate->department->name }}</td>
-                                <td>مدعو</td>
+                                <td>معتذر</td>
                                 <td>كنت نايم</td>
                             </tr>
                         @endforeach
