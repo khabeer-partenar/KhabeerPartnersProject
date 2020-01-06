@@ -222,5 +222,7 @@ return [
         'reason' => 'السبب',
         'room_id' => 'الصالة',
         'type_id' => 'النوع',
+        'delegates.*' => 'للمندوب',
+        'participantAdvisors.*' => 'للمستشار',
     ],
 ];

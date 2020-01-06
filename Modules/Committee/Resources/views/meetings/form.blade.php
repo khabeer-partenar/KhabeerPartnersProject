@@ -207,18 +207,25 @@
         <table style="width: 100%" class="table table-bordered">
             <thead>
                 <tr style="font-weight:bold">
-                    <th style="width:7%" scope="col"><input type="checkbox" id="checkAllDelegates"></th>
+                    <th style="width:7%" scope="col"><input type="checkbox" id="checkAllDelegates" class="checkInContainer" data-container="#delegatesDiv"></th>
                     <th scope="col">الكل</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
-            <tbody id="">
+            <tbody id="delegatesDiv" class="containerUnCheckAll" data-checker="#checkAllDelegates">
+                @php $counter = 0; @endphp
                 @foreach($committee->delegates as $delegate)
                     <tr>
-                        <td><input type="checkbox" name="delegates[]" value="{{ $delegate->id }}"></td>
+                        <td>
+                            <div class="form-group {{ $errors->has('delegates.*') ? ' has-error' : '' }}">
+                                <input type="checkbox" name="delegates[]" value="{{ $delegate->id }}">
+                                @include('layouts.dashboard.form-error', ['key' => 'delegates.'.$counter])
+                            </div>
+                        </td>
                         <td>{{ $delegate->name }}</td>
                         <td>{{ $delegate->department->name }}</td>
                     </tr>
+                    @php $counter++; @endphp
                 @endforeach
             </tbody>
         </table>
@@ -226,10 +233,17 @@
     <div class="col-md-6">
         <p>اختر المشاركين من هيئة الخبراء لحضور الإجتماع</p>
         <div style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
-            <input type="checkbox" id="all"> <span style="font-size: 14px">الكل</span> <br>
-            @foreach($committee->participantAdvisors as $advisor)
-                <input type="checkbox" name="participantAdvisors[]" value="{{ $advisor->id }}"> <span style="font-size: 14px">{{ $advisor->name }}</span><br>
-            @endforeach
+            <input type="checkbox" class="checkInContainer" id="checkAllAdvisors" data-container="#advisorsDiv"> <span style="font-size: 14px">الكل</span> <br>
+            <div id="advisorsDiv" class="containerUnCheckAll" data-checker="#checkAllAdvisors">
+                @php $counter = 0; @endphp
+                @foreach($committee->participantAdvisors as $advisor)
+                    <div class="form-group {{ $errors->has('participantAdvisors.*') ? ' has-error' : '' }}">
+                        <input type="checkbox" name="participantAdvisors[]" value="{{ $advisor->id }}"> <span style="font-size: 14px">{{ $advisor->name }}</span><br>
+                        @include('layouts.dashboard.form-error', ['key' => 'participantAdvisors.'.$counter])
+                    </div>
+                    @php $counter++; @endphp
+                @endforeach
+            </div>
         </div>
     </div>
 </div>

@@ -7,6 +7,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingType;
 use Modules\SystemManagement\Entities\MeetingRoom;
+use Modules\Users\Entities\Delegate;
+use Modules\Users\Entities\User;
 
 class SaveMeetingRequest extends FormRequest
 {
@@ -29,6 +31,8 @@ class SaveMeetingRequest extends FormRequest
             ],
             'from' => ['required', 'date_format:G:i'],
             'to' => ['required', 'date_format:G:i', 'after:from'],
+            'delegates.*' => ['nullable', 'integer', 'exists:'. Delegate::table() .',id'],
+            'participantAdvisors.*' => ['nullable', 'integer', 'exists:'. User::table() .',id'],
         ];
     }
 

@@ -25,7 +25,7 @@ class CommitteeMeetingController extends Controller
      * @param Committee $committee
      * @return Response
      */
-    public function index(Request $request, Committee $committee)
+    public function index(Committee $committee)
     {
         $meetings = $committee->meetings()
             ->orderBy('from', 'asc')

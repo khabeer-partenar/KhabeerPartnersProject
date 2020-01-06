@@ -172,31 +172,29 @@ $(document).ready(function() {
         }
     });
 
-    // Remove Error when changing Values
-    $('input').not(".date-picker,.timepicker").change(function () {
-        var helpBlockDiv = $(this).parent().find('.help-block');
-        $(helpBlockDiv).remove();
-        var formGroup = $(this).closest('.form-group');
-        $(formGroup).removeClass('has-error');
+    // Check all in a container
+    $(document).on('change', '.checkInContainer', function () {
+        var checked = $(this).prop('checked');
+        var target = $(this).attr('data-container');
+        var checkboxes = $(target).find(':checkbox');
+        checkboxes.each(function () {
+            $(this).prop('checked', checked);
+        });
     });
 
-    $('.timepicker').timepicker().on('changeTime.timepicker', function (e) {
-        var helpBlockDiv = $(this).parent().find('.help-block');
-        $(helpBlockDiv).remove();
-        var formGroup = $(this).closest('.form-group');
-        $(formGroup).removeClass('has-error');
+    // Uncheck all checkbox auto
+    $(document).on('change', '.containerUnCheckAll', function () {
+        var checked = $(this).prop('checked');
+        var target = $(this).attr('data-checker');
+        var isAllChecked = $(target).prop('checked');
+        if (!checked && isAllChecked) {
+            $(target).prop('checked', false);
+        }
     });
 
     $('#menu').slicknav({
         label: '',
         duplicate: true
-    });
-
-    $('select').change(function () {
-        var helpBlockDiv = $(this).parent().find('.help-block');
-        $(helpBlockDiv).remove();
-        var formGroup = $(this).closest('.form-group');
-        $(formGroup).removeClass('has-error');
     });
 
     $(window).scroll(function () {
@@ -214,5 +212,4 @@ $(document).ready(function() {
             $('.top_menu').removeClass('fixed');
         }
     });
-
 });

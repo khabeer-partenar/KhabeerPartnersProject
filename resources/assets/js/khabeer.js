@@ -172,6 +172,26 @@ $(document).ready(function() {
         }
     });
 
+    // Check all in a container
+    $(document).on('change', '.checkInContainer', function () {
+        var checked = $(this).prop('checked');
+        var target = $(this).attr('data-container');
+        var checkboxes = $(target).find(':checkbox');
+        checkboxes.each(function () {
+            $(this).prop('checked', checked);
+        });
+    });
+
+    // Uncheck all checkbox auto
+    $(document).on('change', '.containerUnCheckAll', function () {
+        var checked = $(this).prop('checked');
+        var target = $(this).attr('data-checker');
+        var isAllChecked = $(target).prop('checked');
+        if (!checked && isAllChecked) {
+            $(target).prop('checked', false);
+        }
+    });
+
     $('#menu').slicknav({
         label: '',
         duplicate: true
