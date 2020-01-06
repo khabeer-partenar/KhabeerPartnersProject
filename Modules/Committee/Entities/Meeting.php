@@ -123,4 +123,11 @@ class Meeting extends Model
     {
         return $this->hasMany(MeetingDocument::class);
     }
+    public function multimedia()
+    {
+        return $this->hasMany(MeetingMultimedia::class)
+            ->where('user_id',auth()->user()->id)
+            ->orderBy('updated_at', 'asc');
+
+    }
 }

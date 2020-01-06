@@ -5,6 +5,8 @@ namespace Modules\Committee\Http\Controllers;
 use Illuminate\Http\Request;
 use Modules\Committee\Entities\Meeting;
 use Illuminate\Routing\Controller;
+use Modules\Committee\Entities\MeetingDocument;
+use Modules\Committee\Entities\Committee;
 
 class DelegateMeetingController extends Controller
 {
@@ -31,7 +33,7 @@ class DelegateMeetingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -42,18 +44,21 @@ class DelegateMeetingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Meeting $meeting)
+    public function show(Committee $committee, Meeting $meeting)
     {
-        return view('committee::meetings.delegates.show',compact('meeting'));
+         $documents = MeetingDocument::where('user_id', auth()->id())
+             ->where('committee_id', $committee->id)
+             ->whereNull('meeting_id')->get();
+        return view('committee::meetings.delegates.show', compact('meeting', 'documents','committee'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -64,19 +69,19 @@ class DelegateMeetingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Meeting $meeting)
     {
-        //
+        dd($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
