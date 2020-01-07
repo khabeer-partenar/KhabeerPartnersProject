@@ -15,4 +15,11 @@ class MeetingDelegate extends Model
     const INVITED = 0;
     const ACCEPTED = 1;
     const REJECTED = 2;
+
+    public static function updateStatusAndReason($status, $refuse_reason, $meeting)
+    {
+        self::where('meeting_id', $meeting->id)
+            ->where('delegate_id', auth()->user()->id)
+            ->update(array('status' => $status, 'refuse_reason' => $refuse_reason));
+    }
 }

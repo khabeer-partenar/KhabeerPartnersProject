@@ -14,7 +14,8 @@ return [
     'download' => 'تنزيل',
     'my_multimedia' => 'المرئيات الخاصة بى',
     'multimedia_date'=>'تاريخ ووقت إرسال المرئيات',
-    'add_multimedia'=>'إضافة مرئيات'
+    'add_multimedia'=>'إضافة مرئيات',
+    'meeting_updated_successfully'=>'تم تحديث الإجتماع بنجاح'
 
 
 ];

@@ -19,7 +19,7 @@
         </div>
 
         <div class="portlet-body form">
-            {{ Form::model($meeting, ['route' => ['committees.meetings.delegate.update', $meeting], 'method' => 'PUT', 'id' => 'delegate-meeting-form']) }}
+            {{ Form::model($meeting, ['route' => ['committees.meetings.delegate.update', $meeting,$committee], 'method' => 'PUT', 'id' => 'delegate-meeting-form']) }}
 
 
             <div class="row">
@@ -44,17 +44,17 @@
                             <td>
                                 <div class="btn-group">
                                     <label class="btn btn-primary">
-                                        <input type="radio" id="OptioinAccept" value="1" name="meetingStatus"
+                                        <input type="radio" id="OptioinAccept" value="1" name="status"
                                                autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
                                     </label>
                                 </div>
                                 <div class="btn-group">
                                     <label class="btn btn-primary">
                                         <input type="radio" id="optionApologize" value="0"
-                                               name="meetingStatus"/> {{__('committee::delegate_meeting.apologize')}}
+                                               name="status"/> {{__('committee::delegate_meeting.apologize')}}
                                     </label>
                                 </div>
-                                {{Form::text('refuse_reason',__('committee::delegate_meeting.refuse_reason'))}}
+                                {{Form::text('refuse_reason',null,array('placeholder' =>  __('committee::delegate_meeting.refuse_reason')))}}
                             </td>
 
                         </tr>
@@ -106,7 +106,7 @@
                     <label> {{__('committee::delegate_meeting.multimedia_date') . ' : ' . $multimedia->updated_at}}</label>
                     <hr style="margin-top: 5px;margin-bottom: 5px">
                 @endforeach
-                    <a id="btnAddMedia" onclick="addMedia();" class="btn btn-success">{{ __('committee::delegate_meeting.add_multimedia') }}</a>
+                    <a id="btnAddMedia"  class="btn btn-success">{{ __('committee::delegate_meeting.add_multimedia') }}</a>
 
 
             </div>
@@ -202,7 +202,7 @@
 
             <div class="row">
                 <div class="form-actions">
-                    {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue item-fl item-mt20', 'id' => 'save-committee']) }}
+                    {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue item-fl item-mt20', 'id' => 'save-delegate-meeting']) }}
 
                 </div>
                 <div class="form-actions">
