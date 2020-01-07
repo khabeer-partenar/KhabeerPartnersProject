@@ -27,7 +27,7 @@ mix
    .combine([
         'resources/assets/css/select2_ar.min.css',
         'resources/assets/css/select2-bootstrap_ar.min.css',
-       'resources/assets/css/jquery.datetimepicker.min.css',
+        'resources/assets/css/jquery.datetimepicker.min.css',
         'resources/assets/css/custom.css',        
     ], 'public/assets/css/main.css')
 
