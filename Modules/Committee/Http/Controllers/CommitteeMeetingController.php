@@ -2,9 +2,9 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingAdvisor;
@@ -15,7 +15,7 @@ use Modules\Committee\Http\Requests\SaveMeetingRequest;
 use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Users\Traits\SessionFlash;
 
-class CommitteeMeetingController extends Controller
+class CommitteeMeetingController extends UserBaseController
 {
     use SessionFlash;
 

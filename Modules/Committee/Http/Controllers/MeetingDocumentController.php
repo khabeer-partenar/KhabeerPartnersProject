@@ -2,15 +2,15 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Http\Requests\DocumentUploadRequest;
 
-class MeetingDocumentController extends Controller
+class MeetingDocumentController extends UserBaseController
 {
     /**
      * Store a newly created resource in storage.

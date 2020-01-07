@@ -203,6 +203,11 @@ class CoreSystemManagementAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingsRoomsController@roomWithMeetings', 'name' => 'عرض مواعيد الإجتماعات بالصالات',
+            'icon' => 'fa fa-bars', 'sort' => 6, 'parent_id' => $meetingsRoomsId, 'frontend_path' => 'system-management/meetings-rooms/room-with-meetings', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
     }
 
 }
