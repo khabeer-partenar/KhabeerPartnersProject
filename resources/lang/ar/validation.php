@@ -224,5 +224,8 @@ return [
         'type_id' => 'النوع',
         'delegates.*' => 'للمندوب',
         'participantAdvisors.*' => 'للمستشار',
+        'status' => 'الحالة',
+        'refuse_reason' => 'سبب الإعتذار',
+
     ],
 ];
