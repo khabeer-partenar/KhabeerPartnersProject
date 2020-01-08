@@ -1,4 +1,8 @@
 <script>
+    var initialLocaleCode = 'ar-sa';
+    var localeSelectorEl = document.getElementById('locale-selector');
+    var calendarEl = document.getElementById('calendar');
+    
     $(document).ready(function () {
         $('.select2').select2({
             placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder') : ''
@@ -145,6 +149,54 @@
                 }
             })
         })
+
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,listMonth'
+        },
+        locale: initialLocaleCode,
+        buttonIcons: false, // show the prev/next text
+        navLinks: false, // can click day/week names to navigate views
+        events: [
+            {
+            title: 'اجتماع وزير النقل مع نوابه',
+            start: '2020-01-08 16:00:00',
+            color: '#ff9f89'
+            },
+            {
+            title: ' استكمال  اجتماع وزير النقل مع نوابه',
+            start: '2020-01-08 20:00:00',
+            color: '#ff9f89'
+            },
+            {
+            title: 'اجتماع وزير الصحة ووزير التعليم',
+            start: '2020-01-20',
+            end: '2019-08-13'
+            },
+            {
+            title: 'تفقد وزير التعليم بعض مدارس المنطقة',
+            start: '2020-02-12 10:30:00',
+            end: '2020-02-12 12:30:00',
+            color:'#154'
+            },
+            {
+            title: 'عشاء عمل',
+            start: '2020-01-28 20:00:00'
+            },
+            {
+            title: 'توقيع اتفاقية التعاون المشترك',
+            url: 'http://google.com/',
+            start: '2020-02-05',
+            color: '#162'
+            }
+        ]
+        });
+
+        calendar.render();
     });
 </script>
 

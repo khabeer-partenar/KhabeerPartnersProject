@@ -10,6 +10,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
     Route::get('committees/{committee}/meetings/{meeting}', 'CommitteeMeetingController@show')->name('committee.meetings.show');
     Route::post('meetings/{committee}/document', 'MeetingDocumentController@store')->name('committee.meeting-document.store');
     Route::delete('meetings/{committee}/document/{document}', 'MeetingDocumentController@destroy')->name('committee.meeting-document.delete');
+    Route::get('meetings/calendar', 'MeetingCalendarController@index')->name('meetings.calendar');
 
     Route::post('committees/upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');
     Route::post('committees/{committee}/upload-document-direct', 'CommitteeDocumentController@uploadForCommittee')->name('committees.upload-document-direct');
