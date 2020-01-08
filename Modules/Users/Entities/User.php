@@ -27,7 +27,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id', 'department_reference_id',
-        'job_title','specialty', 'title', 'main_department_id', 'parent_department_id', 'user_type', 'direct_department'
+        'job_title','specialty', 'title', 'main_department_id', 'parent_department_id', 'user_type', 'direct_department',
+        'receive_sms'
     ];
 
     /**
@@ -197,6 +198,23 @@ class User extends Authenticatable
             $query->whereIn('users.id', $advisorsId);
         }
 
+    }
+
+
+    /**
+     * Attributes
+     *
+     * Here goes all attribute
+     */
+
+    /**
+     * Get the user's can receive sms status.
+     *
+     * @return string
+     */
+    public function getCanReceiveSmsAttribute()
+    {
+        return $this->receive_sms == true;
     }
 
     /**

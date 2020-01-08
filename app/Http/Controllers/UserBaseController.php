@@ -17,8 +17,6 @@ class UserBaseController extends Controller
     private $exceptAuthorizeControllers = [
         'Modules\Index\Http\Controllers\IndexController@index',
         'Modules\Index\Http\Controllers\IndexController@unauthorizedUser',
-        'Modules\Users\Http\Controllers\AuthController@logout',
-        'Modules\Core\Http\Controllers\AuthorizedAppsController@index',
     ];
   
     /**

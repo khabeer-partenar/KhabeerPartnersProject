@@ -213,5 +213,6 @@ return [
         'members_count' => 'عدد الأعضاء',
         'file' => 'الملف',
         'direct_department' => 'الإدارة',
+        'receive_sms' => 'رسائل SMS',
     ],
 ];
