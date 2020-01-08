@@ -9,6 +9,7 @@ use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\MeetingMultimedia;
+use Modules\Committee\Http\Requests\UpdateDelegateMeetingRequest;
 use Modules\Users\Traits\SessionFlash;
 use Illuminate\Http\Response;
 
@@ -58,7 +59,9 @@ class DelegateMeetingController extends Controller
          $documents = MeetingDocument::where('user_id', auth()->id())
              ->where('committee_id', $committee->id)
              ->whereNull('meeting_id')->get();
-        return view('committee::meetings.delegates.show', compact('meeting', 'documents','committee'));
+         $meeting_delgate= MeetingDelegate::where('delegate_id',26)
+                            ->where('meeting_id',$meeting->id)->first();
+        return view('committee::meetings.delegates.show', compact('meeting', 'documents','committee','meeting_delgate'));
     }
 
     /**
@@ -81,7 +84,7 @@ class DelegateMeetingController extends Controller
      * @return Response
      * @internal param int $id
      */
-    public function update(Request $request, Meeting $meeting,Committee $committee)
+    public function update(UpdateDelegateMeetingRequest $request,Committee $committee, Meeting $meeting)
     {
         MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting);
         MeetingMultimedia::createMultimedia($request->text,$meeting,$committee);

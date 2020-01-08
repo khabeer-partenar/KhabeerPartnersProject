@@ -3,7 +3,7 @@
     $(document).ready(function () {
 
         $('#btnAddMedia').click(function () {
-            $html = '{{ Form::textarea('text[]', null, ['rows' => 2, 'cols' => 54,'style'=>'width:100%'])}}';
+            $html = '{{ Form::textarea('text[]', null, ['maxlength' => 191, 'rows' => 2, 'cols' => 54,'style'=>'width:100%'])}}';
             $html +='<hr style="margin-top: 5px;margin-bottom: 5px">';
             $('#btnAddMedia').before($html);
         });
@@ -96,6 +96,14 @@
                 }
             })
         })
+
+        $(document).on('click', '#OptioinAccept', function () {
+            $("#refuse_reason").prop("disabled",true);
+        })
+
+        $(document).on('click', '#optionApologize', function () {
+            $("#refuse_reason").prop("disabled",false);
+        });
     });
 
 </script>

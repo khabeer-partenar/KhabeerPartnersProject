@@ -18,15 +18,17 @@ class MeetingMultimedia extends Model
     {
         if (isset($texts)) {
             foreach ($texts as $text) {
-                self::query()->create(
-                    [
-                        'committee_id' => $committee->id
-                        , 'meeting_id' => $meeting->id
-                        , 'user_id' => auth()->user()->id
-                        , 'text' => $text
-                    ]
+                if (!$text == null) {
+                    self::query()->create(
+                        [
+                            'committee_id' => $committee->id
+                            , 'meeting_id' => $meeting->id
+                            , 'user_id' => auth()->user()->id
+                            , 'text' => $text
+                        ]
 
-                );
+                    );
+                }
             }
         }
     }

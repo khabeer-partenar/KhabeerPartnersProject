@@ -19,8 +19,13 @@
         </div>
 
         <div class="portlet-body form">
+
+
             {{ Form::model($meeting, ['route' => ['committees.meetings.delegate.update', $meeting,$committee], 'method' => 'PUT', 'id' => 'delegate-meeting-form']) }}
 
+            @if($errors->any())
+                <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
+            @endif
 
             <div class="row">
                 <div class="col-md-12">
@@ -42,20 +47,33 @@
                             <td>{{$meeting->reason}}</td>
                             <td>{{$meeting->room->name}}</td>
                             <td>
-                                <div class="btn-group">
-                                    <label class="btn btn-primary">
-                                        <input type="radio" id="OptioinAccept" value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
-                                               name="status"
-                                               autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
-                                    </label>
+                                <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
+                                    <div class="btn-group">
+                                        <label class="btn btn-primary">
+                                            <input type="radio" id="OptioinAccept"
+                                                   value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
+                                                   name="status"
+                                                   {{$meeting_delgate->status==\Modules\Committee\Entities\MeetingDelegate::ACCEPTED?' checked ':''}}
+                                                   autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
+                                        </label>
+                                    </div>
+                                    <div class="btn-group">
+                                        <label class="btn btn-primary">
+                                            <input type="radio" id="optionApologize"
+                                                   value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
+                                                   {{$meeting_delgate->status==\Modules\Committee\Entities\MeetingDelegate::REJECTED?' checked ':''}}
+                                                   name="status"/> {{__('committee::delegate_meeting.apologize')}}
+                                        </label>
+                                    </div>
+                                    {{Form::text('refuse_reason',$meeting_delgate->refuse_reason,array(
+                                    'maxlength'=>191,
+                                    $meeting_delgate->status==\Modules\Committee\Entities\MeetingDelegate::ACCEPTED?' disabled ':''
+                                    ,'id'=>'refuse_reason','placeholder' =>  __('committee::delegate_meeting.refuse_reason')))}}
+
+                                    @include('layouts.dashboard.form-error', ['key' => 'status'])
+                                    @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
+
                                 </div>
-                                <div class="btn-group">
-                                    <label class="btn btn-primary">
-                                        <input type="radio" id="optionApologize" value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
-                                               name="status"/> {{__('committee::delegate_meeting.apologize')}}
-                                    </label>
-                                </div>
-                                {{Form::text('refuse_reason',null,array('placeholder' =>  __('committee::delegate_meeting.refuse_reason')))}}
                             </td>
 
                         </tr>
@@ -107,7 +125,7 @@
                     <label> {{__('committee::delegate_meeting.multimedia_date') . ' : ' . $multimedia->updated_at}}</label>
                     <hr style="margin-top: 5px;margin-bottom: 5px">
                 @endforeach
-                    <a id="btnAddMedia"  class="btn btn-success">{{ __('committee::delegate_meeting.add_multimedia') }}</a>
+                <a id="btnAddMedia" class="btn btn-success">{{ __('committee::delegate_meeting.add_multimedia') }}</a>
 
 
             </div>
