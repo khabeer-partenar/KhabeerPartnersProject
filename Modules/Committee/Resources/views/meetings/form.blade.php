@@ -14,8 +14,14 @@
             </label>
             <select name="type_id" id="type_id" class="form_control select2">
                 <option value="0">{{ __('committee::committees.please choose') }}</option>
+                @php
+                $typeId = isset($meeting) ? $meeting->type_id:null;
+                if (old('type_id')){
+                    $typeId = old('type_id');
+                }
+                @endphp
                 @foreach($types as $id => $name)
-                    <option value="{{ $id }}" {{ old('type_id') == $id ? 'selected':'' }}>{{ $name }}</option>
+                    <option value="{{ $id }}" {{ $typeId == $id ? 'selected':'' }}>{{ $name }}</option>
                 @endforeach
             </select>
             @include('layouts.dashboard.form-error', ['key' => 'type_id'])
@@ -30,9 +36,15 @@
                 <span style="color: red">*</span>
             </label>
             <select name="room_id" id="room_id" class="form_control select2">
-                <option value="0"><?php echo e(__('committee::committees.please choose')); ?></option>
+                <option value="0">{{ __('committee::committees.please choose') }}</option>
+                @php
+                    $roomId = isset($meeting) ? $meeting->room_id:null;
+                    if (old('room_id')){
+                        $roomId = old('room_id');
+                    }
+                @endphp
                 @foreach($rooms as $room)
-                    <option value="{{ $room->id }}" {{ old('room_id') == $room->id ? 'selected':'' }}>{{ $room->name . ' - ' . $room->city->name }}</option>
+                    <option value="{{ $room->id }}" {{ $roomId == $room->id ? 'selected':'' }}>{{ $room->name . ' - ' . $room->city->name }}</option>
                 @endforeach
             </select>
             @include('layouts.dashboard.form-error', ['key' => 'room_id'])
@@ -56,7 +68,13 @@
                 {{ __('committee::meetings.at') }}
                 <span style="color: red">*</span>
             </label>
-            <input type="text" name="at" id="at" value="{{ old('at') }}" class="form_control date-picker" autocomplete="off">
+            @php
+                $meetingAt = isset($meeting) ? \Carbon\Carbon::parse($meeting->meeting_at)->format('m/d/Y'):null;
+                if (old('at')){
+                    $meetingAt = old('at');
+                }
+            @endphp
+            <input type="text" name="at" id="at" value="{{ $meetingAt }}" class="form_control date-picker" autocomplete="off">
             @include('layouts.dashboard.form-error', ['key' => 'at'])
         </div>
     </div>
@@ -67,11 +85,17 @@
                 {{ __('committee::meetings.from') }}
                 <span style="color: red">*</span>
             </label>
+            @php
+                $from = isset($meeting) ? $meeting->from:null;
+                if (old('from')){
+                    $from = old('from');
+                }
+            @endphp
             <input data-default-time="false"
                    data-show-meridian="false"
                    data-template="false"
                    type="text" name="from"
-                   id="from" value="{{ old('from') }}"
+                   id="from" value="{{ $from }}"
                    class="form_control timepicker timepicker-default" autocomplete="off">
             @include('layouts.dashboard.form-error', ['key' => 'from'])
         </div>
@@ -83,11 +107,17 @@
                 {{ __('committee::meetings.to') }}
                 <span style="color: red">*</span>
             </label>
+            @php
+                $to = isset($meeting) ? $meeting->to:null;
+                if (old('to')){
+                    $to = old('to');
+                }
+            @endphp
             <input data-default-time="false"
                    data-show-meridian="false"
                    data-template="false"
                    type="text" name="to"
-                   id="to" value="{{ old('to') }}"
+                   id="to" value="{{ $to }}"
                    class="form_control timepicker timepicker-default" autocomplete="off">
             @include('layouts.dashboard.form-error', ['key' => 'to'])
         </div>
@@ -101,8 +131,13 @@
                 {{ __('committee::meetings.reason') }}
                 <span style="color: red">*</span>
             </label>
-
-            {!! Form::text('reason', null, ['id' => 'reason', 'class' => 'form_control']) !!}
+            @php
+                $reason = isset($meeting) ? $meeting->reason:null;
+                if (old('from')){
+                    $reason = old('reason');
+                }
+            @endphp
+            {!! Form::text('reason', $reason, ['id' => 'reason', 'class' => 'form_control']) !!}
             @include('layouts.dashboard.form-error', ['key' => 'reason'])
         </div>
     </div>
@@ -158,7 +193,7 @@
             </thead>
             <tbody id="files">
             @if(isset($meeting))
-                @foreach($meeting->documents as $meeting)
+                @foreach($meeting->documents as $document)
                     <tr id="file-{{ $document->id }}">
                         <td>{{ $loop->index + 1 }}</td>
                         <td>{{ $document->description ? $document->description:''}}</td>
@@ -167,7 +202,7 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger file-remove"
-                                    data-remove-url="{{ route('committees.delete-document', $document) }}"
+                                    data-remove-url="{{ route('committee.meeting-document.delete', compact('committee', 'document')) }}"
                                     data-remove-row="#file-{{ $document->id }}">
                                 حذف
                             </button>
@@ -213,12 +248,21 @@
                 </tr>
             </thead>
             <tbody id="delegatesDiv" class="containerUnCheckAll" data-checker="#checkAllDelegates">
-                @php $counter = 0; @endphp
+                @php
+                    $counter = 0;
+                    $meetingDelegates = isset($meeting) ? $meetingDelegates:null;
+                    if (old('delegates') && is_array(old('delegates'))){
+                        $meetingDelegates = old('delegates');
+                    }
+                @endphp
                 @foreach($committee->delegates as $delegate)
                     <tr>
                         <td>
                             <div class="form-group {{ $errors->has('delegates.*') ? ' has-error' : '' }}">
-                                <input type="checkbox" name="delegates[]" value="{{ $delegate->id }}">
+                                <input type="checkbox"
+                                       name="delegates[]"
+                                       value="{{ $delegate->id }}"
+                                        {{ is_array($meetingDelegates) ? (in_array($delegate->id, $meetingDelegates) ? 'checked':''):'' }}>
                                 @include('layouts.dashboard.form-error', ['key' => 'delegates.'.$counter])
                             </div>
                         </td>
@@ -235,10 +279,20 @@
         <div style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
             <input type="checkbox" class="checkInContainer" id="checkAllAdvisors" data-container="#advisorsDiv"> <span style="font-size: 14px">الكل</span> <br>
             <div id="advisorsDiv" class="containerUnCheckAll" data-checker="#checkAllAdvisors">
-                @php $counter = 0; @endphp
+                @php
+                    $counter = 0;
+                    $meetingAdvisors = isset($meeting) ? $meetingAdvisors:null;
+                    if (old('participantAdvisors') && is_array(old('participantAdvisors'))){
+                        $meetingAdvisors = old('participantAdvisors');
+                    }
+                @endphp
                 @foreach($committee->participantAdvisors as $advisor)
                     <div class="form-group {{ $errors->has('participantAdvisors.*') ? ' has-error' : '' }}">
-                        <input type="checkbox" name="participantAdvisors[]" value="{{ $advisor->id }}"> <span style="font-size: 14px">{{ $advisor->name }}</span><br>
+                        <input type="checkbox"
+                               name="participantAdvisors[]"
+                               value="{{ $advisor->id }}"
+                                {{ is_array($meetingAdvisors) ? (in_array($advisor->id, $meetingAdvisors) ? 'checked':''):'' }}>
+                        <span style="font-size: 14px">{{ $advisor->name }}</span><br>
                         @include('layouts.dashboard.form-error', ['key' => 'participantAdvisors.'.$counter])
                     </div>
                     @php $counter++; @endphp

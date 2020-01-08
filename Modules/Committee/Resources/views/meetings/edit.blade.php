@@ -10,7 +10,7 @@
                 <div class="col-md-9">
                     <div class="caption">
                         <i class="fa fa-plus"></i>
-                        <span class="caption-subject sbold">{{ __('committee::meetings.create new') }}</span>
+                        <span class="caption-subject sbold">{{ __('committee::meetings.edit') }}</span>
                     </div>
                 </div>
 
@@ -26,7 +26,10 @@
 
         <div class="portlet-body form">
 
-            <form action="{{ route('committee.meetings.store', compact('committee')) }}" method="post" id="committee-meeting-form">
+            <form action="{{ route('committee.meetings.update', compact('committee', 'meeting')) }}" method="post" id="committee-meeting-form">
+            @method('put')
+
+            <input value="{{ $meeting->id }}" name="meeting_id" hidden>
 
             @if($errors->any())
                 <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
@@ -37,7 +40,7 @@
             </div>
 
             <div class="form-actions">
-                {{ Form::button(__('messages.add'), ['type' => 'submit', 'class' => 'btn blue item-fl item-mt20', 'id' => 'save-committee']) }}
+                {{ Form::button(__('messages.edit'), ['type' => 'submit', 'class' => 'btn blue item-fl item-mt20', 'id' => 'save-committee']) }}
             </div>
 
             </form>

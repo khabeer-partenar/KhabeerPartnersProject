@@ -27,7 +27,7 @@ class SaveMeetingRequest extends FormRequest
                 'required',
                 'date_format:m/d/Y',
                 'after_or_equal:today',
-                new OverlappingDates('from', 'to', new Meeting(), 'room_id')
+                new OverlappingDates('from', 'to', new Meeting(), 'room_id', 'meeting_id')
             ],
             'from' => ['required', 'date_format:G:i'],
             'to' => ['required', 'date_format:G:i', 'after:from'],

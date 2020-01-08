@@ -257,7 +257,7 @@
             </label>
 
             @php
-                $meetingAt = isset($committee) ? $committee->first_meeting_at->format('m/d/Y H:i'):null;
+                $meetingAt = isset($committee) ? $committee->first_meeting_at->format('d/m/Y H:i'):null;
                 if (old('first_meeting_at')){
                     $meetingAt = old('first_meeting_at');
                 }

@@ -96,6 +96,21 @@ class Meeting extends Model
         return $meeting;
     }
 
+    public function updateFromRequest($request, Committee $committee)
+    {
+        $this->update(array_merge([
+            'from' => $request->from.','.$request->at,
+            'to' => $request->to.','.$request->at,
+            'committee_id' => $committee->id
+        ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
+
+        $this->delegates()->sync($request->delegates ? $request->delegates:[]);
+
+        $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors:[]);
+
+        return $this;
+    }
+
     /**
      * Relations
      */

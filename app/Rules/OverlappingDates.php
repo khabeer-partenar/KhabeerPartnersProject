@@ -13,6 +13,7 @@ class OverlappingDates implements Rule
     private $to;
     private $model;
     private $key;
+    private $currentId;
     private $dateFormat;
 
     /**
@@ -22,17 +23,19 @@ class OverlappingDates implements Rule
      * @param $to
      * @param Model $model
      * @param null $key
-     * @param string $fromFormat
-     * @param string $toFormat
+     * @param null $currentId
      * @param string $format
+     * @internal param string $fromFormat
+     * @internal param string $toFormat
      * @internal param $day
      */
-    public function __construct($from, $to, Model $model , $key = null, $format = 'm/d/Y')
+    public function __construct($from, $to, Model $model , $key = null, $currentId = null, $format = 'm/d/Y')
     {
         $this->from = $from;
         $this->to = $to;
         $this->model = $model;
         $this->key = $key;
+        $this->currentId = $currentId;
         $this->dateFormat = $format;
     }
 
@@ -58,6 +61,11 @@ class OverlappingDates implements Rule
 
             if ($this->key && \Request::post($this->key)){
                 $query->where($this->key, \Request::post($this->key));
+            }
+
+            if ($this->currentId && \Request::post($this->currentId)) {
+                $meetingId = \Request::post($this->currentId);
+                $query->where('id', '<>', $meetingId);
             }
 
             $count = $query->where(function ($query) use ($fromDate, $toDate) {

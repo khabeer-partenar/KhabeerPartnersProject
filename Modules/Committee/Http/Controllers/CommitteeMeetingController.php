@@ -85,23 +85,40 @@ class CommitteeMeetingController extends UserBaseController
 
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
+     * @param Committee $committee
+     * @param Meeting $meeting
      * @return Response
+     * @internal param int $id
      */
-    public function edit($id)
+    public function edit(Committee $committee, Meeting $meeting)
     {
-        return view('committee::edit');
+        $types = MeetingType::all()->pluck('name', 'id');
+        $rooms = MeetingRoom::active()->with('city')->get();
+        $meetingDelegates = $meeting->delegates->pluck('id')->toArray();
+        $meetingAdvisors = $meeting->participantAdvisors->pluck('id')->toArray();
+        $documents = MeetingDocument::where('user_id', auth()->id())
+            ->where('committee_id', $committee->id)
+            ->where('meeting_id', $meeting->id)->get();
+
+        return view('committee::meetings.edit', compact(
+            'committee', 'meeting', 'meetingDelegates', 'meetingAdvisors', 'types', 'rooms', 'documents'
+        ));
     }
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
+     * @param Request|SaveMeetingRequest $request
+     * @param Committee $committee
+     * @param Meeting $meeting
      * @return Response
+     * @internal param int $id
      */
-    public function update(Request $request, $id)
+    public function update(SaveMeetingRequest $request, Committee $committee, Meeting $meeting)
     {
-        //
+        $meeting->updateFromRequest($request, $committee);
+        $meeting->log('edit_meeting_for_committee : ' . $committee->id);
+        self::sessionSuccess('committee::meetings.updated successfully');
+        return back();
     }
 
     /**

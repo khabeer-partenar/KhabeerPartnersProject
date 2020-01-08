@@ -6,6 +6,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
     // Meeting
     Route::get('committees/{committee}/meetings', 'CommitteeMeetingController@index')->name('committee.meetings');
     Route::get('committees/{committee}/meetings/create', 'CommitteeMeetingController@create')->name('committee.meetings.create');
+    Route::get('committees/{committee}/meetings/{meeting}/edit', 'CommitteeMeetingController@edit')->name('committee.meetings.edit');
+    Route::put('committees/{committee}/meetings/{meeting}', 'CommitteeMeetingController@update')->name('committee.meetings.update');
     Route::post('committees/{committee}/meetings', 'CommitteeMeetingController@store')->name('committee.meetings.store');
     Route::get('committees/{committee}/meetings/{meeting}', 'CommitteeMeetingController@show')->name('committee.meetings.show');
     Route::post('meetings/{committee}/document', 'MeetingDocumentController@store')->name('committee.meeting-document.store');
