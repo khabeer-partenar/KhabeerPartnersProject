@@ -26,7 +26,7 @@ class MeetingDelegate extends Model
         if ($status==MeetingDelegate::ACCEPTED) $refuse_reason='';
 
         self::where('meeting_id', $meeting->id)
-            ->where('delegate_id', 26)
+            ->where('delegate_id', auth()->id())
             ->update(array('status' => $status, 'refuse_reason' => $refuse_reason));
     }
 }
