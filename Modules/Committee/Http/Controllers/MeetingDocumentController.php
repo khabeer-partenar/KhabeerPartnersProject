@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Http\Requests\DocumentUploadRequest;
 
@@ -28,6 +29,25 @@ class MeetingDocumentController extends UserBaseController
             'user_id' => auth()->id(),
             'size' => $file->getSize(),
             'description' => $request->description,
+            'committee_id' => $committee->id
+        ]);
+        return response()->json([
+            'document' => $document,
+            'delete_url' => route('committee.meeting-document.delete', compact('committee', 'document'))
+        ], 201);
+    }
+
+    public function storeForMeeting(DocumentUploadRequest $request, Committee $committee, Meeting $meeting)
+    {
+        $file = $request->file('file');
+        $path = Storage::put("meetings/$meeting->id", $file);
+        $document = MeetingDocument::create([
+            'path' => $path,
+            'name' => $file->getClientOriginalName(),
+            'user_id' => auth()->id(),
+            'size' => $file->getSize(),
+            'description' => $request->description,
+            'meeting_id' => $meeting->id,
             'committee_id' => $committee->id
         ]);
         return response()->json([

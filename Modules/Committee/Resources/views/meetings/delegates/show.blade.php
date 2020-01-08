@@ -142,7 +142,7 @@
 
                 <div class="col-md-2">
                     <button type="button" data-order="{{ $documents->count() }}" class="btn btn-primary" id="saveFiles"
-                            data-url="{{ route('committee.meeting-document.store', compact('committee')) }}">إضافة</button>
+                            data-url="{{ route('committee.meeting-document.store-meeting', compact('committee', 'meeting')) }}">إضافة</button>
                 </div>
             </div>
 

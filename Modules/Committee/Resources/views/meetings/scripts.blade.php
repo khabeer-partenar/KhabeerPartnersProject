@@ -78,7 +78,6 @@
             });
             formData.append('description', $('[name=file_description]').val());
             let url = $(this).data('url');
-            console.log(url);
             $.post({
                 url: url,
                 data: formData,

@@ -55,7 +55,7 @@
         <label class="control-label"></label>
         <button class="btn btn-default" type="button"
                 id="getRoomDetails" data-url="{{ route('system-management.meetings-rooms.room-with-meetings') }}"
-                {{ old('room_id') ? '':'disabled' }}
+                {{ $roomId ? '':'disabled' }}
         >تفاصيل عن الصالة</button>
     </div>
 </div>
@@ -175,8 +175,13 @@
     </div>
 
     <div class="col-md-2">
-        <button type="button" data-order="{{ $documents->count() }}" class="btn btn-primary" id="saveFiles"
-                data-url="{{ route('committee.meeting-document.store', compact('committee')) }}">إضافة</button>
+        <button type="button"
+                data-order="{{ isset($meeting) ? $meeting->documents->count():$documents->count() }}"
+                class="btn btn-primary" id="saveFiles"
+                data-url="{{ isset($meeting) ? route('committee.meeting-document.store-meeting',
+                 compact('committee', 'meeting')):route('committee.meeting-document.store', compact('committee')) }}"
+        >إضافة
+        </button>
     </div>
 </div>
 
@@ -192,6 +197,7 @@
             </tr>
             </thead>
             <tbody id="files">
+            {{-- Edit --}}
             @if(isset($meeting))
                 @foreach($meeting->documents as $document)
                     <tr id="file-{{ $document->id }}">
@@ -209,6 +215,7 @@
                         </td>
                     </tr>
                 @endforeach
+            {{-- Create --}}
             @else
                 @foreach($documents as $document)
                     <tr id="file-{{ $document->id }}">
