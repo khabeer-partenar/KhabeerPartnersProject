@@ -68,6 +68,18 @@ class CoreAccountAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        App::create([
+            'resource_name' => $generalResourceName . '\SupportController@uploadAttachments', 'name' => 'رفع المرفقات',
+            'icon' => 'fa fa-folder-o', 'sort' => 3, 'parent_id' => $supportId, 'frontend_path' => 'user/account/support/upload-attachments', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\SupportController@deleteAttachments', 'name' => 'حذف المرفقات',
+            'icon' => 'fa fa-folder-o', 'sort' => 4, 'parent_id' => $supportId, 'frontend_path' => 'user/account/support/delete-attachments', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
     }
 
 }

@@ -69,8 +69,10 @@ Route::group(['middleware' => 'auth'], function()
             Route::get('/logout', 'AccountController@logout')->name('account.logout');
 
 
-            Route::get('/create', 'SupportController@create')->name('support.create');
-            Route::post('/create', 'SupportController@store')->name('support.store');
+            Route::get('/support/create', 'SupportController@create')->name('support.create');
+            Route::post('/support/create', 'SupportController@store')->name('support.store');
+            Route::post('/support/upload-attachments', 'SupportController@uploadAttachments')->name('support.upload-attachments');
+            Route::delete('/support/{attachment}/delete-attachments', 'SupportController@deleteAttachments')->name('support.delete-attachments');
         });
 
 
