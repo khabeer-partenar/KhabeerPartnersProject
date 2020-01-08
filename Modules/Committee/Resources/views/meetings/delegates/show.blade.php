@@ -44,13 +44,14 @@
                             <td>
                                 <div class="btn-group">
                                     <label class="btn btn-primary">
-                                        <input type="radio" id="OptioinAccept" value="1" name="status"
+                                        <input type="radio" id="OptioinAccept" value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
+                                               name="status"
                                                autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
                                     </label>
                                 </div>
                                 <div class="btn-group">
                                     <label class="btn btn-primary">
-                                        <input type="radio" id="optionApologize" value="0"
+                                        <input type="radio" id="optionApologize" value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
                                                name="status"/> {{__('committee::delegate_meeting.apologize')}}
                                     </label>
                                 </div>

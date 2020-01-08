@@ -13,6 +13,7 @@ return [
     'created successfully' => 'تم إنشاء الإجتماع بنجاح',
     'updated successfully' => 'تم تعديل الإجتماع بنجاح',
     'edit' => 'تعديل',
-    '' => '',
-    '' => '',
+    'invited' => 'مدعو',
+    'accepted' => 'قبول',
+    'rejected' => 'معتذر',
 ];

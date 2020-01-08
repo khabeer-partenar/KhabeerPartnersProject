@@ -116,7 +116,8 @@ class Meeting extends Model
      */
     public function delegates()
     {
-        return $this->belongsToMany(Delegate::class, MeetingDelegate::table(), 'meeting_id', 'delegate_id');
+        return $this->belongsToMany(Delegate::class, MeetingDelegate::table(), 'meeting_id', 'delegate_id')
+            ->withPivot('refuse_reason', 'status');
     }
 
     public function type()
@@ -138,6 +139,7 @@ class Meeting extends Model
     {
         return $this->hasMany(MeetingDocument::class);
     }
+
     public function multimedia()
     {
         return $this->hasMany(MeetingMultimedia::class)

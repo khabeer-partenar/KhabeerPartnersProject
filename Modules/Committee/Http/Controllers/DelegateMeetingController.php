@@ -76,8 +76,10 @@ class DelegateMeetingController extends Controller
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Meeting $meeting
+     * @param Committee $committee
+     * @return Response
+     * @internal param int $id
      */
     public function update(Request $request, Meeting $meeting,Committee $committee)
     {

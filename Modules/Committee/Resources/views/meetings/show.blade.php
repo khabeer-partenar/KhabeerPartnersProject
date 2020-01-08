@@ -108,8 +108,10 @@
                             <tr>
                                 <td>{{ $delegate->name }}</td>
                                 <td>{{ $delegate->department->name }}</td>
-                                <td>معتذر</td>
-                                <td>كنت نايم</td>
+                                <td>
+                                    {{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}
+                                </td>
+                                <td>{{ $delegate->pivot->refuse_reason }}</td>
                             </tr>
                         @endforeach
                         </tbody>

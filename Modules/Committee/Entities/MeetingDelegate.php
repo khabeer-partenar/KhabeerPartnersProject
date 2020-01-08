@@ -15,6 +15,11 @@ class MeetingDelegate extends Model
     const INVITED = 0;
     const ACCEPTED = 1;
     const REJECTED = 2;
+    const STATUS = [
+        0 => 'invited',
+        1 => 'accepted',
+        2 => 'rejected',
+    ];
 
     public static function updateStatusAndReason($status, $refuse_reason, $meeting)
     {
