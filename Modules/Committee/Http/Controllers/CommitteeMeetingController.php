@@ -68,7 +68,7 @@ class CommitteeMeetingController extends UserBaseController
         $meeting = Meeting::createFromRequest($request, $committee);
         $meeting->log('create_new_meeting_for_committee : ' . $committee->id);
         self::sessionSuccess('committee::meetings.created successfully');
-        return back();
+        return redirect()->route('committee.meetings', compact('committee'));
     }
 
     /**
@@ -118,7 +118,7 @@ class CommitteeMeetingController extends UserBaseController
         $meeting->updateFromRequest($request, $committee);
         $meeting->log('edit_meeting_for_committee : ' . $committee->id);
         self::sessionSuccess('committee::meetings.updated successfully');
-        return back();
+        return redirect()->route('committee.meetings', compact('committee'));
     }
 
     /**

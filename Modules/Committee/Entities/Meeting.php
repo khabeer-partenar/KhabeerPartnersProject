@@ -17,7 +17,7 @@ class Meeting extends Model
 {
     use SharedModel, SoftDeletes, Log;
 
-    protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description'];
+    protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed'];
     protected $appends = ['meeting_at', 'meeting_at_ar'];
 
     /**
@@ -84,7 +84,8 @@ class Meeting extends Model
         $meeting = Meeting::create(array_merge([
             'from' => $request->from.','.$request->at,
             'to' => $request->to.','.$request->at,
-            'committee_id' => $committee->id
+            'committee_id' => $committee->id,
+            'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
         $meeting->delegates()->sync($request->delegates);
@@ -101,7 +102,8 @@ class Meeting extends Model
         $this->update(array_merge([
             'from' => $request->from.','.$request->at,
             'to' => $request->to.','.$request->at,
-            'committee_id' => $committee->id
+            'committee_id' => $committee->id,
+            'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
         $this->delegates()->sync($request->delegates ? $request->delegates:[]);

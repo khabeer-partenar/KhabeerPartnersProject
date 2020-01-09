@@ -210,6 +210,10 @@ class Committee extends Model
         $committee->participantDepartments()->sync($request->departments);
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
+        Meeting::create([
+            'committee_id' => $committee->id,
+            'from' => self::getDateFromFormat($request->first_meeting_at,'d/m/Y H:i')
+        ]);
         event(new CommitteeCreatedEvent($committee));
         return $committee;
     }

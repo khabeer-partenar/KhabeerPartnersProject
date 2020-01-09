@@ -16,4 +16,6 @@ return [
     'invited' => 'مدعو',
     'accepted' => 'قبول',
     'rejected' => 'معتذر',
+    'information' => 'معلومات الإجتماع',
+    'uncompleted' => 'غير مكتمل',
 ];

@@ -10,7 +10,10 @@
                 <div class="col-md-9">
                     <div class="caption">
                         <i class="fa fa-eye"></i>
-                        <span class="caption-subject sbold">{{ __('committee::committees.treatment information') }}</span>
+                        <span class="caption-subject sbold">{{ __('committee::meetings.information') }}</span>
+                        @if(!$meeting->completed)
+                            <span class="caption-subject sbold">({{ __('committee::meetings.uncompleted') }})</span>
+                        @endif
                     </div>
                 </div>
 
@@ -34,7 +37,7 @@
                     <tr>
                         <th style="width: 16.66%" scope="row">نوع الإجتماع</th>
                         <td>
-                            {{ $meeting->type->name }}
+                            {{ $meeting->type ? $meeting->type->name:'' }}
                         </td>
                     </tr>
                     <tr>
@@ -50,7 +53,7 @@
                     <tr>
                         <th style="width: 16.66%" scope="row">الصالة</th>
                         <td>
-                            {{ $meeting->room->name }}
+                            {{ $meeting->room ? $meeting->room->name:'' }}
                         </td>
                     </tr>
                     <tr>
