@@ -22,33 +22,11 @@ class EmployeeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
-            $employees = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')
-                                ->with('jobRole', 'directDepartment')
-                                ->search($request);
-
-            return Datatables::of($employees)
-               ->addColumn('deptname', function ($employee) {
-                    return @$employee->directDepartment->name;
-               })
-               ->addColumn('job_role', function ($employee) {
-                   return @$employee->jobRole->name;
-               })
-               ->addColumn('contact_options', function($employee) {
-                    $data = [$employee->phone_number, $employee->email];
-                    return view('users::employees.commas_separated_data', compact('data'));
-                })
-               ->addColumn('action', function ($employee) {
-                    return view('users::employees.actions', compact('employee'));
-               })
-               ->rawColumns(['action', 'contact_options'])
-               ->toJson();
-        }
-
-        $employeesData      = [0 => __('messages.choose_option')];
+        $employeesData      = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'is_super_admin', 'job_role_id', 'direct_department_id')->with('jobRole', 'directDepartment')->search($request)->paginate(10);
+        $employeesOptions   = [0 => __('messages.choose_option')];
         $directDepartments  = Department::where('type', 3)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         $rolesData          = Group::employeeRoles()->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
-        return view('users::employees.index', compact('employeesData', 'directDepartments', 'rolesData'));
+        return view('users::employees.index', compact('employeesData', 'employeesOptions', 'directDepartments', 'rolesData'));
     }
 
     /**

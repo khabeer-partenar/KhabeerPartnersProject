@@ -19,20 +19,50 @@
 
             @include('users::employees.assign_committees.search')
 
-            <table id="table-ajax" class="table" data-url="{{ route('employees.assign_committees.index', [
-                    'employee_id' => Request::input('employee_id'),
-                    'national_id' => Request::input('national_id'),
-                    'employee_email' => Request::input('employee_email')])
-                }}"
-                data-fields='[
-                    {"data": "name","title":"{{ __('messages.name') }}","searchable":"false"},
-                    {"data": "deptname","title":"{{ __('users::employees.assignCommittees.deptname') }}","searchable":"false"},
-                    {"data": "contact_options","title":"{{ __('users::employees.contact_options') }}","searchable":"false"},
-                    {"data": "job_role","title":"{{ __('users::employees.job_role_id') }}","searchable":"false"},
-                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
-                ]'
-            >
+            <table class="table">
+                <thead>
+
+                    <tr role="row">
+                        <th>{{ __('messages.name') }}</th>
+                        <th>{{ __('users::employees.assignCommittees.deptname') }}</th>
+                        <th>{{ __('users::employees.contact_options') }}</th>
+                        <th>{{ __('users::employees.job_role_id') }}</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    
+                    @foreach($employeesData as $key => $employeeData)
+                        <tr>
+                            <td>{{ $employeeData->name }}</td>
+                            <td>{{ @$employeeData->directDepartment->name }}</td>
+                            <td>
+                                {{ $employeeData->phone_number }} <br> 
+                                {{ $employeeData->email }}
+                            </td>
+                            <td>{{ @$employeeData->jobRole->name }}</td>
+                            <td>
+                                @if(auth()->user()->hasPermissionWithAccess('edit'))
+                                    <a href="{{ route('employees.assign_committees.edit', $employeeData) }}" class="btn btn-sm btn-warning custom-action-btn">
+                                        <i class="fa fa-edit"></i> {{ __('messages.edit') }}
+                                    </a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @if($employeesData->count() == 0)
+                        <tr>
+                            <td colspan="5"><center>لا يوجد بيانات</center></td>
+                        </tr>
+                    @endif
+
+                
+                </tbody>
             </table>
+
+            {{ $employeesData->links() }}
 
         </div>
        

@@ -8,7 +8,7 @@
                 <div class="form-group {{ $errors->has('user_id') ? ' has-error' : '' }}">
 
                     {!! Form::label('user_id', __('users::employees.name'), ['class' => 'control-label']) !!}
-                    {!! Form::select('employee_id', $employeesData, $employeesData, ['id' => 'employee_id', 'class' => 'form_control select2-search-employees']) !!}
+                    {!! Form::select('employee_id', [], $employeesOptions, ['id' => 'employee_id', 'class' => 'form_control select2-search-employees']) !!}
 
                     @if ($errors->has('employee_id'))
                         <span class="help-block" ><strong>{{ $errors->first('employee_id') }}</strong></span>

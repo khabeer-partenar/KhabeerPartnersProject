@@ -18,7 +18,7 @@ class MeetingTypesTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        DB::table(MeetingType::table())->truncate();
+        //DB::table(MeetingType::table())->truncate();
         $arr = [
             [
                 'name' => 'أولي',

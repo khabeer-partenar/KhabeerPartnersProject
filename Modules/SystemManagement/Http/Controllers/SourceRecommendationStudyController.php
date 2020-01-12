@@ -24,30 +24,10 @@ class SourceRecommendationStudyController extends UserBaseController
      */
     public function index(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
-
-            $departmentsData = Department::getDepartmentsData(Department::parentDepartment)
-                                            ->with('parent')
-                                            ->search($request);
-
-
-            return Datatables::of($departmentsData)
-                ->addColumn('parent_name', function ($departmentData) {
-                    return @$departmentData->parent->name;
-                })
-                ->addColumn('department_case', function ($departmentData) {
-                    return view('systemmanagement::sourceRecommendationStudy.department-case', compact('departmentData'));
-                })
-                ->addColumn('action', function ($departmentData) {
-                        return view('systemmanagement::sourceRecommendationStudy.actions', compact('departmentData'));
-                })
-                ->rawColumns(['department_case', 'action'])
-               ->toJson();
-        }
-
+        $departmentsData = Department::getDepartmentsData(Department::parentDepartment)->with('parent')->search($request)->paginate(10);
         $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         $parentDepartmentsData = Department::getParentDepartments($request->parent_department_id);
-        return view('systemmanagement::sourceRecommendationStudy.index', compact('mainDepartmentsData', 'parentDepartmentsData'));
+        return view('systemmanagement::sourceRecommendationStudy.index', compact('departmentsData', 'mainDepartmentsData', 'parentDepartmentsData'));
     }
 
     /**

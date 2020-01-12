@@ -35,6 +35,7 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\CommitteeController@destroy',
             'Modules\Committee\Http\Controllers\CommitteeDocumentController@upload',
             'Modules\Committee\Http\Controllers\CommitteeDocumentController@delete',
+            'Modules\Committee\Http\Controllers\CommitteeDocumentController@download'
         ];
         // Apps Ids
         $basicIds = App::whereIn('resource_name', $basicResources)->pluck('id');

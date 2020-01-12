@@ -27,28 +27,9 @@ class CoordinatorController extends UserBaseController
      */
     public function index(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
-            $coordinatorsQuery = Coordinator::with('mainDepartment', 'parentDepartment', 'directDepartment')
-                ->search($request);
-            return Datatables::of($coordinatorsQuery)
-                ->addColumn('department_info', function ($coordinator) {
-                    $data = [
-                        $coordinator->mainDepartment->name,
-                        $coordinator->parentDepartment->name,
-                        $coordinator->direct_department ? $coordinator->direct_department:null
-                    ];
-                    return view('users::coordinators.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('contact_options', function($coordinator) {
-                    $data = [$coordinator->phone_number, $coordinator->email];
-                    return view('users::coordinators.commas_separated_data', ['data' => $data, 'break' => 1 ]);
-                })
-                ->addColumn('action', function ($coordinator) {
-                    return view('users::coordinators.actions', compact('coordinator'));
-                })->rawColumns(['action', 'contact_options'])->make(true);
-        }
+        $coordinatorsData = Coordinator::with('mainDepartment', 'parentDepartment', 'directDepartment')->search($request)->paginate(10);
         $mainDepartments = Department::getDepartments();
-        return view('users::coordinators.index', compact('mainDepartments'));
+        return view('users::coordinators.index', compact('mainDepartments', 'coordinatorsData'));
     }
 
     /**

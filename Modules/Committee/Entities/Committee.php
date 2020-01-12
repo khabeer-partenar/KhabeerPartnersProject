@@ -118,36 +118,30 @@ class Committee extends Model
      */
     public function scopeSearch($query, $request)
     {
-
         // Filter By Request
-        if (auth()->user()->authorizedApps->key == Employee::ADVISOR
-            || auth()->user()->authorizedApps->key == Employee::SECRETARY
-            || auth()->user()->is_super_admin) {
-            $query->where('approved', true);
-            $query->orWhere('approved', false);
-        } else {
+        if(!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
             $query->where('approved', true);
         }
 
-        if ($request->has('subject')) {
+        if ($request->subject) {
             $query->where('subject', 'LIKE', '%' . $request->subject . '%');
         }
-        if ($request->has('advisor_id') && $request->advisor_id != 0) {
+        if ($request->advisor_id && $request->advisor_id != 0) {
             $query->where('advisor_id', $request->advisor_id);
         }
-        if ($request->has('status') && $request->status != '0') {
+        if ($request->status && $request->status != '0') {
             $query->where('status', $request->status);
         }
-        if ($request->has('treatment_number')) {
+        if ($request->treatment_number) {
             $query->where('treatment_number', $request->treatment_number);
         }
-        if ($request->has('treatment_time')) {
+        if ($request->treatment_time && $request->treatment_time != '') {
             $query->whereDate('treatment_time', '=', Carbon::createFromFormat('m/d/Y', $request->treatment_time));
         }
-        if ($request->has('uuid')) {
+        if ($request->uuid) {
             $query->where('uuid', $request->uuid);
         }
-        if ($request->has('created_at')) {
+        if ($request->created_at) {
             $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $request->created_at));
         }
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {

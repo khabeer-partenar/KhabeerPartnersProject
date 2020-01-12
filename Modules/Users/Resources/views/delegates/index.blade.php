@@ -74,22 +74,57 @@
 
                 </form>
             </div>
+            
+            <table class="table">
+                <thead>
 
-            {{-- DataTable --}}
-            <table id="table-ajax" class="table" data-url="{{ route('delegates.index', [
-                'name' => Request::input('name'),
-                'main_department_id' => Request::input('main_department_id'),
-                'parent_department_id' => Request::input('parent_department_id')
-                ])
-             }}"
-                data-fields='[
-                    {"data": "name","title":"{{ __('messages.name') }}","searchable":"true"},
-                    {"data": "department_info","name":"actions","title":"{{ __('messages.department_info') }}","searchable":"false", "orderable":"false"},
-                    {"data": "contact_options","name":"actions","title":"{{ __('messages.contact_options') }}","searchable":"false", "orderable":"false"},
-                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
-                ]'
-            >
+                    <tr role="row">
+                        <th>{{ __('messages.name') }}</th>
+                        <th>{{ __('messages.department_info') }}</th>
+                        <th>{{ __('messages.contact_options') }}</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    
+                    @foreach($delegatesData as $key => $delegateData)
+                        <tr>
+                            <td>{{ $delegateData->name }}</td>
+                            <td>
+                                {{ $delegateData->mainDepartment->name }} - {{ $delegateData->parentDepartment->name }}
+                            </td>
+                            <td>
+                                {{ $delegateData->phone_number }} <br>
+                                {{ $delegateData->email }}
+                            </td>
+                            <td>
+                                @if(auth()->user()->hasPermissionWithAccess('show'))
+                                    <a href="{{ route('delegates.show', $delegateData) }}" class="btn btn-sm btn-default custom-action-btn">
+                                        <i class="fa fa-eye"></i> {{ __('users::delegates.show') }}
+                                    </a>
+                                @endif
+                                @if(auth()->user()->hasPermissionWithAccess('destroy'))
+                                    <a data-href="{{ route('delegates.destroy', $delegateData) }}" class="btn btn-sm btn-danger delete-row custom-action-btn">
+                                        <i class="fa fa-trash"></i> {{ __('users::delegates.delete') }}
+                                    </a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @if($delegatesData->count() == 0)
+                        <tr>
+                            <td colspan="5"><center>لا يوجد بيانات</center></td>
+                        </tr>
+                    @endif
+
+                
+                </tbody>
             </table>
+
+            {{ $delegatesData->links() }}
+
         </div>
 
     </div>
