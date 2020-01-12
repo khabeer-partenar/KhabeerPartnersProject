@@ -105,13 +105,11 @@ return [
     'approve'=>'اعتماد',
     'am' => 'صباحا',
     'pm' => 'مساءا',
+    'meetings' => 'الإجتماعات',
     'icon_new_title' => 'المعاملة جديدة انشأت بتاريخ اليوم',
     'icon_urgent_title' => 'المعاملة عاجلة',
     'icon_importance_title' => 'المعاملة سرية',
     'icon_read_title' => 'المعاملة قرأت',
     'icon_read_title' => 'المعاملة لم تقرأ',
     'icon_approved_title' => 'المعاملة تم اعتمادها من قبل المستشار'
-
-
-
 ];

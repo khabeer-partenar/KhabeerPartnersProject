@@ -7,7 +7,7 @@
         <li><a href="#!" title="اتصل بنا"><i class="fa fa-envelope"></i></a></li>
     </ul>
     
-    <span class="date">{{ $currentDate }}</span>
+    <span class="date">{{ \App\Classes\Date\DateHelper::getCurrentDate() }}</span>
     <span class="clr"></span>
 </header>
 

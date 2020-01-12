@@ -222,7 +222,6 @@
             </table>
             
             @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
-            {{--@include('users::delegates.index')--}}
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
             <br>

@@ -208,10 +208,12 @@ class Committee extends Model
         );
         $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $committee->participantDepartments()->sync($request->departments);
-        //
-
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
         CommitteeDocument::updateDocumentsCommittee($committee->id);
+        Meeting::create([
+            'committee_id' => $committee->id,
+            'from' => self::getDateFromFormat($request->first_meeting_at,'d/m/Y H:i')
+        ]);
         event(new CommitteeCreatedEvent($committee));
         return $committee;
     }
@@ -242,6 +244,12 @@ class Committee extends Model
             }
         }
         return $toBeNotifiedUsers;
+    }
+
+    public function approveCommittee()
+    {
+        $this->approved = true;
+        $this->save();
     }
 
     /**
@@ -381,9 +389,8 @@ class Committee extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function approveCommittee()
+    public function meetings()
     {
-        $this->approved = true;
-        $this->save();
+        return $this->hasMany(Meeting::class);
     }
 }

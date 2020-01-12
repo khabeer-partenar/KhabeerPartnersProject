@@ -2,6 +2,7 @@
 
 namespace Modules\SystemManagement\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\UserBaseController;
@@ -79,6 +80,9 @@ class MeetingsRoomsController extends UserBaseController
 
     /**
      * Show the form for creating a new resource.
+     * @param UpdateMeetingRoomRequest $request
+     * @param MeetingRoom $meetingRoom
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateMeetingRoomRequest $request, MeetingRoom $meetingRoom)
     {
@@ -96,5 +100,18 @@ class MeetingsRoomsController extends UserBaseController
         $meetingRoom->log('delete_meeting_room');
         $meetingRoom->delete();
         return response()->json('', 200);
+    }
+
+    /**
+     * Get Room with Details
+     * @param Request $request
+     * @return MeetingRoom $room
+     * @internal param MeetingRoom $room
+     */
+    public function roomWithMeetings(Request $request)
+    {
+        $room = MeetingRoom::with('city')->findOrFail($request->room_id);
+        $room->meetings = $room->meetings()->where('from', '>=', Carbon::today())->orderBy('from', 'asc')->get();
+        return response()->json($room);
     }
 }

@@ -1,7 +1,14 @@
 $(document).ready(function() {
 
     // Remove Error when changing Values
-    $('input').not(".date-picker").change(function () {
+    $('input').not(".date-picker,.timepicker").change(function () {
+        var helpBlockDiv = $(this).parent().find('.help-block');
+        $(helpBlockDiv).remove();
+        var formGroup = $(this).closest('.form-group');
+        $(formGroup).removeClass('has-error');
+    });
+
+    $('.timepicker').timepicker().on('changeTime.timepicker', function (e) {
         var helpBlockDiv = $(this).parent().find('.help-block');
         $(helpBlockDiv).remove();
         var formGroup = $(this).closest('.form-group');
