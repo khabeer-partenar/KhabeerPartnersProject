@@ -27,28 +27,58 @@
         <div class="portlet-body">
             
             @include('systemmanagement::departmentsTypes.search')
+            
+            <table class="table">
+                <thead>
 
-            <table id="table-ajax" class="table" data-url="{{ route('system-management.departments-types.index', [
-                        'department_id' => Request::input('department_id')
-                    ])
-                }}"
-                data-fields='[
-                    {"data": "name","title":"{{ __('systemmanagement::systemmanagement.departmentTypeName') }}","searchable":"false"},
-                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
-                ]'
-            >
+                    <tr role="row">
+                        <th>{{ __('systemmanagement::systemmanagement.departmentTypeName') }}</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    
+                    @foreach($departmentsData as $key => $departmentData)
+                        <tr>
+                            <td>{{ $departmentData->name }}</td>
+                            <td>
+                                @if(auth()->user()->hasPermissionWithAccess('updateOrder'))
+                                    <a class="btn btn-sm btn-primary change_dept_order custom-action-btn" data-backend-url={{ route('system-management.departments.updateOrder', $departmentData) }} data-action="up">
+                                        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                    </a>
+
+                                    <a class="btn btn-sm btn-primary change_dept_order custom-action-btn" data-backend-url={{ route('system-management.departments.updateOrder', $departmentData) }} data-action="down">
+                                        <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+                                
+                                @if(auth()->user()->hasPermissionWithAccess('departmentsTypesEdit'))
+                                    <a href="{{ route('system-management.departments-types.edit', $departmentData) }}" class="btn btn-sm btn-warning custom-action-btn">
+                                        <i class="fa fa-edit"></i> {{ __('systemmanagement::systemmanagement.edit_btn') }}
+                                    </a>
+                                @endif
+                                
+                                @if(auth()->user()->hasPermissionWithAccess('destroy'))    
+                                    <a data-href="{{ route('system-management.departments.destroy', $departmentData) }}" class="btn btn-sm btn-danger delete-row custom-action-btn">
+                                        <i class="fa fa-trash"></i> {{ __('systemmanagement::systemmanagement.delete_btn') }}
+                                    </a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @if($departmentsData->count() == 0)
+                        <tr>
+                            <td colspan="2"><center>لا يوجد بيانات</center></td>
+                        </tr>
+                    @endif
+
+                
+                </tbody>
             </table>
 
-            <!-- <table cellpadding="3" cellspacing="1" border="0" class="PagerContainerTable">
-                <tbody>
-                    <tr>
-                        <td class="PagerInfoCell"><span>صفحة 1 من 2</span></td>
-                        <td class="PagerCurrentPageCell"><span class="PagerHyperlinkStyle" title="عرض النتائج 1 إلى 10 من 14"><strong> 1 </strong></span></td>
-                        <td class="PagerOtherPageCells"><a class="PagerHyperlinkStyle" href="http://norportal.sure.com.sa/Elibrary/Eforms/Pages/default.aspx?PageIndex=2" title="عرض النتائج 11 إلى 14 من 14"> <span>2</span> </a></td>
-                        <td class="PagerOtherPageCells"><a class="PagerHyperlinkStyle" href="http://norportal.sure.com.sa/Elibrary/Eforms/Pages/default.aspx?PageIndex=2" title=" الصفحة التالية 2"> <span>التالية</span> </a></td>
-                    </tr>
-                </tbody>
-            </table> -->
+            {{ $departmentsData->links() }}
             
         </div>
        

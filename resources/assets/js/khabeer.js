@@ -10,7 +10,7 @@ $(document).ready(function() {
     $(document).on('click', '.delete-row', function () {
         let btn = $(this);
         let path = $(this).attr('data-href');
-        let table = $('#table-ajax').DataTable();
+        //let table = $('#table-ajax').DataTable();
 
         Swal.fire({
             title: 'هل انت متأكد من عملية الحذف؟',
@@ -28,7 +28,8 @@ $(document).ready(function() {
                     type: 'delete',
 
                     success: function (response) {
-                        table.row(btn.parents('tr')).remove().draw();
+                        //table.row(btn.parents('tr')).remove().draw();
+                        location.reload();
                     },
 
                     error: function (request, status, error) {
@@ -50,7 +51,6 @@ $(document).ready(function() {
     $(document).on('click', '.delete-row-reason', function () {
         let btn = $(this);
         let path = $(this).attr('data-href');
-        let table = $('#table-ajax').DataTable();
 
         Swal.fire({
             title: 'هل انت متأكد من عملية الحذف؟',
@@ -78,7 +78,7 @@ $(document).ready(function() {
                     type: 'delete',
 
                     success: function (response) {
-                        table.row(btn.parents('tr')).remove().draw();
+                        location.reload();
                     },
 
                     error: function (request, status, error) {

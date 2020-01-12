@@ -111,21 +111,9 @@ class DepartmentController extends UserBaseController
      */
     public function departmentsTypes(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
-
-            $departmentsData = Department::getDepartmentsData(Department::mainDepartment)
-                                            ->search($request);
-
-
-            return Datatables::of($departmentsData)
-               ->addColumn('action', function ($departmentData) {
-                    return view('systemmanagement::departmentsTypes.actions', compact('departmentData'));
-               })
-               ->toJson();
-        }
-
+        $departmentsData = Department::getDepartmentsData(Department::mainDepartment)->search($request)->paginate(10);
         $mainDepartmentsData = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
-        return view('systemmanagement::departmentsTypes.index', compact('mainDepartmentsData'));
+        return view('systemmanagement::departmentsTypes.index', compact('departmentsData', 'mainDepartmentsData'));
     }
 
     /**
@@ -188,30 +176,10 @@ class DepartmentController extends UserBaseController
      */
     public function departmentsManagement(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
-
-            $departmentsData = Department::getDepartmentsData(Department::parentDepartment)
-                                            ->with('parent')
-                                            ->with('referenceDepartment')
-                                            ->search($request);
-
-
-            return Datatables::of($departmentsData)
-                ->addColumn('parent_name', function ($departmentData) {
-                    return @$departmentData->parent->name;
-                })
-                ->addColumn('reference_name', function ($departmentData) {
-                    return (!$departmentData->is_reference && $departmentData->reference_id != 0 ? @$departmentData->referenceDepartment->name : '---');
-                })
-                ->addColumn('action', function ($departmentData) {
-                    return view('systemmanagement::departmentsManagement.actions', compact('departmentData'));
-                })
-                ->toJson();
-        }
-
+        $departmentsData = Department::getDepartmentsData(Department::parentDepartment)->with('parent')->with('referenceDepartment')->search($request)->paginate(10);
         $mainDepartmentsData   = Department::getDepartmentsData(Department::mainDepartment)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         $parentDepartmentsData = Department::getParentDepartments($request->parent_department_id);
-        return view('systemmanagement::departmentsManagement.index', compact('mainDepartmentsData', 'parentDepartmentsData'));
+        return view('systemmanagement::departmentsManagement.index', compact('departmentsData', 'mainDepartmentsData', 'parentDepartmentsData'));
     }
 
     /**
@@ -279,23 +247,9 @@ class DepartmentController extends UserBaseController
     {
         $staffsDepartmentId       = Department::staffsDepartments()->select('id')->first()->id;
         $staffExpertsDepartmentId = Department::staffExpertsDepartments($staffsDepartmentId)->select('id')->first()->id;
-
-        if ($request->wantsJson() || $request->ajax()) {
-
-            $departmentsData = Department::getDepartmentsData(Department::directDepartment)
-                                            ->where('parent_id', $staffExpertsDepartmentId)
-                                            ->search($request);
-
-
-            return Datatables::of($departmentsData)
-                ->addColumn('action', function ($departmentData) {
-                    return view('systemmanagement::departmentsAuthorities.actions', compact('departmentData'));
-                })
-                ->toJson();
-        }
-
-        $directDepartmentsData = Department::getDepartmentsData(Department::directDepartment)->where('parent_id', $staffExpertsDepartmentId)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
-        return view('systemmanagement::departmentsAuthorities.index', compact('directDepartmentsData'));
+        $departmentsData          = Department::getDepartmentsData(Department::directDepartment)->where('parent_id', $staffExpertsDepartmentId)->search($request)->paginate(10);
+        $directDepartmentsData    = Department::getDepartmentsData(Department::directDepartment)->where('parent_id', $staffExpertsDepartmentId)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
+        return view('systemmanagement::departmentsAuthorities.index', compact('departmentsData', 'directDepartmentsData'));
     }
 
     /**

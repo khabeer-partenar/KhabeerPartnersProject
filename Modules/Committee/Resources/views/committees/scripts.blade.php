@@ -43,7 +43,7 @@
             const option = $('#departments').find('option[value="' + departmentId + '"]')[0];
             $(row).remove();
             $(option).prop('disabled', false);
-            $('.select2').select2();
+            //$('.select2').select2();
         });
 
         // Files

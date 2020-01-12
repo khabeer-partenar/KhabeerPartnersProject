@@ -21,27 +21,11 @@ class MeetingsRoomsController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $meetingsRoomsData = MeetingRoom::with('city')->search($request)->get();
-
-        if ($request->wantsJson() || $request->ajax()) {
-
-            $meetingsRoomsData = MeetingRoom::with('city')->search($request);
-
-
-            return Datatables::of($meetingsRoomsData)
-                ->addColumn('city_name', function ($meetingRoom) {
-                    return @$meetingRoom->city->name;
-                })
-                ->addColumn('action', function ($meetingRoom) {
-                    return view('systemmanagement::meetingsRooms.actions', compact('meetingRoom'));
-                })
-                ->toJson();
-        }
-
+        $meetingsRoomsData = MeetingRoom::with('city')->search($request)->paginate(10);
         $cities  = City::pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         $statues = MeetingRoom::STATUS_TEXT;
 
-        return view('systemmanagement::meetingsRooms.index', compact('cities', 'statues'));
+        return view('systemmanagement::meetingsRooms.index', compact('meetingsRoomsData', 'cities', 'statues'));
     }
 
     /**

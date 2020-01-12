@@ -63,7 +63,7 @@ $(document).ready(function() {
 
         if($(this).val().slice(0,1) != 1) {
             $(formGroup).removeClass('has-error').addClass('has-error');
-            $(formGroup).append('<span class="help-block"><strong>رقم الهوية يجب ان يبدأ برقم 1</strong></span>');
+            $(formGroup).append('<span class="help-block"><strong>رقم الهوية يجب ان يكون سعودي</strong></span>');
             return false; 
         }
 

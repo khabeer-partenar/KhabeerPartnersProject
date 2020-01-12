@@ -25,19 +25,57 @@
             
             @include('systemmanagement::sourceRecommendationStudy.search')
 
-            <table id="table-ajax" class="table" data-url="{{ route('system-management.source-recommendation-study.index', [
-                        'parent_department_id' => Request::input('parent_department_id'),
-                        'main_department_id' => Request::input('main_department_id'),
-                    ])
-                }}"
-                data-fields='[
-                    {"data": "parent_name","title":"{{ __('systemmanagement::sourceRecommendationStudy.parentName') }}","searchable":"false"},
-                    {"data": "name","title":"{{ __('systemmanagement::sourceRecommendationStudy.name') }}","searchable":"false"},
-                    {"data": "department_case","title":"{{ __('systemmanagement::sourceRecommendationStudy.department_case') }}","searchable":"false"},
-                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
-                ]'
-            >
+            <table class="table">
+                <thead>
+
+                    <tr role="row">
+                        <th>{{ __('systemmanagement::sourceRecommendationStudy.parentName') }}</th>
+                        <th>{{ __('systemmanagement::sourceRecommendationStudy.name') }}</th>
+                        <th>{{ __('systemmanagement::sourceRecommendationStudy.department_case') }}</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    
+                    @foreach($departmentsData as $key => $departmentData)
+                        <tr>
+                            <td>{{ @$departmentData->name }}</td>
+                            <td>{{ @$departmentData->parent->name }}</td>
+                            <td>
+                                @if($departmentData->shown_in_committee_recommended)
+                                    <span class="badge badge-info badge-roundless">الجهة الموصية بالدراسة</span>
+                                @endif
+
+                                @if($departmentData->shown_in_committee_recommended && $departmentData->shown_in_committee_source_of_study)
+                                    <br>
+                                @endif
+                                
+                                @if($departmentData->shown_in_committee_source_of_study)
+                                    <span class="badge badge-info badge-roundless">الجهة مصدر الدراسة</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if(auth()->user()->hasPermissionWithAccess('edit'))
+                                    <a href="{{ route('system-management.source-recommendation-study.edit', $departmentData) }}" class="btn btn-sm btn-warning custom-action-btn">
+                                        <i class="fa fa-edit"></i> {{ __('systemmanagement::systemmanagement.edit_btn') }}
+                                    </a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @if($departmentsData->count() == 0)
+                        <tr>
+                            <td colspan="4"><center>لا يوجد بيانات</center></td>
+                        </tr>
+                    @endif
+
+                
+                </tbody>
             </table>
+
+            {{ $departmentsData->links() }}
 
         </div>
        

@@ -28,39 +28,64 @@
 
             @include('users::employees.search')
 
-            <table id="table-ajax" class="table" data-url="{{ route('employees.index', [
-                    'employee_id' => Request::input('employee_id'),
-                    'job_role_id' => Request::input('job_role_id'),
-                    'direct_department' => Request::input('direct_department')])
-                }}"
-                data-fields='[
-                    {"data": "name","title":"{{ __('messages.name') }}","searchable":"false"},
-                    {"data": "deptname","title":"{{ __('messages.deptname') }}","searchable":"false"},
-                    {"data": "contact_options","title":"{{ __('users::employees.contact_options') }}","searchable":"false"},
-                    {"data": "job_role","title":"{{ __('users::employees.job_role_id') }}","searchable":"false"},
-                    {"data": "action","name":"actions","searchable":"false", "orderable":"false"}
-                ]'
-            >
+            <br>
+
+            <table class="table">
+                <thead>
+
+                    <tr role="row">
+                        <th>{{ __('messages.name') }}</th>
+                        <th>{{ __('messages.deptname') }}</th>
+                        <th>{{ __('users::employees.contact_options') }}</th>
+                        <th>{{ __('users::employees.job_role_id') }}</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    
+                    @foreach($employeesData as $key => $employeeData)
+                        <tr>
+                            <td>{{ $employeeData->name }}</td>
+                            <td>{{ @$employeeData->directDepartment->name }}</td>
+                            <td>
+                                {{ $employeeData->phone_number }} <br> 
+                                {{ $employeeData->email }}
+                            </td>
+                            <td>{{ @$employeeData->jobRole->name }}</td>
+                            <td>
+                                <!-- @if(auth()->user()->hasPermissionWithAccess('upgrateToSuperAdmin'))
+                                    <a href="{{ route('employees.upgrate_to_super_admin', $employeeData) }}" class="btn btn-sm btn-primary custom-action-btn">
+                                        <i class="fa fa-key"></i> Admin
+                                    </a>
+                                @endif -->
+
+                                @if(auth()->user()->hasPermissionWithAccess('show'))
+                                    <a href="{{ route('employees.show', $employeeData) }}" class="btn btn-sm btn-danger custom-action-btn">
+                                        <i class="fa fa-eye"></i> {{ __('users::employees.information_btn') }}
+                                    </a>
+                                @endif
+
+                                @if(auth()->user()->hasPermissionWithAccess('destroy'))
+                                    <a data-href="{{ route('employees.destroy', $employeeData) }}" class="btn btn-sm btn-danger delete-row custom-action-btn">
+                                        <i class="fa fa-trash"></i> {{ __('users::employees.delete_btn') }}
+                                    </a>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    @if($employeesData->count() == 0)
+                        <tr>
+                            <td colspan="5"><center>لا يوجد بيانات</center></td>
+                        </tr>
+                    @endif
+
+                
+                </tbody>
             </table>
 
-            <!-- <table cellpadding="3" cellspacing="1" border="0" class="PagerContainerTable">
-                <tbody>
-                    <tr>
-                        <td class="PagerInfoCell">
-                            <span>صفحة 1 من 2</span>
-                        </td>
-                        <td class="PagerCurrentPageCell">
-                            <span class="PagerHyperlinkStyle"><strong>1</strong></span>
-                        </td>
-                        <td class="PagerOtherPageCells">
-                            <a class="PagerHyperlinkStyle" href="#" title="عرض النتائج 11 إلى 14 من 14"><span>2</span></a>
-                        </td>
-                       <td class="PagerOtherPageCells">
-                           <a class="PagerHyperlinkStyle" href="#" title=" الصفحة التالية 2"> <span>التالية</span></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table> -->
+            {{ $employeesData->links() }}
 
         </div>
        

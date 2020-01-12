@@ -52,33 +52,9 @@ class AssignCommitteController extends UserBaseController
     public function index(Request $request)
     {
         $secretaryGroupId = optional(Group::findByKey('secretary'))->id;
-
-        if ($request->wantsJson() || $request->ajax()) {
-            $employees = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'job_role_id', 'direct_department')
-                                ->where('job_role_id', $secretaryGroupId)
-                                ->with('jobRole', 'directDepartment')
-                                ->search($request);
-
-            return Datatables::of($employees)
-               ->addColumn('deptname', function ($employee) {
-                   return @$employee->directDepartment->name;
-               })
-               ->addColumn('job_role', function ($employee) {
-                   return @$employee->jobRole->name;
-               })
-               ->addColumn('contact_options', function($employee) {
-                    $data = [$employee->phone_number, $employee->email];
-                    return view('users::employees.commas_separated_data', compact('data'));
-                })
-               ->addColumn('action', function ($employee) {
-                    return view('users::employees.assign_committees.actions', compact('employee'));
-               })
-               ->rawColumns(['action', 'contact_options'])
-               ->toJson();
-        }
-
+        $employeesData = Employee::select('id', 'name', 'national_id', 'email', 'phone_number', 'job_role_id', 'direct_department')->where('job_role_id', $secretaryGroupId)->with('jobRole', 'directDepartment')->search($request)->paginate(10);
         $employeesIdsData = $employeesNationalIdData = $employeesEmailData = [0 => __('messages.choose_option')];
-        return view('users::employees.assign_committees.index', compact('secretaryGroupId', 'employeesIdsData', 'employeesNationalIdData', 'employeesEmailData'));
+        return view('users::employees.assign_committees.index', compact('secretaryGroupId', 'employeesData', 'employeesIdsData', 'employeesNationalIdData', 'employeesEmailData'));
     }
 
 
