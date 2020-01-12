@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\MeetingRoom;
+use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
-use Modules\Users\Entities\User;
 
 class Meeting extends Model
 {
@@ -19,6 +19,25 @@ class Meeting extends Model
 
     protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed'];
     protected $appends = ['meeting_at', 'meeting_at_ar'];
+
+    /**
+     * Scopes
+     */
+    public function scopeSearch($query, Committee $committee)
+    {
+        if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $query->whereIn('completed', [0, 1]);
+        } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            $query->whereIn('completed', [0, 1]);
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+            $query->where('completed', 1);
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+            $query->where('completed', 1);
+        } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
+            $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
+            $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
+        }
+    }
 
     /**
      * Accs & Mut

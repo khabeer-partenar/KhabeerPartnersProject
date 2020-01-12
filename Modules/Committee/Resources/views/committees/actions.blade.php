@@ -5,7 +5,7 @@
         </a>
     @endif
     @if(auth()->user()->hasPermissionWithAccess('index','CommitteeMeetingController','Committee'))
-        <a href="{{ route('committee.meetings', $committee) }}" class="btn btn-sm btn-default custom-action-btn">
+        <a href="{{ route('committee.meetings', $committee) }}" class="btn btn-sm btn-primary custom-action-btn">
             <i class="fa fa-users"></i> {{ __('committee::committees.meetings') }}
         </a>
     @endif

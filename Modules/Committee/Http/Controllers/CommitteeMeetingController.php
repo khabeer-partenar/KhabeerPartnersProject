@@ -28,6 +28,7 @@ class CommitteeMeetingController extends UserBaseController
     public function index(Committee $committee)
     {
         $meetings = $committee->meetings()
+            ->search($committee)
             ->orderBy('from', 'asc')
             ->with([
                 'type',

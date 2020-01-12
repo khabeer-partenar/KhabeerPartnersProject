@@ -18,6 +18,8 @@ class MeetingTypesTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         DB::table(MeetingType::table())->truncate();
         $arr = [
             [
@@ -40,5 +42,6 @@ class MeetingTypesTableSeeder extends Seeder
             ],
         ];
         MeetingType::insert($arr);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

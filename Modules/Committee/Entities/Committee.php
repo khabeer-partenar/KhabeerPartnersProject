@@ -150,6 +150,7 @@ class Committee extends Model
         if ($request->has('created_at')) {
             $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $request->created_at));
         }
+        // Filter By user
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             // Secretary Should see Committees for his Advisors Only
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
@@ -172,7 +173,6 @@ class Committee extends Model
             $delegate = Delegate::find(auth()->user()->id);
             $committeeIds = $delegate->committees()->pluck('committee_id');
             $query->whereIn('id', $committeeIds);
-
         }
 
         return $query;

@@ -4,6 +4,7 @@ namespace Modules\Committee\Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Modules\Core\Entities\App;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +18,7 @@ class CoreAppsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         $generalResourceName = "Modules\Committee\Http\Controllers";
 
@@ -127,21 +129,35 @@ class CoreAppsTableSeeder extends Seeder
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\CommitteeMeetingController@show', 'name' => 'عرض الإجتماع',
-            'icon' => 'fa fa-users', 'sort' => 4, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
+            'resource_name' => $generalResourceName . '\CommitteeMeetingController@edit', 'name' => 'تعديل إجتماع',
+            'icon' => 'fa fa-users', 'sort' => 4, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting/edit', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\MeetingDocumentController@store', 'name' => 'رفع مرفقات الإجتماع',
+            'resource_name' => $generalResourceName . '\CommitteeMeetingController@update', 'name' => 'تحديث الإجتماع',
             'icon' => 'fa fa-users', 'sort' => 5, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\MeetingDocumentController@destroy', 'name' => 'حذف مرفقات الإجتماع',
+            'resource_name' => $generalResourceName . '\CommitteeMeetingController@show', 'name' => 'عرض الإجتماع',
             'icon' => 'fa fa-users', 'sort' => 6, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingDocumentController@store', 'name' => 'رفع مرفقات الإجتماع',
+            'icon' => 'fa fa-users', 'sort' => 7, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingDocumentController@destroy', 'name' => 'حذف مرفقات الإجتماع',
+            'icon' => 'fa fa-users', 'sort' => 8, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

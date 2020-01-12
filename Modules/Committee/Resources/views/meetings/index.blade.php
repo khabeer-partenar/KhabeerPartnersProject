@@ -14,14 +14,15 @@
                     </div>
                 </div>
 
-                @if(auth()->user()->hasPermissionWithAccess('create'))
-                    <div class="col-md-3">
-                        <div class="actions item-fl item-mb20">
+                <div class="col-md-3">
+                    <div class="actions item-fl item-mb20">
+                        @if(auth()->user()->hasPermissionWithAccess('create'))
                             <a href="{{ route('committee.meetings.create', compact('committee')) }}"
                                class="btn btn-primary">{{ __('committee::meetings.action_add') }}</a>
-                        </div>
+                        @endif
+                        <a href="{{ route('committees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
                     </div>
-                @endif
+                </div>
 
             </div>
 
@@ -72,8 +73,4 @@
         </div>
 
     </div>
-@endsection
-
-@section('scripts_2')
-    @include('committee::committees.scripts')
 @endsection
