@@ -4,7 +4,11 @@ namespace Modules\Committee\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Modules\Committee\Entities\CommitteeDepartment;
+use Modules\Users\Entities\Coordinator;
+use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
+use Mpdf\Tag\Del;
 
 class CanSeeCommittee
 {
@@ -17,8 +21,8 @@ class CanSeeCommittee
      */
     public function handle(Request $request, Closure $next)
     {
+        $committee = $request->committee;
         if (auth()->user() && auth()->user()->authorizedApps->key == Employee::SECRETARY) {
-            $committee = $request->committee;
             if ($committee) {
                 $advisorsId = auth()->user()->advisors()->pluck('users.id')->toArray();
                 if (!in_array($committee->advisor_id, $advisorsId)) {
@@ -26,11 +30,37 @@ class CanSeeCommittee
                 }
             }
         } else if (auth()->user() && auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-            $committee = $request->committee;
             if ($committee) {
                 $owns = auth()->user()->ownedCommittees()->pluck('committees.id')->toArray();
                 $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
                 if (!in_array($committee->id, array_merge($owns, $participantIn))) {
+                    abort(403);
+                }
+            }
+        }
+        elseif (auth()->user() && auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+            if ($committee) {
+                $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
+                $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
+                $committeeIds = CommitteeDepartment::whereIn('department_id', $departmentsId)->pluck('committee_id')->toArray();
+                if (!in_array($committee->id, $committeeIds)) {
+                    abort(403);
+                }
+            }
+        } elseif (auth()->user() && auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+            if ($committee) {
+                $parentDepartmentId = auth()->user()->parentDepartment->pluck('id');
+                $committeeIds = CommitteeDepartment::whereIn('department_id', $parentDepartmentId)
+                    ->pluck('committee_id')->toArray();
+                if (!in_array($committee->id, $committeeIds)) {
+                    abort(403);
+                }
+            }
+        } else if (auth()->user() && auth()->user()->authorizedApps->key == Delegate::JOB) {
+            if ($committee) {
+                $delegate = Delegate::find(auth()->user()->id);
+                $committeeIds = $delegate->committees()->pluck('committees.id')->toArray();
+                if (!in_array($committee->id, $committeeIds)) {
                     abort(403);
                 }
             }
