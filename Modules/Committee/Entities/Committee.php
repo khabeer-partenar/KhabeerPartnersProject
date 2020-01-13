@@ -119,10 +119,6 @@ class Committee extends Model
     public function scopeSearch($query, $request)
     {
         // Filter By Request
-        if(!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
-            $query->where('approved', true);
-        }
-
         if ($request->subject) {
             $query->where('subject', 'LIKE', '%' . $request->subject . '%');
         }
@@ -144,6 +140,18 @@ class Committee extends Model
         if ($request->created_at) {
             $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $request->created_at));
         }
+
+
+        // Filter by user
+        if(!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
+            $query->where('approved', true);
+        }
+
+        if(auth()->user()->authorizedApps->key == Employee::ADVISOR && !auth()->user()->is_super_admin) {
+            $query->where('advisor_id', '!=', auth()->user()->id)
+                ->where('approved', true);
+        }
+
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             // Secretary Should see Committees for his Advisors Only
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
