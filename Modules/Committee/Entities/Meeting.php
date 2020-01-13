@@ -28,10 +28,15 @@ class Meeting extends Model
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             $query->whereIn('completed', [0, 1]);
         } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-            $query->whereIn('completed', [0, 1]);
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+            if ($committee->advisor_id == auth()->id()) {
+                $query->whereIn('completed', [0, 1]);
+            } else {
+                $allowedMeetingIds = MeetingAdvisor::where('advisor_id', auth()->id())->pluck('meeting_id');
+                $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
+            }
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) { // add further conditions if there are
             $query->where('completed', 1);
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) { // add further conditions if there are
             $query->where('completed', 1);
         } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
             $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
