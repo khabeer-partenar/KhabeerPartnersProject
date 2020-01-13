@@ -247,7 +247,7 @@ Docs & License: https://fullcalendar.io/
                     ' style="' + skinCss + '"' :
                     '') +
                 '>' +
-                '<div class="fc-content">' +
+                '<div class="fc-content" data-id="'+ eventDef.meetingId +'" data-start="'+ eventDef.start +'" data-end="'+ eventDef.end +'" data-meeting-absence-number="'+ eventDef.absenceNumber + '" data-meeting-attendace-number="'+ eventDef.attendaceNumber + '"  data-title="'+ eventDef.title + '" data-meeting-type="'+ eventDef.meetingType + '"  data-meeting-chair="'+ eventDef.meetingChair + '"   data-meeting-place="'+ eventDef.place + '" data-target="#CalendarModal" data-toggle="modal">' +
                 (options.dir === 'rtl' ?
                     titleHtml + ' ' + timeHtml : // put a natural space in between
                     timeHtml + ' ' + titleHtml //

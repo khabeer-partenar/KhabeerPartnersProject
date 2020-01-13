@@ -21,10 +21,14 @@
 
             <br>
             <div id='calendar'></div>
-
+            <a  class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-target="#CalendarModal" data-toggle="modal">
+            </a>
         </div>
 
     </div>
+
+    @include('committee::meetings.calendar_popup')
+
 @endsection
 
 @section('scripts_2')

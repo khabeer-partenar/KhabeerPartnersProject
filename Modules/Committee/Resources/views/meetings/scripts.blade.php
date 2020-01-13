@@ -163,9 +163,16 @@
         navLinks: false, // can click day/week names to navigate views
         events: [
             {
+            meetingId: '5',
+            type: 'استكمالي',
             title: 'اجتماع وزير النقل مع نوابه',
             start: '2020-01-08 16:00:00',
-            color: '#ff9f89'
+            color: '#ff9f89',
+            meetingType:'اولي',
+            meetingChair: 'ahmed farghaly',
+            place: 'صالة 2',
+            attendaceNumber: 15,
+            absenceNumber: 8
             },
             {
             title: ' استكمال  اجتماع وزير النقل مع نوابه',
@@ -197,6 +204,18 @@
         });
 
         calendar.render();
+
+        $('.fc-content').click(function () {
+           $("#title_data").text($(this).data('title'));
+           $("#from_data").text($(this).data('start'));
+           $("#to_data").text($(this).data('end'));
+           $("#chairman_data").text($(this).data('meeting-chair'));
+           $("#room_data").text($(this).data('meeting-place'));
+           $("#absence_data").text($(this).data('meeting-absence-number'));
+           $("#attendace_data").text($(this).data('meeting-attendace-number'));
+           $("#type_data").text($(this).data('meeting-type'));
+        });
+    
     });
 </script>
 

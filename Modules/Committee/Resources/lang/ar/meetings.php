@@ -11,7 +11,9 @@ return [
     'room' => 'الصالة',
     'reason' => 'موضوع الإجتماع',
     'created successfully' => 'تم إنشاء الإجتماع بنجاح',
-    '' => '',
-    '' => '',
-    '' => '',
+    'calendar_meeting_details' => 'تفاصيل الاجتماع',
+    'chairman' => 'رئيس اللجنة',
+    'attendace_number' => 'عدد الحاضرين',
+    'absence_number' => 'عدد المعتذرين',
+    'meeting_title' => 'عنوان الاجتماع'
 ];

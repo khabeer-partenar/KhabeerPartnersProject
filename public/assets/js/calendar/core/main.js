@@ -2237,6 +2237,38 @@ Docs & License: https://fullcalendar.io/
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(EventApi.prototype, "meetingType", { 
+            get: function () { return this._def.meetingType; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EventApi.prototype, "meetingChair", {
+            get: function () { return this._def.meetingChair; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EventApi.prototype, "meetingId", {
+            get: function () { return this._def.meetingId; },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(EventApi.prototype, "place", {
+            get: function () { return this._def.place; },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(EventApi.prototype, "attendaceNumber", {
+            get: function () { return this._def.attendaceNumber; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EventApi.prototype, "absenceNumber", {
+            get: function () { return this._def.absenceNumber; },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(EventApi.prototype, "url", {
             get: function () { return this._def.url; },
             enumerable: true,
@@ -2975,6 +3007,12 @@ Docs & License: https://fullcalendar.io/
         title: String,
         url: String,
         rendering: String,
+        meetingType: String,
+        meetingChair: String,
+        meetingId: Number,
+        place : String,
+        attendaceNumber: Number,
+        absenceNumber: Number,
         extendedProps: null
     };
     var DATE_PROPS = {
