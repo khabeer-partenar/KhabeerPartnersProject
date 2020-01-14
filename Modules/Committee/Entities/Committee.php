@@ -119,10 +119,6 @@ class Committee extends Model
     public function scopeSearch($query, $request)
     {
         // Filter By Request
-        if(!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
-            $query->where('approved', true);
-        }
-
         if ($request->subject) {
             $query->where('subject', 'LIKE', '%' . $request->subject . '%');
         }
@@ -144,7 +140,22 @@ class Committee extends Model
         if ($request->created_at) {
             $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $request->created_at));
         }
-        // Filter By user
+
+        return $query;
+    }
+
+
+    public function scopeUser($query)
+    {
+
+        if(!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
+            $query->where('approved', true);
+        }
+
+        if(auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            $query->whereRaw('IF(advisor_id <> ?, approved=?, advisor_id=advisor_id)', [auth()->user()->id, true]);
+        }
+
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             // Secretary Should see Committees for his Advisors Only
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
@@ -167,6 +178,7 @@ class Committee extends Model
             $delegate = Delegate::find(auth()->user()->id);
             $committeeIds = $delegate->committees()->pluck('committee_id');
             $query->whereIn('id', $committeeIds);
+
         }
 
         return $query;
@@ -321,6 +333,12 @@ class Committee extends Model
             $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
         }
         return $groupStatus;
+    }
+
+
+    public function getCanTakeActionAttribute()
+    {
+        return in_array(auth()->user()->id, [$this->created_by, $this->advisor_id]);
     }
 
     public function groupStatus($groupId)
