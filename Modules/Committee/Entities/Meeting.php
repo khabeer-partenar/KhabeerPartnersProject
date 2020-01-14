@@ -23,7 +23,7 @@ class Meeting extends Model
     /**
      * Scopes
      */
-    public function scopeSearch($query, Committee $committee)
+    public function scopeFilterByUser($query, Committee $committee)
     {
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             $query->whereIn('completed', [0, 1]);

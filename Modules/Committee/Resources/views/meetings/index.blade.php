@@ -64,7 +64,10 @@
                                 <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
                                 <td>{{ count($meeting->participantAdvisors) + count($meeting->delegates) }}</td>
                                 <td>
-                                    <a href="{{ route('committee.meetings.show', compact('committee', 'meeting')) }}" class="btn btn-success">تفاصيل الإجتماع</a>
+                                    <a href="{{ auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB ?
+                                        route('committees.meetings.delegate.show', compact('committee', 'meeting'))
+                                       :route('committee.meetings.show', compact('committee', 'meeting')) }}"
+                                       class="btn btn-success">تفاصيل الإجتماع</a>
                                 </td>
                             </tr>
                         @endforeach

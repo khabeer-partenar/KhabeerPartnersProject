@@ -23,7 +23,7 @@ class MeetingDelegate extends Model
 
     public static function updateStatusAndReason($status, $refuse_reason, $meeting)
     {
-        if ($status==MeetingDelegate::ACCEPTED) $refuse_reason='';
+        if ($status == MeetingDelegate::ACCEPTED) $refuse_reason='';
 
         self::where('meeting_id', $meeting->id)
             ->where('delegate_id', auth()->id())
