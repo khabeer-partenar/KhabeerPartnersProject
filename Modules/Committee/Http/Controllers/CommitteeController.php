@@ -117,6 +117,10 @@ class CommitteeController extends UserBaseController
      */
     public function edit(Committee $committee)
     {
+        if(!$committee->can_take_action) {
+            return back();
+        }
+
         $treatmentTypes = TreatmentType::pluck('name', 'id');
         $treatmentUrgency = TreatmentUrgency::pluck('name', 'id');
         $treatmentImportance = TreatmentImportance::pluck('name', 'id');
@@ -158,6 +162,10 @@ class CommitteeController extends UserBaseController
      */
     public function destroy(Request $request, Committee $committee)
     {
+        if(!$committee->can_take_action) {
+            return back();
+        }
+        
         $request->validate(['reason' => 'required|string|max:300']);
         $committee->update(['reason_of_deletion' => $request->reason]);
         $committee->log('delete_committee');

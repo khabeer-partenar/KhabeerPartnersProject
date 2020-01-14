@@ -18,7 +18,7 @@
                 <div class="col-md-5">
                     <div class="actions item-fl item-mb20">
 
-                        @if(auth()->user()->hasPermissionWithAccess('edit'))
+                        @if(auth()->user()->hasPermissionWithAccess('edit') && $committee->can_take_action)
                             <a href="{{ route('committees.edit', $committee) }}" class="btn btn-sm btn-warning">
                                 <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
                             </a>
