@@ -141,15 +141,19 @@ class Committee extends Model
             $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $request->created_at));
         }
 
+        return $query;
+    }
 
-        // Filter by user
+
+    public function scopeUser($query)
+    {
+
         if(!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
             $query->where('approved', true);
         }
 
-        if(auth()->user()->authorizedApps->key == Employee::ADVISOR && !auth()->user()->is_super_admin) {
-            $query->where('advisor_id', '!=', auth()->user()->id)
-                ->where('approved', true);
+        if(auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            $query->whereRaw('IF(advisor_id <> ?, approved=?, advisor_id=advisor_id)', [auth()->user()->id, true]);
         }
 
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {

@@ -34,7 +34,7 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $committees = Committee::with('advisor', 'president')->latest()->search($request)->paginate(10);
+        $committees = Committee::with('advisor', 'president')->latest()->search($request)->user()->paginate(10);
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
         return view('committee::committees.index', compact('committees', 'advisors', 'status'));
