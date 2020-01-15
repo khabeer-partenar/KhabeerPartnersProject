@@ -3011,8 +3011,8 @@ Docs & License: https://fullcalendar.io/
         meetingChair: String,
         meetingId: Number,
         place : String,
-        attendaceNumber: Number,
-        absenceNumber: Number,
+        attendaceNumber: String,
+        absenceNumber: String,
         extendedProps: null
     };
     var DATE_PROPS = {

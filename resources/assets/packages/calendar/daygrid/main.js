@@ -231,9 +231,15 @@ Docs & License: https://fullcalendar.io/
             // Only display a timed events time if it is the starting segment
             if (seg.isStart) {
                 timeText = this.getTimeText(eventRange);
+                //timeHtml = core.htmlEscape(this.getTimeText(eventRange));
                 if (timeText) {
+                    timeHtml = core.htmlEscape(this.getTimeText(eventRange));
+                    //console.log(seg.dateEnv);
+                    //console.log(eventRange.instance.range.start.valueOf());
+                    //console.log(timeText.split(' ').join(',').split('(').join(',').split(')').join(',').split(','));
                     timeHtml = '<span class="fc-time">' + core.htmlEscape(timeText) + '</span>';
                 }
+                
             }
             titleHtml =
                 '<span class="fc-title">' +
@@ -247,7 +253,7 @@ Docs & License: https://fullcalendar.io/
                     ' style="' + skinCss + '"' :
                     '') +
                 '>' +
-                '<div class="fc-content" data-id="'+ eventDef.meetingId +'" data-start="'+ eventDef.start +'" data-end="'+ eventDef.end +'" data-meeting-absence-number="'+ eventDef.absenceNumber + '" data-meeting-attendace-number="'+ eventDef.attendaceNumber + '"  data-title="'+ eventDef.title + '" data-meeting-type="'+ eventDef.meetingType + '"  data-meeting-chair="'+ eventDef.meetingChair + '"   data-meeting-place="'+ eventDef.place + '" data-target="#CalendarModal" data-toggle="modal">' +
+                '<div class="fc-content"  data-id="'+ eventDef.meetingId +'" data-start="'+ eventRange.instance.range.start.valueOf() +'" data-end="'+ eventRange.instance.range.end.valueOf() +'" data-meeting-absence-number="'+ eventDef.absenceNumber + '" data-meeting-attendace-number="'+ eventDef.attendaceNumber + '"  data-title="'+ eventDef.title + '" data-meeting-type="'+ eventDef.meetingType + '"  data-meeting-chair="'+ eventDef.meetingChair + '"   data-meeting-place="'+ eventDef.place + '" data-target="#CalendarModal" data-toggle="modal">' +
                 (options.dir === 'rtl' ?
                     titleHtml + ' ' + timeHtml : // put a natural space in between
                     timeHtml + ' ' + titleHtml //

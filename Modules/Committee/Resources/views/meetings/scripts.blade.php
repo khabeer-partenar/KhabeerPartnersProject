@@ -163,58 +163,52 @@
         navLinks: false, // can click day/week names to navigate views
         events: [
             {
-            meetingId: '5',
-            type: 'استكمالي',
-            title: 'اجتماع وزير النقل مع نوابه',
-            start: '2020-01-08 16:00:00',
-            color: '#ff9f89',
-            meetingType:'اولي',
-            meetingChair: 'ahmed farghaly',
-            place: 'صالة 2',
-            attendaceNumber: 15,
-            absenceNumber: 8
+                type: 'استكمالي',
+                title: ' استكمال  اجتماع وزير النقل مع نوابه',
+                start: '2020-01-20 01:20:00',
+                end: '2020-01-20 03:10:00',
+                color: '#000',
+                meetingType:'استكمالي',
+                meetingChair: 'ahmed farghaly',
+                place: 'صالة المدينة المنورة',
+                attendaceNumber: 10,
+                absenceNumber: 1
             },
             {
-            title: ' استكمال  اجتماع وزير النقل مع نوابه',
-            start: '2020-01-08 20:00:00',
-            color: '#ff9f89'
+                type: 'استكمالي',
+                title: ' اجتماع رئيس الوزراء مع نوابه',
+                start: '2020-01-11 16:20:00',
+                end: '2020-01-11 19:30:00',
+                color: '#ff9f89',
+                meetingType:'اولي',
+                meetingChair: 'ahmed farghaly',
+                place: 'صالة الملك فهد',
+                attendaceNumber: 15,
+                absenceNumber: 8
             },
-            {
-            title: 'اجتماع وزير الصحة ووزير التعليم',
-            start: '2020-01-20',
-            end: '2019-08-13'
-            },
-            {
-            title: 'تفقد وزير التعليم بعض مدارس المنطقة',
-            start: '2020-02-12 10:30:00',
-            end: '2020-02-12 12:30:00',
-            color:'#154'
-            },
-            {
-            title: 'عشاء عمل',
-            start: '2020-01-28 20:00:00'
-            },
-            {
-            title: 'توقيع اتفاقية التعاون المشترك',
-            url: 'http://google.com/',
-            start: '2020-02-05',
-            color: '#162'
-            }
+            
+
         ]
         });
 
         calendar.render();
-
         $('.fc-content').click(function () {
-           $("#title_data").text($(this).data('title'));
-           $("#from_data").text($(this).data('start'));
-           $("#to_data").text($(this).data('end'));
-           $("#chairman_data").text($(this).data('meeting-chair'));
-           $("#room_data").text($(this).data('meeting-place'));
-           $("#absence_data").text($(this).data('meeting-absence-number'));
-           $("#attendace_data").text($(this).data('meeting-attendace-number'));
-           $("#type_data").text($(this).data('meeting-type'));
+            $(this).data('title') !== null ? $("#title_data").text($(this).data('title')):'';
+            $(this).data('start') !== null ? $("#from_data").text(handleTime($(this).data('start'))):'';
+            $(this).data('end') !== null ? $("#to_data").text(handleTime($(this).data('end'))):'';
+            $(this).data('meeting-chair') !== null ? $("#chairman_data").text($(this).data('meeting-chair')):'';
+            $(this).data('meeting-place') !== null ? $("#room_data").text($(this).data('meeting-place')):'';
+            $(this).data('meeting-absence-number') !== null ? $("#absence_data").text($(this).data('meeting-absence-number')):'';
+            $(this).data('meeting-attendace-number') !== null ? $("#attendace_data").text($(this).data('meeting-attendace-number')):'';
+            $(this).data('meeting-type') !== null ? $("#type_data").text($(this).data('meeting-type')):'';
         });
+        function handleTime(dateTime)
+        {
+            moment.locale('ar-sa');
+            time = moment(dateTime).subtract(3,'hours').format('LT');
+            return time;
+        }
+
     
     });
 </script>

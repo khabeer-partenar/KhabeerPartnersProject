@@ -78,6 +78,8 @@ Docs & License: https://fullcalendar.io/
                 else if (seg.isEnd) {
                     timeHtml = core.htmlEscape(this._getTimeText(seg.start, eventInstance.range.end, false // allDay
                     ));
+                    console.log(timeHtml,'todods');
+
                 }
                 else { // inner segment that lasts the whole day
                     timeHtml = core.getAllDayHtml(view);
@@ -86,6 +88,7 @@ Docs & License: https://fullcalendar.io/
             else {
                 // Display the normal time text for the *event's* times
                 timeHtml = core.htmlEscape(this.getTimeText(eventRange));
+
             }
             if (url) {
                 classes.push('fc-has-url');

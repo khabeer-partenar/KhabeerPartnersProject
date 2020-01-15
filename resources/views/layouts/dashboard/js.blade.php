@@ -53,6 +53,10 @@
 
 <!-- END CALENDAR SCRIPTS PLUGIN -->
 
+<!-- BEGIN MOMENTS SCRIPTS PLUGIN -->
+{{ Html::script(mix('assets/js/moment.js'))}}
+<!-- END MOMENTS SCRIPTS PLUGIN -->
+
 {{ Html::script(mix('assets/js/custom.js')) }}
 {{ Html::script(mix('assets/js/khabeer.js')) }}
 {{ Html::script(mix('assets/js/khabeer-validations.js')) }}

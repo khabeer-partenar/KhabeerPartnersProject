@@ -45,10 +45,11 @@
     "/assets/js/menu-toggler-sidebar.js": "/assets/js/menu-toggler-sidebar.js?id=90807ee0ef8df5ee12ea",
     "/assets/js/khabeer.js": "/assets/js/khabeer.js?id=7acafd02fe56050ce122",
     "/assets/js/khabeer-validations.js": "/assets/js/khabeer-validations.js?id=248c24a4f41219584d38",
-    "/assets/js/calendar/core/main.js": "/assets/js/calendar/core/main.js?id=2402d717ceac82632f0b",
+    "/assets/js/calendar/core/main.js": "/assets/js/calendar/core/main.js?id=6973cb8728d4bcbc0870",
     "/assets/js/calendar/core/locales-all.js": "/assets/js/calendar/core/locales-all.js?id=807f7468c118c20c84ab",
     "/assets/js/calendar/interaction/main.js": "/assets/js/calendar/interaction/main.js?id=4570f91a5421f3983bba",
-    "/assets/js/calendar/daygrid/main.js": "/assets/js/calendar/daygrid/main.js?id=cd494516d1fe629bba8e",
-    "/assets/js/calendar/timegrid/main.js": "/assets/js/calendar/timegrid/main.js?id=5fc0807cfd2888863bed",
-    "/assets/js/calendar/list/main.js": "/assets/js/calendar/list/main.js?id=ab99ed0de5265b81a765"
+    "/assets/js/calendar/daygrid/main.js": "/assets/js/calendar/daygrid/main.js?id=0ff2eb85e0383db325bd",
+    "/assets/js/calendar/timegrid/main.js": "/assets/js/calendar/timegrid/main.js?id=98372a8fc5dd91307c6b",
+    "/assets/js/calendar/list/main.js": "/assets/js/calendar/list/main.js?id=99d0722d5002c40804d1",
+    "/assets/js/moment.js": "/assets/js/moment.js?id=1b1c80b617bfcaf8c076"
 }
