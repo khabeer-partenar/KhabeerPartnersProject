@@ -178,7 +178,8 @@ return [
 //        Yajra\Oci8\Oci8ServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
-        Modules\Users\Providers\DelegateServiceProvider::class
+        Modules\Users\Providers\DelegateServiceProvider::class,
+        PrettyRoutes\ServiceProvider::class
     ],
 
     /*
