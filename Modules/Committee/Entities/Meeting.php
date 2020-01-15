@@ -57,6 +57,16 @@ class Meeting extends Model
         return Carbon::parse($this->attributes['to'])->format('H:i');
     }
 
+    public function getFromDateAttribute()
+    {
+        return Carbon::parse($this->attributes['from']);
+    }
+
+    public function getToDateAttribute()
+    {
+        return Carbon::parse($this->attributes['to']);
+    }
+
     public function getMeetingAtAttribute()
     {
         return Carbon::parse($this->attributes['from'])->format('d-m-Y');
@@ -144,6 +154,16 @@ class Meeting extends Model
     {
         return $this->belongsToMany(Delegate::class, MeetingDelegate::table(), 'meeting_id', 'delegate_id')
             ->withPivot('refuse_reason', 'status');
+    }
+
+    public function delegatesPivot()
+    {
+        return $this->hasMany(MeetingDelegate::class, 'meeting_id');
+    }
+
+    public function participantAdvisorsPivot()
+    {
+        return $this->hasMany(MeetingAdvisor::class, 'meeting_id');
     }
 
     public function type()

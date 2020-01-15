@@ -114,7 +114,7 @@
                                 <td>
                                     {{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}
                                 </td>
-                                <td>{{ $delegate->pivot->refuse_reason }}</td>
+                                <td>{{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}</td>
                             </tr>
                         @endforeach
                         </tbody>

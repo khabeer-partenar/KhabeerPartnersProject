@@ -49,9 +49,22 @@
                                 <td>
                                     <div align="center">
                                         @if (!$meeting->completed)
-                                            <i class="fa fa-2x fa-question-circle-o" aria-hidden="true"></i>
-                                        @else
-                                            <i class="fa fa-2x fa-calendar" aria-hidden="true"></i>
+                                            <i title="{{ __('committee::meetings.not_completed') }}"
+                                               class="fa fa-2x fa-question-circle-o" style="color: #d6a329;" aria-hidden="true"></i>
+                                        @elseif (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB &&
+                                        !in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
+                                            <i title="{{ __('committee::meetings.cannot_be_seen') }}"
+                                               style="color: #e73d4a"
+                                               class="fa fa-2x fa-ban" aria-hidden="true"></i>
+                                        @elseif ($meeting->deleted_at)
+                                            <i title="{{ __('committee::meetings.cancelled') }}"
+                                               class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
+                                        @elseif($meeting->toDate > \Carbon\Carbon::now())
+                                            <i title="{{ __('committee::meetings.incoming') }}"
+                                               class="fa fa-2x fa-calendar" aria-hidden="true"></i>
+                                        @elseif($meeting->toDate <= \Carbon\Carbon::now())
+                                            <i title="{{ __('committee::meetings.finished') }}"
+                                               class="fa fa-2x fa-calendar-check-o" style="color: #009247" aria-hidden="true"></i>
                                         @endif
                                     </div>
                                 </td>
@@ -62,12 +75,17 @@
                                     {{ $meeting->from . ' - ' . $meeting->to }}
                                 </td>
                                 <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
-                                <td>{{ count($meeting->participantAdvisors) + count($meeting->delegates) }}</td>
+                                <td>{{ count($meeting->participantAdvisorsPivot) + count($meeting->delegatesPivot) }}</td>
                                 <td>
-                                    <a href="{{ auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB ?
-                                        route('committees.meetings.delegate.show', compact('committee', 'meeting'))
-                                       :route('committee.meetings.show', compact('committee', 'meeting')) }}"
-                                       class="btn btn-success">تفاصيل الإجتماع</a>
+                                    @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB )
+                                        @if (in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
+                                            <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
+                                              class="btn btn-success">تفاصيل الإجتماع</a>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('committee.meetings.show', compact('committee', 'meeting')) }}"
+                                           class="btn btn-success">تفاصيل الإجتماع</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
