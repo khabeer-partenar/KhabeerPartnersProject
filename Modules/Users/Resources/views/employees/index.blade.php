@@ -29,61 +29,62 @@
             @include('users::employees.search')
 
             <br>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
 
-            <table class="table">
-                <thead>
+                        <tr role="row">
+                            <th>{{ __('messages.name') }}</th>
+                            <th>{{ __('messages.deptname') }}</th>
+                            <th>{{ __('users::employees.contact_options') }}</th>
+                            <th>{{ __('users::employees.job_role_id') }}</th>
+                            <th></th>
+                        </tr>
 
-                    <tr role="row">
-                        <th>{{ __('messages.name') }}</th>
-                        <th>{{ __('messages.deptname') }}</th>
-                        <th>{{ __('users::employees.contact_options') }}</th>
-                        <th>{{ __('users::employees.job_role_id') }}</th>
-                        <th></th>
-                    </tr>
+                    </thead>
+                    <tbody>
+                        
+                        @foreach($employeesData as $key => $employeeData)
+                            <tr>
+                                <td>{{ $employeeData->name }}</td>
+                                <td>{{ @$employeeData->directDepartment->name }}</td>
+                                <td>
+                                    {{ $employeeData->phone_number }} <br> 
+                                    {{ $employeeData->email }}
+                                </td>
+                                <td>{{ @$employeeData->jobRole->name }}</td>
+                                <td>
+                                    <!-- @if(auth()->user()->hasPermissionWithAccess('upgrateToSuperAdmin'))
+                                        <a href="{{ route('employees.upgrate_to_super_admin', $employeeData) }}" class="btn btn-sm btn-primary custom-action-btn">
+                                            <i class="fa fa-key"></i> Admin
+                                        </a>
+                                    @endif -->
 
-                </thead>
-                <tbody>
+                                    @if(auth()->user()->hasPermissionWithAccess('show'))
+                                        <a href="{{ route('employees.show', $employeeData) }}" class="btn btn-sm btn-danger custom-action-btn">
+                                            <i class="fa fa-eye"></i> {{ __('users::employees.information_btn') }}
+                                        </a>
+                                    @endif
+
+                                    @if(auth()->user()->hasPermissionWithAccess('destroy'))
+                                        <a data-href="{{ route('employees.destroy', $employeeData) }}" class="btn btn-sm btn-danger delete-row custom-action-btn">
+                                            <i class="fa fa-trash"></i> {{ __('users::employees.delete_btn') }}
+                                        </a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        @if($employeesData->count() == 0)
+                            <tr>
+                                <td colspan="5"><center>لا يوجد بيانات</center></td>
+                            </tr>
+                        @endif
+
                     
-                    @foreach($employeesData as $key => $employeeData)
-                        <tr>
-                            <td>{{ $employeeData->name }}</td>
-                            <td>{{ @$employeeData->directDepartment->name }}</td>
-                            <td>
-                                {{ $employeeData->phone_number }} <br> 
-                                {{ $employeeData->email }}
-                            </td>
-                            <td>{{ @$employeeData->jobRole->name }}</td>
-                            <td>
-                                <!-- @if(auth()->user()->hasPermissionWithAccess('upgrateToSuperAdmin'))
-                                    <a href="{{ route('employees.upgrate_to_super_admin', $employeeData) }}" class="btn btn-sm btn-primary custom-action-btn">
-                                        <i class="fa fa-key"></i> Admin
-                                    </a>
-                                @endif -->
-
-                                @if(auth()->user()->hasPermissionWithAccess('show'))
-                                    <a href="{{ route('employees.show', $employeeData) }}" class="btn btn-sm btn-danger custom-action-btn">
-                                        <i class="fa fa-eye"></i> {{ __('users::employees.information_btn') }}
-                                    </a>
-                                @endif
-
-                                @if(auth()->user()->hasPermissionWithAccess('destroy'))
-                                    <a data-href="{{ route('employees.destroy', $employeeData) }}" class="btn btn-sm btn-danger delete-row custom-action-btn">
-                                        <i class="fa fa-trash"></i> {{ __('users::employees.delete_btn') }}
-                                    </a>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    @if($employeesData->count() == 0)
-                        <tr>
-                            <td colspan="5"><center>لا يوجد بيانات</center></td>
-                        </tr>
-                    @endif
-
-                
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
             {{ $employeesData->links() }}
 

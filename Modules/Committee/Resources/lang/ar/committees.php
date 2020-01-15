@@ -25,6 +25,8 @@ return [
     'delegate_delete' => 'حذف',
     'resource_staff_number' => 'رقم وارد الهيئة',
     'resource_at' => 'تاريخ الوارد',
+    'department_out_number' => 'رقم صادر الجهة',
+    'department_out_date' => 'تاريخ صادر الجهة',
     'please choose' => 'من فضلك قم بالاختيار',
     'treatment_type_id' => 'نوع المعاملة',
     'resource_by' => 'وردت من',

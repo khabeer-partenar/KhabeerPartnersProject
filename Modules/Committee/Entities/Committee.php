@@ -37,7 +37,7 @@ class Committee extends Model
     ];
 
     protected $fillable = [
-        'resource_staff_number', 'resource_at', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
+        'resource_staff_number', 'resource_at', 'department_out_number', 'department_out_date', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
         'treatment_urgency_id', 'treatment_importance_id', 'source_of_study_id', 'recommendation_number', 'recommended_by_id',
         'recommended_at', 'subject', 'first_meeting_at', 'tasks', 'president_id', 'advisor_id', 'members_count', 'status',
         'reason_of_deletion', 'created_by', 'approved'
@@ -48,7 +48,7 @@ class Committee extends Model
     ];
 
     protected $dates = [
-        'resource_at', 'treatment_time', 'first_meeting_at', 'recommended_at'
+        'resource_at', 'department_out_date', 'treatment_time', 'first_meeting_at', 'recommended_at'
     ];
 
     /**
@@ -59,6 +59,11 @@ class Committee extends Model
     public function setResourceAtAttribute($value)
     {
         $this->attributes['resource_at'] = self::getDateFromFormat($value);
+    }
+
+    public function setDepartmentOutDateAttribute($value)
+    {
+        $this->attributes['department_out_date'] = self::getDateFromFormat($value);
     }
 
     public function setTreatmentTimeAttribute($value)
@@ -79,6 +84,12 @@ class Committee extends Model
     public function getResourceAtHijriAttribute()
     {
         $date = Carbon::parse($this->attributes['resource_at'])->format('Y-m-d');
+        return CarbonHijri::toHijriFromMiladi($date);
+    }
+
+    public function getDepartmentOutDateHijriAttribute()
+    {
+        $date = Carbon::parse($this->attributes['department_out_date'])->format('Y-m-d');
         return CarbonHijri::toHijriFromMiladi($date);
     }
 

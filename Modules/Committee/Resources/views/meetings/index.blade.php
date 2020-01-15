@@ -31,6 +31,7 @@
         <div class="portlet-body">
 
             <br>
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr role="row">
@@ -91,6 +92,7 @@
                         @endforeach
                     </tbody>
                 </table>
+            </div>
         </div>
 
     </div>

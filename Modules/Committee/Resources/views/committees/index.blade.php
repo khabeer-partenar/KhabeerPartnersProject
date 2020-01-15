@@ -33,6 +33,7 @@
             @include('committee::committees.search')
 
             <br>
+            <div class="table-responsive">
                 <table class="table">
                     <thead>
 
@@ -154,9 +155,10 @@
 
                     </tbody>
                 </table>
+            </div>
 
 
-                {{ $committees->links() }}
+            {{ $committees->links() }}
 
         </div>
 

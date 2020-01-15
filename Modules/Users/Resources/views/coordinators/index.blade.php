@@ -71,53 +71,55 @@
                 </form>
             </div>
 
-            <table class="table">
-                <thead>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
 
-                    <tr role="row">
-                        <th>{{ __('messages.name') }}</th>
-                        <th>{{ __('messages.department_info') }}</th>
-                        <th>{{ __('messages.contact_options') }}</th>
-                        <th></th>
-                    </tr>
+                        <tr role="row">
+                            <th>{{ __('messages.name') }}</th>
+                            <th>{{ __('messages.department_info') }}</th>
+                            <th>{{ __('messages.contact_options') }}</th>
+                            <th></th>
+                        </tr>
 
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
+                        
+                        @foreach($coordinatorsData as $key => $coordinatorData)
+                            <tr>
+                                <td>{{ $coordinatorData->name }}</td>
+                                <td>
+                                    {{ $coordinatorData->mainDepartment->name }} - {{ $coordinatorData->parentDepartment->name }}
+                                </td>
+                                <td>
+                                    {{ $coordinatorData->phone_number }} <br>
+                                    {{ $coordinatorData->email }}
+                                </td>
+                                <td>
+                                    @if(auth()->user()->hasPermissionWithAccess('show'))
+                                        <a href="{{ route('coordinators.show', $coordinatorData) }}" class="btn btn-sm btn-primary custom-action-btn">
+                                            <i class="fa fa-eye"></i> {{ __('users::coordinators.show') }}
+                                        </a>
+                                    @endif
+                                    @if(auth()->user()->hasPermissionWithAccess('destroy'))
+                                        <a data-href="{{ route('coordinators.destroy', $coordinatorData) }}" class="btn btn-sm btn-danger delete-row custom-action-btn">
+                                            <i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}
+                                        </a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        @if($coordinatorsData->count() == 0)
+                            <tr>
+                                <td colspan="5"><center>لا يوجد بيانات</center></td>
+                            </tr>
+                        @endif
+
                     
-                    @foreach($coordinatorsData as $key => $coordinatorData)
-                        <tr>
-                            <td>{{ $coordinatorData->name }}</td>
-                            <td>
-                                {{ $coordinatorData->mainDepartment->name }} - {{ $coordinatorData->parentDepartment->name }}
-                            </td>
-                            <td>
-                                {{ $coordinatorData->phone_number }} <br>
-                                {{ $coordinatorData->email }}
-                            </td>
-                            <td>
-                                @if(auth()->user()->hasPermissionWithAccess('show'))
-                                    <a href="{{ route('coordinators.show', $coordinatorData) }}" class="btn btn-sm btn-primary custom-action-btn">
-                                        <i class="fa fa-eye"></i> {{ __('users::coordinators.show') }}
-                                    </a>
-                                @endif
-                                @if(auth()->user()->hasPermissionWithAccess('destroy'))
-                                    <a data-href="{{ route('coordinators.destroy', $coordinatorData) }}" class="btn btn-sm btn-danger delete-row custom-action-btn">
-                                        <i class="fa fa-trash"></i> {{ __('users::coordinators.delete') }}
-                                    </a>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    @if($coordinatorsData->count() == 0)
-                        <tr>
-                            <td colspan="5"><center>لا يوجد بيانات</center></td>
-                        </tr>
-                    @endif
-
-                
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
             {{ $coordinatorsData->links() }}
         </div>

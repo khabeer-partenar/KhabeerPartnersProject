@@ -19,48 +19,50 @@
 
             @include('users::employees.assign_committees.search')
 
-            <table class="table">
-                <thead>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
 
-                    <tr role="row">
-                        <th>{{ __('messages.name') }}</th>
-                        <th>{{ __('users::employees.assignCommittees.deptname') }}</th>
-                        <th>{{ __('users::employees.contact_options') }}</th>
-                        <th>{{ __('users::employees.job_role_id') }}</th>
-                        <th></th>
-                    </tr>
+                        <tr role="row">
+                            <th>{{ __('messages.name') }}</th>
+                            <th>{{ __('users::employees.assignCommittees.deptname') }}</th>
+                            <th>{{ __('users::employees.contact_options') }}</th>
+                            <th>{{ __('users::employees.job_role_id') }}</th>
+                            <th></th>
+                        </tr>
 
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
+                        
+                        @foreach($employeesData as $key => $employeeData)
+                            <tr>
+                                <td>{{ $employeeData->name }}</td>
+                                <td>{{ @$employeeData->directDepartment->name }}</td>
+                                <td>
+                                    {{ $employeeData->phone_number }} <br> 
+                                    {{ $employeeData->email }}
+                                </td>
+                                <td>{{ @$employeeData->jobRole->name }}</td>
+                                <td>
+                                    @if(auth()->user()->hasPermissionWithAccess('edit'))
+                                        <a href="{{ route('employees.assign_committees.edit', $employeeData) }}" class="btn btn-sm btn-warning custom-action-btn">
+                                            <i class="fa fa-edit"></i> {{ __('messages.edit') }}
+                                        </a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        @if($employeesData->count() == 0)
+                            <tr>
+                                <td colspan="5"><center>لا يوجد بيانات</center></td>
+                            </tr>
+                        @endif
+
                     
-                    @foreach($employeesData as $key => $employeeData)
-                        <tr>
-                            <td>{{ $employeeData->name }}</td>
-                            <td>{{ @$employeeData->directDepartment->name }}</td>
-                            <td>
-                                {{ $employeeData->phone_number }} <br> 
-                                {{ $employeeData->email }}
-                            </td>
-                            <td>{{ @$employeeData->jobRole->name }}</td>
-                            <td>
-                                @if(auth()->user()->hasPermissionWithAccess('edit'))
-                                    <a href="{{ route('employees.assign_committees.edit', $employeeData) }}" class="btn btn-sm btn-warning custom-action-btn">
-                                        <i class="fa fa-edit"></i> {{ __('messages.edit') }}
-                                    </a>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    @if($employeesData->count() == 0)
-                        <tr>
-                            <td colspan="5"><center>لا يوجد بيانات</center></td>
-                        </tr>
-                    @endif
-
-                
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
             {{ $employeesData->links() }}
 
