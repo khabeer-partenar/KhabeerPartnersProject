@@ -62,6 +62,14 @@
                         </td>
                     </tr>
                     <tr>
+                        <th style="width: 16.66%" scope="row">رقم وتاريخ صادر الجهة</th>
+                        <td>
+                            ({{ $committee->department_out_number }})
+                            {{ __('committee::committees.on_date') }}
+                            {{ $committee->department_out_date_hijri }}
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row">رقم المعاملة و تاريخها</th>
                         <td>
                             ({{ $committee->treatment_number }})
