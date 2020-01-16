@@ -1,4 +1,8 @@
 <script>
+    var initialLocaleCode = 'ar-sa';
+    var localeSelectorEl = document.getElementById('locale-selector');
+    var calendarEl = document.getElementById('calendar');
+    
     $(document).ready(function () {
         $('.select2').select2({
             placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder') : ''
@@ -145,6 +149,67 @@
                 }
             })
         })
+
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,listMonth'
+        },
+        locale: initialLocaleCode,
+        buttonIcons: false, // show the prev/next text
+        navLinks: false, // can click day/week names to navigate views
+        events: [
+            {
+                type: 'استكمالي',
+                title: ' استكمال  اجتماع وزير النقل مع نوابه',
+                start: '2020-01-20 01:20:00',
+                end: '2020-01-20 03:10:00',
+                color: '#000',
+                meetingType:'استكمالي',
+                meetingChair: 'ahmed farghaly',
+                place: 'صالة المدينة المنورة',
+                attendaceNumber: 10,
+                absenceNumber: 1
+            },
+            {
+                type: 'استكمالي',
+                title: ' اجتماع رئيس الوزراء مع نوابه',
+                start: '2020-01-11 16:20:00',
+                end: '2020-01-11 19:30:00',
+                color: '#ff9f89',
+                meetingType:'اولي',
+                meetingChair: 'ahmed farghaly',
+                place: 'صالة الملك فهد',
+                attendaceNumber: 15,
+                absenceNumber: 8
+            },
+            
+
+        ]
+        });
+
+        calendar.render();
+        $('.fc-content').click(function () {
+            $(this).data('title') !== null ? $("#title_data").text($(this).data('title')):'';
+            $(this).data('start') !== null ? $("#from_data").text(handleTime($(this).data('start'))):'';
+            $(this).data('end') !== null ? $("#to_data").text(handleTime($(this).data('end'))):'';
+            $(this).data('meeting-chair') !== null ? $("#chairman_data").text($(this).data('meeting-chair')):'';
+            $(this).data('meeting-place') !== null ? $("#room_data").text($(this).data('meeting-place')):'';
+            $(this).data('meeting-absence-number') !== null ? $("#absence_data").text($(this).data('meeting-absence-number')):'';
+            $(this).data('meeting-attendace-number') !== null ? $("#attendace_data").text($(this).data('meeting-attendace-number')):'';
+            $(this).data('meeting-type') !== null ? $("#type_data").text($(this).data('meeting-type')):'';
+        });
+        function handleTime(dateTime)
+        {
+            moment.locale('ar-sa');
+            time = moment(dateTime).subtract(3,'hours').format('LT');
+            return time;
+        }
+
+    
     });
 </script>
 

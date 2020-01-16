@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['middleware' => ['auth', 'see.committee']], function() {
-    
+
     Route::resource('committees', 'CommitteeController');
 
     Route::prefix('committees')->group(function () {
@@ -29,6 +29,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('export/{committee}', 'CommitteeReportController@exportAllInfo')->name('committee.export.all.info');
         Route::get('approve/{committee}', 'CommitteeController@approveCommittee')->name('committees.approve');
     });
+
+    Route::get('meetings/calendar', 'MeetingCalendarController@index')->name('meetings.calendar');
 
 });
 

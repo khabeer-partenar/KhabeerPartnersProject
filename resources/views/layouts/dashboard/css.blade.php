@@ -8,6 +8,16 @@
 {{ Html::style(mix('assets/css/main.css')) }}
 <!-- END GLOBAL MANDATORY STYLES -->
 
+
+<!-- BEGIN CALENDAR SCRIPTS PLUGIN -->
+
+{{ Html::style(mix('assets/css/calendar/core/main.css')) }}
+{{ Html::style(mix('assets/css/calendar/daygrid/main.css')) }}
+{{ Html::style(mix('assets/css/calendar/list/main.css')) }}
+
+<!-- END CALENDAR SCRIPTS PLUGIN -->
+
+
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 @yield('styles')
 <!-- END PAGE LEVEL PLUGINS -->
