@@ -27,5 +27,6 @@ return [
     'chairman' => 'رئيس اللجنة',
     'attendace_number' => 'عدد الحاضرين',
     'absence_number' => 'عدد المعتذرين',
-    'meeting_title' => 'عنوان الاجتماع'
+    'meeting_title' => 'عنوان الاجتماع',
+    'meeting_cancelled' => 'تم إلغاء الإجتماع',
 ];

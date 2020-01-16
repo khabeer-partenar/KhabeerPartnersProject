@@ -81,11 +81,21 @@
                                     @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB )
                                         @if (in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
                                             <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
-                                              class="btn btn-success">تفاصيل الإجتماع</a>
+                                              class="btn btn-success">التفاصيل</a>
                                         @endif
                                     @else
-                                        <a href="{{ route('committee.meetings.show', compact('committee', 'meeting')) }}"
-                                           class="btn btn-success">تفاصيل الإجتماع</a>
+                                        @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeMeetingController', 'Committee'))
+                                            <a href="{{ route('committee.meetings.show', compact('committee', 'meeting')) }}"
+                                               class="btn btn-success">التفاصيل</a>
+                                        @endif
+
+                                        @if(
+                                            auth()->user()->hasPermissionWithAccess('destroy', 'CommitteeMeetingController', 'Committee') &&
+                                            !$meeting->trashed()
+                                        )
+                                            <a data-href="{{ route('committee.meetings.cancel', compact('committee', 'meeting')) }}"
+                                               class="btn btn-danger delete-row ">إلغاء</a>
+                                        @endif
                                     @endif
                                 </td>
                             </tr>
