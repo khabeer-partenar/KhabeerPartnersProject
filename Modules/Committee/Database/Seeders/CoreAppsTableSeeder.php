@@ -87,24 +87,31 @@ class CoreAppsTableSeeder extends Seeder
             'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeDocumentController@download', 'name' => 'تحميل ملفات اللجنة',
+            'icon' => 'fa fa-file-o','sort' => 11, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:document/documents', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@sendNomination', 'name' => 'ارسال الترشيحات',
-            'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'icon' => 'fa fa-file-o','sort' => 12, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@getNominationDepartmentsWithRef', 'name' => 'عرض الجهات المطلوب ترشيح مندوبين لها',
-            'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'icon' => 'fa fa-file-o','sort' => 13, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@getDelegatesWithDetails', 'name' => 'عرض المندوبين فى تفاصيل اللجنة',
-            'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'icon' => 'fa fa-file-o','sort' => 14, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@approveCommittee', 'name' => 'اعتماد اللجنة',
-            'icon' => 'fa fa-file-o','sort' => 10, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'icon' => 'fa fa-file-o','sort' => 15, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
@@ -147,15 +154,53 @@ class CoreAppsTableSeeder extends Seeder
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\MeetingDocumentController@store', 'name' => 'رفع مرفقات الإجتماع',
+            'resource_name' => $generalResourceName . '\DelegateMeetingController@show', 'name' => 'عرض الإجتماع للمندوب',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting/delegate', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateMeetingController@update', 'name' => 'تعديل الإجتماع للمندوب',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting/delegate', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeMeetingController@destroy', 'name' => 'إلغاء الإجتماع',
             'icon' => 'fa fa-users', 'sort' => 7, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\MeetingDocumentController@destroy', 'name' => 'حذف مرفقات الإجتماع',
+            'resource_name' => $generalResourceName . '\MeetingDocumentController@store', 'name' => 'رفع مرفقات الإجتماع',
             'icon' => 'fa fa-users', 'sort' => 8, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingDocumentController@destroy', 'name' => 'حذف مرفقات الإجتماع',
+            'icon' => 'fa fa-users', 'sort' => 9, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateDocumentsController@store', 'name' => 'رفع مرفقات الإجتماع الخاصة بالمندوب',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateDocumentsController@destroy', 'name' => 'حذف مرفقات الإجتماع الخاصة بالمندوب',
+            'icon' => 'fa fa-users', 'sort' => 11, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName.'\MeetingController@index', 'name' => 'الإجتماعات',
+            'icon' => 'fa fa-files-o', 'sort' => 4, 'parent_id' => 1, 'frontend_path' => 'meetings', 'is_main_root' => 1,
+            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

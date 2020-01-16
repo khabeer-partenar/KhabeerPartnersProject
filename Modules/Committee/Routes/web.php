@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('approve/{committee}', 'CommitteeController@approveCommittee')->name('committees.approve');
     });
 
-    Route::get('meetings/calendar', 'MeetingCalendarController@index')->name('meetings.calendar');
+    Route::get('meetings', 'MeetingController@index')->name('meetings.calendar');
 
 });
 

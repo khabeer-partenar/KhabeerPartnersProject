@@ -10,7 +10,7 @@ use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Http\Requests\DocumentUploadRequest;
 
-class MeetingCalendarController extends UserBaseController
+class MeetingController extends UserBaseController
 {
     /**
      * Display a listing of the resource.
