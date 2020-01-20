@@ -1,8 +1,4 @@
 <script>
-    var initialLocaleCode = 'ar-sa';
-    var localeSelectorEl = document.getElementById('locale-selector');
-    var calendarEl = document.getElementById('calendar');
-    
     $(document).ready(function () {
         $('.select2').select2({
             placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder') : ''
@@ -150,9 +146,11 @@
             })
         })
 
-        var meetings = JSON.parse($('#meetings_data').val());
-
-        console.log(meetings);
+        // Calendar
+        var initialLocaleCode = 'ar-sa';
+        var localeSelectorEl = document.getElementById('locale-selector');
+        var calendarEl = document.getElementById('calendar');
+        var meetings = format(JSON.parse($('#meetings_data').val()));
 
         function format(meetings) {
             var events = [];
@@ -163,13 +161,11 @@
                     start: meetings[i].fromDate,
                     end: meetings[i].toDate,
                     color: meetings[i].type.color ? meetings[i].type.color:'#009247',
-                    meetingChair: meetings[i].committee.advisor.name,
+                    meetingChair: meetings[i].advisor.name,
                     place: meetings[i].room.name,
                     attendaceNumber: (meetings[i].attending_delegates).length + (meetings[i].attending_advisors).length,
                     absenceNumber: (meetings[i].absent_delegates).length + (meetings[i].absent_advisors).length
                 };
-                console.log((meetings[i].attending_delegates).length + (meetings[i].attending_advisors).length);
-                console.log((meetings[i].absent_delegates).length + (meetings[i].absent_advisors).length);
             }
             return events;
         }
@@ -184,7 +180,7 @@
             locale: initialLocaleCode,
             buttonIcons: false, // show the prev/next text
             navLinks: false, // can click day/week names to navigate views
-            events: format(meetings)
+            events: meetings
         });
 
         calendar.render();

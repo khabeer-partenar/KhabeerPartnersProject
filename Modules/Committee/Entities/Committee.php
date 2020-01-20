@@ -229,7 +229,8 @@ class Committee extends Model
         CommitteeDocument::updateDocumentsCommittee($committee->id);
         Meeting::create([
             'committee_id' => $committee->id,
-            'from' => self::getDateFromFormat($request->first_meeting_at,'d/m/Y H:i')
+            'from' => self::getDateFromFormat($request->first_meeting_at,'d/m/Y H:i'),
+            'advisor_id' => $request->advisor_id
         ]);
         event(new CommitteeCreatedEvent($committee));
         return $committee;

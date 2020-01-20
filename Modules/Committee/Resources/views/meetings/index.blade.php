@@ -76,7 +76,7 @@
                                     {{ $meeting->from . ' - ' . $meeting->to }}
                                 </td>
                                 <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
-                                <td>{{ count($meeting->participantAdvisorsPivot) + count($meeting->delegatesPivot) }}</td>
+                                <td>{{ count($meeting->attendingDelegates) + count($meeting->attendingAdvisors) }}</td>
                                 <td>
                                     @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB )
                                         @if (in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))

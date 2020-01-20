@@ -22,7 +22,7 @@ class MeetingController extends UserBaseController
     public function index()
     {
         $meetings = Meeting::filterAllByUser()->with([
-            'committee' => function($query) {$query->with('advisor');},
+            'advisor',
             'attendingDelegates',
             'attendingAdvisors',
             'absentDelegates',

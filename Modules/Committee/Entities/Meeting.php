@@ -12,12 +12,13 @@ use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
+use Modules\Users\Entities\User;
 
 class Meeting extends Model
 {
     use SharedModel, SoftDeletes, Log;
 
-    protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed'];
+    protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed', 'advisor_id'];
     protected $appends = ['meeting_at', 'meeting_at_ar', 'fromDate', 'toDate'];
 
     /**
@@ -46,6 +47,19 @@ class Meeting extends Model
 
     public function scopeFilterAllByUser($query)
     {
+        if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $query->whereIn('completed', [0, 1]);
+        } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            $allowedMeetingIds = MeetingAdvisor::where('advisor_id', auth()->id())->pluck('meeting_id');
+            $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) { // add further conditions if there are
+            $query->where('completed', 1);
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) { // add further conditions if there are
+            $query->where('completed', 1);
+        } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
+            $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
+            $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
+        }
         return $query;
     }
 
@@ -124,7 +138,8 @@ class Meeting extends Model
             'from' => $request->from.','.$request->at,
             'to' => $request->to.','.$request->at,
             'committee_id' => $committee->id,
-            'completed' => true
+            'completed' => true,
+            'advisor_id' => $committee->advisor_id
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
         $meeting->delegates()->sync($request->delegates);
@@ -141,7 +156,6 @@ class Meeting extends Model
         $this->update(array_merge([
             'from' => $request->from.','.$request->at,
             'to' => $request->to.','.$request->at,
-            'committee_id' => $committee->id,
             'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
@@ -222,5 +236,10 @@ class Meeting extends Model
     public function committee()
     {
         return $this->belongsTo(Committee::class);
+    }
+
+    public function advisor()
+    {
+        return $this->belongsTo(User::class, 'advisor_id');
     }
 }
