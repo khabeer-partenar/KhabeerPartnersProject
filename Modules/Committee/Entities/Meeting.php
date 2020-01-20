@@ -18,7 +18,7 @@ class Meeting extends Model
     use SharedModel, SoftDeletes, Log;
 
     protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed'];
-    protected $appends = ['meeting_at', 'meeting_at_ar'];
+    protected $appends = ['meeting_at', 'meeting_at_ar', 'fromDate', 'toDate'];
 
     /**
      * Scopes
@@ -44,6 +44,11 @@ class Meeting extends Model
         }
     }
 
+    public function scopeFilterAllByUser($query)
+    {
+        return $query;
+    }
+
     /**
      * Accs & Mut
      */
@@ -59,12 +64,12 @@ class Meeting extends Model
 
     public function getFromDateAttribute()
     {
-        return Carbon::parse($this->attributes['from']);
+        return Carbon::parse($this->attributes['from'])->format('Y-m-d H:i:s');
     }
 
     public function getToDateAttribute()
     {
-        return Carbon::parse($this->attributes['to']);
+        return Carbon::parse($this->attributes['to'])->format('Y-m-d H:i:s');
     }
 
     public function getMeetingAtAttribute()
@@ -161,9 +166,14 @@ class Meeting extends Model
         return $this->hasMany(MeetingDelegate::class, 'meeting_id');
     }
 
-    public function participantAdvisorsPivot()
+    public function attendingDelegates()
     {
-        return $this->hasMany(MeetingAdvisor::class, 'meeting_id');
+        return $this->hasMany(MeetingDelegate::class, 'meeting_id')->where('status', MeetingDelegate::ACCEPTED);
+    }
+
+    public function absentDelegates()
+    {
+        return $this->hasMany(MeetingDelegate::class, 'meeting_id')->where('status', MeetingDelegate::REJECTED);
     }
 
     public function type()
@@ -181,6 +191,21 @@ class Meeting extends Model
         return $this->belongsToMany(Employee::class, MeetingAdvisor::table(), 'meeting_id', 'advisor_id');
     }
 
+    public function participantAdvisorsPivot()
+    {
+        return $this->hasMany(MeetingAdvisor::class, 'meeting_id');
+    }
+
+    public function attendingAdvisors()
+    {
+        return $this->hasMany(MeetingAdvisor::class, 'meeting_id')->where('status', MeetingAdvisor::ACCEPTED);
+    }
+
+    public function absentAdvisors()
+    {
+        return $this->hasMany(MeetingAdvisor::class, 'meeting_id')->where('status', MeetingAdvisor::REJECTED);
+    }
+
     public function documents()
     {
         return $this->hasMany(MeetingDocument::class);
@@ -192,5 +217,10 @@ class Meeting extends Model
             ->where('user_id',auth()->user()->id)
             ->orderBy('updated_at', 'asc');
 
+    }
+
+    public function committee()
+    {
+        return $this->belongsTo(Committee::class);
     }
 }

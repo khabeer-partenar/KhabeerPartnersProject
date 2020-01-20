@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Http\Requests;
 
+use App\Rules\CheckFlag;
 use App\Rules\OverlappingDates;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\Committee\Entities\Meeting;
@@ -21,8 +22,16 @@ class SaveMeetingRequest extends FormRequest
     {
         return [
             'reason' => 'required',
-            'room_id' => ['required', 'exists:'. MeetingRoom::table(). ',id'],
-            'type_id' => ['required', 'exists:'. MeetingType::table(). ',id'],
+            'room_id' => [
+                'required',
+                'exists:'. MeetingRoom::table(). ',id',
+                new CheckFlag(MeetingRoom::table(), 'status')
+            ],
+            'type_id' => [
+                'required',
+                'exists:'. MeetingType::table(). ',id',
+                new CheckFlag(MeetingType::table(), 'active')
+            ],
             'at' => [
                 'required',
                 'date_format:m/d/Y',

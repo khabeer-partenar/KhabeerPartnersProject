@@ -25,18 +25,21 @@ class MeetingTypesTableSeeder extends Seeder
             [
                 'name' => 'أولي',
                 'active' => true,
+                'color' => '#009247',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
             [
                 'name' => 'استكمالي',
                 'active' => true,
+                'color' => '#d6a329',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
             [
                 'name' => 'توقيع',
                 'active' => true,
+                'color' => '#337ab7',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

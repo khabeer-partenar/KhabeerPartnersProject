@@ -18,6 +18,7 @@
         </div>
 
         <div class="portlet-body">
+            <input id="meetings_data" value="{{ json_encode($meetings) }}" hidden>
             <br>
             <div id='calendar'></div>
         </div>

@@ -1,8 +1,6 @@
-{{--@extends('layouts.dashboard.index')--}}
-
 <!-- Modal -->
 <div id="CalendarModal" class="modal fade" role="dialog" >
-    <div class="modal-info" role="document" style="width: 30%; margin:300px auto 0 auto">
+    <div class="modal-info" role="document" style="width: 30%; margin: 10% auto;">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -17,31 +15,47 @@
             </div>
 
             <div class="modal-body" style="width:100%;height:90%;">
-                    <div class="row">
-                        <div class="col-md-9" >{{__('committee::meetings.meeting_title')}}   :   <span id="title_data"></span></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6" >{{__('committee::meetings.chairman')}}   :   <span id="chairman_data"></span></div>
-                        <div class="col-md-6" >{{__('committee::meetings.type')}}   :   <span id="type_data"></span></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6" >{{__('committee::meetings.room')}}  :   <span id="room_data"></span></div>
-                        <div class="col-md-3" >{{__('committee::meetings.from')}}  :   <span id="from_data"></span></div>
-                        <div class="col-md-3" >{{__('committee::meetings.to')}}   :   <span id="to_data"></span></div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6" > {{__('committee::meetings.attendace_number')}}   :   <span id="attendace_data"></span></div>
-                        <div class="col-md-6" >{{__('committee::meetings.absence_number')}}   :   <span id="absence_data"></span></div>   
-                    </div>
+                <div class="table-responsive">
+                    <table class="table table-borderless" style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <th scope="row" style="width: 30%;">{{ __('committee::meetings.meeting_title') }}</th>
+                                <td id="title_data" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{__('committee::meetings.chairman')}}</th>
+                                <td id="chairman_data" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{__('committee::meetings.type')}}</th>
+                                <td id="type_data" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{__('committee::meetings.room')}}</th>
+                                <td id="room_data" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{__('committee::meetings.from')}}</th>
+                                <td id="from_data" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{__('committee::meetings.to')}}</th>
+                                <td id="to_data" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{ __('committee::meetings.attendace_number') }}</th>
+                                <td id="attendace_data" colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">{{ __('committee::meetings.absence_number') }}</th>
+                                <td id="absence_data" colspan="2"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
             <div class="modal-footer">
-
-                <button  type="button" class="btn btn-danger"
-                        data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
-
+                <button  type="button" class="btn btn-danger" data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
             </div>
         </div>
 

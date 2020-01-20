@@ -150,48 +150,45 @@
             })
         })
 
+        var meetings = JSON.parse($('#meetings_data').val());
+
+        console.log(meetings);
+
+        function format(meetings) {
+            var events = [];
+            for(var i = 0; i < meetings.length ; i++) {
+                events[i] = {
+                    meetingType: meetings[i].type.name,
+                    title: meetings[i].reason,
+                    start: meetings[i].fromDate,
+                    end: meetings[i].toDate,
+                    color: meetings[i].type.color ? meetings[i].type.color:'#009247',
+                    meetingChair: meetings[i].committee.advisor.name,
+                    place: meetings[i].room.name,
+                    attendaceNumber: (meetings[i].attending_delegates).length + (meetings[i].attending_advisors).length,
+                    absenceNumber: (meetings[i].absent_delegates).length + (meetings[i].absent_advisors).length
+                };
+                console.log((meetings[i].attending_delegates).length + (meetings[i].attending_advisors).length);
+                console.log((meetings[i].absent_delegates).length + (meetings[i].absent_advisors).length);
+            }
+            return events;
+        }
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
-        plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,listMonth'
-        },
-        locale: initialLocaleCode,
-        buttonIcons: false, // show the prev/next text
-        navLinks: false, // can click day/week names to navigate views
-        events: [
-            {
-                type: 'استكمالي',
-                title: ' استكمال  اجتماع وزير النقل مع نوابه',
-                start: '2020-01-20 01:20:00',
-                end: '2020-01-20 03:10:00',
-                color: '#000',
-                meetingType:'استكمالي',
-                meetingChair: 'ahmed farghaly',
-                place: 'صالة المدينة المنورة',
-                attendaceNumber: 10,
-                absenceNumber: 1
+            plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,listMonth'
             },
-            {
-                type: 'استكمالي',
-                title: ' اجتماع رئيس الوزراء مع نوابه',
-                start: '2020-01-11 16:20:00',
-                end: '2020-01-11 19:30:00',
-                color: '#ff9f89',
-                meetingType:'اولي',
-                meetingChair: 'ahmed farghaly',
-                place: 'صالة الملك فهد',
-                attendaceNumber: 15,
-                absenceNumber: 8
-            },
-            
-
-        ]
+            locale: initialLocaleCode,
+            buttonIcons: false, // show the prev/next text
+            navLinks: false, // can click day/week names to navigate views
+            events: format(meetings)
         });
 
         calendar.render();
+
         $('.fc-content').click(function () {
             $(this).data('title') !== null ? $("#title_data").text($(this).data('title')):'';
             $(this).data('start') !== null ? $("#from_data").text(handleTime($(this).data('start'))):'';
@@ -202,6 +199,7 @@
             $(this).data('meeting-attendace-number') !== null ? $("#attendace_data").text($(this).data('meeting-attendace-number')):'';
             $(this).data('meeting-type') !== null ? $("#type_data").text($(this).data('meeting-type')):'';
         });
+
         function handleTime(dateTime)
         {
             moment.locale('ar-sa');

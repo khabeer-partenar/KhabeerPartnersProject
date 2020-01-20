@@ -32,8 +32,8 @@ class CommitteeMeetingController extends UserBaseController
             ->orderBy('from', 'asc')
             ->with([
                 'type',
-                'delegatesPivot' => function ($query) {$query->where('status', MeetingDelegate::ACCEPTED);},
-                'participantAdvisorsPivot' => function ($query) {$query->where('status', MeetingAdvisor::ACCEPTED);},
+                'attendingDelegates',
+                'attendingAdvisors',
                 'room'
             ])
             ->withTrashed()
