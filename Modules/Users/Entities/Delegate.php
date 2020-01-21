@@ -6,18 +6,15 @@ namespace Modules\Users\Entities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
-
 use Modules\Committee\Entities\CommitteeStatus;
-use Modules\Committee\Events\CommitteeCreatedEvent;
-use Modules\Core\Entities\Group;
+use Modules\Committee\Entities\MeetingDelegate;
+use Modules\Committee\Entities\MeetingDocument;
 use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
-use DB;
 use Modules\Users\Events\DelegateCreatedEvent;
 use Modules\Users\Events\DelegateDeletedEvent;
 
@@ -289,4 +286,13 @@ class Delegate extends User
         return $this->belongsTo(Department::class, 'parent_department_id');
     }
 
+    public function documents()
+    {
+        return $this->hasMany(MeetingDocument::class, 'user_id', 'id');
+    }
+
+    public function attendingMeetings()
+    {
+        return $this->hasMany(MeetingDelegate::class, 'delegate_id')->where('status', MeetingDelegate::ACCEPTED);
+    }
 }

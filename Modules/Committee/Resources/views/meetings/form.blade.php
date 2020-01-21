@@ -284,7 +284,9 @@
     <div class="col-md-6">
         <p>اختر المشاركين من هيئة الخبراء لحضور الإجتماع</p>
         <div style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
-            <input type="checkbox" class="checkInContainer" id="checkAllAdvisors" data-container="#advisorsDiv"> <span style="font-size: 14px">الكل</span> <br>
+            <div class="form-group">
+                <input type="checkbox" class="checkInContainer" id="checkAllAdvisors" data-container="#advisorsDiv"> <span style="font-size: 14px">الكل</span> <br>
+            </div>
             <div id="advisorsDiv" class="containerUnCheckAll" data-checker="#checkAllAdvisors">
                 @php
                     $counter = 0;
@@ -311,7 +313,7 @@
 
 <!-- Modal -->
 <div id="roomDetailsModal" class="modal fade" role="dialog">
-    <div class="modal-notify modal-info" role="document" style="overflow-y: initial !important;width: auto; margin: 5%;">
+    <div class="modal-notify modal-info" role="document" style="overflow-y: initial !important;width: auto; margin: 10% 15%;">
 
         <!-- Modal content-->
         <div class="modal-content">

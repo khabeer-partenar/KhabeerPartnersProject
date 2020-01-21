@@ -18,14 +18,16 @@
         <ul id="menu">
             @foreach($authorizedApps as $app)
                 <li>
-                    <a href="javascript:;">{{ $app->name }}</a>
-                    <ul class="dropdown">
-                        @foreach($app->menuChildrenRecursive as $subApp)
-                            <li>
-                                <a href="{{ url($subApp->frontend_path) }}">{{ $subApp->name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
+                    <a href="{{ count($app->menuChildrenRecursive) == 0 ? url($app->frontend_path):'javascript:;' }}">{{ $app->name }}</a>
+                    @if(count($app->menuChildrenRecursive) > 0)
+                        <ul class="dropdown">
+                            @foreach($app->menuChildrenRecursive as $subApp)
+                                <li>
+                                    <a href="{{ url($subApp->frontend_path) }}">{{ $subApp->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </li>
             @endforeach
         </ul>

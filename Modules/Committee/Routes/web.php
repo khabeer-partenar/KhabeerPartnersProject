@@ -1,7 +1,7 @@
 <?php
 
 Route::group(['middleware' => ['auth', 'see.committee']], function() {
-    
+
     Route::resource('committees', 'CommitteeController');
 
     Route::prefix('committees')->group(function () {
@@ -12,6 +12,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::put('{committee}/meetings/{meeting}', 'CommitteeMeetingController@update')->name('committee.meetings.update');
         Route::post('{committee}/meetings', 'CommitteeMeetingController@store')->name('committee.meetings.store');
         Route::get('{committee}/meetings/{meeting}', 'CommitteeMeetingController@show')->name('committee.meetings.show');
+        Route::delete('{committee}/meetings/{meeting}', 'CommitteeMeetingController@destroy')->name('committee.meetings.cancel');
+
         Route::post('{committee}/meeting/{meeting}/document', 'MeetingDocumentController@storeForMeeting')->name('committee.meeting-document.store-meeting');
         Route::post('{committee}/meetings/document', 'MeetingDocumentController@store')->name('committee.meeting-document.store');
         Route::delete('{committee}/meetings/document/{document}', 'MeetingDocumentController@destroy')->name('committee.meeting-document.delete');
@@ -29,6 +31,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('export/{committee}', 'CommitteeReportController@exportAllInfo')->name('committee.export.all.info');
         Route::get('approve/{committee}', 'CommitteeController@approveCommittee')->name('committees.approve');
     });
+
+    Route::get('meetings', 'MeetingController@index')->name('meetings.calendar');
 
 });
 

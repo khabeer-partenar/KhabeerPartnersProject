@@ -18,27 +18,36 @@ class MeetingTypesTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        //DB::table(MeetingType::table())->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        DB::table(MeetingType::table())->truncate();
         $arr = [
             [
                 'name' => 'أولي',
                 'active' => true,
+                'color' => '#009247',
+                'slug' => MeetingType::PRIMARY,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
             [
                 'name' => 'استكمالي',
                 'active' => true,
+                'color' => '#d6a329',
+                'slug' => MeetingType::PERFECTING,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
             [
                 'name' => 'توقيع',
                 'active' => true,
+                'color' => '#337ab7',
+                'slug' => MeetingType::SIGNATURE,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
         ];
         MeetingType::insert($arr);
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

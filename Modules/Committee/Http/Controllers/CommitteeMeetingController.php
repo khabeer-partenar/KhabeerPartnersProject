@@ -28,13 +28,15 @@ class CommitteeMeetingController extends UserBaseController
     public function index(Committee $committee)
     {
         $meetings = $committee->meetings()
+            ->filterByUser($committee)
             ->orderBy('from', 'asc')
             ->with([
                 'type',
-                'delegates'  => function ($query) {$query->where('status', MeetingDelegate::ACCEPTED);},
-                'participantAdvisors' => function ($query) {$query->where('status', MeetingAdvisor::ACCEPTED);},
+                'attendingDelegates',
+                'attendingAdvisors',
                 'room'
             ])
+            ->withTrashed()
             ->paginate(10);
         return view('committee::meetings.index', compact('committee', 'meetings'));
     }
@@ -123,11 +125,16 @@ class CommitteeMeetingController extends UserBaseController
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param Committee $committee
+     * @param Meeting $meeting
      * @return Response
+     * @internal param int $id
      */
-    public function destroy($id)
+    public function destroy(Committee $committee, Meeting $meeting)
     {
-        //
+        $meeting->log('meeting_cancel_for_committee : ' . $committee->id);
+        $meeting->delete();
+        self::sessionSuccess('committee::meetings.meeting_cancelled');
+        return response()->json([], 200);
     }
 }

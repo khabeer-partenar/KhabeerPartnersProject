@@ -255,4 +255,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Committee::class, 'committees_participant_advisors', 'advisor_id', 'committee_id')->withTimestamps();
     }
+
+    public function delegate()
+    {
+        return $this->hasOne(Delegate::class, 'id', 'id');
+    }
 }

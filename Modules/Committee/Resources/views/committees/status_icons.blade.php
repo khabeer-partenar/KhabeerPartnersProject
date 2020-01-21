@@ -17,7 +17,7 @@
             <i title="{{__('committee::committees.icon_read_title')}}" class="fa fa-lg fa-envelope-open-o"
                style="cmargin-left: 3px;"></i>
         @else
-                <i title="{{__('committee::committees.icon_read_title')}}" class="fa fa-lg fa-envelope-o"
+                <i title="{{__('committee::committees.icon_un_read_title')}}" class="fa fa-lg fa-envelope-o"
                    style="cmargin-left: 3px;"></i>
         @endif
             @if (auth()->user()->user_type == 'user' && $committee->approved)

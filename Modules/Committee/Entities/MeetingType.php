@@ -11,6 +11,9 @@ class MeetingType extends Model
     use SharedModel, SoftDeletes;
 
     protected $table = 'meetings_types';
-    protected $fillable = ['name', 'active'];
+    protected $fillable = ['name', 'active', 'color', 'slug'];
 
+    const PRIMARY = 0;
+    const PERFECTING = 1;
+    const SIGNATURE = 2;
 }

@@ -19,10 +19,11 @@
 
                 <div class="col-md-3">
                     <div class="actions item-fl item-mb20">
-                        <a href="{{ route('committee.meetings.edit', compact('committee', 'meeting')) }}" class="btn btn-sm btn-warning">
-                            <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
-                        </a>
-
+                        @if(!$meeting->trashed())
+                            <a href="{{ route('committee.meetings.edit', compact('committee', 'meeting')) }}" class="btn btn-sm btn-warning">
+                                <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
+                            </a>
+                        @endif
                         <a href="{{ route('committee.meetings', compact('committee')) }}" class="btn red">{{ __('messages.goBack') }}</a>
                     </div>
                 </div>
@@ -114,7 +115,7 @@
                                 <td>
                                     {{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}
                                 </td>
-                                <td>{{ $delegate->pivot->refuse_reason }}</td>
+                                <td>{{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}</td>
                             </tr>
                         @endforeach
                         </tbody>

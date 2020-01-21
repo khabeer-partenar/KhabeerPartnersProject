@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\MeetingRoom;
+use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\User;
@@ -17,8 +18,55 @@ class Meeting extends Model
 {
     use SharedModel, SoftDeletes, Log;
 
-    protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed'];
-    protected $appends = ['meeting_at', 'meeting_at_ar'];
+    protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed', 'advisor_id'];
+    protected $appends = ['meeting_at', 'meeting_at_ar', 'fromDate', 'toDate'];
+
+    /**
+     * Scopes
+     */
+    public function scopeFilterByUser($query, Committee $committee)
+    {
+        if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $query->whereIn('completed', [0, 1]);
+        } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            if ($committee->advisor_id == auth()->id()) {
+                $query->whereIn('completed', [0, 1]);
+            } else {
+                $allowedMeetingIds = MeetingAdvisor::where('advisor_id', auth()->id())->pluck('meeting_id');
+                $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
+            }
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) { // add further conditions if there are
+            $query->where('completed', 1);
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) { // add further conditions if there are
+            $query->where('completed', 1);
+        } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
+            $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
+            $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
+        }
+    }
+
+    public function scopeFilterAllByUser($query)
+    {
+        if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $advisorsId = auth()->user()->advisors()->pluck('users.id');
+            $query->whereIn('advisor_id', $advisorsId);
+        } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            $allowedMeetingIds = MeetingAdvisor::where('advisor_id', auth()->id())->pluck('meeting_id');
+            $query
+                ->whereIn('id', $allowedMeetingIds)
+                ->orWhere(function ($query) {
+                    $query->where('advisor_id', auth()->id());
+                });
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+
+        } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
+            $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
+            $query->whereIn('id', $allowedMeetingIds);
+        }
+        return $query->where('completed', 1);
+    }
 
     /**
      * Accs & Mut
@@ -31,6 +79,16 @@ class Meeting extends Model
     public function getToAttribute()
     {
         return Carbon::parse($this->attributes['to'])->format('H:i');
+    }
+
+    public function getFromDateAttribute()
+    {
+        return Carbon::parse($this->attributes['from'])->format('Y-m-d H:i:s');
+    }
+
+    public function getToDateAttribute()
+    {
+        return Carbon::parse($this->attributes['to'])->format('Y-m-d H:i:s');
     }
 
     public function getMeetingAtAttribute()
@@ -85,7 +143,8 @@ class Meeting extends Model
             'from' => $request->from.','.$request->at,
             'to' => $request->to.','.$request->at,
             'committee_id' => $committee->id,
-            'completed' => true
+            'completed' => true,
+            'advisor_id' => $committee->advisor_id
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
         $meeting->delegates()->sync($request->delegates);
@@ -102,7 +161,6 @@ class Meeting extends Model
         $this->update(array_merge([
             'from' => $request->from.','.$request->at,
             'to' => $request->to.','.$request->at,
-            'committee_id' => $committee->id,
             'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
@@ -122,6 +180,21 @@ class Meeting extends Model
             ->withPivot('refuse_reason', 'status');
     }
 
+    public function delegatesPivot()
+    {
+        return $this->hasMany(MeetingDelegate::class, 'meeting_id');
+    }
+
+    public function attendingDelegates()
+    {
+        return $this->hasMany(MeetingDelegate::class, 'meeting_id')->where('status', MeetingDelegate::ACCEPTED);
+    }
+
+    public function absentDelegates()
+    {
+        return $this->hasMany(MeetingDelegate::class, 'meeting_id')->where('status', MeetingDelegate::REJECTED);
+    }
+
     public function type()
     {
         return $this->belongsTo(MeetingType::class);
@@ -137,6 +210,21 @@ class Meeting extends Model
         return $this->belongsToMany(Employee::class, MeetingAdvisor::table(), 'meeting_id', 'advisor_id');
     }
 
+    public function participantAdvisorsPivot()
+    {
+        return $this->hasMany(MeetingAdvisor::class, 'meeting_id');
+    }
+
+    public function attendingAdvisors()
+    {
+        return $this->hasMany(MeetingAdvisor::class, 'meeting_id')->where('status', MeetingAdvisor::ACCEPTED);
+    }
+
+    public function absentAdvisors()
+    {
+        return $this->hasMany(MeetingAdvisor::class, 'meeting_id')->where('status', MeetingAdvisor::REJECTED);
+    }
+
     public function documents()
     {
         return $this->hasMany(MeetingDocument::class);
@@ -148,5 +236,15 @@ class Meeting extends Model
             ->where('user_id',auth()->user()->id)
             ->orderBy('updated_at', 'asc');
 
+    }
+
+    public function committee()
+    {
+        return $this->belongsTo(Committee::class);
+    }
+
+    public function advisor()
+    {
+        return $this->belongsTo(User::class, 'advisor_id');
     }
 }
