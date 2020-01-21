@@ -48,19 +48,24 @@ class Meeting extends Model
     public function scopeFilterAllByUser($query)
     {
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
-            $query->whereIn('completed', [0, 1]);
+            $advisorsId = auth()->user()->advisors()->pluck('users.id');
+            $query->whereIn('advisor_id', $advisorsId);
         } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
             $allowedMeetingIds = MeetingAdvisor::where('advisor_id', auth()->id())->pluck('meeting_id');
-            $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) { // add further conditions if there are
-            $query->where('completed', 1);
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) { // add further conditions if there are
-            $query->where('completed', 1);
+            $query
+                ->whereIn('id', $allowedMeetingIds)
+                ->orWhere(function ($query) {
+                    $query->where('advisor_id', auth()->id());
+                });
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+
         } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
             $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
-            $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
+            $query->whereIn('id', $allowedMeetingIds);
         }
-        return $query;
+        return $query->where('completed', 1);
     }
 
     /**

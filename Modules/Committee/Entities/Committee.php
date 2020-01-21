@@ -347,7 +347,6 @@ class Committee extends Model
         return $groupStatus;
     }
 
-
     public function getCanTakeActionAttribute()
     {
         return in_array(auth()->user()->id, [$this->created_by, $this->advisor_id]);
