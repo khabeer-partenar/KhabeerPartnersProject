@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Committee\Entities\CommitteeStatus;
+use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
@@ -288,5 +289,10 @@ class Delegate extends User
     public function documents()
     {
         return $this->hasMany(MeetingDocument::class, 'user_id', 'id');
+    }
+
+    public function attendingMeetings()
+    {
+        return $this->hasMany(MeetingDelegate::class, 'delegate_id')->where('status', MeetingDelegate::ACCEPTED);
     }
 }
