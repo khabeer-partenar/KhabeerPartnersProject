@@ -8,6 +8,7 @@ use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Entities\Group;
 use Modules\Core\Entities\Status;
@@ -226,12 +227,16 @@ class Committee extends Model
         $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $committee->participantDepartments()->sync($request->departments);
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
-        CommitteeDocument::updateDocumentsCommittee($committee->id);
+        $committee->updateDocuments();
+
+        $type = MeetingType::where('slug', MeetingType::PRIMARY)->first();
         Meeting::create([
             'committee_id' => $committee->id,
+            'type_id' => $type->id,
             'from' => self::getDateFromFormat($request->first_meeting_at,'d/m/Y H:i'),
             'advisor_id' => $request->advisor_id
         ]);
+
         event(new CommitteeCreatedEvent($committee));
         return $committee;
     }
@@ -268,6 +273,19 @@ class Committee extends Model
     {
         $this->approved = true;
         $this->save();
+    }
+
+    public function updateDocuments()
+    {
+        $documents = CommitteeDocument::where('user_id', auth()->id())->whereNull('committee_id')->get();
+        foreach ($documents as $document) {
+            $fileName = basename($document->path);
+            $newPath = "committees/$this->id/$fileName";
+            $moved = Storage::move($document->path, $newPath);
+            if ($moved) {
+                $document->update(['committee_id' => $this->id, 'path' => $newPath]);
+            }
+        }
     }
 
     /**

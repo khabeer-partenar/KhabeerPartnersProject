@@ -26,6 +26,7 @@ class MeetingTypesTableSeeder extends Seeder
                 'name' => 'أولي',
                 'active' => true,
                 'color' => '#009247',
+                'slug' => MeetingType::PRIMARY,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -33,6 +34,7 @@ class MeetingTypesTableSeeder extends Seeder
                 'name' => 'استكمالي',
                 'active' => true,
                 'color' => '#d6a329',
+                'slug' => MeetingType::PERFECTING,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -40,6 +42,7 @@ class MeetingTypesTableSeeder extends Seeder
                 'name' => 'توقيع',
                 'active' => true,
                 'color' => '#337ab7',
+                'slug' => MeetingType::SIGNATURE,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
