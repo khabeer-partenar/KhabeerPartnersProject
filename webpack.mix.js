@@ -24,14 +24,18 @@ mix
    .copy('resources/assets/css/colorbox.css', 'public/assets/css/colorbox.css')
    .copy('resources/assets/css/styles_ar.css', 'public/assets/css/styles_ar.css')
 
+   .copy('resources/assets/packages/calendar/core/main.css', 'public/assets/css/calendar/core/main.css')
+   .copy('resources/assets/packages/calendar/daygrid/main.css', 'public/assets/css/calendar/daygrid/main.css')
+   .copy('resources/assets/packages/calendar/list/main.css', 'public/assets/css/calendar/list/main.css')
    .combine([
         'resources/assets/css/select2_ar.min.css',
         'resources/assets/css/select2-bootstrap_ar.min.css',
        'resources/assets/css/jquery.datetimepicker.min.css',
-        'resources/assets/css/custom.css',        
-    ], 'public/assets/css/main.css')
+       'resources/assets/css/bootstrap-timepicker.min.css',
+       'resources/assets/css/custom.css',
+   ], 'public/assets/css/main.css')
 
-    /*
+   /*
     |--------------------------------------------------------------------------
     | Core Js
     |--------------------------------------------------------------------------
@@ -98,6 +102,7 @@ mix
     .copy('resources/assets/js/vendor/bootstrap-select.min.js', 'public/assets/js/bootstrap-select.min.js')
     .copy('resources/assets/js/vendor/bootstrap-datepicker.min.js', 'public/assets/js/bootstrap-datepicker.min.js')
     .copy('resources/assets/js/vendor/locals/bootstrap-datepicker-ar.js', 'public/assets/js/bootstrap-datepicker-ar.min.js')
+    .copy('resources/assets/js/vendor/bootstrap-timepicker.min.js', 'public/assets/js/bootstrap-timepicker.min.js')
     .copy('resources/assets/js/vendor/jquery.datetimepicker.full.min.js', 'public/assets/js/bootstrap-datetimepicker.min.js')
     .copy('resources/assets/js/vendor/components-multi-select.min.js', 'public/assets/js/components-multi-select.min.js')
     .copy('resources/assets/js/vendor/table-datatables-editable.min.js', 'public/assets/js/table-datatables-editable.min.js')
@@ -112,4 +117,15 @@ mix
 
     .copy('resources/assets/js/vendor/menu-toggler-sidebar.js', 'public/assets/js/menu-toggler-sidebar.js')
     .copy('resources/assets/js/khabeer.js', 'public/assets/js/khabeer.js')
-    .copy('resources/assets/js/khabeer-validations.js', 'public/assets/js/khabeer-validations.js');
+    .copy('resources/assets/js/khabeer-validations.js', 'public/assets/js/khabeer-validations.js')
+
+    .copy('resources/assets/packages/calendar/core/main.js', 'public/assets/js/calendar/core/main.js')
+    .copy('resources/assets/packages/calendar/core/locales-all.js', 'public/assets/js/calendar/core/locales-all.js')
+    .copy('resources/assets/packages/calendar/interaction/main.js', 'public/assets/js/calendar/interaction/main.js')
+    .copy('resources/assets/packages/calendar/daygrid/main.js', 'public/assets/js/calendar/daygrid/main.js')
+    .copy('resources/assets/packages/calendar/timegrid/main.js', 'public/assets/js/calendar/timegrid/main.js')
+    .copy('resources/assets/packages/calendar/list/main.js', 'public/assets/js/calendar/list/main.js')
+    .copy('resources/assets/packages/moment.js', 'public/assets/js/moment.js');
+
+
+

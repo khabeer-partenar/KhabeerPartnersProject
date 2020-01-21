@@ -55,7 +55,7 @@
             </tr>
         @endforeach
         <tr>
-            <td colspan="6" style="font-weight:bold">
+            <td colspan="7" style="font-weight:bold">
                 اجمالى عددالمرشحين : <label id="delegatesNumber"
                                             style="font-weight:bold">{{ $delegates->count() }}</label>
             </td>

@@ -18,7 +18,7 @@
                 <div class="col-md-5">
                     <div class="actions item-fl item-mb20">
 
-                        @if(auth()->user()->hasPermissionWithAccess('edit'))
+                        @if(auth()->user()->hasPermissionWithAccess('edit') && $committee->can_take_action)
                             <a href="{{ route('committees.edit', $committee) }}" class="btn btn-sm btn-warning">
                                 <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
                             </a>
@@ -59,6 +59,14 @@
                             ({{ $committee->resource_staff_number }})
                             {{ __('committee::committees.on_date') }}
                             {{ $committee->resource_at_hijri }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="width: 16.66%" scope="row">رقم وتاريخ صادر الجهة</th>
+                        <td>
+                            ({{ $committee->department_out_number }})
+                            {{ __('committee::committees.on_date') }}
+                            {{ $committee->department_out_date_hijri }}
                         </td>
                     </tr>
                     <tr>
@@ -222,7 +230,6 @@
             </table>
             
             @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
-            {{--@include('users::delegates.index')--}}
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
             <br>

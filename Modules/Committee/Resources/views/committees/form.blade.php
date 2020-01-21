@@ -33,6 +33,42 @@
     </div>
 
     <div class="col-md-4">
+        <div class="form-group {{ $errors->has('department_out_number') ? ' has-error' : '' }}">
+            <label for="department_out_number" class="control-label">
+                {{ __('committee::committees.department_out_number') }}
+                <span style="color: red">*</span>
+            </label>
+
+            {!! Form::text('department_out_number', null, ['id' => 'department_out_number', 'class' => 'form_control']) !!}
+            @include('layouts.dashboard.form-error', ['key' => 'department_out_number'])
+        </div>
+    </div>
+
+</div>
+
+<br />
+
+<div class="row">
+    
+    <div class="col-md-4">
+        <div class="form-group {{ $errors->has('department_out_date') ? ' has-error' : '' }}">
+            <label for="resource_at" class="control-label">
+                {{ __('committee::committees.department_out_date') }}
+                <span style="color: red">*</span>
+            </label>
+
+            @php
+                $departmentOutDate = isset($committee) ? $committee->department_out_date->format('m/d/Y'):null;
+                if (old('department_out_date')){
+                    $departmentOutDate = old('department_out_date');
+                }
+            @endphp
+            <input type="text" name="department_out_date" id="department_out_date" value="{{ $departmentOutDate }}" class="form_control date-picker" autocomplete="off">
+            @include('layouts.dashboard.form-error', ['key' => 'department_out_date'])
+        </div>
+    </div>
+
+    <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_type_id') ? ' has-error' : '' }}">
             <label for="treatment_type_id" class="control-label">
                 {{ __('committee::committees.treatment_type_id') }}
@@ -54,12 +90,6 @@
             @include('layouts.dashboard.form-error', ['key' => 'treatment_type_id'])
         </div>
     </div>
-
-</div>
-
-<br />
-
-<div class="row">
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('resource_by') ? ' has-error' : '' }}">
@@ -84,6 +114,12 @@
         </div>
     </div>
 
+</div>
+
+<br />
+
+<div class="row">
+    
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_number') ? ' has-error' : '' }}">
             <label for="treatment_number" class="control-label">
@@ -113,11 +149,6 @@
             @include('layouts.dashboard.form-error', ['key' => 'treatment_time'])
         </div>
     </div>
-</div>
-
-<br />
-
-<div class="row">
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('recommended_by_id') ? ' has-error' : '' }}">
@@ -141,6 +172,12 @@
             @include('layouts.dashboard.form-error', ['key' => 'recommended_by_id'])
         </div>
     </div>
+
+</div>
+
+<br />
+
+<div class="row">
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('recommendation_number') ? ' has-error' : '' }}">
@@ -171,11 +208,7 @@
             @include('layouts.dashboard.form-error', ['key' => 'recommended_at'])
         </div>
     </div>
-</div>
 
-<br />
-
-<div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('source_of_study_id') ? ' has-error' : '' }}">
             <label for="source_of_study_id" class="control-label">
@@ -198,6 +231,12 @@
             @include('layouts.dashboard.form-error', ['key' => 'source_of_study_id'])
         </div>
     </div>
+
+</div>
+
+<br />
+
+<div class="row">
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_urgency_id') ? ' has-error' : '' }}">
@@ -244,11 +283,7 @@
             @include('layouts.dashboard.form-error', ['key' => 'treatment_importance_id'])
         </div>
     </div>
-</div>
 
-<br />
-
-<div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('first_meeting_at') ? ' has-error' : '' }}">
             <label for="first_meeting_at" class="control-label">
@@ -257,7 +292,7 @@
             </label>
 
             @php
-                $meetingAt = isset($committee) ? $committee->first_meeting_at->format('m/d/Y H:i'):null;
+                $meetingAt = isset($committee) ? $committee->first_meeting_at->format('d/m/Y H:i'):null;
                 if (old('first_meeting_at')){
                     $meetingAt = old('first_meeting_at');
                 }
@@ -267,7 +302,12 @@
         </div>
     </div>
 
-    <div class="col-md-8">
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-12">
         <div class="form-group {{ $errors->has('subject') ? ' has-error' : '' }}">
             <label for="subject" class="control-label">
                 {{ __('committee::committees.subject') }}

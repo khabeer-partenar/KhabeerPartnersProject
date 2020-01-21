@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Modules\Committee\Entities\Meeting;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,10 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        Route::bind('meeting', function($value, $route)
+        {
+            return Meeting::where('id', $value)->withTrashed()->first();
+        });
 
         parent::boot();
     }

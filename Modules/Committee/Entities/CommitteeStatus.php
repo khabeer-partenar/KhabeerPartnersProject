@@ -3,7 +3,6 @@
 
 namespace Modules\Committee\Entities;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Entities\Group;
 use Modules\Core\Entities\Status;
@@ -35,22 +34,20 @@ class CommitteeStatus extends Model
         $mainCoordinatorGroupId = Group::where('key', Coordinator::MAIN_CO_JOB)->first()->id;
         $delegateGroupId = Group::where('key', Delegate::JOB)->first()->id;
 
-        $committee->groupsStatuses()->sync(
-            [$secretaryGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $advisorGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $officeOfThePresidentGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $directorOfConsultantsOfficesGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $associateConsultantGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $portfolioManagerGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $technicalSupportGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $chairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $viceChairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES]
-                , $coordinatorGroupId => ['status' => Status::NOMINATIONS_NOT_DONE]
-                , $mainCoordinatorGroupId => ['status' => Status::NOMINATIONS_NOT_DONE]
-                , $delegateGroupId => ['status' => Status::NOMINATIONS_NOT_DONE]
-
-            ]);
-
+        $committee->groupsStatuses()->sync([
+            $secretaryGroupId => ['status' => Status::WAITING_DELEGATES],
+            $advisorGroupId => ['status' => Status::WAITING_DELEGATES],
+            $officeOfThePresidentGroupId => ['status' => Status::WAITING_DELEGATES],
+            $directorOfConsultantsOfficesGroupId => ['status' => Status::WAITING_DELEGATES],
+            $associateConsultantGroupId => ['status' => Status::WAITING_DELEGATES],
+            $portfolioManagerGroupId => ['status' => Status::WAITING_DELEGATES],
+            $technicalSupportGroupId => ['status' => Status::WAITING_DELEGATES],
+            $chairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
+            $viceChairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
+            $coordinatorGroupId => ['status' => Status::NOMINATIONS_NOT_DONE],
+            $mainCoordinatorGroupId => ['status' => Status::NOMINATIONS_NOT_DONE],
+            $delegateGroupId => ['status' => Status::NOMINATIONS_NOT_DONE]
+        ]);
     }
 
     public static function updateCommitteeGroupStatus(Committee $committee, $status)

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04d188961b950ebb5303c3e4ffd586c7",
+    "content-hash": "e7ff59904b312f71133e11d5f63bc107",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1134,6 +1134,48 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "johntaa/ar-php",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Johntaa/ar-php.git",
+                "reference": "733050aa23f5c1e93bcb274c6d088f8cfa0ec4aa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Johntaa/ar-php/zipball/733050aa23f5c1e93bcb274c6d088f8cfa0ec4aa",
+                "reference": "733050aa23f5c1e93bcb274c6d088f8cfa0ec4aa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Johntaa\\Arabic\\": "src/Arabic"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Khaled Al-Sham'aa",
+                    "email": "khaled@ar-php.org",
+                    "homepage": "http://www.ar-php.org/"
+                },
+                {
+                    "name": ":johntaa",
+                    "email": "fccffccffccf@yahoo.com"
+                }
+            ],
+            "description": "contribution to Ar-PHP Library, namespace-psr4 added",
+            "homepage": "https://github.com/Johntaa/ar-php",
+            "time": "2018-01-27T02:25:01+00:00"
         },
         {
             "name": "laravel/framework",
@@ -6799,7 +6841,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "johntaa/ar-php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

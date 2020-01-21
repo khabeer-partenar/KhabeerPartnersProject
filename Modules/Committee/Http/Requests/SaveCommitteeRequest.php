@@ -25,6 +25,8 @@ class SaveCommitteeRequest extends FormRequest
         return [
             'resource_staff_number' => 'required',
             'resource_at' => 'required|date',
+            'department_out_number' => 'required',
+            'department_out_date' => 'required|date',
             'resource_by' => ['required', 'exists:'. Department::table(). ',id'],
             'treatment_number' => 'required|integer',
             'treatment_time' => 'required|date',

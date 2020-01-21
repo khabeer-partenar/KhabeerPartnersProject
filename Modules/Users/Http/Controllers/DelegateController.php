@@ -52,28 +52,9 @@ class DelegateController extends UserBaseController
      */
     public function index(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
-            $delegatesQuery = Delegate::with('mainDepartment', 'parentDepartment', 'directDepartment')
-                ->search($request);
-            return Datatables::of($delegatesQuery)
-                ->addColumn('department_info', function ($delegate) {
-                    $data = [
-                        $delegate->mainDepartment->name,
-                        $delegate->parentDepartment->name,
-                        $delegate->direct_department ? $delegate->direct_department : null
-                    ];
-                    return view('users::delegates.commas_separated_data', ['data' => $data]);
-                })
-                ->addColumn('contact_options', function ($delegate) {
-                    $data = [$delegate->phone_number, $delegate->email];
-                    return view('users::delegates.commas_separated_data', ['data' => $data, 'break' => 1]);
-                })
-                ->addColumn('action', function ($delegate) {
-                    return view('users::delegates.actions', compact('delegate'));
-                })->rawColumns(['action', 'contact_options'])->make(true);
-        }
+        $delegatesData = Delegate::with('mainDepartment', 'parentDepartment', 'directDepartment')->search($request)->paginate(10);
         $mainDepartments = Department::getDepartments();
-        return view('users::delegates.index', compact('mainDepartments'));
+        return view('users::delegates.index', compact('mainDepartments', 'delegatesData'));
     }
 
     public function show(Delegate $delegate)

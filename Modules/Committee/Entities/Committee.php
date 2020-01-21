@@ -8,6 +8,7 @@ use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Entities\Group;
 use Modules\Core\Entities\Status;
@@ -37,7 +38,7 @@ class Committee extends Model
     ];
 
     protected $fillable = [
-        'resource_staff_number', 'resource_at', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
+        'resource_staff_number', 'resource_at', 'department_out_number', 'department_out_date', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
         'treatment_urgency_id', 'treatment_importance_id', 'source_of_study_id', 'recommendation_number', 'recommended_by_id',
         'recommended_at', 'subject', 'first_meeting_at', 'tasks', 'president_id', 'advisor_id', 'members_count', 'status',
         'reason_of_deletion', 'created_by', 'approved'
@@ -48,7 +49,7 @@ class Committee extends Model
     ];
 
     protected $dates = [
-        'resource_at', 'treatment_time', 'first_meeting_at', 'recommended_at'
+        'resource_at', 'department_out_date', 'treatment_time', 'first_meeting_at', 'recommended_at'
     ];
 
     /**
@@ -59,6 +60,11 @@ class Committee extends Model
     public function setResourceAtAttribute($value)
     {
         $this->attributes['resource_at'] = self::getDateFromFormat($value);
+    }
+
+    public function setDepartmentOutDateAttribute($value)
+    {
+        $this->attributes['department_out_date'] = self::getDateFromFormat($value);
     }
 
     public function setTreatmentTimeAttribute($value)
@@ -79,6 +85,12 @@ class Committee extends Model
     public function getResourceAtHijriAttribute()
     {
         $date = Carbon::parse($this->attributes['resource_at'])->format('Y-m-d');
+        return CarbonHijri::toHijriFromMiladi($date);
+    }
+
+    public function getDepartmentOutDateHijriAttribute()
+    {
+        $date = Carbon::parse($this->attributes['department_out_date'])->format('Y-m-d');
         return CarbonHijri::toHijriFromMiladi($date);
     }
 
@@ -118,38 +130,44 @@ class Committee extends Model
      */
     public function scopeSearch($query, $request)
     {
-
         // Filter By Request
-        if (auth()->user()->authorizedApps->key == Employee::ADVISOR
-            || auth()->user()->authorizedApps->key == Employee::SECRETARY
-            || auth()->user()->is_super_admin) {
-            $query->where('approved', true);
-            $query->orWhere('approved', false);
-        } else {
-            $query->where('approved', true);
-        }
-
-        if ($request->has('subject')) {
+        if ($request->subject) {
             $query->where('subject', 'LIKE', '%' . $request->subject . '%');
         }
-        if ($request->has('advisor_id') && $request->advisor_id != 0) {
+        if ($request->advisor_id && $request->advisor_id != 0) {
             $query->where('advisor_id', $request->advisor_id);
         }
-        if ($request->has('status') && $request->status != '0') {
+        if ($request->status && $request->status != '0') {
             $query->where('status', $request->status);
         }
-        if ($request->has('treatment_number')) {
+        if ($request->treatment_number) {
             $query->where('treatment_number', $request->treatment_number);
         }
-        if ($request->has('treatment_time')) {
+        if ($request->treatment_time && $request->treatment_time != '') {
             $query->whereDate('treatment_time', '=', Carbon::createFromFormat('m/d/Y', $request->treatment_time));
         }
-        if ($request->has('uuid')) {
+        if ($request->uuid) {
             $query->where('uuid', $request->uuid);
         }
-        if ($request->has('created_at')) {
+        if ($request->created_at) {
             $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $request->created_at));
         }
+
+        return $query;
+    }
+
+
+    public function scopeUser($query)
+    {
+
+        if(!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
+            $query->where('approved', true);
+        }
+
+        if(auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+            $query->whereRaw('IF(advisor_id <> ?, approved=?, advisor_id=advisor_id)', [auth()->user()->id, true]);
+        }
+
         if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             // Secretary Should see Committees for his Advisors Only
             $advisorsId = auth()->user()->advisors()->pluck('users.id');
@@ -208,10 +226,17 @@ class Committee extends Model
         );
         $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $committee->participantDepartments()->sync($request->departments);
-        //
-
         $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
-        CommitteeDocument::updateDocumentsCommittee($committee->id);
+        $committee->updateDocuments();
+
+        $type = MeetingType::where('slug', MeetingType::PRIMARY)->first();
+        Meeting::create([
+            'committee_id' => $committee->id,
+            'type_id' => $type->id,
+            'from' => self::getDateFromFormat($request->first_meeting_at,'d/m/Y H:i'),
+            'advisor_id' => $request->advisor_id
+        ]);
+
         event(new CommitteeCreatedEvent($committee));
         return $committee;
     }
@@ -242,6 +267,25 @@ class Committee extends Model
             }
         }
         return $toBeNotifiedUsers;
+    }
+
+    public function approveCommittee()
+    {
+        $this->approved = true;
+        $this->save();
+    }
+
+    public function updateDocuments()
+    {
+        $documents = CommitteeDocument::where('user_id', auth()->id())->whereNull('committee_id')->get();
+        foreach ($documents as $document) {
+            $fileName = basename($document->path);
+            $newPath = "committees/$this->id/$fileName";
+            $moved = Storage::move($document->path, $newPath);
+            if ($moved) {
+                $document->update(['committee_id' => $this->id, 'path' => $newPath]);
+            }
+        }
     }
 
     /**
@@ -321,6 +365,11 @@ class Committee extends Model
         return $groupStatus;
     }
 
+    public function getCanTakeActionAttribute()
+    {
+        return in_array(auth()->user()->id, [$this->created_by, $this->advisor_id]);
+    }
+
     public function groupStatus($groupId)
     {
         return $this->hasMany(CommitteeGroupStatus::class, 'committee_id')
@@ -381,9 +430,8 @@ class Committee extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function approveCommittee()
+    public function meetings()
     {
-        $this->approved = true;
-        $this->save();
+        return $this->hasMany(Meeting::class);
     }
 }

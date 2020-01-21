@@ -112,8 +112,8 @@ return [
     'uploaded'             => 'فشل في تحميل الـ :attribute.',
     'url'                  => 'صيغة الرابط :attribute غير صحيحة.',
     'uuid'                 => ':attribute يجب أن يكون بصيغة UUID سليمة.',
-    'national_id'          => ':attribute يحتوي على أرقام فقط',
-    'phone_number'         => ':attribute يحتوي على ارقام فقط',
+    'national_id'          => ':attribute يجب ان يكون سعودي',
+    'phone_number'         => ':attribute غير صحيح البنيه',
     'filter_string'        => ':attribute لا يمكن ان يحتوني على رموز',
     'gov_email'            => ':attribute يجب ان ينتهي بإمتداد gov.sa',
     'wrong choice'         => ':attribute يجب أن يكون من النوع الصحيح',
@@ -135,6 +135,9 @@ return [
         'first_meeting_at' => [
             'after' => 'يجب على :attribute أن يكون تاريخًا لاحقًا لتاريخ اليوم',
         ],
+        'at' => [
+            'after_or_equal' => 'يجب على :attribute أن يكون تاريخًا لاحقًا أو مساويا لتاريخ اليوم',
+        ]
     ],
     /*
     |--------------------------------------------------------------------------
@@ -213,5 +216,16 @@ return [
         'members_count' => 'عدد الأعضاء',
         'file' => 'الملف',
         'direct_department' => 'الإدارة',
+        'to' => 'تاريخ إنتهاء الإجتماع',
+        'from' => 'تاريخ بداية الإجتماع',
+        'at' => 'التاريخ',
+        'reason' => 'السبب',
+        'room_id' => 'الصالة',
+        'type_id' => 'النوع',
+        'delegates.*' => 'للمندوب',
+        'participantAdvisors.*' => 'للمستشار',
+        'status' => 'الحالة',
+        'refuse_reason' => 'سبب الإعتذار',
+
     ],
 ];

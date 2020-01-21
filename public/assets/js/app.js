@@ -35927,7 +35927,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Volumes/Macintosh HD - Data/KhabeerPartnersProject/resources/assets/js/app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! /Applications/www/KhabeerPartnersProject/resources/assets/js/app.js */"./resources/assets/js/app.js");
 
 
 /***/ })

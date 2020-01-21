@@ -7,12 +7,10 @@ $(document).ready(function() {
     });
 
     // Delete row in dataTable
-    $(document).on('click', '.delete-row', function(){
-        alert('test');
-        return;
+    $(document).on('click', '.delete-row', function () {
         let btn = $(this);
         let path = $(this).attr('data-href');
-        let table = $('#table-ajax').DataTable();
+        //let table = $('#table-ajax').DataTable();
 
         Swal.fire({
             title: 'هل انت متأكد من عملية الحذف؟',
@@ -20,7 +18,7 @@ $(document).ready(function() {
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ed6b75',
-            cancelButtonColor: '#337ab7',
+            cancelButtonColor: '#d6a329',
             confirmButtonText: 'حذف',
             cancelButtonText: 'إلغاء'
         }).then((result) => {
@@ -29,8 +27,9 @@ $(document).ready(function() {
                     url: path,
                     type: 'delete',
 
-                    success: function(response){
-                        table.row( btn.parents('tr') ).remove().draw();
+                    success: function (response) {
+                        //table.row(btn.parents('tr')).remove().draw();
+                        location.reload();
                     },
 
                     error: function (request, status, error) {
@@ -49,10 +48,9 @@ $(document).ready(function() {
     });
 
     // Delete a row in dataTable with a reason
-    $(document).on('click', '.delete-row-reason', function(){
+    $(document).on('click', '.delete-row-reason', function () {
         let btn = $(this);
         let path = $(this).attr('data-href');
-        let table = $('#table-ajax').DataTable();
 
         Swal.fire({
             title: 'هل انت متأكد من عملية الحذف؟',
@@ -64,7 +62,7 @@ $(document).ready(function() {
             },
             showCancelButton: true,
             confirmButtonColor: '#ed6b75',
-            cancelButtonColor: '#337ab7',
+            cancelButtonColor: '#d6a329',
             confirmButtonText: 'حذف',
             cancelButtonText: 'إلغاء',
             inputValidator: (value) => {
@@ -79,8 +77,8 @@ $(document).ready(function() {
                     data: {'reason': result.value},
                     type: 'delete',
 
-                    success: function(response){
-                        table.row( btn.parents('tr') ).remove().draw();
+                    success: function (response) {
+                        location.reload();
                     },
 
                     error: function (request, status, error) {
@@ -104,7 +102,7 @@ $(document).ready(function() {
 
     $('.datetime-picker').datetimepicker({
         rtl: true,
-        format:'d/m/Y H:i',
+        format: 'd/m/Y H:i',
     });
 
     // users search using select 2
@@ -113,7 +111,7 @@ $(document).ready(function() {
             url: "/users/employees/search-by-name",
             dataType: 'json',
             delay: 500,
-            data: function(params) {
+            data: function (params) {
                 return {
                     search: params.term
                 };
@@ -127,7 +125,7 @@ $(document).ready(function() {
         ajax: {
             dataType: 'json',
             delay: 500,
-            data: function(params) {
+            data: function (params) {
                 return {
                     search: params.term
                 };
@@ -152,7 +150,7 @@ $(document).ready(function() {
             let childOfChild = $(child).attr('data-child');
             $(childOfChild).empty();
         }
-        if ($(this).val() != 0){
+        if ($(this).val() != 0) {
             $.ajax({
                 url: path,
                 success: function (response) {
@@ -162,7 +160,7 @@ $(document).ready(function() {
                         select.options[select.options.length] = new Option(response[index].name, response[index].id);
                     }
                     let children = $(select).children();
-                    for(let index = 0; index < length; index++) {
+                    for (let index = 0; index < length; index++) {
                         if (response[index].reference_department) {
                             $(children[index]).attr('data-ref-id', response[index].reference_department.id);
                             $(children[index]).attr('data-ref-name', response[index].reference_department.name);
@@ -174,27 +172,44 @@ $(document).ready(function() {
         }
     });
 
+    // Check all in a container
+    $(document).on('change', '.checkInContainer', function () {
+        var checked = $(this).prop('checked');
+        var target = $(this).attr('data-container');
+        var checkboxes = $(target).find(':checkbox');
+        checkboxes.each(function () {
+            $(this).prop('checked', checked);
+        });
+    });
+
+    // Uncheck all checkbox auto
+    $(document).on('change', '.containerUnCheckAll', function () {
+        var checked = $(this).prop('checked');
+        var target = $(this).attr('data-checker');
+        var isAllChecked = $(target).prop('checked');
+        if (!checked && isAllChecked) {
+            $(target).prop('checked', false);
+        }
+    });
 
     $('#menu').slicknav({
         label: '',
         duplicate: true
     });
 
-});
+    $(window).scroll(function () {
+        // go to top
+        if ($(this).scrollTop() > 100) {
+            $('.scrollup').fadeIn();
+        } else {
+            $('.scrollup').fadeOut();
+        }
 
-
-$(window).scroll(function () {
-    // go to top
-    if ($(this).scrollTop() > 100) {
-        $('.scrollup').fadeIn();
-    } else {
-        $('.scrollup').fadeOut();
-    }
-
-    // fixed menu
-    if ($(this).scrollTop() > 112) {
-        $('.top_menu').addClass('fixed');
-    } else {
-        $('.top_menu').removeClass('fixed');
-    }
+        // fixed menu
+        if ($(this).scrollTop() > 112) {
+            $('.top_menu').addClass('fixed');
+        } else {
+            $('.top_menu').removeClass('fixed');
+        }
+    });
 });

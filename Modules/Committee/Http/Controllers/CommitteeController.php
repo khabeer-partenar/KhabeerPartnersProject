@@ -34,52 +34,12 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        if ($request->wantsJson() || $request->ajax()) {
-            $committeesQuery = Committee::with('advisor', 'president')->latest()->search($request);
-            $dataTable = Datatables::of($committeesQuery)
-                ->addColumn('status_icon', function ($committee) {
-                    return view('committee::committees.status_icons', compact('committee'));
-                })
-                ->addColumn('id_with_date', function ($committee) {
-                    $data = [__('committee::committees.committee number') . $committee->treatment_number, $committee->created_at->format('d-m-Y')];
-                    return view('committee::committees.br_separated_data', compact('data'));
-                })
-                ->addColumn('committee_uuid_with_subject', function ($committee) {
-                    $data = [$committee->uuid, $committee->subject];
-                    return view('committee::committees.br_separated_data', compact('data'));
-                })
-                ->addColumn('advisor_with_members_count', function ($committee) {
-                    $data = [
-                        __('committee::committees.advisor_only') . ' ' . $committee->advisor->name,
-                        __('committee::committees.member') . ' ' . $committee->members_count
-                    ];
-                    return view('committee::committees.br_separated_data', compact('data'));
-                })
-                ->addColumn('president', function ($committee) {
-                    return $committee->president ? $committee->president->name : '-';
-                })
-                ->addColumn('status', function ($committee) {
-                    return $committee->GroupStatus;
-                })
-                ->addColumn('action', function ($committee) {
-                    return view('committee::committees.actions', compact('committee'));
-                });
-
-            if (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-                $dataTable->addColumn('advisor_status', function ($committee) {
-                    return $committee->advisor_id == auth()->id() ?
-                        __('committee::committees.committee advisor')
-                        : __('committee::committees.committee participant');
-                });
-            }
-
-            return $dataTable->rawColumns([
-                'status_icon','action', 'id_with_date', 'committee_uuid_with_subject', 'advisor_with_members_count', 'advisor_status'
-            ])->make(true);
-        }
+        $committees = Committee::with('advisor', 'president')->latest()->search($request)->user()->paginate(10);
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
-        return view('committee::committees.index', compact('advisors', 'status'));
+        // dd($status);
+
+        return view('committee::committees.index', compact('committees', 'advisors', 'status'));
     }
 
     /**
@@ -159,6 +119,10 @@ class CommitteeController extends UserBaseController
      */
     public function edit(Committee $committee)
     {
+        if(!$committee->can_take_action) {
+            return back();
+        }
+
         $treatmentTypes = TreatmentType::pluck('name', 'id');
         $treatmentUrgency = TreatmentUrgency::pluck('name', 'id');
         $treatmentImportance = TreatmentImportance::pluck('name', 'id');
@@ -200,6 +164,10 @@ class CommitteeController extends UserBaseController
      */
     public function destroy(Request $request, Committee $committee)
     {
+        if(!$committee->can_take_action) {
+            return back();
+        }
+        
         $request->validate(['reason' => 'required|string|max:300']);
         $committee->update(['reason_of_deletion' => $request->reason]);
         $committee->log('delete_committee');
@@ -211,17 +179,12 @@ class CommitteeController extends UserBaseController
     public function sendNomination(Committee $committee)
     {
         $committee->log('send nomination');
-        if ($committee->status==Committee::NOMINATIONS_COMPLETED) {
+        if ($committee->status == Committee::NOMINATIONS_COMPLETED) {
             event(new NominationDoneEvent($committee));
             CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::NOMINATIONS_COMPLETED);
             return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
-        else
-        {
-            return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_not_compeleted')]);
-
-        }
-
+        return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_not_compeleted')]);
     }
 
     public function approveCommittee(Committee $committee)

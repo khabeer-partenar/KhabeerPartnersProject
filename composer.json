@@ -13,6 +13,7 @@
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.4",
         "intervention/image": "^2.5",
+        "johntaa/ar-php": "dev-master",
         "laravel/framework": "5.8.*",
         "laravel/passport": "^7.3",
         "laravel/tinker": "^1.0",

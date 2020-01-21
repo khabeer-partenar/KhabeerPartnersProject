@@ -5,6 +5,7 @@ namespace Modules\SystemManagement\Entities;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Committee\Entities\Meeting;
 use Modules\Core\Entities\City;
 
 class MeetingRoom extends Model
@@ -42,15 +43,11 @@ class MeetingRoom extends Model
 
 
     protected $appends = ['status_text'];
+
     /**
      * scopes
      * 
      * Here you should add scopes
-     */
-
-
-    /**
-     * Search scope
      */
     public static function scopeSearch($query, $request)
     {
@@ -67,6 +64,11 @@ class MeetingRoom extends Model
         }
 
         return $query;
+    }
+
+    public function scopeActive($q)
+    {
+        return $q->where('status', 1);
     }
 
     /**
@@ -106,4 +108,8 @@ class MeetingRoom extends Model
         return $this->belongsTo(City::class, 'city_id');
     }
 
+    public function meetings()
+    {
+        return $this->hasMany(Meeting::class, 'room_id');
+    }
 }

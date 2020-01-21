@@ -2,6 +2,7 @@
 
 namespace Modules\SystemManagement\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\UserBaseController;
@@ -20,27 +21,11 @@ class MeetingsRoomsController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $meetingsRoomsData = MeetingRoom::with('city')->search($request)->get();
-
-        if ($request->wantsJson() || $request->ajax()) {
-
-            $meetingsRoomsData = MeetingRoom::with('city')->search($request);
-
-
-            return Datatables::of($meetingsRoomsData)
-                ->addColumn('city_name', function ($meetingRoom) {
-                    return @$meetingRoom->city->name;
-                })
-                ->addColumn('action', function ($meetingRoom) {
-                    return view('systemmanagement::meetingsRooms.actions', compact('meetingRoom'));
-                })
-                ->toJson();
-        }
-
+        $meetingsRoomsData = MeetingRoom::with('city')->search($request)->paginate(10);
         $cities  = City::pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         $statues = MeetingRoom::STATUS_TEXT;
 
-        return view('systemmanagement::meetingsRooms.index', compact('cities', 'statues'));
+        return view('systemmanagement::meetingsRooms.index', compact('meetingsRoomsData', 'cities', 'statues'));
     }
 
     /**
@@ -79,6 +64,9 @@ class MeetingsRoomsController extends UserBaseController
 
     /**
      * Show the form for creating a new resource.
+     * @param UpdateMeetingRoomRequest $request
+     * @param MeetingRoom $meetingRoom
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateMeetingRoomRequest $request, MeetingRoom $meetingRoom)
     {
@@ -96,5 +84,18 @@ class MeetingsRoomsController extends UserBaseController
         $meetingRoom->log('delete_meeting_room');
         $meetingRoom->delete();
         return response()->json('', 200);
+    }
+
+    /**
+     * Get Room with Details
+     * @param Request $request
+     * @return MeetingRoom $room
+     * @internal param MeetingRoom $room
+     */
+    public function roomWithMeetings(Request $request)
+    {
+        $room = MeetingRoom::with('city')->findOrFail($request->room_id);
+        $room->meetings = $room->meetings()->where('from', '>=', Carbon::today())->orderBy('from', 'asc')->get();
+        return response()->json($room);
     }
 }
