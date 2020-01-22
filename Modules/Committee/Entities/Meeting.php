@@ -19,7 +19,7 @@ class Meeting extends Model
     use SharedModel, SoftDeletes, Log;
 
     protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed', 'advisor_id'];
-    protected $appends = ['meeting_at', 'meeting_at_ar', 'fromDate', 'toDate'];
+    protected $appends = ['meeting_at', 'meeting_at_ar', 'from_date', 'to_date', 'is_today'];
 
     /**
      * Scopes
@@ -102,6 +102,16 @@ class Meeting extends Model
         return $date->format('d') . ' '. trans('months.en_' . $date->format('F')) . ' ' . $date->format('Y');
     }
 
+    public function getCanChangeMembersAttribute()
+    {
+        return Carbon::parse($this->meeting_at)->gt(Carbon::today());
+    }
+
+    public function getIsTodayAttribute()
+    {
+        return Carbon::parse($this->meeting_at)->lte(Carbon::today());
+    }
+
     public function setFromAttribute($value)
     {
         try {
@@ -148,7 +158,6 @@ class Meeting extends Model
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
         $meeting->delegates()->sync($request->delegates);
-
         $meeting->participantAdvisors()->sync($request->participantAdvisors);
 
         MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
@@ -164,9 +173,10 @@ class Meeting extends Model
             'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
-        $this->delegates()->sync($request->delegates ? $request->delegates:[]);
-
-        $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors:[]);
+        if (!$this->can_change_members) {
+            $this->delegates()->sync($request->delegates ? $request->delegates : []);
+            $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
+        }
 
         return $this;
     }

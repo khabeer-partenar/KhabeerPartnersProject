@@ -21,6 +21,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show');
         Route::put('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@update')->name('committees.meetings.delegate.update');
 
+        Route::get('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@create')->name('committees.meetings.attendance.create');
+
         Route::post('upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');
         Route::post('{committee}/upload-document-direct', 'CommitteeDocumentController@uploadForCommittee')->name('committees.upload-document-direct');
         Route::delete('{document}/documents', 'CommitteeDocumentController@delete')->name('committees.delete-document');
