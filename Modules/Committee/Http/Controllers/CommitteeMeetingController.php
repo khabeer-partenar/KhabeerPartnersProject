@@ -38,6 +38,7 @@ class CommitteeMeetingController extends UserBaseController
             ])
             ->withTrashed()
             ->paginate(10);
+
         return view('committee::meetings.index', compact('committee', 'meetings'));
     }
 

@@ -29,4 +29,5 @@ return [
     'absence_number' => 'عدد المعتذرين',
     'meeting_title' => 'عنوان الاجتماع',
     'meeting_cancelled' => 'تم إلغاء الإجتماع',
+    'confirm_attendance' => 'تأكيد حضور المشاركين في الإجتماع',
 ];

@@ -249,7 +249,11 @@
         <table style="width: 100%" class="table table-bordered">
             <thead>
                 <tr style="font-weight:bold">
-                    <th style="width:7%" scope="col"><input type="checkbox" id="checkAllDelegates" class="checkInContainer" data-container="#delegatesDiv"></th>
+                    <th style="width:7%" scope="col"><input type="checkbox" id="checkAllDelegates" class="checkInContainer" data-container="#delegatesDiv"
+                        @if(isset($meeting))
+                            {{ !$meeting->can_change_members ? 'disabled':'' }}
+                        @endif
+                        ></th>
                     <th scope="col">الكل</th>
                     <th scope="col"></th>
                 </tr>
@@ -269,7 +273,11 @@
                                 <input type="checkbox"
                                        name="delegates[]"
                                        value="{{ $delegate->id }}"
-                                        {{ is_array($meetingDelegates) ? (in_array($delegate->id, $meetingDelegates) ? 'checked':''):'' }}>
+                                        {{ is_array($meetingDelegates) ? (in_array($delegate->id, $meetingDelegates) ? 'checked':''):'' }}
+                                @if(isset($meeting))
+                                    {{ !$meeting->can_change_members ? 'disabled':'' }}
+                                @endif
+                                >
                                 @include('layouts.dashboard.form-error', ['key' => 'delegates.'.$counter])
                             </div>
                         </td>
@@ -285,7 +293,11 @@
         <p>اختر المشاركين من هيئة الخبراء لحضور الإجتماع</p>
         <div style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
             <div class="form-group">
-                <input type="checkbox" class="checkInContainer" id="checkAllAdvisors" data-container="#advisorsDiv"> <span style="font-size: 14px">الكل</span> <br>
+                <input type="checkbox" class="checkInContainer" id="checkAllAdvisors" data-container="#advisorsDiv"
+                @if(isset($meeting))
+                    {{ !$meeting->can_change_members ? 'disabled':'' }}
+                @endif
+                > <span style="font-size: 14px">الكل</span> <br>
             </div>
             <div id="advisorsDiv" class="containerUnCheckAll" data-checker="#checkAllAdvisors">
                 @php
@@ -300,7 +312,11 @@
                         <input type="checkbox"
                                name="participantAdvisors[]"
                                value="{{ $advisor->id }}"
-                                {{ is_array($meetingAdvisors) ? (in_array($advisor->id, $meetingAdvisors) ? 'checked':''):'' }}>
+                                {{ is_array($meetingAdvisors) ? (in_array($advisor->id, $meetingAdvisors) ? 'checked':''):'' }}
+                                @if(isset($meeting))
+                                    {{ !$meeting->can_change_members ? 'disabled':'' }}
+                                @endif
+                                >
                         <span style="font-size: 14px">{{ $advisor->name }}</span><br>
                         @include('layouts.dashboard.form-error', ['key' => 'participantAdvisors.'.$counter])
                     </div>
