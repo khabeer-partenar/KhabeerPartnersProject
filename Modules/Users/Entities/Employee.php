@@ -21,6 +21,7 @@ class Employee extends User
     const DIRECTOR_OF_THE_MINISTER_OFFICE = 'director_of_the_minister_office';
     const CHAIRMAN_OF_THE_COMMISSION = 'chairman_of_the_commission';
     const VICE_CHAIRMAN_OF_THE_COMMISSION = 'vice_chairman_of_the_commission';
+    const CORDINATOR = 'cordinator';
 
 
     /**

@@ -456,7 +456,7 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\DELL\Desktop\Projects\khabeer\resources\assets\js\custom.js */"./resources/assets/js/custom.js");
+module.exports = __webpack_require__(/*! /Applications/www/KhabeerPartnersProject/resources/assets/js/custom.js */"./resources/assets/js/custom.js");
 
 
 /***/ })
