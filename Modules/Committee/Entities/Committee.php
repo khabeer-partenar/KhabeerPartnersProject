@@ -288,6 +288,15 @@ class Committee extends Model
         }
     }
 
+    public function filterIfDepartmentHasNominations()
+    {
+        foreach($this->getNominationDepartmentsWithRef() as $department)
+        {
+           return $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done'); 
+        }
+        
+    }
+
     /**
      * Relations
      *
