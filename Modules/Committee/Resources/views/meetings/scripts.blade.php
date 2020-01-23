@@ -158,8 +158,8 @@
                 events[i] = {
                     meetingType: meetings[i].type.name,
                     title: meetings[i].reason,
-                    start: meetings[i].fromDate,
-                    end: meetings[i].toDate,
+                    start: meetings[i].from_date,
+                    end: meetings[i].to_date,
                     color: meetings[i].type.color ? meetings[i].type.color:'#009247',
                     meetingChair: meetings[i].advisor.name,
                     place: meetings[i].room.name,
