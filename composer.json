@@ -12,7 +12,6 @@
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.4",
-        "garygreen/pretty-routes": "^1.0",
         "intervention/image": "^2.5",
         "johntaa/ar-php": "dev-master",
         "laravel/framework": "5.8.*",
