@@ -91,6 +91,78 @@
 
             </div>
             <hr>
+        
+           <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
+             <div class="row">
+             <div class="col-md-12">
+                    <div class="actions item-fl item-mb20">
+                        <a  class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
+                   data-target="#addDelegateModal">
+                    {{ __('messages.add') }}
+                </a>
+                    </div>
+                </div>
+             </div>
+            <div class="row">
+            
+                <div class="col-md-12">
+                    <table style="width: 100%" class="table table-bordered mt-10">
+                        <thead>
+                        <tr>
+                            <th scope="col">{{ __('committee::delegate_meeting.meeting_type') }}</th>
+                            <th scope="col">{{ __('committee::delegate_meeting.meeting_date') }}</th>
+                            <th scope="col">{{ __('committee::delegate_meeting.meeting_subject') }}</th>
+                            <th scope="col">{{ __('committee::delegate_meeting.meeting_location') }}</th>
+                            <th scope="col">{{ __('committee::delegate_meeting.meeting_action') }}</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ $meeting->type->name }}</td>
+                            <td>{{ $meeting->meeting_at. ' ' . $meeting->from  . ' ' . $meeting->to }}</td>
+                            <td>{{ $meeting->reason }}</td>
+                            <td>{{ $meeting->room->name }}</td>
+                            <td>
+                                <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
+                                    <div class="btn-group">
+                                        <label class="btn btn-primary">
+                                            <input type="radio" id="OptioinAccept"
+                                                   value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
+                                                   name="status"
+                                                   {{ $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' checked ':'' }}
+                                                   autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
+                                        </label>
+                                    </div>
+                                    <div class="btn-group">
+                                        <label class="btn btn-primary">
+                                            <input type="radio" id="optionApologize"
+                                                   value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
+                                                   {{ $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED?' checked ':'' }}
+                                                   name="status"/> {{__('committee::delegate_meeting.apologize')}}
+                                        </label>
+                                    </div>
+                                    {{
+                                        Form::text('refuse_reason', $meetingDelegate->pivot->refuse_reason, array(
+                                        'maxlength' => 191,
+                                        $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' disabled ':'',
+                                        'id'=>'refuse_reason','placeholder' =>  __('committee::delegate_meeting.refuse_reason'),
+                                        'class' => 'form-control'))
+                                    }}
+                                    @include('layouts.dashboard.form-error', ['key' => 'status'])
+                                    @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
+
+                                </div>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+            <hr>
             <label class="underLine">{{ __('committee::delegate_meeting.meeting_attachements') }}</label>
 
             <div class="row">
@@ -220,6 +292,8 @@
         </div>
 
     </div>
+    @include('committee::meetings.delegates.driver_create_popup',compact('committee'))
+
 @endsection
 
 
