@@ -19,7 +19,7 @@
 
                 <div class="col-md-3">
                     <div class="actions item-fl item-mb20">
-                        @if(!$meeting->trashed())
+                        @if(!$meeting->trashed() && !$meeting->is_old)
                             <a href="{{ route('committee.meetings.edit', compact('committee', 'meeting')) }}" class="btn btn-sm btn-warning">
                                 <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
                             </a>
