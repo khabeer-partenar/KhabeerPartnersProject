@@ -27,7 +27,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::put('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@update')->name('committees.meetings.delegate.update');
 
         // Attendance
-        Route::get('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@create')->name('committees.meetings.attendance.create');
+        Route::get('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@create')->name('committees.meetings.attendance.create')->middleware('take.attendance');
+        Route::post('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@store')->name('committees.meetings.attendance.store')->middleware('take.attendance');
 
         // Comm Documents
         Route::post('upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');
