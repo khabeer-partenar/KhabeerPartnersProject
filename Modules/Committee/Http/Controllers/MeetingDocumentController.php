@@ -29,7 +29,8 @@ class MeetingDocumentController extends UserBaseController
             'user_id' => auth()->id(),
             'size' => $file->getSize(),
             'description' => $request->description,
-            'committee_id' => $committee->id
+            'committee_id' => $committee->id,
+            'owner' => 1,
         ]);
         return response()->json([
             'document' => $document,
@@ -37,6 +38,13 @@ class MeetingDocumentController extends UserBaseController
         ], 201);
     }
 
+    /**
+     * Update For meeting
+     * @param DocumentUploadRequest $request
+     * @param Committee $committee
+     * @param Meeting $meeting
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function storeForMeeting(DocumentUploadRequest $request, Committee $committee, Meeting $meeting)
     {
         $file = $request->file('file');
@@ -48,7 +56,8 @@ class MeetingDocumentController extends UserBaseController
             'size' => $file->getSize(),
             'description' => $request->description,
             'meeting_id' => $meeting->id,
-            'committee_id' => $committee->id
+            'committee_id' => $committee->id,
+            'owner' => 1,
         ]);
         return response()->json([
             'document' => $document,
