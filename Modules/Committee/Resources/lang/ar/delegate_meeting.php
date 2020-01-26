@@ -10,6 +10,7 @@ return [
     'apologize'=> 'إعتذار',
     'refuse_reason' => 'سبب الإعتذار',
     'meeting_attachements' => 'مرفقات الإجتماع',
+    'delegate_driver' => 'حضور الاجتماع بواسطة سائق',
     'show' => 'عرض',
     'download' => 'تنزيل',
     'my_multimedia' => 'المرئيات الخاصة بى',

@@ -22,6 +22,7 @@ use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
+use Modules\Committee\Entities\CommitteeDelegate;
 
 class CommitteeController extends UserBaseController
 {
@@ -179,17 +180,15 @@ class CommitteeController extends UserBaseController
     public function sendNomination(Committee $committee)
     {
         $committee->log('send nomination');
+        $committee->checkIfCommitteeDepartmentsHasDelegates();
         if (Delegate::checkIfNominationCompleted($committee->id)) {
             event(new NominationDoneEvent($committee));
-            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::NOMINATIONS_COMPLETED);
             return response()->json(['status' => true, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
         else
         {
             return response()->json(['status' => false, 'msg' => __('committee::committees.nomination_not_compeleted')]);
-
         }
-
     }
 
     public function approveCommittee(Committee $committee)
