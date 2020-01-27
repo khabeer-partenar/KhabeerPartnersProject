@@ -104,7 +104,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\DELL\Desktop\Projects\khabeer\resources\assets\js\vendor\multi-input.js */"./resources/assets/js/vendor/multi-input.js");
+module.exports = __webpack_require__(/*! /Applications/www/KhabeerPartnersProject/resources/assets/js/vendor/multi-input.js */"./resources/assets/js/vendor/multi-input.js");
 
 
 /***/ })

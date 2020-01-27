@@ -89,6 +89,13 @@
                                                class="btn btn-success">التفاصيل</a>
                                         @endif
 
+                                         @if(auth()->user()->hasPermissionWithAccess('create', 'MeetingAttendanceController', 'Committee')
+                                         && $meeting->is_today)
+                                            <a href="{{ route('committees.meetings.attendance.create', compact('committee', 'meeting')) }}"
+                                               class="btn btn-success">تأكيد حضور المشاركين
+                                            </a>
+                                        @endif
+
                                         @if(
                                             auth()->user()->hasPermissionWithAccess('destroy', 'CommitteeMeetingController', 'Committee') &&
                                             !$meeting->trashed()

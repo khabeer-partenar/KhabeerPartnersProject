@@ -22,6 +22,7 @@ use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
+use Modules\Committee\Entities\CommitteeDelegate;
 
 class CommitteeController extends UserBaseController
 {
@@ -37,6 +38,8 @@ class CommitteeController extends UserBaseController
         $committees = Committee::with('advisor', 'president')->latest()->search($request)->user()->paginate(10);
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
+        // dd($status);
+
         return view('committee::committees.index', compact('committees', 'advisors', 'status'));
     }
 
@@ -177,12 +180,15 @@ class CommitteeController extends UserBaseController
     public function sendNomination(Committee $committee)
     {
         $committee->log('send nomination');
-        if ($committee->status == Committee::NOMINATIONS_COMPLETED) {
+        $committee->checkIfCommitteeDepartmentsHasDelegates();
+        if (Delegate::checkIfNominationCompleted($committee->id)) {
             event(new NominationDoneEvent($committee));
-            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::NOMINATIONS_COMPLETED);
-            return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_send_successfully')]);
+            return response()->json(['status' => true, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
-        return response()->json(['status' => $committee->status, 'msg' => __('committee::committees.nomination_not_compeleted')]);
+        else
+        {
+            return response()->json(['status' => false, 'msg' => __('committee::committees.nomination_not_compeleted')]);
+        }
     }
 
     public function approveCommittee(Committee $committee)

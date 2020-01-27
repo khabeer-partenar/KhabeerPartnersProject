@@ -101,9 +101,16 @@
                                     <td>
                                         {{ $committee->president ? $committee->president->name : '-' }}
                                     </td>
+                                    @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB)
+                                    <td>
+                                        {{ $committee->filterIfDepartmentHasNominations() }}
+                                    </td>
+                                    @else
                                     <td>
                                         {{ $committee->GroupStatus }}
                                     </td>
+                                    @endif
+                                    
                                     <td>
                                         @include('committee::committees.actions')
                                     </td>
@@ -133,7 +140,7 @@
                                         {{ $committee->president ? $committee->president->name : '-' }}
                                     </td>
                                     <td>
-                                        {{ $committee->GroupStatus }}
+                                       {{ $committee->GroupStatus }}
                                     </td>
                                     <td>
                                         {{ $committee->advisor_id == auth()->id() ? __('committee::committees.committee advisor') : __('committee::committees.committee participant') }}
