@@ -11,6 +11,7 @@ use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Committee\Entities\CommitteeStatus;
 use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
+use Modules\Committee\Entities\MeetingMultimedia;
 use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
@@ -288,11 +289,16 @@ class Delegate extends User
 
     public function documents()
     {
-        return $this->hasMany(MeetingDocument::class, 'user_id', 'id');
+        return $this->hasMany(MeetingDocument::class, 'user_id', 'id')->where('owner', 0);
     }
 
     public function attendingMeetings()
     {
         return $this->hasMany(MeetingDelegate::class, 'delegate_id')->where('status', MeetingDelegate::ACCEPTED);
+    }
+
+    public function multimedia()
+    {
+        return $this->hasMany(MeetingMultimedia::class, 'user_id');
     }
 }

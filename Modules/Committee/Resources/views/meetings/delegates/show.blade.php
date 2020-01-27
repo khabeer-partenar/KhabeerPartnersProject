@@ -128,7 +128,7 @@
             <hr>
             <label class="underLine">{{ __('committee::delegate_meeting.my_multimedia') }}</label>
             <div id="multimedia" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
-                @foreach($meeting->multimedia as $multimedia)
+                @foreach($meeting->userMultimedia as $multimedia)
                     {{ Form::textarea(null, $multimedia->text, ['id' => 'text'.$multimedia->id, 'rows' => 2, 'cols' => 54,'style'=>'width:100%']) }}
                     <label> {{__('committee::delegate_meeting.multimedia_date') . ' : ' . $multimedia->updated_at}}</label>
                     <hr style="margin-top: 5px;margin-bottom: 5px">

@@ -265,10 +265,12 @@ class Meeting extends Model
 
     public function multimedia()
     {
-        return $this->hasMany(MeetingMultimedia::class)
-            ->where('user_id',auth()->user()->id)
-            ->orderBy('updated_at', 'asc');
+        return $this->hasMany(MeetingMultimedia::class);
+    }
 
+    public function userMultimedia()
+    {
+        return $this->multimedia()->where('user_id',auth()->user()->id)->orderBy('updated_at', 'asc');
     }
 
     public function committee()

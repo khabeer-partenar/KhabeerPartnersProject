@@ -33,6 +33,7 @@
         </div>
 
         <div class="portlet-body">
+
             <table class="table table-striped table-responsive-md">
                 <tbody>
                     <tr>
@@ -65,6 +66,9 @@
                     </tr>
                 </tbody>
             </table>
+
+            @php $ownerDocuments = $meeting->documents()->where('owner', 1)->get(); @endphp
+            @if ($ownerDocuments->count() > 0)
             <label class="underLine">المرفقات</label>
 
             <div class="row">
@@ -78,7 +82,7 @@
                         </tr>
                         </thead>
                         <tbody id="files">
-                            @foreach($meeting->documents as $document)
+                            @foreach($ownerDocuments as $document)
                                 <tr id="file-{{ $document->id }}">
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $document->description ? $document->description:''}}</td>
@@ -91,7 +95,7 @@
                     </table>
                 </div>
             </div>
-
+            @endif
             <hr>
 
             {{-- Participants --}}
@@ -145,6 +149,10 @@
                     </div>
                 </div>
             </div>
+
+            <hr>
+
+            @include('committee::meetings._partials.multimedia', ['delegates' => $meeting->delegates])
 
         </div>
     </div>

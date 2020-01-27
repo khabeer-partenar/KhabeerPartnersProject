@@ -83,6 +83,12 @@ class CommitteeMeetingController extends UserBaseController
      */
     public function show(Committee $committee, Meeting $meeting)
     {
+        $meeting->load([
+            'delegates' => function($query) {
+                $query->with('multimedia', 'documents');
+            }
+        ]);
+
         return view('committee::meetings.show', compact('committee', 'meeting'));
     }
 
