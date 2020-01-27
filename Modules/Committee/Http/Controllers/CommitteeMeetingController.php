@@ -84,8 +84,15 @@ class CommitteeMeetingController extends UserBaseController
     public function show(Committee $committee, Meeting $meeting)
     {
         $meeting->load([
-            'delegates' => function($query) {
-                $query->with('multimedia', 'documents');
+            'delegates' => function($query) use ($meeting){
+                $query->with([
+                    'multimedia' => function($query) use ($meeting) {
+                        $query->where('meeting_id', $meeting->id);
+                    },
+                    'documents' => function($query) use ($meeting) {
+                        $query->where('meeting_id', $meeting->id);
+                    }
+                ]);
             }
         ]);
 

@@ -58,7 +58,7 @@
                                             <input type="radio" id="OptioinAccept"
                                                    value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
                                                    name="status"
-                                                   {{ $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' checked ':'' }}
+                                                   {{ $meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' checked ':'' }}
                                                    autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
                                         </label>
                                     </div>
@@ -66,14 +66,14 @@
                                         <label class="btn btn-primary">
                                             <input type="radio" id="optionApologize"
                                                    value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
-                                                   {{ $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED?' checked ':'' }}
+                                                   {{ $meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED?' checked ':'' }}
                                                    name="status"/> {{__('committee::delegate_meeting.apologize')}}
                                         </label>
                                     </div>
                                     {{
-                                        Form::text('refuse_reason', $meetingDelegate->pivot->refuse_reason, array(
+                                        Form::text('refuse_reason', $meeting->delegates[0]->pivot->refuse_reason, array(
                                         'maxlength' => 191,
-                                        $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' disabled ':'',
+                                        $meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' disabled ':'',
                                         'id'=>'refuse_reason','placeholder' =>  __('committee::delegate_meeting.refuse_reason'),
                                         'class' => 'form-control'))
                                     }}
@@ -91,6 +91,9 @@
 
             </div>
             <hr>
+
+            @php $ownerDocuments = $meeting->documents()->where('owner', 1)->get(); @endphp
+            @if ($ownerDocuments->count() > 0)
             <label class="underLine">{{ __('committee::delegate_meeting.meeting_attachements') }}</label>
 
             <div class="row">
@@ -104,7 +107,7 @@
                         </tr>
                         </thead>
                         <tbody id="files">
-                        @foreach($meeting->documents as $document)
+                        @foreach($ownerDocuments as $document)
                             <tr id="file-{{ $document->id }}">
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $document->description ? $document->description:''}}</td>
@@ -124,11 +127,12 @@
                     </table>
                 </div>
             </div>
+            @endif
 
             <hr>
             <label class="underLine">{{ __('committee::delegate_meeting.my_multimedia') }}</label>
             <div id="multimedia" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
-                @foreach($meeting->userMultimedia as $multimedia)
+                @foreach($meeting->delegates[0]->multimedia as $multimedia)
                     {{ Form::textarea(null, $multimedia->text, ['id' => 'text'.$multimedia->id, 'rows' => 2, 'cols' => 54,'style'=>'width:100%']) }}
                     <label> {{__('committee::delegate_meeting.multimedia_date') . ' : ' . $multimedia->updated_at}}</label>
                     <hr style="margin-top: 5px;margin-bottom: 5px">
@@ -169,7 +173,7 @@
                 </div>
 
                 <div class="col-md-2">
-                    <button type="button" data-order="{{ $documentsByDelegate->count() }}" class="btn btn-primary" id="saveFiles"
+                    <button type="button" data-order="{{ $meeting->delegates[0]->documents->count() }}" class="btn btn-primary" id="saveFiles"
                             data-url="{{ route('committee.meeting-document.store-meeting', compact('committee', 'meeting')) }}">إضافة</button>
                 </div>
             </div>
@@ -186,7 +190,7 @@
                         </tr>
                         </thead>
                         <tbody id="files">
-                        @foreach($documentsByDelegate as $document)
+                        @foreach($meeting->delegates[0]->documents as $document)
                             <tr id="file-{{ $document->id }}">
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $document->description ? $document->description:''}}</td>
