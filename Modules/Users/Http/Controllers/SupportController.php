@@ -5,8 +5,11 @@ namespace Modules\Users\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\UserBaseController;
+use Modules\Users\Http\Requests\SupportDocumentUploadRequest;
 use Illuminate\Support\Facades\Storage;
-use Modules\Committee\Entities\CommitteeDocument;
+use Modules\Users\Entities\SupportTickets\SupportTickets;
+use Modules\Users\Entities\SupportTickets\SupportTicketCategories;
+use Modules\Users\Entities\SupportTickets\SupportTicketDocuments;
 
 class SupportController extends UserBaseController
 {
@@ -17,7 +20,9 @@ class SupportController extends UserBaseController
      */
     public function create()
     {
-        return view('users::support.create');
+        $categories = SupportTicketCategories::pluck('title', 'id');
+        $documents = SupportTicketDocuments::where('user_id', auth()->id())->whereNull('ticket_id')->get();
+        return view('users::support.create', compact('categories', 'documents'));
     }
 
     /**
@@ -27,7 +32,10 @@ class SupportController extends UserBaseController
      */
     public function store(Request $request)
     {
-
+        $ticket = SupportTickets::createFromRequest($request);
+        $ticket->log('create_support_tickets');
+        session()->flash('alert-success', __('users::support.support_ticket_created'));
+        return redirect()->route('support.create');
     }
 
     /**
@@ -35,12 +43,12 @@ class SupportController extends UserBaseController
      * @param Request $request
      * @return Response
      */
-    public function uploadAttachments(Request $request)
+    public function uploadAttachments(SupportDocumentUploadRequest $request)
     {
         $file = $request->file('file');
         $path = Storage::put('temp-support', $file);
 
-        $attachment = CommitteeDocument::create([
+        $attachment = SupportTicketDocuments::create([
             'path' => $path,
             'name' => $file->getClientOriginalName(),
             'user_id' => auth()->id(),
@@ -59,8 +67,11 @@ class SupportController extends UserBaseController
      * delete attachment
      * @return Response
      */
-    public function deleteAttachments(CommitteeDocument $attachment)
+    public function deleteAttachments(SupportTicketDocuments $attachment)
     {
+        if($attachment->user_id != auth()->id()) {
+            abort(404);
+        }
         Storage::delete($attachment->path);
         $attachment->delete();
         return response()->json(['msg' => 'deleted'], 200);

@@ -9,7 +9,7 @@
                 <span style="color: red">*</span>
             </label>
 
-            {!! Form::select('support_type', [], null, ['id' => 'support_type', 'class' => 'form_control select2', 'required' => true]) !!}
+            {!! Form::select('support_type', $categories, null, ['id' => 'support_type', 'class' => 'form_control select2', 'required' => true]) !!}
 
             @if ($errors->has('support_type'))
                 <span class="help-block" ><strong>{{ $errors->first('support_type') }}</strong></span>
@@ -80,7 +80,7 @@
     </div>
 
     <div class="col-md-2">
-        <button type="button" data-order="1" class="btn btn-primary" id="saveFiles" data-url="{{ route('support.upload-attachments') }}">إضافة</button>
+        <button type="button" data-order="{{ $documents->count() }}" class="btn btn-primary" id="saveFiles" data-url="{{ route('support.upload-attachments') }}">إضافة</button>
     </div>
 </div>
 
@@ -97,7 +97,22 @@
             </tr>
             </thead>
             <tbody id="files">
-                
+                @foreach($documents as $document)
+                    <tr id="file-{{ $document->id }}">
+                        <td>{{ $loop->index + 1 }}</td>
+                        <td>{{ $document->description ? $document->description : ''}}</td>
+                        <td>
+                            <a href="{{ $document->full_path }}">{{ $document->name }}</a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger file-remove"
+                                    data-remove-url="{{ route('support.delete-attachments', $document) }}"
+                                    data-remove-row="#file-{{ $document->id }}">
+                                حذف
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

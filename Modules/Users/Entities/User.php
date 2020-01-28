@@ -13,6 +13,7 @@ use Modules\SystemManagement\Entities\Department;
 use Modules\Core\Traits\SharedModel;
 use Modules\Core\Traits\Log;
 use Modules\Users\Notifications\NotifyNewUser;
+use Modules\Users\Entities\SupportTickets\SupportTickets;
 
 class User extends Authenticatable
 {
@@ -272,5 +273,10 @@ class User extends Authenticatable
     public function participantInCommittees()
     {
         return $this->belongsToMany(Committee::class, 'committees_participant_advisors', 'advisor_id', 'committee_id')->withTimestamps();
+    }
+
+    public function supportTickets()
+    {
+        return $this->hasMany(SupportTickets::class, 'user_id');
     }
 }
