@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
+use Modules\Committee\Entities\CommitteeStatus;
 use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Entities\MeetingMultimedia;
