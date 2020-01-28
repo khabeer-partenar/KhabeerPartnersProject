@@ -150,8 +150,8 @@ class CoreAppsTableSeeder extends Seeder
 
         App::create([
             'resource_name' => $generalResourceName . '\PermissionsController@store', 'name' => 'اضافة',
-            'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $permissionsId, 'frontend_path' => 'core/permissions', 'is_main_root' => 0,
-            'displayed_in_menu' => 0,'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'icon' => 'fa fa-folder-o', 'sort' => 2, 'parent_id' => $permissionsId, 'frontend_path' => 'core/permissions', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
@@ -159,19 +159,7 @@ class CoreAppsTableSeeder extends Seeder
             'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $permissionsId, 'frontend_path' => 'core/permissions', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
-
-        // DepartmentsController
-        $departmentsId = App::create([
-            'resource_name' => $generalResourceName . '\DepartmentsController', 'name' => 'الادارات',
-            'icon' => 'fa fa-folder-o','sort' => 6, 'parent_id' => $coreAppsModuleId, 'frontend_path' => 'core/departments', 'is_main_root' => 0,
-            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ])->id;
-
-        App::create([
-            'resource_name' => $generalResourceName . '\DepartmentsController@loadDepartmentsTypesByParentId', 'name' => 'عرض الادارات',
-            'icon' => 'fa fa-folder-o','sort' => 1, 'parent_id' => $departmentsId, 'frontend_path' => 'core/departments/:parentID', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
+        
     }
 
 }

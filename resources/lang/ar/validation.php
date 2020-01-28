@@ -227,5 +227,6 @@ return [
         'status' => 'الحالة',
         'refuse_reason' => 'سبب الإعتذار',
 
+        'receive_sms' => 'رسائل SMS',
     ],
 ];
