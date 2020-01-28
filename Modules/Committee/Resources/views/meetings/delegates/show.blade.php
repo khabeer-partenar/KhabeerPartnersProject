@@ -90,10 +90,12 @@
                 </div>
 
             </div>
-            <hr>
 
             @php $ownerDocuments = $meeting->documents()->where('owner', 1)->get(); @endphp
             @if ($ownerDocuments->count() > 0)
+
+            <hr>
+
             <label class="underLine">{{ __('committee::delegate_meeting.meeting_attachements') }}</label>
 
             <div class="row">
