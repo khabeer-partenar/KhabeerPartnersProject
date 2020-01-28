@@ -19,6 +19,7 @@ use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
+use Modules\Committee\Events\NominationDoneEvent;
 
 class Committee extends Model
 {
@@ -196,6 +197,17 @@ class Committee extends Model
         return $query;
     }
 
+    public function scopeCheckIfCommitteeDepartmentsHasDelegates()
+    {
+        $committeeDepartments = $this->departments;
+        $committeeDelegatesDepartments = $this->committeeDelegates;
+        if ($committeeDepartments->count() == $committeeDelegatesDepartments->count()) {
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this,Status::NOMINATIONS_COMPLETED);
+        } else {
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this,Status::WAITING_DELEGATES);
+        }
+    }
+
     /**
      * Functions
      */
@@ -288,6 +300,15 @@ class Committee extends Model
         }
     }
 
+    public function filterIfDepartmentHasNominations()
+    {
+        foreach($this->getNominationDepartmentsWithRef() as $department)
+        {
+           return $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done'); 
+        }
+        
+    }
+
     /**
      * Relations
      *
@@ -321,6 +342,16 @@ class Committee extends Model
     public function documents()
     {
         return $this->hasMany(CommitteeDocument::class, 'committee_id');
+    }
+
+    public function departments()
+    {
+        return $this->hasMany(CommitteeDepartment::class, 'committee_id');
+    }
+
+    public function committeeDelegates()
+    {
+        return $this->hasMany(CommitteeDelegate::class, 'committee_id');
     }
 
     public function resourceDepartment()

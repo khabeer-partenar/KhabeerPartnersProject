@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
-use Modules\Committee\Entities\CommitteeStatus;
 use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Entities\MeetingMultimedia;
@@ -16,6 +15,7 @@ use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
+use DB;
 use Modules\Users\Events\DelegateCreatedEvent;
 use Modules\Users\Events\DelegateDeletedEvent;
 
@@ -39,29 +39,53 @@ class Delegate extends User
         });
     }
 
+    public static function checkIfNominationCompleted($committee_id)
+    {
+        $committee = Committee::find($committee_id);
+        $nominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
+        $committeeNominationDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
+        if ($nominationDepartmentsIds->count() == $committeeNominationDepartments->count()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function updateCommitteeGroupsStatusToNominationsCompleted($committee_id)
+    {
+        $committee = Committee::find($committee_id);
+        $nominationDepartmentsIds = $committee->nominationDepartments()->pluck('department_id');
+
+        $committeeNominatedDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
+
+        if ($nominationDepartmentsIds->count() == $committeeNominatedDepartments->count()) {
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::NOMINATIONS_COMPLETED);
+        }
+
+    }
     public function setCommitteeNominationStatus($committee_id)
     {
         $committee = Committee::find($committee_id);
         $nominationDepartmentsIds = $committee->nominationDepartments()->pluck('department_id');
-        $committeeNominationDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
-        if ($nominationDepartmentsIds->count() == $committeeNominationDepartments->count()) {
-            $committee->status = Committee::NOMINATIONS_COMPLETED;
-            $committee->save();
-            CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_DONE);
-            //CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::NOMINATIONS_COMPLETED);
+        $coordinatorsNominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
 
+        $committeeNominatedDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
+        $committeeCoordinatorsNominatedDepartments = CommitteeDelegate::whereIn('nominated_department_id', $coordinatorsNominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
+
+        if ($coordinatorsNominationDepartmentsIds->count() == $committeeCoordinatorsNominatedDepartments->count()) {
+            CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_DONE);
         } else {
-            $committee->status = Committee::WAITING_DELEGATES;
-            $committee->save();
             CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_NOT_DONE);
             CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::WAITING_DELEGATES);
-
         }
+
+        if (!$nominationDepartmentsIds->count() == $committeeNominatedDepartments->count()) {
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::WAITING_DELEGATES);
+        }
+
     }
 
     public function addDelegatesToCommittee(Request $request)
     {
-        //dd($request->all());
         $committee = Committee::where('id', $request->committee_id)->first();
         $committee->delegates()->attach($request->delegates_ids,
             array('nominated_department_id' => $request->department_id,'coordinator_id' => auth()->user()->id));

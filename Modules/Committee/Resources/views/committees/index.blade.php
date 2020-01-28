@@ -103,7 +103,7 @@
                                     </td>
                                     @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB)
                                     <td>
-                                        @include('committee::committees.status_action')
+                                        {{ $committee->filterIfDepartmentHasNominations() }}
                                     </td>
                                     @else
                                     <td>
