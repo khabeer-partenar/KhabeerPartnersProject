@@ -35,6 +35,7 @@ return [
 
     'add' => 'اضافة',
     'save' => 'حفظ',
+    'send' => 'إرسال',
     'goBack' => 'تراجع',
     'delete' => 'حذف',
     'search_btn' => 'بحث',

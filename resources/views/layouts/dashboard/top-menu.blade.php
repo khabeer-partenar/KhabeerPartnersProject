@@ -31,9 +31,23 @@
                 </li>
             @endforeach
         </ul>
-        
-        <a href="{{ route('logout') }}" class="login">تسجيل الخروج</a>
-        <a href="#!" class="login">مرحباً : {{ auth()->user()->name }} </a>
+                
+        <ul id="menu" style="float: left;">
+            <li>
+                <a href="javascript:;">مرحباً : {{ auth()->user()->name }} </a>
+                <ul class="dropdown">
+                    <li>
+                        <a href="{{ route('account.edit') }}">الملف الشخصي</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('support.create') }}">طلب دعم</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('account.logout') }}">تسجيل الخروج</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
 
         <span class="clr"></span>
     
