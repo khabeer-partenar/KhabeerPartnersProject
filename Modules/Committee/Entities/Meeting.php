@@ -176,7 +176,7 @@ class Meeting extends Model
             'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
-        if (!$this->can_change_members) {
+        if ($this->can_change_members) {
             $this->delegates()->sync($request->delegates ? $request->delegates : []);
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }

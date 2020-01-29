@@ -17,6 +17,9 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('{committee}/meetings/{meeting}', 'CommitteeMeetingController@show')->name('committee.meetings.show');
         Route::delete('{committee}/meetings/{meeting}', 'CommitteeMeetingController@destroy')->name('committee.meetings.cancel');
 
+        // Meeting Multimedia
+        Route::get('{committee}/meetings/{meeting}/multimedia', 'MeetingMultimediaController@index')->name('committee.meetings.multimedia');
+
         // Meeting Documents
         Route::post('{committee}/meeting/{meeting}/document', 'MeetingDocumentController@storeForMeeting')->name('committee.meeting-document.store-meeting');
         Route::post('{committee}/meetings/document', 'MeetingDocumentController@store')->name('committee.meeting-document.store');
@@ -29,6 +32,9 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         // Attendance
         Route::get('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@create')->name('committees.meetings.attendance.create')->middleware('take.attendance');
         Route::post('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@store')->name('committees.meetings.attendance.store')->middleware('take.attendance');
+
+        // Committee Multimedia
+        Route::get('/{committee}/multimedia', 'CommitteeMultimediaController@index')->name('committee.multimedia');
 
         // Comm Documents
         Route::post('upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');

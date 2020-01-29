@@ -152,6 +152,8 @@
 
             <hr>
 
+            <label class="underLine">مرئيات المشاركين</label>
+
             @include('committee::meetings._partials.multimedia', ['delegates' => $meeting->delegates])
 
         </div>

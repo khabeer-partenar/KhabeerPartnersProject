@@ -50,5 +50,7 @@ return [
 
     'choose_option' => 'أختر',
 
-    'error with the :attribute' => 'قيمة :attribute بها خطأ'
+    'error with the :attribute' => 'قيمة :attribute بها خطأ',
+    'export' => 'تصدير',
+    'print' => 'طباعة',
 ];

@@ -114,5 +114,7 @@ return [
     'icon_importance_title' => 'المعاملة سرية',
     'icon_read_title' => 'المعاملة قرأت',
     'icon_un_read_title' => 'المعاملة لم تقرأ',
-    'icon_approved_title' => 'المعاملة تم اعتمادها من قبل المستشار'
+    'icon_approved_title' => 'المعاملة تم اعتمادها من قبل المستشار',
+    'members_multimedia' => 'مرئيات المشاركين علي مستوي اللجنة',
+
 ];
