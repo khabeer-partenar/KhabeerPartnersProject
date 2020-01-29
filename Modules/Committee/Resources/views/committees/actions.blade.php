@@ -9,6 +9,11 @@
             <i class="fa fa-users"></i> {{ __('committee::committees.meetings') }}
         </a>
     @endif
+    @if(auth()->user()->hasPermissionWithAccess('index', 'CommitteeMultimediaController', 'Committee'))
+        <a href="{{ route('committee.multimedia', $committee) }}" class="btn btn-sm btn-primary custom-action-btn">
+            <i class="fa fa-users"></i> مرئيات المشاركين
+        </a>
+    @endif
     @if(auth()->user()->hasPermissionWithAccess('destroy') && $committee->can_take_action)
         <a data-href="{{ route('committees.destroy', $committee) }}" class="btn btn-sm btn-danger delete-row-reason custom-action-btn">
             <i class="fa fa-trash"></i> {{ __('committee::committees.delete') }}

@@ -31,5 +31,6 @@ return [
     'meeting_cancelled' => 'تم إلغاء الإجتماع',
     'confirm_attendance' => 'تأكيد حضور المشاركين في الإجتماع',
     'attended' => 'حاضر',
-    'absent' => 'غائب'
+    'absent' => 'غائب',
+    'members_multimedia' => 'مرئيات المشاركين علي مستوي الإجتماع',
 ];

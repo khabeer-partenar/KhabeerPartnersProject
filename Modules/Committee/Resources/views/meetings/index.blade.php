@@ -96,6 +96,12 @@
                                             </a>
                                         @endif
 
+                                        @if(auth()->user()->hasPermissionWithAccess('index', 'MeetingMultimediaController', 'Committee'))
+                                            <a href="{{ route('committee.meetings.multimedia', compact('committee', 'meeting')) }}"
+                                               class="btn btn-success">مرئيات المشاركين
+                                            </a>
+                                        @endif
+
                                         @if(
                                             auth()->user()->hasPermissionWithAccess('destroy', 'CommitteeMeetingController', 'Committee') &&
                                             !$meeting->is_old &&
