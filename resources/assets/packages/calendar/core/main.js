@@ -5350,6 +5350,8 @@ Docs & License: https://fullcalendar.io/
             activeRange = intersectRanges(activeRange, validRange); // might return null
             // it's invalid if the originally requested date is not contained,
             // or if the range is completely outside of the valid range.
+            if(direction == 1)
+            console.log(currentDate,direction,currentInfo.range);
             isValid = rangesIntersect(currentInfo.range, validRange);
             return {
                 // constraint for where prev/next operations can go and where events can be dragged/resized to.
@@ -6160,7 +6162,7 @@ Docs & License: https://fullcalendar.io/
         Toolbar.prototype.updateNext = function (isNextEnabled) {
             this.toggleButtonEnabled('next', isNextEnabled);
         };
-        Toolbar.prototype.updateTitle = function (text) {
+        Toolbar.prototype.updateTitle = function (text, date) {
             findElements(this.el, 'h2').forEach(function (titleEl) {
                 titleEl.innerText = text;
             });

@@ -231,12 +231,8 @@ Docs & License: https://fullcalendar.io/
             // Only display a timed events time if it is the starting segment
             if (seg.isStart) {
                 timeText = this.getTimeText(eventRange);
-                //timeHtml = core.htmlEscape(this.getTimeText(eventRange));
                 if (timeText) {
                     timeHtml = core.htmlEscape(this.getTimeText(eventRange));
-                    //console.log(seg.dateEnv);
-                    //console.log(eventRange.instance.range.start.valueOf());
-                    //console.log(timeText.split(' ').join(',').split('(').join(',').split(')').join(',').split(','));
                     timeHtml = '<span class="fc-time">' + core.htmlEscape(timeText) + '</span>';
                 }
                 
