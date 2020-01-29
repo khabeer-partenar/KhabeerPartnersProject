@@ -13,7 +13,6 @@ class CommitteeMultimediaController extends Controller
     /**
      * Display a listing of the resource.
      * @param Committee $committee
-     * @param Meeting $meeting
      * @return Response
      */
     public function index(Committee $committee)
