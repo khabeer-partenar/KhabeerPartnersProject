@@ -104,7 +104,7 @@ class CoreAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
         App::create([
-            'resource_name' => $generalResourceName . '\CommitteeController@approveCommittee', 'name' => 'اعتماد اللجنة',
+            'resource_name' => $generalResourceName . '\CommitteeController@approve', 'name' => 'اعتماد اللجنة',
             'icon' => 'fa fa-file-o','sort' => 15, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
@@ -201,20 +201,20 @@ class CoreAppsTableSeeder extends Seeder
         // Authorized
         $authorized = App::create([
             'resource_name' => $generalResourceName.'\AuthorizedNameController@index', 'name' => 'الأسماء المصرح لهم',
-            'icon' => 'fa fa-files-o', 'sort' => 1, 'parent_id' => $committeeAppId, 'frontend_path' => 'authorized-names', 'is_main_root' => 1,
+            'icon' => 'fa fa-files-o', 'sort' => 6, 'parent_id' => 1, 'frontend_path' => 'authorized-names', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
         App::create([
             'resource_name' => $generalResourceName.'\AuthorizedNameController@export', 'name' => 'تصدير الأسماء المصرح لهم',
             'icon' => 'fa fa-files-o', 'sort' => 2, 'parent_id' => $authorized, 'frontend_path' => 'authorized-names/export', 'is_main_root' => 1,
-            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
             'resource_name' => $generalResourceName.'\AuthorizedNameController@print', 'name' => 'طباعة الأسماء المصرح لهم',
             'icon' => 'fa fa-files-o', 'sort' => 3, 'parent_id' => $authorized, 'frontend_path' => 'authorized-names/export', 'is_main_root' => 1,
-            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         // Multimedia

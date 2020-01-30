@@ -37,8 +37,9 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\MeetingController@index',
         ];
         $coordinatorApps = [
-            'Modules\Committee\Http\Controllers\CommitteeMeetingController@approveCommittee',
-            'Modules\Committee\Http\Controllers\CommitteeMeetingController@sendNomination',
+            'Modules\Committee\Http\Controllers\CommitteeController@sendNomination',
+            'Modules\Committee\Http\Controllers\CommitteeController@getDelegatesWithDetails',
+            'Modules\Committee\Http\Controllers\CommitteeController@getNominationDepartmentsWithRef',
         ];
         $secretaryAndAdvisorApps = [
             // Committee
@@ -70,6 +71,9 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\DelegateDocumentsController@store',
             'Modules\Committee\Http\Controllers\DelegateDocumentsController@destroy',
             'Modules\Committee\Http\Controllers\DelegateDocumentsController@show',
+        ];
+        $advisorApps = [
+            'Modules\Committee\Http\Controllers\CommitteeController@approve',
         ];
         // Apps Ids
         $basicIds = App::whereIn('resource_name', $basicResources)->pluck('id');
@@ -118,6 +122,11 @@ class CoreGroupsTableSeeder extends Seeder
             ]);
         }
         foreach($highLevelPermissions as $appId){
+            $advsiorGroup->permissions()->create([
+                'app_id' => $appId
+            ]);
+        }
+        foreach($advisorApps as $appId){
             $advsiorGroup->permissions()->create([
                 'app_id' => $appId
             ]);

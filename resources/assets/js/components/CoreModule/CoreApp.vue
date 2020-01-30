@@ -165,6 +165,7 @@ export default {
 <style>
 .core-app-item {
     cursor: pointer;
+    margin-right: 20px;
 }
 
 .bold {
