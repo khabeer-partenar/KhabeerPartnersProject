@@ -3,10 +3,13 @@
 Route::group(['middleware' => ['auth', 'see.committee']], function() {
 
     Route::prefix('committees')->group(function () {
+
         //AuthorizedName
-        Route::get('/authorizedName', 'CommitteeAuthorizedNameController@index')->name('committee.authorizedName');
-        Route::get('/export', 'CommitteeAuthorizedNameController@export')->name('committee.export');
-        Route::get('/print', 'CommitteeAuthorizedNameController@printAuthorizedList')->name('committee.print');
+        Route::prefix('authorized-names')->group(function (){
+            Route::get('/', 'AuthorizedNameController@index')->name('committee.authorizedName');
+            Route::get('/export', 'AuthorizedNameController@export')->name('committee.export');
+            Route::get('/print', 'AuthorizedNameController@print')->name('committee.print');
+        });
 
         // Meeting
         Route::get('{committee}/meetings', 'CommitteeMeetingController@index')->name('committee.meetings');
