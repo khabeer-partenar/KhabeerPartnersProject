@@ -9,8 +9,6 @@ return [
 	'creator'               => 'Khabeer',
 	'display_mode'          => 'fullpage',
 	'tempDir'               => public_path('temp/'),
-    'autoArabic'               => true,
-
-    'font_path' => base_path('http://fonts.googleapis.com/earlyaccess/droidarabickufi.css'),
-
+	'autoArabic'            => true,
+	'font_path' 		=> base_path('http://fonts.googleapis.com/earlyaccess/droidarabickufi.css'),
 ];

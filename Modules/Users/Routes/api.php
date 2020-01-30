@@ -24,6 +24,4 @@ Route::group(['middleware' => 'auth:api'], function()
     // Coordinator Controller
     Route::post('/coordinators', 'API\CoordinatorController@store');
 
-
-    Route::get('/logout', 'AuthController@logout')->name('logout');
 });

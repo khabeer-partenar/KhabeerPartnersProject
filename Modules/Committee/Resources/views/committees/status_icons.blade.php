@@ -13,12 +13,12 @@
             <i title="{{__('committee::committees.icon_importance_title')}}" class="fa fa-lg fa-lock"
                style="color:darkorange;margin-left: 3px;"></i>
         @endif
-        @if ($committee->Viewed())
+        @if ($committee->view)
             <i title="{{__('committee::committees.icon_read_title')}}" class="fa fa-lg fa-envelope-open-o"
-               style="cmargin-left: 3px;"></i>
+               style="margin-left: 3px;"></i>
         @else
                 <i title="{{__('committee::committees.icon_un_read_title')}}" class="fa fa-lg fa-envelope-o"
-                   style="cmargin-left: 3px;"></i>
+                   style="margin-left: 3px;"></i>
         @endif
             @if (auth()->user()->user_type == 'user' && $committee->approved)
                 <i title="{{__('committee::committees.icon_approved_title')}}" class="fa fa-lg fa-check"

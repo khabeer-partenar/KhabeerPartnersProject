@@ -19,7 +19,7 @@
 
                 <div class="col-md-3">
                     <div class="actions item-fl item-mb20">
-                        @if(!$meeting->trashed())
+                        @if(!$meeting->trashed() && !$meeting->is_old)
                             <a href="{{ route('committee.meetings.edit', compact('committee', 'meeting')) }}" class="btn btn-sm btn-warning">
                                 <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
                             </a>
@@ -33,6 +33,7 @@
         </div>
 
         <div class="portlet-body">
+
             <table class="table table-striped table-responsive-md">
                 <tbody>
                     <tr>
@@ -65,6 +66,9 @@
                     </tr>
                 </tbody>
             </table>
+
+            @php $ownerDocuments = $meeting->documents()->where('owner', 1)->get(); @endphp
+            @if ($ownerDocuments->count() > 0)
             <label class="underLine">المرفقات</label>
 
             <div class="row">
@@ -78,7 +82,7 @@
                         </tr>
                         </thead>
                         <tbody id="files">
-                            @foreach($meeting->documents as $document)
+                            @foreach($ownerDocuments as $document)
                                 <tr id="file-{{ $document->id }}">
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $document->description ? $document->description:''}}</td>
@@ -91,7 +95,7 @@
                     </table>
                 </div>
             </div>
-
+            @endif
             <hr>
 
             {{-- Participants --}}
@@ -105,6 +109,9 @@
                             <th scope="col">الجهة</th>
                             <th scope="col">حالة الدعوة</th>
                             <th scope="col">سبب الإعتذار</th>
+                            @if($meeting->attendance_done)
+                                <th scope="col">حالة الحضور</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody id="">
@@ -116,6 +123,11 @@
                                     {{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}
                                 </td>
                                 <td>{{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}</td>
+                                @if ($meeting->attendance_done)
+                                    <td>
+                                        {{ $delegate->pivot->attended ? __('committee::meetings.attended'):__('committee::meetings.absent') }}
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
@@ -125,11 +137,24 @@
                     <p>المستشارين المشاركين من هيئة الخبراء لحضور الإجتماع</p>
                     <div style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
                         @foreach($meeting->participantAdvisors as $advisor)
-                            <p style="font-size: 14px">{{ $advisor->name }}</p>
+                            <p style="font-size: 14px">
+                                {{ $advisor->name }}
+                                @if($meeting->attendance_done)
+                                    <span class="badge" style="{{ $advisor->pivot->attended ? 'background-color: #009247;':'background-color: #e73d4a' }}">
+                                        {{  $advisor->pivot->attended ? __('committee::meetings.attended'):__('committee::meetings.absent')}}
+                                    </span>
+                                @endif
+                            </p>
                         @endforeach
                     </div>
                 </div>
             </div>
+
+            <hr>
+
+            <label class="underLine">مرئيات المشاركين</label>
+
+            @include('committee::meetings._partials.multimedia', ['delegates' => $meeting->delegates])
 
         </div>
     </div>

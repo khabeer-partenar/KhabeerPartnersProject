@@ -11,7 +11,7 @@ class MeetingDocument extends Model
 {
     use SharedModel, SoftDeletes;
 
-    protected $fillable = ['path', 'meeting_id', 'committee_id', 'name', 'size', 'description', 'user_id'];
+    protected $fillable = ['path', 'meeting_id', 'committee_id', 'name', 'size', 'description', 'user_id', 'owner'];
     protected $appends = ['full_path'];
 
     public function getFullPathAttribute()

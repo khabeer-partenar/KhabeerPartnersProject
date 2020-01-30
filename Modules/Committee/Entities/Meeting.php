@@ -18,8 +18,11 @@ class Meeting extends Model
 {
     use SharedModel, SoftDeletes, Log;
 
-    protected $fillable = ['from', 'to', 'type_id', 'room_id', 'committee_id', 'reason', 'description', 'completed', 'advisor_id'];
-    protected $appends = ['meeting_at', 'meeting_at_ar', 'from_date', 'to_date', 'is_today'];
+    protected $fillable = [
+        'from', 'to', 'type_id', 'room_id', 'attendance_done',
+        'committee_id', 'reason', 'description', 'completed', 'advisor_id'
+    ];
+    protected $appends = ['meeting_at', 'meeting_at_ar', 'from_date', 'to_date', 'is_old'];
 
     /**
      * Scopes
@@ -107,7 +110,7 @@ class Meeting extends Model
         return Carbon::parse($this->meeting_at)->gt(Carbon::today());
     }
 
-    public function getIsTodayAttribute()
+    public function getIsOldAttribute()
     {
         return Carbon::parse($this->meeting_at)->lte(Carbon::today());
     }
@@ -165,7 +168,7 @@ class Meeting extends Model
         return $meeting;
     }
 
-    public function updateFromRequest($request, Committee $committee)
+    public function updateFromRequest($request)
     {
         $this->update(array_merge([
             'from' => $request->from.','.$request->at,
@@ -173,12 +176,31 @@ class Meeting extends Model
             'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
-        if (!$this->can_change_members) {
+        if ($this->can_change_members) {
             $this->delegates()->sync($request->delegates ? $request->delegates : []);
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }
 
         return $this;
+    }
+
+    public function attend($data)
+    {
+        if (isset($data['delegates']) && is_array($data['delegates'])){
+            foreach ($this->delegatesPivot as $delegatePivot) {
+                if (in_array($delegatePivot->delegate_id, $data['delegates'])) {
+                    $delegatePivot->update(['attended' => 1, 'attendance_taker_id' => auth()->id()]);
+                }
+            }
+        }
+        if (isset($data['participantAdvisors']) && is_array($data['participantAdvisors'])) {
+            foreach ($this->participantAdvisorsPivot as $participantAdvisor) {
+                if (in_array($participantAdvisor->advisor_id, $data['participantAdvisors'])) {
+                    $participantAdvisor->update(['attended' => 1, 'attendance_taker_id' => auth()->id()]);
+                }
+            }
+        }
+        $this->update(['attendance_done' => 1]);
     }
 
     /**
@@ -187,7 +209,7 @@ class Meeting extends Model
     public function delegates()
     {
         return $this->belongsToMany(Delegate::class, MeetingDelegate::table(), 'meeting_id', 'delegate_id')
-            ->withPivot('refuse_reason', 'status');
+            ->withPivot('refuse_reason', 'status', 'attended');
     }
 
     public function delegatesPivot()
@@ -217,7 +239,8 @@ class Meeting extends Model
 
     public function participantAdvisors()
     {
-        return $this->belongsToMany(Employee::class, MeetingAdvisor::table(), 'meeting_id', 'advisor_id');
+        return $this->belongsToMany(Employee::class, MeetingAdvisor::table(), 'meeting_id', 'advisor_id')
+            ->withPivot('attended', 'status');
     }
 
     public function participantAdvisorsPivot()
@@ -242,10 +265,12 @@ class Meeting extends Model
 
     public function multimedia()
     {
-        return $this->hasMany(MeetingMultimedia::class)
-            ->where('user_id',auth()->user()->id)
-            ->orderBy('updated_at', 'asc');
+        return $this->hasMany(MeetingMultimedia::class);
+    }
 
+    public function userMultimedia()
+    {
+        return $this->multimedia()->where('user_id',auth()->user()->id)->orderBy('updated_at', 'asc');
     }
 
     public function committee()

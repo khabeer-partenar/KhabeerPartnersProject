@@ -74,18 +74,5 @@ class AuthController extends Controller
         return redirect()->route('login')->withInput($request->except('password'))->with('error_login', 'invalid_login');
     }
 
-  
-    /**
-     * Logout the user from the system
-     */
-    public function logout(Request $request)
-    {
-        if($request->call_type == 'api') {
-            auth()->user()->token()->revoke();
-            return response()->json('success', 200);
-        }
 
-        auth()->logout();
-        return redirect()->to('/login');
-    }
 }

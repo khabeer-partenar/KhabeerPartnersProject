@@ -26,13 +26,20 @@ class DelegateMeetingController extends Controller
      */
     public function show(Committee $committee, Meeting $meeting)
     {
-        $delegate = auth()->user()->delegate;
+        $meeting->load([
+            'delegates' => function($query) use ($meeting){
+                $query->with([
+                    'multimedia' => function($query) use ($meeting) {
+                        $query->where('meeting_id', $meeting->id);
+                    },
+                    'documents' => function($query) use ($meeting) {
+                        $query->where('meeting_id', $meeting->id);
+                    }
+                ])->where('delegate_id', auth()->id());
+            }
+        ]);
 
-        $documentsByDelegate = $delegate->documents()->where('meeting_id', $meeting->id)->get();
-
-        $meetingDelegate = $meeting->delegates()->where('delegate_id', auth()->id())->first();
-
-        return view('committee::meetings.delegates.show', compact('meeting', 'documentsByDelegate', 'committee', 'meetingDelegate'));
+        return view('committee::meetings.delegates.show', compact('meeting', 'committee'));
     }
 
     /**

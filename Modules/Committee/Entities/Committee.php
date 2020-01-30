@@ -409,14 +409,12 @@ class Committee extends Model
 
     public function view()
     {
-        return $this->hasOne(CommitteeView::class, 'committee_id');
+        return $this->hasOne(CommitteeView::class, 'committee_id')->where('user_id', auth()->id());
     }
 
-    public function scopeViewed()
+    public function views()
     {
-        $viewed = $this->view()->where('user_id',auth()->user()->id)->first();
-        if ($viewed) return true;
-        return false;
+        return $this->hasMany(CommitteeView::class, 'committee_id');
     }
 
     public function groupsStatuses()

@@ -90,14 +90,21 @@
                                         @endif
 
                                          @if(auth()->user()->hasPermissionWithAccess('create', 'MeetingAttendanceController', 'Committee')
-                                         && $meeting->is_today)
+                                         && $meeting->is_old && !$meeting->attendance_done)
                                             <a href="{{ route('committees.meetings.attendance.create', compact('committee', 'meeting')) }}"
                                                class="btn btn-success">تأكيد حضور المشاركين
                                             </a>
                                         @endif
 
+                                        @if(auth()->user()->hasPermissionWithAccess('index', 'MeetingMultimediaController', 'Committee'))
+                                            <a href="{{ route('committee.meetings.multimedia', compact('committee', 'meeting')) }}"
+                                               class="btn btn-success">مرئيات المشاركين
+                                            </a>
+                                        @endif
+
                                         @if(
                                             auth()->user()->hasPermissionWithAccess('destroy', 'CommitteeMeetingController', 'Committee') &&
+                                            !$meeting->is_old &&
                                             !$meeting->trashed()
                                         )
                                             <a data-href="{{ route('committee.meetings.cancel', compact('committee', 'meeting')) }}"
