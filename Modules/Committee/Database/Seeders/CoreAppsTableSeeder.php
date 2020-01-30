@@ -193,7 +193,7 @@ class CoreAppsTableSeeder extends Seeder
 
         App::create([
             'resource_name' => $generalResourceName.'\MeetingController@index', 'name' => 'الإجتماعات',
-            'icon' => 'fa fa-files-o', 'sort' => 4, 'parent_id' => 1, 'frontend_path' => 'authorized-names/', 'is_main_root' => 1,
+            'icon' => 'fa fa-files-o', 'sort' => 4, 'parent_id' => 1, 'frontend_path' => 'meetings/', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
@@ -201,7 +201,7 @@ class CoreAppsTableSeeder extends Seeder
         // Authorized
         $authorized = App::create([
             'resource_name' => $generalResourceName.'\AuthorizedNameController@index', 'name' => 'الأسماء المصرح لهم',
-            'icon' => 'fa fa-files-o', 'sort' => 1, 'parent_id' => $committeeAppId, 'frontend_path' => 'meetings', 'is_main_root' => 1,
+            'icon' => 'fa fa-files-o', 'sort' => 1, 'parent_id' => $committeeAppId, 'frontend_path' => 'authorized-names', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
