@@ -104,6 +104,87 @@
         $(document).on('click', '#optionApologize', function () {
             $("#refuse_reason").prop("disabled",false);
         });
+
+        $(document).on('click', '#saveDelegateDriver', function () {
+            let btn = $(this);
+            let formData = $('#addDriverForm').serialize();
+            let url = $(this).data('url');
+            console.log(formData);
+            $.post({
+                url: url,
+                data: formData,
+                success: function (response) {
+                    const driver = response.driver;
+                    const religion = response.religion;
+                    console.log(driver)
+                    let trow = `
+                    <tr>
+                        <td>${driver.name }</td>
+                        <td>${driver.national_id }</td>
+                        <td>${driver.nationality }</td>
+                        <td>${religion.religiones.type }</td>
+                    </tr>
+                    `; 
+                    $('#drivers').html(trow);
+                    $('[name=name]').val('');
+                    $('[name=nationality]').val('');
+                    $('').html('');
+                },
+                error: function (request) {
+                    let errors = request.responseJSON.errors;
+                    let keys = Object.keys(errors);
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        text: errors[keys[0]][0], // First Error is enough
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'حسنا',
+                    });
+                }
+            })
+        });
+        
+        $('#driver_id').select2({
+            ajax: {
+                url: '/committees/drivers',
+                dataType: 'json',
+                delay: 300,
+                data: function (params) {
+                    return {
+                        search: params.term
+                    };
+                },
+            },
+            minimumInputLength: 3,
+        });
+    
+        $(document).on('click', '#getDelegateDrivers', function () {
+            let formData = $('#driver_id').serialize();
+            const url = $(this).attr('data-url');
+            const driver_id = $('#driver_id').val();
+
+
+            $.get({
+                url: url,
+                data: {'driver_id':driver_id},
+                success: function (response) {
+                    const driver = response.driver;
+                    console.log(driver)
+                    let trow = '';
+                        trow = `
+                            <tr>
+                                <td>${driver.name}</td>
+                                <td>${driver.national_id}</td>
+                                <td>${driver.nationality}</td>
+                                <td>${driver.religiones.type }</td>
+                            </tr>
+                    `;
+                     $('#drivers').html(trow);
+                }
+            });
+        });
+        
+
     });
 
 </script>

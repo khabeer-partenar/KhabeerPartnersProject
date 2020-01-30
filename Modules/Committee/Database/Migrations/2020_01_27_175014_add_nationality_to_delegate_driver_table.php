@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReligionsTable extends Migration
+class AddNationalityToDelegateDriverTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,9 @@ class CreateReligionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('religions', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('type')->default('مسلم');
-            $table->string('name_en');
-            $table->timestamps();
+        Schema::table('delegate_driver', function (Blueprint $table) {
+            $table->string('nationality')->nullable();
         });
-
-
-        
     }
 
     /**
@@ -31,6 +25,8 @@ class CreateReligionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('religions');
+        Schema::table('delegate_driver', function (Blueprint $table) {
+
+        });
     }
 }

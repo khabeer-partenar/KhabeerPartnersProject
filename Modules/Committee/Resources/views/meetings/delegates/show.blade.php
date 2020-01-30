@@ -91,75 +91,65 @@
 
             </div>
             <hr>
-        
-           <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
-             <div class="row">
-             <div class="col-md-12">
-                    <div class="actions item-fl item-mb20">
-                        <a  class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
-                   data-target="#addDelegateModal">
-                    {{ __('messages.add') }}
-                </a>
-                    </div>
+             <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
+                <div class="col-md-4">        
+                    <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
                 </div>
-             </div>
-            <div class="row">
-            
-                <div class="col-md-12">
-                    <table style="width: 100%" class="table table-bordered mt-10">
-                        <thead>
-                        <tr>
-                            <th scope="col">{{ __('committee::delegate_meeting.meeting_type') }}</th>
-                            <th scope="col">{{ __('committee::delegate_meeting.meeting_date') }}</th>
-                            <th scope="col">{{ __('committee::delegate_meeting.meeting_subject') }}</th>
-                            <th scope="col">{{ __('committee::delegate_meeting.meeting_location') }}</th>
-                            <th scope="col">{{ __('committee::delegate_meeting.meeting_action') }}</th>
-
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{{ $meeting->type->name }}</td>
-                            <td>{{ $meeting->meeting_at. ' ' . $meeting->from  . ' ' . $meeting->to }}</td>
-                            <td>{{ $meeting->reason }}</td>
-                            <td>{{ $meeting->room->name }}</td>
-                            <td>
-                                <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
-                                    <div class="btn-group">
-                                        <label class="btn btn-primary">
-                                            <input type="radio" id="OptioinAccept"
-                                                   value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
-                                                   name="status"
-                                                   {{ $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' checked ':'' }}
-                                                   autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
-                                        </label>
-                                    </div>
-                                    <div class="btn-group">
-                                        <label class="btn btn-primary">
-                                            <input type="radio" id="optionApologize"
-                                                   value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
-                                                   {{ $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED?' checked ':'' }}
-                                                   name="status"/> {{__('committee::delegate_meeting.apologize')}}
-                                        </label>
-                                    </div>
-                                    {{
-                                        Form::text('refuse_reason', $meetingDelegate->pivot->refuse_reason, array(
-                                        'maxlength' => 191,
-                                        $meetingDelegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' disabled ':'',
-                                        'id'=>'refuse_reason','placeholder' =>  __('committee::delegate_meeting.refuse_reason'),
-                                        'class' => 'form-control'))
-                                    }}
-                                    @include('layouts.dashboard.form-error', ['key' => 'status'])
-                                    @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
-
+                <div class="col-md-8">
+                        <div class="actions item-fl item-mb20">
+                            <a  class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
+                    data-target="#addDelegateModal">
+                        {{ __('messages.add') }}
+                    </a>
+                        </div>
+                </div>    
+                <div class="row">
+                    <div class="col-md-12">
+                        <table style="width: 100%" class="table table-bordered mt-10">
+                            <thead>
+                            <tr>
+                                <th scope="col">اسم السائق</th>
+                                <th scope="col">رقم الهوية/الاقامة</th>
+                                <th scope="col">الجنسية</th>
+                                <th scope="col">الديانة</th>
+                            </tr>
+                            </thead>
+                            <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
+                                <div class="btn-group">
+                                    <label class="btn btn-primary">
+                                        <input type="radio" id="optionNo" value="" onclick="javascript:noCheck();" name="status" checked/> لا
+                                    </label>
                                 </div>
-                            </td>
-
-                        </tr>
-                        </tbody>
-                    </table>
-
-                </div>
+                                <div class="btn-group">
+                                    <label class="btn btn-primary">
+                                        <input type="radio" id="OptioinYes" value="" name="status" onclick="javascript:yesCheck();" autofocus="true"/> نعم
+                                    </label>
+                                </div>                                 
+                                @include('layouts.dashboard.form-error', ['key' => 'status'])
+                                @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
+                            </div>
+                            <div class="col-md-4" id="driver-form">
+                                <div id="div_main_driver_of_delegate" class="form-group {{ $errors->has('driver_id') ? ' has-error' : '' }}">
+                                    <form id="addDriversForm">
+                                        <label for="driver_of_delegate" class="control-label">
+                                            اسم السائق 
+                                            <span style="color: red">*</span>
+                                        </label>
+                                        {!! Form::select('driver_id', [], $driverOptions, ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
+                                    </form>
+                                </div>
+                                <div class="actions item-fl item-mb20">
+                                    <button type="button"  class="btn btn-primary" id="getDelegateDrivers"
+                                    data-url="{{ route('drivers.get_by_name') }}" >إضافة</button>
+                        
+                                </div>
+                            </div>
+                            <tbody id="drivers" ></tbody>
+                        </table>
+                        
+                    </div>
+                </br>
+                </br>
 
             </div>
             <hr>
@@ -241,8 +231,8 @@
                 </div>
 
                 <div class="col-md-2">
-                    <button type="button" data-order="{{ $documentsByDelegate->count() }}" class="btn btn-primary" id="saveFiles"
-                            data-url="{{ route('committee.meeting-document.store-meeting', compact('committee', 'meeting')) }}">إضافة</button>
+                    <button type="button" data-order="{{ $documentsByDelegate->count() }}" class="btn btn-primary" id="saveDelegateFiles"
+                            data-url="{{ route('committee.meeting-document.store-delegate', compact('committee', 'meeting')) }}">إضافة</button>
                 </div>
             </div>
 
@@ -257,20 +247,20 @@
                             <th scope="col">{{ __('committee::committees.options') }}</th>
                         </tr>
                         </thead>
-                        <tbody id="files">
-                        @foreach($documentsByDelegate as $document)
+                        <tbody id="delegateFiles">
+                        @foreach($meeting->documents as $document)
                             <tr id="file-{{ $document->id }}">
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>{{ $document->description ? $document->description:''}}</td>
+                                <td>jsahdjhs</td>
+
                                 <td>
-                                    <a href="{{ $document->full_path }}">{{ $document->name }}</a>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger file-remove"
-                                            data-remove-url="{{ route('committees.delete-document', $document) }}"
-                                            data-remove-row="#file-{{ $meeting->id }}">
-                                        حذف
-                                    </button>
+                                    <a class="btn btn-info"
+                                       href="{{ $document->full_path }}">{{ __('committee::delegate_meeting.show') }}</a>
+
+                                    <form style="display: inline" method="get" action="{{$document->name}}">
+                                        <a class="btn btn-info" download="{{$document->name}}"
+                                           href="{{ $document->full_path }}">{{ __('committee::delegate_meeting.download') }}</a>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -299,4 +289,27 @@
 
 @section('scripts_2')
     @include('committee::meetings.delegates.scripts')
+    <script>
+        window.onload = function() {
+            document.getElementById('driver-form').style.display = 'none';
+        }
+        function yesCheck() {
+            if (document.getElementById('OptioinYes').checked) {
+                document.getElementById('driver-form').style.display = 'block';
+                
+            } 
+            else if(document.getElementById('optionNo').checked) {
+                document.getElementById('driver-form').style.display = 'none';
+                
+            }   
+        }
+        function noCheck() {
+        if(document.getElementById('optionNo').checked) {
+            document.getElementById('driver-form').style.display = 'none';
+            }
+        if(document.getElementById('OptioinYes').checked) {
+            document.getElementById('driver-form').style.display = 'block';
+            }
+        }
+    </script>
 @endsection

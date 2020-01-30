@@ -1,32 +1,62 @@
 <?php
 
 namespace Modules\Committee\Entities;
-
+use Modules\Committee\Entities\Religion;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\SharedModel;
 
-class MeetingDeriver extends Model
+class MeetingDriver extends Model
 {
     use SharedModel;
+    // use SharedModel, SoftDeletes;
+    protected $table = 'delegate_driver';
 
-    protected $table = 'meetings_delegates';
-    protected $fillable = [];
+    protected $fillable = ['name', 'national_id', 'nationality_id', 'religion_id', 'delegate_id', 'nationality'];
 
-    const INVITED = 0;
-    const ACCEPTED = 1;
-    const REJECTED = 2;
-    const STATUS = [
-        0 => 'invited',
-        1 => 'accepted',
-        2 => 'rejected',
-    ];
-
-    public static function updateStatusAndReason($status, $refuse_reason, $meeting)
+   /**
+     * Scopes
+     *
+     * Here add Scopes
+     * @param $query
+     * @param Request $request
+     */
+    public function scopeSearchDriver($query, $request)
     {
-        if ($status == MeetingDelegate::ACCEPTED) $refuse_reason='';
+        if((int)$request->id && $request->id > 0) {
+            $query->where('id', $request->id);
+        }
 
-        self::where('meeting_id', $meeting->id)
-            ->where('delegate_id', auth()->id())
-            ->update(array('status' => $status, 'refuse_reason' => $refuse_reason));
+        if((int)$request->name && $request->name > 0) {
+            $query->where('name', $request->name);
+        }
+
+        
+        return $query;
     }
+
+
+    public static function createFromRequest($request)
+    {
+        $driver = MeetingDriver::create([
+            'name' => $request->name,
+            'delegate_id' => auth()->id(),
+            'national_id' => $request->national_id,
+            'nationality' => $request->nationality,
+            'religion_id' => $request->input('religion_id'),
+        ]);
+        return $driver;
+        
+    }
+   
+    public function religiones()
+    {
+        return $this->belongsTo(Religion::class, 'religion_id');
+    }
+
+    public function nationalities()
+    {
+        return $this->belongsTo(Nationality::class);
+    }
+
+
 }

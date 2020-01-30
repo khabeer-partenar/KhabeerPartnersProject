@@ -22,6 +22,10 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::post('{committee}/meetings/document', 'MeetingDocumentController@store')->name('committee.meeting-document.store');
         Route::delete('{committee}/meetings/document/{document}', 'MeetingDocumentController@destroy')->name('committee.meeting-document.delete');
 
+        // Delegates Documents
+        Route::post('{committee}/meeting/{meeting}/document', 'DelegateDocumentsController@store')->name('committee.meeting-document.store-delegate');
+        Route::delete('{committee}/meetings/document/{document}', 'DelegateDocumentsController@destroy')->name('committee.meeting-document.delete');
+
         // Delegates
         Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show');
         Route::put('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@update')->name('committees.meetings.delegate.update');
@@ -41,6 +45,13 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('NominationDepartments/{committee}', 'CommitteeController@getNominationDepartmentsWithRef')->name('committee.get.NominationDepartments');
         Route::get('export/{committee}', 'CommitteeReportController@exportAllInfo')->name('committee.export.all.info');
         Route::get('approve/{committee}', 'CommitteeController@approveCommittee')->name('committees.approve');
+
+        // Delegate's Driver
+        Route::post('{committee}/meeting/{meeting}/driver', 'DelegateDriversController@store')->name('meeting.delegate-driver.store-driver');
+        Route::get('/drivers', 'DelegateDriversController@index')->name('drivers.search_by_name');
+        Route::get('/driver', 'DelegateDriversController@show')->name('drivers.get_by_name');
+
+        // Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@getDrivers')->name('committee::meetings.delegates.show');
 
     });
 

@@ -3,9 +3,12 @@
 namespace Modules\Committee\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Traits\SharedModel;
 
 class Religion extends Model
 {
+    use SharedModel;
+
     /**
      * The table associated with the model.
      *
@@ -18,7 +21,11 @@ class Religion extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'name_en'];
+    protected $fillable = ['type', 'name_en'];
 
+    public function drivers()
+    {
+        return $this->hasMany(MeetingDriver::class, 'religion_id');
+    }
 
 }
