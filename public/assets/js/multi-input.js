@@ -104,11 +104,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-<<<<<<< HEAD
-module.exports = __webpack_require__(/*! C:\Users\ahmed\Desktop\projects\KhabeerPartnersProject\resources\assets\js\vendor\multi-input.js */"./resources/assets/js/vendor/multi-input.js");
-=======
-module.exports = __webpack_require__(/*! C:\Users\DELL\Desktop\Projects\khabeer\resources\assets\js\vendor\multi-input.js */"./resources/assets/js/vendor/multi-input.js");
->>>>>>> 5637edfb50dded3f023eedf680cff9cdf56d1ebe
+module.exports = __webpack_require__(/*! /Users/admin/www/KhabeerPartnersProject/resources/assets/js/vendor/multi-input.js */"./resources/assets/js/vendor/multi-input.js");
 
 
 /***/ })
