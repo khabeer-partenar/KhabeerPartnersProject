@@ -13,7 +13,7 @@ use App\Exports\AuthorizedListExport;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 
-class CommitteeAuthorizedNameController extends UserBaseController
+class AuthorizedNameController extends UserBaseController
 {
     use Log;
 
@@ -41,7 +41,7 @@ class CommitteeAuthorizedNameController extends UserBaseController
 
     }
 
-    public function printAuthorizedList(Request $request)
+    public function print(Request $request)
     {
         $lists = AuthorizedName::search($request->all())->get();
         $pdf = PDF::loadView('committee::authorizedName.print', compact('lists'));

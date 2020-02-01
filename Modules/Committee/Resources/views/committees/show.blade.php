@@ -24,9 +24,6 @@
                             </a>
                         @endif
 
-                        {{--<a onclick="window.open('{{route('committee.export.all.info',$committee)}}', '_blank', 'directories=no,scrollbars=yes,titlebar=no,toolbar=no,location=no,status=no,menubar=no');" class="btn btn-sm btn-primary">
-                        <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
-                        </a>--}}
                         <a href="{{route('committee.export.all.info',$committee)}}" class="btn btn-sm btn-primary">
                             <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
                         </a>
@@ -233,12 +230,16 @@
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
             <br>
-            @if(auth()->user()->hasPermissionWithAccess('approveCommittee','CommitteeController','Committee'))
+            @if(
+            auth()->user()->hasPermissionWithAccess('approve','CommitteeController','Committee')
+            &&
+            ($committee->advisor_id == auth()->id() || auth()->user()->is_super_admin)
+            && !$committee->approved
+            )
                 <a id="btn-approve" style="float: right;background-color: #057d54" class="btn btn-sm btn-info">
                     <i class="fa fa-check"></i> {{ __('committee::committees.approve') }}
                 </a>
             @endif
-
         </div>
     </div>
 

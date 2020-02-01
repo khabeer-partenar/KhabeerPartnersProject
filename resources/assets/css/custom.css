@@ -30,7 +30,9 @@
 
 
 .custom-action-btn {
-    padding: 10px 8px;font-size: 14px;
+    padding: 10px 8px;
+    font-size: 14px;
+    margin: 1px;
 }
 
 .select2-container--bootstrap .select2-selection {

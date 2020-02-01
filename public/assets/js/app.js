@@ -2880,7 +2880,11 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
+<<<<<<< HEAD
 exports.push([module.i, "\n.core-app-item {\r\n    cursor: pointer;\n}\n.bold {\r\n    font-weight: bold;\n}\nul {\r\n    padding-left: 1em;\r\n    line-height: 1.5em;\r\n    list-style-type: dot;\n}\n.selected-core-app {\r\n    background-color: #3598dc;\r\n    color: #fbf7f7;\r\n    padding: 3px;\n}\n.core-app-selected-actions {\r\n    color: #fbf7f7;\r\n    padding: 1px;\n}\n.core-app-selected-actions-add {\r\n    background-color: #32c5d2;\n}\n.core-app-selected-actions-edit {\r\n    background-color: #8E44AD;\n}\n.core-app-selected-actions-delete {\r\n    background-color: #e7505a;\n}\nspan.has-permission {\r\n    color: green;\n}\r\n", ""]);
+=======
+exports.push([module.i, "\n.core-app-item {\r\n    cursor: pointer;\r\n    margin-right: 20px;\n}\n.bold {\r\n    font-weight: bold;\n}\nul {\r\n    padding-left: 1em;\r\n    line-height: 1.5em;\r\n    list-style-type: dot;\n}\n.selected-core-app {\r\n    background-color: #3598dc;\r\n    color: #fbf7f7;\r\n    padding: 3px;\n}\n.core-app-selected-actions {\r\n    color: #fbf7f7;\r\n    padding: 1px;\n}\n.core-app-selected-actions-add {\r\n    background-color: #32c5d2;\n}\n.core-app-selected-actions-edit {\r\n    background-color: #8E44AD;\n}\n.core-app-selected-actions-delete {\r\n    background-color: #e7505a;\n}\nspan.has-permission {\r\n    color: green;\n}\r\n", ""]);
+>>>>>>> 5637edfb50dded3f023eedf680cff9cdf56d1ebe
 
 // exports
 
@@ -35927,7 +35931,11 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 module.exports = __webpack_require__(/*! C:\Users\ahmed\Desktop\projects\KhabeerPartnersProject\resources\assets\js\app.js */"./resources/assets/js/app.js");
+=======
+module.exports = __webpack_require__(/*! C:\Users\DELL\Desktop\Projects\khabeer\resources\assets\js\app.js */"./resources/assets/js/app.js");
+>>>>>>> 5637edfb50dded3f023eedf680cff9cdf56d1ebe
 
 
 /***/ })

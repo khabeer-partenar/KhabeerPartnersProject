@@ -456,7 +456,11 @@ $(document).ready(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 module.exports = __webpack_require__(/*! C:\Users\ahmed\Desktop\projects\KhabeerPartnersProject\resources\assets\js\custom.js */"./resources/assets/js/custom.js");
+=======
+module.exports = __webpack_require__(/*! C:\Users\DELL\Desktop\Projects\khabeer\resources\assets\js\custom.js */"./resources/assets/js/custom.js");
+>>>>>>> 5637edfb50dded3f023eedf680cff9cdf56d1ebe
 
 
 /***/ })

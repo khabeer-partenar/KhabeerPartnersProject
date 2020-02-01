@@ -3,10 +3,7 @@
 Route::group(['middleware' => ['auth', 'see.committee']], function() {
 
     Route::prefix('committees')->group(function () {
-        //AuthorizedName
-        Route::get('/authorizedName', 'CommitteeAuthorizedNameController@index')->name('committee.authorizedName');
-        Route::get('/export', 'CommitteeAuthorizedNameController@export')->name('committee.export');
-        Route::get('/print', 'CommitteeAuthorizedNameController@printAuthorizedList')->name('committee.print');
+
 
         // Meeting
         Route::get('{committee}/meetings', 'CommitteeMeetingController@index')->name('committee.meetings');
@@ -43,12 +40,18 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('documents/{document}/download', 'CommitteeDocumentController@download')->name('committees.document.download');
 
         // Nomination
-        Route::get('delegates/{committee_id}', 'CommitteeController@getDelegatesWithDetails')->name('committees.get.delegate');
-        Route::get('sendNomination/{committee}', 'CommitteeController@sendNomination')->name('committees.send.nomination');
-        Route::get('NominationDepartments/{committee}', 'CommitteeController@getNominationDepartmentsWithRef')->name('committee.get.NominationDepartments');
-        Route::get('export/{committee}', 'CommitteeReportController@exportAllInfo')->name('committee.export.all.info');
-        Route::get('approve/{committee}', 'CommitteeController@approveCommittee')->name('committees.approve');
+        Route::get('/{committee}/delegates', 'CommitteeController@getDelegatesWithDetails')->name('committees.get.delegate');
+        Route::get('/{committee}/sendNomination', 'CommitteeController@sendNomination')->name('committees.send.nomination');
+        Route::get('/{committee}/NominationDepartments', 'CommitteeController@getNominationDepartmentsWithRef')->name('committee.get.NominationDepartments');
+        Route::get('/{committee}/export', 'CommitteeReportController@exportAllInfo')->name('committee.export.all.info');
+        Route::get('/{committee}/approve', 'CommitteeController@approve')->name('committees.approve');
 
+    });
+    //AuthorizedName
+    Route::prefix('authorized-names')->group(function (){
+        Route::get('/', 'AuthorizedNameController@index')->name('committee.authorizedName');
+        Route::get('/export', 'AuthorizedNameController@export')->name('committee.export');
+        Route::get('/print', 'AuthorizedNameController@print')->name('committee.print');
     });
 
     Route::resource('committees', 'CommitteeController');
