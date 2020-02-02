@@ -71,6 +71,22 @@ class Meeting extends Model
         return $query->where('completed', 1);
     }
 
+    public function scopeCalendar($query, $data = [])
+    {
+        if (isset($data['from']) && isset($data['to'])) {
+            try {
+                $fromDate = Carbon::parse($data['from']);
+                $toDate = Carbon::parse($data['to']);
+            } catch (InvalidDateException $exception) {
+                throw new $exception;
+            }
+        } else { // Default is this month
+            $fromDate = Carbon::now()->startOfMonth();
+            $toDate = Carbon::now()->endOfMonth();
+        }
+        $query->whereBetween('from', [$fromDate, $toDate]);
+    }
+
     /**
      * Accs & Mut
      */
