@@ -29,10 +29,6 @@ Route::group(['middleware' => 'guest'], function()
 
 Route::group(['middleware' => 'auth'], function()
 {
-    // Auth Controller
-    Route::get('/logout', 'AuthController@logout')->name('logout');
-
-
 
     Route::prefix('users')->group(function(){
 
@@ -64,5 +60,21 @@ Route::group(['middleware' => 'auth'], function()
 
         // User Controller 
         Route::get('/search', 'UserController@search')->name('users.search');
+
+        // Account
+        Route::prefix('account')->group(function(){
+            
+            Route::get('/edit', 'AccountController@edit')->name('account.edit');
+            Route::put('/edit', 'AccountController@update')->name('account.update');
+            Route::get('/logout', 'AccountController@logout')->name('account.logout');
+
+
+            Route::get('/support/create', 'SupportController@create')->name('support.create');
+            Route::post('/support/create', 'SupportController@store')->name('support.store');
+            Route::post('/support/upload-attachments', 'SupportController@uploadAttachments')->name('support.upload-attachments');
+            Route::delete('/support/{attachment}/delete-attachments', 'SupportController@deleteAttachments')->name('support.delete-attachments');
+        });
+
+
     });
 });

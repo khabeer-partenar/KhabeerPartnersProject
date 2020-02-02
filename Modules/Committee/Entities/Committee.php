@@ -124,6 +124,26 @@ class Committee extends Model
 
     }
 
+    public function getGroupStatusAttribute()
+    {
+        $group_id = auth()->user()->job_role_id;
+        $groupStatus = $this->groupStatus($group_id)->first();
+        if ($groupStatus == null) {
+            // default if the user group dose not exist
+            $group_id = Group::where('key', Employee::SECRETARY)->first()->id;
+            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
+
+        } else {
+            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
+        }
+        return $groupStatus;
+    }
+
+    public function getCanTakeActionAttribute()
+    {
+        return in_array(auth()->user()->id, [$this->created_by, $this->advisor_id]);
+    }
+
     /**
      * Scopes
      *
@@ -156,7 +176,6 @@ class Committee extends Model
 
         return $query;
     }
-
 
     public function scopeUser($query)
     {
@@ -281,12 +300,6 @@ class Committee extends Model
         return $toBeNotifiedUsers;
     }
 
-    public function approveCommittee()
-    {
-        $this->approved = true;
-        $this->save();
-    }
-
     public function updateDocuments()
     {
         $documents = CommitteeDocument::where('user_id', auth()->id())->whereNull('committee_id')->get();
@@ -307,6 +320,40 @@ class Committee extends Model
            return $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done'); 
         }
         
+    }
+
+    public function groupsStatuses()
+    {
+        return $this->belongsToMany(Group::class, 'committee_group_status', 'committee_id', 'group_id')
+            ->withPivot('status')
+            ->withTimestamps();
+    }
+
+    public function getNominationDepartmentsWithRef()
+    {
+        if (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+            $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
+            $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
+            return $this->nominationDepartments()->whereIn('department_id', $departmentsId)->with('referenceDepartment')->get();
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+            $parentDepartmentId = auth()->user()->parentDepartment->id;
+            return $this->nominationDepartments()->where('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
+
+        } elseif (auth()->user()->is_super_admin) {
+
+        }
+
+    }
+
+    public function groupStatus($groupId)
+    {
+        return $this->hasMany(CommitteeGroupStatus::class, 'committee_id')
+            ->with('status')->where('group_id', $groupId);
+    }
+
+    public function setView()
+    {
+        return $this->view == null ? $this->views()->create(['user_id' => auth()->id()]):null;
     }
 
     /**
@@ -381,65 +428,14 @@ class Committee extends Model
             ->withPivot('nomination_criteria');
     }
 
-    public function getGroupStatusAttribute()
-    {
-        $group_id = auth()->user()->job_role_id;
-        $groupStatus = $this->groupStatus($group_id)->first();
-        if ($groupStatus == null) {
-            // default if the user group dose not exist
-            $group_id = Group::where('key', Employee::SECRETARY)->first()->id;
-            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
-
-        } else {
-            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
-        }
-        return $groupStatus;
-    }
-
-    public function getCanTakeActionAttribute()
-    {
-        return in_array(auth()->user()->id, [$this->created_by, $this->advisor_id]);
-    }
-
-    public function groupStatus($groupId)
-    {
-        return $this->hasMany(CommitteeGroupStatus::class, 'committee_id')
-            ->with('status')->where('group_id', $groupId);
-    }
-
     public function view()
     {
-        return $this->hasOne(CommitteeView::class, 'committee_id');
+        return $this->hasOne(CommitteeView::class, 'committee_id')->where('user_id', auth()->id());
     }
 
-    public function scopeViewed()
+    public function views()
     {
-        $viewed = $this->view()->where('user_id',auth()->user()->id)->first();
-        if ($viewed) return true;
-        return false;
-    }
-
-    public function groupsStatuses()
-    {
-        return $this->belongsToMany(Group::class, 'committee_group_status', 'committee_id', 'group_id')
-            ->withPivot('status')
-            ->withTimestamps();
-    }
-
-    public function getNominationDepartmentsWithRef()
-    {
-        if (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
-            $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
-            $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
-            return $this->nominationDepartments()->whereIn('department_id', $departmentsId)->with('referenceDepartment')->get();
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
-            $parentDepartmentId = auth()->user()->parentDepartment->id;
-            return $this->nominationDepartments()->where('department_id', $parentDepartmentId)->with('referenceDepartment')->get();
-
-        } elseif (auth()->user()->is_super_admin) {
-
-        }
-
+        return $this->hasMany(CommitteeView::class, 'committee_id');
     }
 
     public function nominationDepartments()

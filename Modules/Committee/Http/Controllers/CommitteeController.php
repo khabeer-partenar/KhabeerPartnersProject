@@ -35,11 +35,9 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $committees = Committee::with('advisor', 'president')->latest()->search($request)->user()->paginate(10);
+        $committees = Committee::with('advisor', 'president', 'view')->latest()->search($request)->user()->paginate(10);
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $status = Committee::STATUS;
-        // dd($status);
-
         return view('committee::committees.index', compact('committees', 'advisors', 'status'));
     }
 
@@ -83,33 +81,36 @@ class CommitteeController extends UserBaseController
     }
 
     /**
-     * Show the specified resource.
      * @param Committee $committee
-     * @return Response
-     * @internal param int $id
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getDelegatesWithDetails($committee_id)
+    public function getDelegatesWithDetails(Committee $committee)
     {
-        $commitee_id = $committee_id;
-        $committee = Committee::find($commitee_id);
         return $committee->getDelegatesWithDetails();
     }
 
+    /**
+     * @param Committee $committee
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function getNominationDepartmentsWithRef(Committee $committee)
     {
         return $committee->getNominationDepartmentsWithRef();
     }
 
     /**
+     * Show the specified resource.
      * @param Committee $committee
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Response
+     * @internal param int $id
      */
     public function show(Committee $committee)
     {
         $delegates = $committee->getDelegatesWithDetails();
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
-        CommitteeView::setCommitteeView($committee);
+        $committee->load('participantAdvisors', 'participantDepartments', 'documents', 'view');
+        $committee->setView();
         return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
     }
 
@@ -191,9 +192,14 @@ class CommitteeController extends UserBaseController
         }
     }
 
-    public function approveCommittee(Committee $committee)
+    public function approve(Committee $committee)
     {
-        $committee->approveCommittee();
+        if (($committee->advisor_id != auth()->id() && !auth()->user()->is_super_admin) && $committee->approved) {
+            abort(403);
+        }
+        $committee->update([
+            'approved' => true
+        ]);
         return response()->json(['status' => 1]);
     }
 }

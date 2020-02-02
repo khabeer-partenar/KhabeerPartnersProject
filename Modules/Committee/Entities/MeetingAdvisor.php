@@ -10,7 +10,7 @@ class MeetingAdvisor extends Model
     use SharedModel;
 
     protected $table = 'meetings_advisors';
-    protected $fillable = [];
+    protected $fillable = ['advisor_id', 'meeting_id', 'status', 'attended', 'attendance_taker_id'];
 
     const INVITED = 0;
     const ACCEPTED = 1;

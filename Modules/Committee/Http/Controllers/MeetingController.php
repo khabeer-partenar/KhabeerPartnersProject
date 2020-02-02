@@ -17,6 +17,7 @@ class MeetingController extends UserBaseController
 {
     /**
      * Display a listing of the resource.
+     * @param Request $request
      * @return Response
      */
     public function index()
@@ -29,8 +30,23 @@ class MeetingController extends UserBaseController
             'absentAdvisors',
             'room',
             'type',
-        ])->get();
+        ])->calendar()->get();
 
         return view('committee::meetings.calendar', compact('meetings'));
+    }
+
+    public function calendar(Request $request)
+    {
+        $meetings = Meeting::filterAllByUser()->with([
+            'advisor',
+            'attendingDelegates',
+            'attendingAdvisors',
+            'absentDelegates',
+            'absentAdvisors',
+            'room',
+            'type',
+        ])->calendar($request->all())->get();
+
+        return response()->json(['meetings' => $meetings]);
     }
 }
