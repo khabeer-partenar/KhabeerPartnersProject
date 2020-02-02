@@ -1,6 +1,6 @@
 @csrf
 <div   id="addDelegateModal"  class="modal fade" role="dialog">
-    <div  class="modal-lg modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
+    <div id="delegateModal"  class="modal-lg modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
         <!-- Modal content-->
         <div class="modal-content">
             <div id="loadingSpinner" style="display:none; position: fixed; z-index: 1031;top: 50%;right: 50%">

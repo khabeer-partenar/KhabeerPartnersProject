@@ -8,6 +8,7 @@ use Laravel\Passport\HasApiTokens;
 use Modules\Committee\Entities\Committee;
 use Modules\Core\Traits\AuthorizeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Committee\Entities\MeetingDocument;
 use Modules\Core\Entities\Group;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Core\Traits\SharedModel;
@@ -259,5 +260,10 @@ class User extends Authenticatable
     public function delegate()
     {
         return $this->hasOne(Delegate::class, 'id', 'id');
+    }
+
+    public function meetingDocument()
+    {
+        return $this->hasMany(MeetingDocument::class);
     }
 }

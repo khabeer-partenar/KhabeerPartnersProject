@@ -123,60 +123,7 @@
         });
         
 
-        //delegate files
-        $(document).on('click', '#saveDelegateFiles', function () {
-            let btn = $(this);
-            let uploadBtn = $('#upload-file-browse');
-            let nextOrder = parseInt($(btn).attr('data-order')) + 1;
-            let formData = new FormData();
-            $.each($(uploadBtn)[0].files, function (i, file) {
-                formData.append('file', file);
-            });
-            formData.append('description', $('[name=file_description]').val());
-            let url = $(this).data('url');
-            $.post({
-                url: url,
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    const document = response.document;
-                    let trow = `
-                    <tr id="file-${document.id}">
-                        <td>${nextOrder}</td>
-                        <td>${document.description ? document.description : ''}</td>
-                        <td>
-                            <a href="${document.full_path}">${document.name}</a>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger file-remove"
-                             data-remove-url="${response.delete_url}"
-                             data-remove-row="#file-${document.id}">
-                                حذف
-                            </button>
-                        </td>
-                    </tr>
-                    `;
-                    $('#delegateFiles').append(trow);
-                    $('[name=file_description]').val('');
-                    $('#upload-file-browse').val('');
-                    $('#fileName').html('');
-                    $(btn).attr('data-order', nextOrder);
-                },
-                error: function (request) {
-                    let errors = request.responseJSON.errors;
-                    let keys = Object.keys(errors);
-                    Swal.fire({
-                        title: 'حدث خطأ',
-                        text: errors[keys[0]][0], // First Error is enough
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'حسنا',
-                    });
-                }
-            })
-        });
+        
 
         $(document).on('click', '.file-remove', function () {
             let btn = $(this);

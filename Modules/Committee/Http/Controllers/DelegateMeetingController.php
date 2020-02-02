@@ -14,6 +14,7 @@ use Modules\Committee\Http\Requests\UpdateDelegateMeetingRequest;
 use Modules\Users\Traits\SessionFlash;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Modules\Users\Entities\Delegate;
 
 class DelegateMeetingController extends Controller
 {
@@ -27,13 +28,19 @@ class DelegateMeetingController extends Controller
      * @return Response
      * @internal param int $id
      */
-    public function show(Committee $committee, Meeting $meeting, MeetingDriver $driver, Request $request, Religion $religion)
+    public function show(Committee $committee, Meeting $meeting, MeetingDriver $driver, Request $request, Religion $religion, Delegate $delegate)
     {
+        $user = auth()->user();
+        $delegates = $user->load(['meetingDocument' => function($query) use($user) {
+               $user->where('users.user_type', 'delegate');
+        }]);
+        // dd($delegates);
         $nationalities = Nationality::Nationalities;
-        $religiones = $religion->all();
+        $religiones = $religion->get();
         $driverOptions   = [0 => __('messages.choose_option')];
         $drivers      = MeetingDriver::select('id', 'name')->searchDriver($request)->paginate(10);
         $delegate = auth()->user()->delegate;
+
         $documentsByDelegate = $delegate->documents()->where('meeting_id', $meeting->id)->get();
         $meetingDelegate = $meeting->delegates()->where('delegate_id', auth()->id())->first();
 
@@ -54,7 +61,7 @@ class DelegateMeetingController extends Controller
     {
         MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting);
         MeetingMultimedia::createMultimedia($request->text,$meeting,$committee);
-        MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
+        // MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));
         return redirect()->back();
     }

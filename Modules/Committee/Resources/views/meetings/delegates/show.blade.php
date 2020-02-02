@@ -104,50 +104,49 @@
                         </div>
                 </div>    
                 <div class="row">
-                    <div class="col-md-12">
-                        <table style="width: 100%" class="table table-bordered mt-10">
-                            <thead>
-                            <tr>
-                                <th scope="col">اسم السائق</th>
-                                <th scope="col">رقم الهوية/الاقامة</th>
-                                <th scope="col">الجنسية</th>
-                                <th scope="col">الديانة</th>
-                            </tr>
-                            </thead>
-                            <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
-                                <div class="btn-group">
-                                    <label class="btn btn-primary">
-                                        <input type="radio" id="optionNo" value="" onclick="javascript:noCheck();" name="status" checked/> لا
-                                    </label>
-                                </div>
-                                <div class="btn-group">
-                                    <label class="btn btn-primary">
-                                        <input type="radio" id="OptioinYes" value="" name="status" onclick="javascript:yesCheck();" autofocus="true"/> نعم
-                                    </label>
-                                </div>                                 
-                                @include('layouts.dashboard.form-error', ['key' => 'status'])
-                                @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
+                <div class="col-md-12">
+                    <table style="width: 100%" class="table table-bordered mt-10">
+                        <thead>
+                        <tr>
+                            <th scope="col">اسم السائق</th>
+                            <th scope="col">رقم الهوية/الاقامة</th>
+                            <th scope="col">الجنسية</th>
+                            <th scope="col">الديانة</th>
+                        </tr>
+                        </thead>
+                        <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
+                            <div class="btn-group">
+                                <label class="btn btn-primary">
+                                    <input type="radio" id="optionNo" value="" onclick="javascript:noCheck();" name="status" checked/> لا
+                                </label>
                             </div>
-                            <div class="col-md-4" id="driver-form">
-                                <div id="div_main_driver_of_delegate" class="form-group {{ $errors->has('driver_id') ? ' has-error' : '' }}">
-                                    <form id="addDriversForm">
-                                        <label for="driver_of_delegate" class="control-label">
-                                            اسم السائق 
-                                            <span style="color: red">*</span>
-                                        </label>
-                                        {!! Form::select('driver_id', [], $driverOptions, ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
-                                    </form>
-                                </div>
-                                <div class="actions item-fl item-mb20">
-                                    <button type="button"  class="btn btn-primary" id="getDelegateDrivers"
-                                    data-url="{{ route('drivers.get_by_name') }}" >إضافة</button>
-                        
-                                </div>
+                            <div class="btn-group">
+                                <label class="btn btn-primary">
+                                    <input type="radio" id="OptioinYes" value="" name="status" onclick="javascript:yesCheck();" autofocus="true"/> نعم
+                                </label>
+                            </div>                                 
+                            @include('layouts.dashboard.form-error', ['key' => 'status'])
+                            @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
+                        </div>
+                        <div class="col-md-4" id="driver-form">
+                            <div id="div_main_driver_of_delegate" class="form-group {{ $errors->has('driver_id') ? ' has-error' : '' }}">
+                                <form id="addDriversForm">
+                                    <label for="driver_of_delegate" class="control-label">
+                                        اسم السائق 
+                                        <span style="color: red">*</span>
+                                    </label>
+                                    {!! Form::select('driver_id', [], $driverOptions, ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
+                                </form>
                             </div>
-                            <tbody id="drivers" ></tbody>
-                        </table>
-                        
-                    </div>
+                            <div class="actions item-fl item-mb20">
+                                <button type="button"  class="btn btn-primary" id="getDelegateDrivers"
+                                data-url="{{ route('drivers.get_by_name') }}" >إضافة</button>
+                            </div>
+                        </div>
+                        <tbody id="drivers" ></tbody>
+                    </table>
+                    
+                </div>
                 </br>
                 </br>
 
@@ -247,20 +246,20 @@
                             <th scope="col">{{ __('committee::committees.options') }}</th>
                         </tr>
                         </thead>
-                        <tbody id="delegateFiles">
-                        @foreach($meeting->documents as $document)
-                            <tr id="file-{{ $document->id }}">
+                        <tbody id="filesOfDelegate">
+                        @foreach($documentsByDelegate as $delegateDocument)
+                            <tr id="file-{{ $delegateDocument->id }}">
                                 <td>{{ $loop->index + 1 }}</td>
-                                <td>jsahdjhs</td>
-
+                                <td>{{ $delegateDocument->description ? $delegateDocument->description:''}}</td>
                                 <td>
-                                    <a class="btn btn-info"
-                                       href="{{ $document->full_path }}">{{ __('committee::delegate_meeting.show') }}</a>
-
-                                    <form style="display: inline" method="get" action="{{$document->name}}">
-                                        <a class="btn btn-info" download="{{$document->name}}"
-                                           href="{{ $document->full_path }}">{{ __('committee::delegate_meeting.download') }}</a>
-                                    </form>
+                                    <a href="{{ $delegateDocument->full_path }}">{{ $delegateDocument->name }}</a>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger file-remove"
+                                            data-remove-url="{{ route('committee.meeting-document.delete-delegate', $delegateDocument) }}"
+                                            data-remove-row="#file-{{ $delegateDocument->id }}">
+                                        حذف
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -295,20 +294,25 @@
         }
         function yesCheck() {
             if (document.getElementById('OptioinYes').checked) {
+                $('#drivers').removeClass('hidden');
                 document.getElementById('driver-form').style.display = 'block';
-                
             } 
             else if(document.getElementById('optionNo').checked) {
                 document.getElementById('driver-form').style.display = 'none';
+                $('#drivers').removeClass().addClass('hidden');
                 
             }   
         }
         function noCheck() {
         if(document.getElementById('optionNo').checked) {
             document.getElementById('driver-form').style.display = 'none';
+            $('#drivers').removeClass().addClass('hidden');
+
             }
         if(document.getElementById('OptioinYes').checked) {
             document.getElementById('driver-form').style.display = 'block';
+            $('#drivers').removeClass('hidden');
+
             }
         }
     </script>
