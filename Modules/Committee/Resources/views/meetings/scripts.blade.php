@@ -180,7 +180,33 @@
             locale: initialLocaleCode,
             buttonIcons: false, // show the prev/next text
             navLinks: false, // can click day/week names to navigate views
-            events: meetings
+            events: [
+                {
+                type: 'استكمالي',
+                title: ' استكمال  اجتماع وزير النقل مع نوابه',
+                start: '2020-02-20 01:20:00',
+                end: '2020-02-20 03:10:00',
+                color: '#000',
+                meetingType:'استكمالي',
+                meetingChair: 'ahmed farghaly',
+                place: 'صالة المدينة المنورة',
+                attendaceNumber: 10,
+                absenceNumber: 1
+            },
+            {
+                type: 'استكمالي',
+                title: ' اجتماع رئيس الوزراء مع نوابه',
+                start: '2020-02-11 16:20:00',
+                end: '2020-02-11 19:30:00',
+                color: '#ff9f89',
+                meetingType:'اولي',
+                meetingChair: 'ahmed farghaly',
+                place: 'صالة الملك فهد',
+                attendaceNumber: 15,
+                absenceNumber: 8
+            },
+            
+            ]
         });
 
         calendar.render();
@@ -203,6 +229,10 @@
             return time;
         }
 
+        
+        $('#current_date').change(function(){
+            alert($(this).val());
+        });
     
     });
 </script>

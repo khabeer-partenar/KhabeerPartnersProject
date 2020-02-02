@@ -5350,8 +5350,6 @@ Docs & License: https://fullcalendar.io/
             activeRange = intersectRanges(activeRange, validRange); // might return null
             // it's invalid if the originally requested date is not contained,
             // or if the range is completely outside of the valid range.
-            if(direction == 1)
-            console.log(currentDate,direction,currentInfo.range);
             isValid = rangesIntersect(currentInfo.range, validRange);
             return {
                 // constraint for where prev/next operations can go and where events can be dragged/resized to.
@@ -5643,12 +5641,14 @@ Docs & License: https://fullcalendar.io/
         var dateProfile = reduceDateProfile(state.dateProfile, action, state.currentDate, viewType, calendar);
         var eventSources = reduceEventSources(state.eventSources, action, dateProfile, calendar);
         var nextState = __assign({}, state, { viewType: viewType,
-            dateProfile: dateProfile, currentDate: reduceCurrentDate(state.currentDate, action, dateProfile), eventSources: eventSources, eventStore: reduceEventStore(state.eventStore, action, eventSources, dateProfile, calendar), dateSelection: reduceDateSelection(state.dateSelection, action, calendar), eventSelection: reduceSelectedEvent(state.eventSelection, action), eventDrag: reduceEventDrag(state.eventDrag, action, eventSources, calendar), eventResize: reduceEventResize(state.eventResize, action, eventSources, calendar), eventSourceLoadingLevel: computeLoadingLevel(eventSources), loadingLevel: computeLoadingLevel(eventSources) });
-        for (var _i = 0, _a = calendar.pluginSystem.hooks.reducers; _i < _a.length; _i++) {
+            dateProfile: dateProfile, currentDate: reduceCurrentDate(state.currentDate, action, dateProfile), eventSources: eventSources, eventStore: reduceEventStore(state.eventStore, action, eventSources, dateProfile, calendar), dateSelection: reduceDateSelection(state.dateSelection, action, calendar), eventSelection: reduceSelectedEvent(state.eventSelection, action), eventDrag: reduceEventDrag(state.eventDrag, action, eventSources, calendar), eventResize: reduceEventResize(state.eventResize, action, eventSources, calendar), eventSourceLoadingLevel: computeLoadingLevel(eventSources), loadingLevel: computeLoadingLevel(eventSources) }); 
+            if(dateProfile)          
+            $('#current_date').val(dateProfile.currentRange.start).trigger('change');; 
+    
+            for (var _i = 0, _a = calendar.pluginSystem.hooks.reducers; _i < _a.length; _i++) {
             var reducerFunc = _a[_i];
             nextState = reducerFunc(nextState, action, calendar);
         }
-        // console.log(action.type, nextState)
         return nextState;
     }
     function reduceViewType(currentViewType, action) {
@@ -5673,7 +5673,9 @@ Docs & License: https://fullcalendar.io/
                     !rangeContainsMarker(currentDateProfile.currentRange, action.dateMarker)) {
                     newDateProfile = calendar.dateProfileGenerators[viewType].build(action.dateMarker, undefined, true // forceToValid
                     );
+
                 }
+
                 break;
             case 'SET_VIEW_TYPE':
                 var generator = calendar.dateProfileGenerators[viewType];
