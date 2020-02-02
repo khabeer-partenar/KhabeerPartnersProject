@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
     Route::resource('committees', 'CommitteeController');
 
     Route::get('meetings', 'MeetingController@index')->name('meetings.calendar');
+    Route::get('meetings/calendar', 'MeetingController@calendar')->name('meetings.calendar.ajax');
 
 });
 
