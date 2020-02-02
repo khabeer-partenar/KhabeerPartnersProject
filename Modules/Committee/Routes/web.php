@@ -18,13 +18,13 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('{committee}/meetings/{meeting}/multimedia', 'MeetingMultimediaController@index')->name('committee.meetings.multimedia');
 
         // Meeting Documents
-        Route::post('{committee}/meeting/{meeting}/document', 'MeetingDocumentController@storeForMeeting')->name('committee.meeting-document.store-meeting');
+        Route::post('{committee}/meetings/{meeting}/document', 'MeetingDocumentController@storeForMeeting')->name('committee.meeting-document.store-meeting');
         Route::post('{committee}/meetings/document', 'MeetingDocumentController@store')->name('committee.meeting-document.store');
-        Route::delete('{committee}/meetings/document/{document}', 'MeetingDocumentController@destroy')->name('committee.meeting-document.delete');
+        Route::delete('{committee}/meetings/{document}/document', 'MeetingDocumentController@destroy')->name('committee.meeting-document.delete');
 
         // Delegates Documents
-        Route::post('{committee}/meeting/{meeting}/document', 'DelegateDocumentsController@store')->name('committee.meeting-document.store-delegate');
-        Route::delete('{committee}/meetings/document/{document}', 'DelegateDocumentsController@destroy')->name('committee.meeting-document.delete-delegate');
+        Route::post('{committee}/meetings/{meeting}/delegate-document', 'DelegateDocumentsController@store')->name('committee.meeting-document.store-delegate');
+        Route::delete('{committee}/meetings/{document}/delegate-document', 'DelegateDocumentsController@destroy')->name('committee.meeting-document.delete-delegate');
 
         // Delegates
         Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show');

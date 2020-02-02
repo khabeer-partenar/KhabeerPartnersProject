@@ -73,30 +73,6 @@
             })
         });
 
-        $(document).on('click', '.file-remove', function () {
-            let btn = $(this);
-            let url = $(btn).attr('data-remove-url');
-            $.post({
-                url: url,
-                method: 'delete',
-                success: function (response) {
-                    let trow = $(btn).attr('data-remove-row');
-                    $(trow).remove();
-                },
-                error: function (request) {
-                    let errors = request.responseJSON.errors;
-                    let keys = Object.keys(errors);
-                    Swal.fire({
-                        title: 'حدث خطأ',
-                        text: errors[keys[0]][0], // First Error is enough
-                        type: 'error',
-                        showCancelButton: false,
-                        confirmButtonText: 'حسنا',
-                    });
-                }
-            })
-        })
-
         $(document).on('click', '#OptioinAccept', function () {
             $("#refuse_reason").prop("disabled",true);
         })
@@ -166,9 +142,6 @@
                 processData: false,
                 success: function (response) {
                     const delegateDocument = response.delegateDocument;
-                    console.log(delegateDocument);
-                   
-
                     let trow = `
                     <tr id="file-${delegateDocument.id}">
                         <td>${nextOrder}</td>
@@ -242,7 +215,7 @@
                                 <td>${driver.name}</td>
                                 <td>${driver.national_id}</td>
                                 <td>${driver.nationality}</td>
-                                <td>${driver.religiones.type }</td>
+                                <td>${driver.religiones.name }</td>
                             </tr>
                     `;
                      $('#drivers').html(trow);
@@ -251,7 +224,7 @@
             });
         });
 
-        $(document).on('click', '.file-remove', function () {
+        $(document).on('click', '.file-remove-delegate', function () {
             let btn = $(this);
             let url = $(btn).attr('data-remove-url');
             $.post({

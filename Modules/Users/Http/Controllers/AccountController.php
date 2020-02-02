@@ -4,11 +4,12 @@ namespace Modules\Users\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
 use Modules\Users\Http\Requests\UpdateAccountRequest;
 use App\Http\Controllers\UserBaseController;
 use Modules\Core\Entities\Group;
 
-class AccountController extends UserBaseController
+class AccountController extends Controller
 {
 
     /**

@@ -74,9 +74,9 @@
                                         class="form_control  load-religion_id"
                                         >
                                     <option value="0">{{ __('users::departments.choose a department') }}</option>
-                                    @foreach($religiones as $religione)
-                                        <option value="{{ $religione->id }}">
-                                            {{ $religione->type }}
+                                    @foreach($religions as $religion)
+                                        <option value="{{ $religion->id }}">
+                                            {{ $religion->name }}
                                         </option>
                                     @endforeach
                                 </select>

@@ -15,7 +15,7 @@ class CreateReligionsTable extends Migration
     {
         Schema::create('religions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('type')->default('مسلم');
+            $table->string('name')->default('مسلم');
             $table->string('name_en');
             $table->timestamps();
         });

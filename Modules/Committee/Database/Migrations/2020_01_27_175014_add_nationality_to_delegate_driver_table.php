@@ -26,7 +26,7 @@ class AddNationalityToDelegateDriverTable extends Migration
     public function down()
     {
         Schema::table('delegate_driver', function (Blueprint $table) {
-
+            $table->dropColumn('nationality');
         });
     }
 }

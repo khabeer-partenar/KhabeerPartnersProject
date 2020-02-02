@@ -17,7 +17,6 @@ class CreateDelegateDriverTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('national_id');
             $table->string('name')->nullable();
-            $table->string('nationality')->nullable();
             $table->unsignedBigInteger('nationality_id')->nullable();
             $table->unsignedBigInteger('religion_id');
             $table->timestamps();
@@ -28,6 +27,7 @@ class CreateDelegateDriverTable extends Migration
                 ->references('id')
                 ->on('nationalities')
                 ->onDelete('cascade');
+
             $table->foreign('religion_id')
                 ->references('id')
                 ->on('religions')

@@ -53,6 +53,7 @@ class DelegateDocumentsController extends UserBaseController
      */
     public function destroy(Committee $committee, MeetingDocument $document)
     {
+        // TODO Check on Document
         Storage::delete($document->path);
         $document->delete();
         return response()->json(['msg' => 'deleted'], 200);

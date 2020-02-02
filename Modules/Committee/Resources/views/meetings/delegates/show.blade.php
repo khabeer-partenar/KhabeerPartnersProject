@@ -95,26 +95,19 @@
                 <div class="col-md-4">
                     <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
                 </div>
-                <div class="col-md-8">
-                        <div class="actions item-fl item-mb20">
-                            <a  class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
-                    data-target="#addDelegateModal">
-                        {{ __('messages.add') }}
-                    </a>
-                        </div>
-                </div>
+                 <div class="col-md-8">
+                     <div class="actions item-fl item-mb20">
+                         <a class="btn btn-sm btn-info"
+                            style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
+                            data-target="#addDelegateModal">
+                             {{ __('messages.add') }}
+                         </a>
+                     </div>
+                 </div>
                 <div class="row">
                 <div class="col-md-12">
-                    <table style="width: 100%" class="table table-bordered mt-10">
-                        <thead>
-                        <tr>
-                            <th scope="col">اسم السائق</th>
-                            <th scope="col">رقم الهوية/الاقامة</th>
-                            <th scope="col">الجنسية</th>
-                            <th scope="col">الديانة</th>
-                        </tr>
-                        </thead>
-                        <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
+                    <div class="col-md-3">
+                        <div class="form-group">
                             <div class="btn-group">
                                 <label class="btn btn-primary">
                                     <input type="radio" id="optionNo" value="" onclick="javascript:noCheck();" name="status" checked/> لا
@@ -125,30 +118,46 @@
                                     <input type="radio" id="OptioinYes" value="" name="status" onclick="javascript:yesCheck();" autofocus="true"/> نعم
                                 </label>
                             </div>
-                            @include('layouts.dashboard.form-error', ['key' => 'status'])
-                            @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
                         </div>
-                        <div class="col-md-4" id="driver-form">
-                            <div id="div_main_driver_of_delegate" class="form-group {{ $errors->has('driver_id') ? ' has-error' : '' }}">
+                    </div>
+                    <div class="col-md-9">
+                        <div id="driver-form">
+                            <div id="div_main_driver_of_delegate"
+                                 class="form-group col-md-8 {{ $errors->has('driver_id') ? ' has-error' : '' }}">
                                 <form id="addDriversForm">
-                                    <label for="driver_of_delegate" class="control-label">
-                                        اسم السائق
-                                        <span style="color: red">*</span>
-                                    </label>
-                                    {!! Form::select('driver_id', [], $driverOptions, ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
+                                    <div class="col-md-4">
+                                        <label for="driver_of_delegate" class="control-label">
+                                            اسم السائق
+                                            <span style="color: red">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {!! Form::select('driver_id', [], [0 => __('messages.choose_option')], ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
+                                    </div>
                                 </form>
                             </div>
-                            <div class="actions item-fl item-mb20">
-                                <button type="button"  class="btn btn-primary" id="getDelegateDrivers"
-                                data-url="{{ route('drivers.get_by_name') }}" >إضافة</button>
+                            <div class="actions item-fl col-md-4 item-mb20">
+                                <button type="button" class="btn btn-primary" id="getDelegateDrivers"
+                                        data-url="{{ route('drivers.get_by_name') }}">إضافة
+                                </button>
                             </div>
                         </div>
+                    </div>
+
+                    <table style="width: 100%" class="table table-bordered mt-10">
+                        <thead>
+                            <tr>
+                                <th scope="col">اسم السائق</th>
+                                <th scope="col">رقم الهوية/الاقامة</th>
+                                <th scope="col">الجنسية</th>
+                                <th scope="col">الديانة</th>
+                            </tr>
+                        </thead>
                         <tbody id="drivers" ></tbody>
                     </table>
 
                 </div>
-                </br>
-                </br>
+
 
             </div>
 
@@ -236,8 +245,8 @@
                 </div>
 
                 <div class="col-md-2">
-                    <button type="button" data-order="{{ $meeting->delegates[0]->documents->count() }}" class="btn btn-primary" id="saveFiles"
-                            data-url="{{ route('committee.meeting-document.store-meeting', compact('committee', 'meeting')) }}">إضافة</button>
+                    <button type="button" data-order="{{ $meeting->delegates[0]->documents->count() }}" class="btn btn-primary" id="saveDelegateFiles"
+                            data-url="{{ route('committee.meeting-document.store-delegate', compact('committee', 'meeting')) }}">إضافة</button>
                 </div>
             </div>
 
@@ -261,7 +270,7 @@
                                     <a href="{{ $document->full_path }}">{{ $document->name }}</a>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger file-remove"
+                                    <button type="button" class="btn btn-danger file-remove-delegate"
                                             data-remove-url="{{ route('committee.meeting-document.delete-delegate', $document) }}"
                                             data-remove-row="#file-{{ $meeting->id }}">
                                         حذف

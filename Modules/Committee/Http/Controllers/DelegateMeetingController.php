@@ -44,11 +44,9 @@ class DelegateMeetingController extends Controller
         ]);
 
         $nationalities = Nationality::Nationalities;
-        $religiones = $religion->get();
-        $driverOptions   = [0 => __('messages.choose_option')];
-        $drivers      = MeetingDriver::select('id', 'name')->searchDriver($request)->paginate(10);
+        $religions = Religion::all();
 
-        return view('committee::meetings.delegates.show', compact('meeting', 'nationalities', 'committee', 'driver', 'drivers', 'driverOptions', 'religiones'));
+        return view('committee::meetings.delegates.show', compact('meeting', 'nationalities', 'committee', 'religions'));
     }
 
     /**
