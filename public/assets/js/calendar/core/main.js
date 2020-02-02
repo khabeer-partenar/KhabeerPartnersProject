@@ -6774,6 +6774,7 @@ Docs & License: https://fullcalendar.io/
                     }
                     this.isViewUpdated = true;
                 }
+                if(action.type == 'INIT' || action.type == 'SET_VIEW_TYPE')
                 this.requestRerender();
             }
         };
@@ -6808,6 +6809,7 @@ Docs & License: https://fullcalendar.io/
         // Rendering
         // -----------------------------------------------------------------------------------------------------------------
         Calendar.prototype.executeRender = function () {
+            alert('render');
             var needsFullRerender = this.needsFullRerender; // save before clearing
             // clear these BEFORE the render so that new values will accumulate during render
             this.needsRerender = false;

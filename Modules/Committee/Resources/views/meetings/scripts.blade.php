@@ -150,27 +150,39 @@
         var initialLocaleCode = 'ar-sa';
         var localeSelectorEl = document.getElementById('locale-selector');
         var calendarEl = document.getElementById('calendar');
-        var meetings = format(JSON.parse($('#meetings_data').val()));
-
-        function format(meetings) {
-            var events = [];
-            for(var i = 0; i < meetings.length ; i++) {
-                events[i] = {
-                    meetingType: meetings[i].type.name,
-                    title: meetings[i].reason,
-                    start: meetings[i].from_date,
-                    end: meetings[i].to_date,
-                    color: meetings[i].type.color ? meetings[i].type.color:'#009247',
-                    meetingChair: meetings[i].advisor.name,
-                    place: meetings[i].room.name,
-                    attendaceNumber: (meetings[i].attending_delegates).length + (meetings[i].attending_advisors).length,
-                    absenceNumber: (meetings[i].absent_delegates).length + (meetings[i].absent_advisors).length
-                };
+        var meetings =function(){         
+            var startDate = moment($('#current_date').val()).format('DD/MM/YYYY');
+            var endDate  = moment($('#current_date').val()).endOf('month').format('DD/MM/YYYY');
+            alert(startDate);
+            alert(endDate);
+            if(startDate == 'Invalid date' || endDate == 'Invalid date')
+            {
+                startDate = moment().startOf('month').format('DD/MM/YYYY');
+                endDate  = moment().endOf('month').format('DD/MM/YYYY');
             }
-            return events;
-        }
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+            $.ajax({
+                url: '{{route('meetings.calendar.ajax')}}' + '?start=' + startDate + '&end=' + endDate,
+                type: 'GET',
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function(res) {
+                meetings =  format(res.meetings);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        text: 'اثناء عرض الاجتماعات',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'حسنا',
+                    });
+                }  
+            });
+            return meetings;
+            }
+        
+            var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
             header: {
                 left: 'prev,next today',
@@ -180,33 +192,7 @@
             locale: initialLocaleCode,
             buttonIcons: false, // show the prev/next text
             navLinks: false, // can click day/week names to navigate views
-            events: [
-                {
-                type: 'استكمالي',
-                title: ' استكمال  اجتماع وزير النقل مع نوابه',
-                start: '2020-02-20 01:20:00',
-                end: '2020-02-20 03:10:00',
-                color: '#000',
-                meetingType:'استكمالي',
-                meetingChair: 'ahmed farghaly',
-                place: 'صالة المدينة المنورة',
-                attendaceNumber: 10,
-                absenceNumber: 1
-            },
-            {
-                type: 'استكمالي',
-                title: ' اجتماع رئيس الوزراء مع نوابه',
-                start: '2020-02-11 16:20:00',
-                end: '2020-02-11 19:30:00',
-                color: '#ff9f89',
-                meetingType:'اولي',
-                meetingChair: 'ahmed farghaly',
-                place: 'صالة الملك فهد',
-                attendaceNumber: 15,
-                absenceNumber: 8
-            },
-            
-            ]
+            events: meetings
         });
 
         calendar.render();
@@ -229,11 +215,30 @@
             return time;
         }
 
-        
         $('#current_date').change(function(){
-            alert($(this).val());
+            calendar.render();
+            calendar.render();
+
         });
+
+
+        function format(meetings) {
+            var events = [];
+            for(var i = 0; i < meetings.length ; i++) {
+                events[i] = {
+                    meetingType: meetings[i].type.name,
+                    title: meetings[i].reason,
+                    start: meetings[i].from_date,
+                    end: meetings[i].to_date,
+                    color: meetings[i].type.color ? meetings[i].type.color:'#009247',
+                    meetingChair: meetings[i].advisor.name,
+                    place: meetings[i].room.name,
+                    attendaceNumber: (meetings[i].attending_delegates).length + (meetings[i].attending_advisors).length,
+                    absenceNumber: (meetings[i].absent_delegates).length + (meetings[i].absent_advisors).length
+                };
+            }
+            return events;
+        }
     
     });
 </script>
-
