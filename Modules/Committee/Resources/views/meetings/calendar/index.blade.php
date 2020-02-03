@@ -18,18 +18,16 @@
         </div>
 
         <div class="portlet-body">
-            <input id="meetings_data" value="{{ json_encode($meetings) }}" hidden>
-            <input id="current_date"  value="date" type="hidden">
             <br>
             <div id='calendar'></div>
         </div>
 
     </div>
 
-    @include('committee::meetings.calendar_popup')
+    @include('committee::meetings.calendar.popup')
 
 @endsection
 
 @section('scripts_2')
-    @include('committee::meetings.scripts')
+    @include('committee::meetings.calendar.scripts')
 @endsection

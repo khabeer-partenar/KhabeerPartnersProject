@@ -21,8 +21,8 @@ Docs & License: https://fullcalendar.io/
         '<tr': 'tbody',
         '<td': 'tr'
     };
-    var StartingDate = ''
-    var EndingDate = ''
+    var StartingDate = '';
+    var DateAction = '';
 
     function createElement(tagName, attrs, content) {
         var el = document.createElement(tagName);
@@ -4281,7 +4281,6 @@ Docs & License: https://fullcalendar.io/
     });
 
     function requestJson(method, url, params, successCallback, failureCallback) {
-        console.log(params);
         method = method.toUpperCase();
         var body = null;
         if (method === 'GET') {
@@ -4385,9 +4384,26 @@ Docs & License: https://fullcalendar.io/
             // probably supplied as a straight key/value object
             customRequestParams = meta.extraParams || {};
         }
+
         __assign(params, customRequestParams);
-        params[startParam] = StartingDate;
-        params[endParam] = EndingDate;
+        params[startParam] = '';
+        params[endParam] = '';
+        var temproaryDate = ''
+        if(DateAction === 'NEXT')
+        {
+             temproaryDate  = moment(calendar.state.currentDate).add(1, 'months');
+        }
+        else if(DateAction === 'PREV')
+        {
+            temproaryDate = moment(calendar.state.currentDate).subtract(1, 'months');
+        }
+        else
+        {
+            temproaryDate = moment().startOf('month');
+        }
+            params[startParam] = temproaryDate.startOf('month').format('DD-MM-YYYY');
+            params[endParam] = temproaryDate.endOf('month').format('DD-MM-YYYY');
+
         if (dateEnv.timeZone !== 'local') {
             params[timeZoneParam] = dateEnv.timeZone;
         }
@@ -5664,12 +5680,15 @@ Docs & License: https://fullcalendar.io/
         var newDateProfile;
         switch (action.type) {
             case 'PREV':
+                DateAction = 'PREV';
                 newDateProfile = calendar.dateProfileGenerators[viewType].buildPrev(currentDateProfile, currentDate);
                 break;
             case 'NEXT':
+                DateAction = 'NEXT';
                 newDateProfile = calendar.dateProfileGenerators[viewType].buildNext(currentDateProfile, currentDate);
                 break;
             case 'SET_DATE':
+                DateAction = 'INIT';
                 if (!currentDateProfile.activeRange ||
                     !rangeContainsMarker(currentDateProfile.currentRange, action.dateMarker)) {
                     newDateProfile = calendar.dateProfileGenerators[viewType].build(action.dateMarker, undefined, true // forceToValid

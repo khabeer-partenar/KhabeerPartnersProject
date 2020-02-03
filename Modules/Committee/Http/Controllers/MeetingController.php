@@ -22,17 +22,7 @@ class MeetingController extends UserBaseController
      */
     public function index()
     {
-        $meetings = Meeting::filterAllByUser()->with([
-            'advisor',
-            'attendingDelegates',
-            'attendingAdvisors',
-            'absentDelegates',
-            'absentAdvisors',
-            'room',
-            'type',
-        ])->calendar()->get();
-
-        return view('committee::meetings.calendar', compact('meetings'));
+        return view('committee::meetings.calendar.index');
     }
 
     public function calendar(Request $request)
