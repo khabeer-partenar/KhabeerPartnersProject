@@ -150,12 +150,58 @@
         var initialLocaleCode = 'ar-sa';
         var localeSelectorEl = document.getElementById('locale-selector');
         var calendarEl = document.getElementById('calendar');
-        var meetings =function(){         
-            var startDate = moment($('#current_date').val()).format('DD/MM/YYYY');
-            var endDate  = moment($('#current_date').val()).endOf('month').format('DD/MM/YYYY');
-            alert(startDate);
-            alert(endDate);
-            if(startDate == 'Invalid date' || endDate == 'Invalid date')
+        var startDate ='';
+        var endDate  = '';
+        
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,listMonth'
+            },
+            locale: initialLocaleCode,
+            buttonIcons: false, // show the prev/next text
+            navLinks: false, // can click day/week names to navigate views
+
+            events: {
+                startParam:'start',
+                endParam:'to',
+                url: '{{route('meetings.calendar.ajax')}}',
+                failure: function() {
+                //document.getElementById('script-warning').style.display = 'block'
+                }
+            },
+        });
+
+            calendar.render();
+
+        $('.fc-content').click(function () {
+            $(this).data('title') !== null ? $("#title_data").text($(this).data('title')):'';
+            $(this).data('start') !== null ? $("#from_data").text(handleTime($(this).data('start'))):'';
+            $(this).data('end') !== null ? $("#to_data").text(handleTime($(this).data('end'))):'';
+            $(this).data('meeting-chair') !== null ? $("#chairman_data").text($(this).data('meeting-chair')):'';
+            $(this).data('meeting-place') !== null ? $("#room_data").text($(this).data('meeting-place')):'';
+            $(this).data('meeting-absence-number') !== null ? $("#absence_data").text($(this).data('meeting-absence-number')):'';
+            $(this).data('meeting-attendace-number') !== null ? $("#attendace_data").text($(this).data('meeting-attendace-number')):'';
+            $(this).data('meeting-type') !== null ? $("#type_data").text($(this).data('meeting-type')):'';
+        });
+
+        function handleTime(dateTime)
+        {
+            moment.locale('ar-sa');
+            time = moment(dateTime).subtract(3,'hours').format('LT');
+            return time;
+        }
+
+        $('#current_date').change(function(){
+             startDate = moment($('#current_date').val()).format('DD/MM/YYYY');
+             endDate  = moment($('#current_date').val()).endOf('month').format('DD/MM/YYYY');
+        });
+
+        function meetings(){         
+            alert(startDate + 'meetings');
+            if(startDate == '' || endDate == '')
             {
                 startDate = moment().startOf('month').format('DD/MM/YYYY');
                 endDate  = moment().endOf('month').format('DD/MM/YYYY');
@@ -180,48 +226,7 @@
                 }  
             });
             return meetings;
-            }
-        
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-            plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,listMonth'
-            },
-            locale: initialLocaleCode,
-            buttonIcons: false, // show the prev/next text
-            navLinks: false, // can click day/week names to navigate views
-            events: meetings
-        });
-
-        calendar.render();
-
-        $('.fc-content').click(function () {
-            $(this).data('title') !== null ? $("#title_data").text($(this).data('title')):'';
-            $(this).data('start') !== null ? $("#from_data").text(handleTime($(this).data('start'))):'';
-            $(this).data('end') !== null ? $("#to_data").text(handleTime($(this).data('end'))):'';
-            $(this).data('meeting-chair') !== null ? $("#chairman_data").text($(this).data('meeting-chair')):'';
-            $(this).data('meeting-place') !== null ? $("#room_data").text($(this).data('meeting-place')):'';
-            $(this).data('meeting-absence-number') !== null ? $("#absence_data").text($(this).data('meeting-absence-number')):'';
-            $(this).data('meeting-attendace-number') !== null ? $("#attendace_data").text($(this).data('meeting-attendace-number')):'';
-            $(this).data('meeting-type') !== null ? $("#type_data").text($(this).data('meeting-type')):'';
-        });
-
-        function handleTime(dateTime)
-        {
-            moment.locale('ar-sa');
-            time = moment(dateTime).subtract(3,'hours').format('LT');
-            return time;
         }
-
-        $('#current_date').change(function(){
-            calendar.render();
-            calendar.render();
-
-        });
-
-
         function format(meetings) {
             var events = [];
             for(var i = 0; i < meetings.length ; i++) {

@@ -21,6 +21,9 @@ Docs & License: https://fullcalendar.io/
         '<tr': 'tbody',
         '<td': 'tr'
     };
+    var StartingDate = ''
+    var EndingDate = ''
+
     function createElement(tagName, attrs, content) {
         var el = document.createElement(tagName);
         if (attrs) {
@@ -4278,6 +4281,7 @@ Docs & License: https://fullcalendar.io/
     });
 
     function requestJson(method, url, params, successCallback, failureCallback) {
+        console.log(params);
         method = method.toUpperCase();
         var body = null;
         if (method === 'GET') {
@@ -4382,8 +4386,8 @@ Docs & License: https://fullcalendar.io/
             customRequestParams = meta.extraParams || {};
         }
         __assign(params, customRequestParams);
-        params[startParam] = dateEnv.formatIso(range.start);
-        params[endParam] = dateEnv.formatIso(range.end);
+        params[startParam] = StartingDate;
+        params[endParam] = EndingDate;
         if (dateEnv.timeZone !== 'local') {
             params[timeZoneParam] = dateEnv.timeZone;
         }
@@ -5641,10 +5645,7 @@ Docs & License: https://fullcalendar.io/
         var dateProfile = reduceDateProfile(state.dateProfile, action, state.currentDate, viewType, calendar);
         var eventSources = reduceEventSources(state.eventSources, action, dateProfile, calendar);
         var nextState = __assign({}, state, { viewType: viewType,
-            dateProfile: dateProfile, currentDate: reduceCurrentDate(state.currentDate, action, dateProfile), eventSources: eventSources, eventStore: reduceEventStore(state.eventStore, action, eventSources, dateProfile, calendar), dateSelection: reduceDateSelection(state.dateSelection, action, calendar), eventSelection: reduceSelectedEvent(state.eventSelection, action), eventDrag: reduceEventDrag(state.eventDrag, action, eventSources, calendar), eventResize: reduceEventResize(state.eventResize, action, eventSources, calendar), eventSourceLoadingLevel: computeLoadingLevel(eventSources), loadingLevel: computeLoadingLevel(eventSources) }); 
-            if(dateProfile)          
-            $('#current_date').val(dateProfile.currentRange.start).trigger('change');; 
-    
+            dateProfile: dateProfile, currentDate: reduceCurrentDate(state.currentDate, action, dateProfile), eventSources: eventSources, eventStore: reduceEventStore(state.eventStore, action, eventSources, dateProfile, calendar), dateSelection: reduceDateSelection(state.dateSelection, action, calendar), eventSelection: reduceSelectedEvent(state.eventSelection, action), eventDrag: reduceEventDrag(state.eventDrag, action, eventSources, calendar), eventResize: reduceEventResize(state.eventResize, action, eventSources, calendar), eventSourceLoadingLevel: computeLoadingLevel(eventSources), loadingLevel: computeLoadingLevel(eventSources) });          
             for (var _i = 0, _a = calendar.pluginSystem.hooks.reducers; _i < _a.length; _i++) {
             var reducerFunc = _a[_i];
             nextState = reducerFunc(nextState, action, calendar);
@@ -6774,7 +6775,6 @@ Docs & License: https://fullcalendar.io/
                     }
                     this.isViewUpdated = true;
                 }
-                if(action.type == 'INIT' || action.type == 'SET_VIEW_TYPE')
                 this.requestRerender();
             }
         };
@@ -6809,7 +6809,6 @@ Docs & License: https://fullcalendar.io/
         // Rendering
         // -----------------------------------------------------------------------------------------------------------------
         Calendar.prototype.executeRender = function () {
-            alert('render');
             var needsFullRerender = this.needsFullRerender; // save before clearing
             // clear these BEFORE the render so that new values will accumulate during render
             this.needsRerender = false;
