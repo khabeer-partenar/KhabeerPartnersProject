@@ -30,8 +30,8 @@ class MeetingCalendar extends JsonResource
             'color' => $type->color,
             'meetingChair' => $advisor->name,
             'place' => $room->name,
-            'attendaceNumber' => $counter[0]->attendingDelegates_count +  $counter[0]->attendingAdvisors_count,
-            'absenceNumber' =>$counter[0]->absentDelegates_count +  $counter[0]->absentAdvisors_count,
+            'attendaceNumber' => $counter[0]->attending_delegates_count +  $counter[0]->attending_advisors_count,
+            'absenceNumber' =>$counter[0]->absent_delegates_count +  $counter[0]->absent_advisors_count,
         ];
     }
 }

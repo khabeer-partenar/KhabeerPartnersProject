@@ -4389,6 +4389,8 @@ Docs & License: https://fullcalendar.io/
         params[startParam] = '';
         params[endParam] = '';
         var temproaryDate = ''
+        moment.locale('en');
+
         if(DateAction === 'NEXT')
         {
              temproaryDate  = moment(calendar.state.currentDate).add(1, 'months');
