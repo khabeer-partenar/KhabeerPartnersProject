@@ -5262,7 +5262,7 @@ Docs & License: https://fullcalendar.io/
             calendar: calendar,
             range: fetchRange
         }, function (res) {
-            var rawEvents = res.rawEvents;
+            var rawEvents = res.rawEvents.data;
             var calSuccess = calendar.opt('eventSourceSuccess');
             var calSuccessRes;
             var sourceSuccessRes;
