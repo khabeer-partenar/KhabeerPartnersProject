@@ -34,7 +34,7 @@
 
         <div class="portlet-body">
 
-            <table class="table table-striped table-responsive-md">
+            <table class="table table-striped table-responsive-md no-align">
                 <tbody>
                     <tr>
                         <th style="width: 16.66%" scope="row">نوع الإجتماع</th>

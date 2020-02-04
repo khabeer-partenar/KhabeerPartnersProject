@@ -16,7 +16,14 @@ class CommitteeAttendanceController extends Controller
      */
     public function show(Committee $committee)
     {
-
-        return view('committee::committees.coordinator.attendance');
+        $committee->load(['meetings' => function($query) {
+            $query->with([
+                'delegates' => function($query) {
+                    $query->whereIn('parent_department_id', auth()->user()->coordinatorAuthorizedIds());
+                },
+                'type'
+            ])->orderBy('from', 'asc');
+        }]);
+        return view('committee::committees.coordinator.attendance', compact('committee'));
     }
 }

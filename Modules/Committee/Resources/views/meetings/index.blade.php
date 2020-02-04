@@ -39,8 +39,13 @@
                             <th>نوع الإجتماع</th>
                             <th>موضوع الإجتماع</th>
                             <th>تاريخ و وقت الإجتماع</th>
-                            <th>مكان الإجتماع</th>
-                            <th>عدد المجتمعين</th>
+                            @if (
+                                auth()->user()->user_type != \Modules\Users\Entities\Coordinator::TYPE &&
+                                auth()->user()->user_type != \Modules\Users\Entities\Delegate::TYPE
+                            )
+                                <th>مكان الإجتماع</th>
+                                <th>عدد المجتمعين</th>
+                            @endif
                             <th>خيارات</th>
                         </tr>
                     </thead>
@@ -75,62 +80,22 @@
                                     {{ $meeting->meeting_at }} <br>
                                     {{ $meeting->from . ' - ' . $meeting->to }}
                                 </td>
-                                <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
-                                <td>{{ count($meeting->attendingDelegates) + count($meeting->attendingAdvisors) }}</td>
+                                @if (
+                                    auth()->user()->user_type != \Modules\Users\Entities\Coordinator::TYPE &&
+                                    auth()->user()->user_type != \Modules\Users\Entities\Delegate::TYPE
+                                )
+                                    <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
+                                    <td>{{ count($meeting->attendingDelegates) + count($meeting->attendingAdvisors) }}</td>
+                                @endif
                                 <td>
-                                    @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB )
-                                        @if (in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
-                                            <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
-                                              class="btn btn-success">التفاصيل</a>
-                                        @endif
-                                    @elseif (in_array(auth()->user()->authorizedApps->key, [
-                                        \Modules\Users\Entities\Coordinator::MAIN_CO_JOB,
-                                        \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB,
-                                        ]))
-                                        @if (auth()->user()->hasPermissionWithAccess('show', 'CoordinatorMeetingController', 'Committee'))
-                                            <a href="{{ route('committees.meetings.co.show', compact('committee', 'meeting')) }}"
-                                               class="btn btn-success">التفاصيل</a>
-                                        @endif
-                                    @else
-                                        @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeMeetingController', 'Committee'))
-                                            <a href="{{ route('committee.meetings.show', compact('committee', 'meeting')) }}"
-                                               class="btn btn-success">التفاصيل</a>
-                                        @endif
-
-                                         @if(auth()->user()->hasPermissionWithAccess('create', 'MeetingAttendanceController', 'Committee')
-                                         && $meeting->is_old && !$meeting->attendance_done)
-                                            <a href="{{ route('committees.meetings.attendance.create', compact('committee', 'meeting')) }}"
-                                               class="btn btn-success">تأكيد حضور المشاركين
-                                            </a>
-                                        @endif
-
-                                        @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeAttendanceController', 'Committee'))
-                                                <a href="{{ route('committees.meetings.attendance.create', compact('committee', 'meeting')) }}"
-                                                   class="btn btn-success">حالة الحضور
-                                                </a>
-                                        @endif
-
-                                        @if(auth()->user()->hasPermissionWithAccess('index', 'MeetingMultimediaController', 'Committee'))
-                                            <a href="{{ route('committee.meetings.multimedia', compact('committee', 'meeting')) }}"
-                                               class="btn btn-success">مرئيات المشاركين
-                                            </a>
-                                        @endif
-
-                                        @if(
-                                            auth()->user()->hasPermissionWithAccess('destroy', 'CommitteeMeetingController', 'Committee') &&
-                                            !$meeting->is_old &&
-                                            !$meeting->trashed()
-                                        )
-                                            <a data-href="{{ route('committee.meetings.cancel', compact('committee', 'meeting')) }}"
-                                               class="btn btn-danger delete-row ">إلغاء</a>
-                                        @endif
-                                    @endif
+                                    @include('committee::meetings.actions')
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+            {{ $meetings->links() }}
         </div>
 
     </div>

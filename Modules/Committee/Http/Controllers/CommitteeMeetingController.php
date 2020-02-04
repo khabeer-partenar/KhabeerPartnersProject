@@ -91,7 +91,8 @@ class CommitteeMeetingController extends UserBaseController
                     },
                     'documents' => function($query) use ($meeting) {
                         $query->where('meeting_id', $meeting->id);
-                    }
+                    },
+                    'department'
                 ]);
             }
         ]);

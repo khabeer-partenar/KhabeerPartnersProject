@@ -18,7 +18,7 @@ class TakeAttendance
     {
         $meeting = $request->meeting;
         $committee = $request->committee;
-        if ($meeting && $meeting) {
+        if ($committee && $meeting) {
             if ($meeting->attendance_done) {
                 return redirect()->route('committee.meetings.show', compact('committee', 'meeting'));
             }

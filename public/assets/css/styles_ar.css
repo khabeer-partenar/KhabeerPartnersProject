@@ -404,7 +404,9 @@ textarea.form_control{height: 150px}
 .login .content h4 {font-family: 'Cairo', sans-serif;font-size: 16px; font-weight: 600;}
 .login .logo {margin: 0;padding: 90px;text-align: center;}.login .form_control{height: 50px;padding: 0px 32px 0 10px;}.login .input-icon>i{margin: 17px 10px 4px 2px;font-size: 24px;}
 .login .content{width: 360px;position: relative; margin: auto;}.login .input-icon>.form_control {padding-right: 44px;}.login .content .forget-password {text-align: center;}
-
+.table td {text-align: center;}
+.table th {text-align: center;}
+.no-align td, .no-align th {text-align: right;}
 
 /*
 ====================MOBILE===========================

@@ -25,7 +25,7 @@
         </div>
         
         <div class="portlet-body form">
-            <table class="table table-striped table-responsive-md">
+            <table class="table table-striped table-responsive-md no-align">
                 <thead>
                     <tr>
                         <th style="width: 16.666%" scope="col">#</th>

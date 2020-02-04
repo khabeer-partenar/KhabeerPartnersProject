@@ -34,7 +34,8 @@ class DelegateMeetingController extends Controller
                     },
                     'documents' => function($query) use ($meeting) {
                         $query->where('meeting_id', $meeting->id);
-                    }
+                    },
+                    'department'
                 ])->where('delegate_id', auth()->id());
             }
         ]);

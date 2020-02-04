@@ -38,7 +38,7 @@
         <div class="portlet-body form">
             {{-- Treatment Info Table --}}
             <label class="underLine">{{ __('committee::committees.treatment information') }}</label>
-            <table class="table table-striped table-responsive-md">
+            <table class="table table-striped table-responsive-md no-align">
                 <tbody>
                     <tr>
                         <th style="width: 16.66%" scope="row">رقم الطلب و تاريخه</th>

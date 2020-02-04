@@ -24,6 +24,4 @@ class CoordinatorMeetingController extends Controller // UserBase
         }]);
         return view('committee::meetings.coordinator.show', compact('meeting', 'committee'));
     }
-
-
 }

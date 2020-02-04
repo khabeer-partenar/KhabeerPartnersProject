@@ -116,5 +116,5 @@ return [
     'icon_un_read_title' => 'المعاملة لم تقرأ',
     'icon_approved_title' => 'المعاملة تم اعتمادها من قبل المستشار',
     'members_multimedia' => 'مرئيات المشاركين علي مستوي اللجنة',
-
+    'meetings_attendance' => 'حالة حضور المشاركين في الإجتماعات',
 ];
