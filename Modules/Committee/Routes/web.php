@@ -26,7 +26,11 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show');
         Route::put('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@update')->name('committees.meetings.delegate.update');
 
+        // Coordinator
+        Route::get('/{committee}/meetings/{meeting}/coordinator', 'CoordinatorMeetingController@show')->name('committees.meetings.co.show');
+
         // Attendance
+        Route::get('/{committee}/attendance', 'CommitteeAttendanceController@show')->name('committees.attendance');
         Route::get('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@create')->name('committees.meetings.attendance.create')->middleware('take.attendance');
         Route::post('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@store')->name('committees.meetings.attendance.store')->middleware('take.attendance');
 

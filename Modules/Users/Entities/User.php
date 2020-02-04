@@ -178,6 +178,18 @@ class User extends Authenticatable
         return $this->jobRole()->with('permissions.app');
     }
 
+    public function coordinatorAuthorizedIds()
+    {
+        $arr = [];
+        if (auth()->user()->user_type == Coordinator::TYPE) {
+            $arr = Department::where('reference_id', auth()->user()->parent_department_id)
+                ->orWhere(function ($query) {
+                    $query->where('id', auth()->user()->parent_department_id);
+                })
+                ->pluck('id')->toArray();
+        }
+        return $arr;
+    }
     /**
      * Scopes
      *

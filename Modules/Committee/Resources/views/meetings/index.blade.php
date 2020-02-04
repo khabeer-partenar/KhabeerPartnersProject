@@ -83,6 +83,14 @@
                                             <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
                                               class="btn btn-success">التفاصيل</a>
                                         @endif
+                                    @elseif (in_array(auth()->user()->authorizedApps->key, [
+                                        \Modules\Users\Entities\Coordinator::MAIN_CO_JOB,
+                                        \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB,
+                                        ]))
+                                        @if (auth()->user()->hasPermissionWithAccess('show', 'CoordinatorMeetingController', 'Committee'))
+                                            <a href="{{ route('committees.meetings.co.show', compact('committee', 'meeting')) }}"
+                                               class="btn btn-success">التفاصيل</a>
+                                        @endif
                                     @else
                                         @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeMeetingController', 'Committee'))
                                             <a href="{{ route('committee.meetings.show', compact('committee', 'meeting')) }}"
@@ -94,6 +102,12 @@
                                             <a href="{{ route('committees.meetings.attendance.create', compact('committee', 'meeting')) }}"
                                                class="btn btn-success">تأكيد حضور المشاركين
                                             </a>
+                                        @endif
+
+                                        @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeAttendanceController', 'Committee'))
+                                                <a href="{{ route('committees.meetings.attendance.create', compact('committee', 'meeting')) }}"
+                                                   class="btn btn-success">حالة الحضور
+                                                </a>
                                         @endif
 
                                         @if(auth()->user()->hasPermissionWithAccess('index', 'MeetingMultimediaController', 'Committee'))

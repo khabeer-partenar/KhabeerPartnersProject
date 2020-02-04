@@ -30,7 +30,7 @@ return [
     'meeting_title' => 'عنوان الاجتماع',
     'meeting_cancelled' => 'تم إلغاء الإجتماع',
     'confirm_attendance' => 'تأكيد حضور المشاركين في الإجتماع',
-    'attended' => 'حاضر',
-    'absent' => 'غائب',
+    'attended' => 'تم تأكيد الحضور',
+    'absent' => 'لم يحضر',
     'members_multimedia' => 'مرئيات المشاركين علي مستوي الإجتماع',
 ];

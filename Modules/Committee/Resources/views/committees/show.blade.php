@@ -225,7 +225,9 @@
                 @endforeach
                 </tbody>
             </table>
-            
+
+            <br>
+
             @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
