@@ -55,7 +55,7 @@ class DelegateMeetingController extends Controller
     {
         MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting);
         MeetingMultimedia::createMultimedia($request->text,$meeting,$committee);
-        MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
+//        MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));
         return redirect()->back();
     }
