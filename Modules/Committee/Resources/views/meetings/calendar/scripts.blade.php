@@ -19,7 +19,7 @@
             navLinks: false, // can click day/week names to navigate views
 
             events: {
-                startParam:'start',
+                startParam:'from',
                 endParam:'to',
                 url: '{{route('meetings.calendar.ajax')}}',
                 failure: function() {
@@ -30,7 +30,7 @@
 
             calendar.render();
 
-        $('.fc-content').click(function () {
+            $(document).on('click', '.fc-content', function(){
             $(this).data('title') !== null ? $("#title_data").text($(this).data('title')):'';
             $(this).data('start') !== null ? $("#from_data").text(handleTime($(this).data('start'))):'';
             $(this).data('end') !== null ? $("#to_data").text(handleTime($(this).data('end'))):'';
@@ -40,6 +40,7 @@
             $(this).data('meeting-attendace-number') !== null ? $("#attendace_data").text($(this).data('meeting-attendace-number')):'';
             $(this).data('meeting-type') !== null ? $("#type_data").text($(this).data('meeting-type')):'';
         });
+
 
         function handleTime(dateTime)
         {
