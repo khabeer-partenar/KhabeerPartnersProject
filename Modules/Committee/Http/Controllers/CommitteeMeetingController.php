@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
-use Modules\Committee\Entities\MeetingAdvisor;
-use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Entities\MeetingType;
 use Modules\Committee\Http\Requests\SaveMeetingRequest;

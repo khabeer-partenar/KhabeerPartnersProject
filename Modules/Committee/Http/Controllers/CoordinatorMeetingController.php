@@ -20,7 +20,7 @@ class CoordinatorMeetingController extends Controller // UserBase
     public function show(Committee $committee, Meeting $meeting)
     {
         $meeting->load(['delegates' => function($query) {
-            $query->whereIn('parent_department_id', auth()->user()->coordinatorAuthorizedIds());
+            $query->whereIn('parent_department_id', auth()->user()->coordinatorAuthorizedIds())->with('department');
         }]);
         return view('committee::meetings.coordinator.show', compact('meeting', 'committee'));
     }

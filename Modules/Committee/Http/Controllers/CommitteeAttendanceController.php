@@ -19,7 +19,7 @@ class CommitteeAttendanceController extends Controller
         $committee->load(['meetings' => function($query) {
             $query->with([
                 'delegates' => function($query) {
-                    $query->whereIn('parent_department_id', auth()->user()->coordinatorAuthorizedIds());
+                    $query->whereIn('parent_department_id', auth()->user()->coordinatorAuthorizedIds())->with('department');
                 },
                 'type'
             ])->orderBy('from', 'asc');

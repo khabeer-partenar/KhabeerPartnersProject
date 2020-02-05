@@ -15,7 +15,7 @@
 
                 <div class="col-md-3">
                     <div class="actions item-fl item-mb20">
-                        <a href="{{ route('committee.meetings', compact('committee')) }}"
+                        <a href="{{ route('committees.index') }}"
                            class="btn red">{{ __('messages.goBack') }}</a>
                     </div>
                 </div>

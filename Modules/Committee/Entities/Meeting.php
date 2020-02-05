@@ -38,11 +38,15 @@ class Meeting extends Model
                 $allowedMeetingIds = MeetingAdvisor::where('advisor_id', auth()->id())->pluck('meeting_id');
                 $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
             }
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) { // add further conditions if there are
-            $query->where('completed', 1);
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) { // add further conditions if there are
-            $query->where('completed', 1);
-        } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
+            $authorizedDepartments = auth()->user()->coordinatorAuthorizedIds();
+            $committeeIds = CommitteeDepartment::whereIn('department_id', $authorizedDepartments)->pluck('committee_id');
+            $query->whereIn('committee_id', $committeeIds);
+        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
+            $authorizedDepartments = auth()->user()->coordinatorAuthorizedIds();
+            $meetingIds = MeetingDelegate::whereIn('department_id', $authorizedDepartments)->pluck('meeting_id');
+            $query->whereIn('id', $meetingIds);
+        } elseif (auth()->user()->user_type == Delegate::TYPE) {
             $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
             $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
         }
@@ -61,9 +65,13 @@ class Meeting extends Model
                     $query->where('advisor_id', auth()->id());
                 });
         } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
-
+            $authorizedDepartments = auth()->user()->coordinatorAuthorizedIds();
+            $committeeIds = CommitteeDepartment::whereIn('department_id', $authorizedDepartments)->pluck('committee_id');
+            $query->whereIn('committee_id', $committeeIds);
         } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
-
+            $authorizedDepartments = auth()->user()->coordinatorAuthorizedIds();
+            $meetingIds = MeetingDelegate::whereIn('department_id', $authorizedDepartments)->pluck('meeting_id');
+            $query->whereIn('id', $meetingIds);
         } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
             $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
             $query->whereIn('id', $allowedMeetingIds);
