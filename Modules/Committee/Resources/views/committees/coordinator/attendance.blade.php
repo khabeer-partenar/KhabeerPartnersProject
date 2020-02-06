@@ -52,9 +52,9 @@
                     <div class="form-group">
                         <label class="control-label" for="attended">حالة الحضور</label>
                         <select name="attended" id="attended" class="form_control select2">
-                            <option value="all">{{ __('committee::committees.attendance_all') }}</option>
+                            <option value="-1" {{ request()->get('attended') == 'all' ? 'selected':'' }}>{{ __('committee::committees.attendance_all') }}</option>
                             @foreach(\Modules\Committee\Entities\MeetingDelegate::attendingStatus as $key => $attendingStatus)
-                                <option value="{{ $key }}" {{ \Request::input('attended') == $key ? 'selected':'' }}>{{ __('committee::committees.attendance_'.$attendingStatus) }}</option>
+                                <option value="{{ $key }}" {{ request()->get('attended') == $key ? ' selected':'' }}>{{ __('committee::committees.attendance_'.$attendingStatus) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -114,7 +114,7 @@
                                             {{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}
                                         </td>
                                         <td>
-                                            @if ($delegate->pivot->attended == null)
+                                            @if (is_null($delegate->pivot->attended))
                                                 {{ '-' }}
                                             @else
                                                 {{ $delegate->pivot->attended ? __('committee::meetings.attended'):__('committee::meetings.absent') }}

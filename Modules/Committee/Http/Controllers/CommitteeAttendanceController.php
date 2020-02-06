@@ -33,7 +33,7 @@ class CommitteeAttendanceController extends Controller
                     if ($request->get('department_id')) {
                         $query->where('parent_department_id', $request->get('department_id'));
                     }
-                    if (!is_null($request->get('attended')) && $request->get('attended') != 'all') {
+                    if (!is_null($request->get('attended')) && $request->get('attended') != -1) {
                         $query->wherePivot('attended', $request->get('attended'))->wherePivot('attended', '!=', NULL);
                     }
                 },
