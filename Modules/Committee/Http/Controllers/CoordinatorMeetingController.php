@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
+use Modules\SystemManagement\Entities\Department;
 
 class CoordinatorMeetingController extends Controller // UserBase
 {

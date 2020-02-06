@@ -117,4 +117,7 @@ return [
     'icon_approved_title' => 'المعاملة تم اعتمادها من قبل المستشار',
     'members_multimedia' => 'مرئيات المشاركين علي مستوي اللجنة',
     'meetings_attendance' => 'حالة حضور المشاركين في الإجتماعات',
+    'attendance_all' => 'الكل',
+    'attendance_yes' => 'حاضر',
+    'attendance_no' => 'لم يحضر',
 ];

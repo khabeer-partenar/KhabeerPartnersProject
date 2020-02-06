@@ -95,6 +95,13 @@ class Meeting extends Model
         $query->whereBetween('from', [$fromDate, $toDate]);
     }
 
+    public function scopeFilterType($query, $data =[])
+    {
+        if (isset($data['type_id']) && $data['type_id'] != 0) {
+            $query->where('type_id', $data['type_id']);
+        }
+        return $query;
+    }
     /**
      * Accs & Mut
      */

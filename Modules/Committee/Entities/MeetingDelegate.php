@@ -20,6 +20,10 @@ class MeetingDelegate extends Model
         1 => 'accepted',
         2 => 'rejected',
     ];
+    const attendingStatus = [
+        0 => 'no',
+        1 => 'yes'
+    ];
 
     public static function updateStatusAndReason($status, $refuse_reason, $meeting)
     {
