@@ -5,7 +5,6 @@ namespace Modules\Committee\Http\Controllers;
 use Modules\Committee\Entities\Meeting;
 use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\MeetingDelegate;
-use Modules\Committee\Entities\MeetingDriver;
 use Modules\Committee\Entities\Nationality;
 use Modules\Committee\Entities\Religion;
 use Modules\Committee\Entities\Committee;
@@ -13,8 +12,7 @@ use Modules\Committee\Entities\MeetingMultimedia;
 use Modules\Committee\Http\Requests\UpdateDelegateMeetingRequest;
 use Modules\Users\Traits\SessionFlash;
 use Illuminate\Http\Response;
-use Illuminate\Http\Request;
-use Modules\Users\Entities\Delegate;
+use Modules\Committee\Entities\MeetingDocument;
 
 class DelegateMeetingController extends Controller
 {
@@ -60,7 +58,7 @@ class DelegateMeetingController extends Controller
      */
     public function update(UpdateDelegateMeetingRequest $request, Committee $committee, Meeting $meeting)
     {
-        MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting);
+        MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting, $request->has_driver, $request->driver_id);
         MeetingMultimedia::createMultimedia($request->text,$meeting,$committee);
         // MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));

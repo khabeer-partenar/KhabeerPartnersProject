@@ -21,12 +21,18 @@ class MeetingDelegate extends Model
         2 => 'rejected',
     ];
 
-    public static function updateStatusAndReason($status, $refuse_reason, $meeting)
+    public static function updateStatusAndReason($status, $refuse_reason, $meeting, $has_diver, $driver_id)
     {
         if ($status == MeetingDelegate::ACCEPTED) $refuse_reason='';
 
         self::where('meeting_id', $meeting->id)
             ->where('delegate_id', auth()->id())
-            ->update(array('status' => $status, 'refuse_reason' => $refuse_reason));
+            
+            ->update(array('status' => $status, 'refuse_reason' => $refuse_reason, 'has_driver' => $has_diver, 'driver_id' => $driver_id));
+    }
+
+    public function drivers()
+    {
+        $this->hasMany(MeetingDriver::class);
     }
 }

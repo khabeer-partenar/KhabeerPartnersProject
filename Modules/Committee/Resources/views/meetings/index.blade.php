@@ -57,7 +57,7 @@
                                             <i title="{{ __('committee::meetings.cannot_be_seen') }}"
                                                style="color: #e73d4a"
                                                class="fa fa-2x fa-ban" aria-hidden="true"></i>
-                                        @elseif ($meeting->deleted_at)
+                                        @elseif (($meeting->deleted_at) || ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED)) 
                                             <i title="{{ __('committee::meetings.cancelled') }}"
                                                class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
                                         @elseif($meeting->toDate > \Carbon\Carbon::now())
@@ -66,6 +66,7 @@
                                         @elseif($meeting->toDate <= \Carbon\Carbon::now())
                                             <i title="{{ __('committee::meetings.finished') }}"
                                                class="fa fa-2x fa-calendar-check-o" style="color: #009247" aria-hidden="true"></i>
+                                               
                                         @endif
                                     </div>
                                 </td>
@@ -80,8 +81,14 @@
                                 <td>
                                     @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB )
                                         @if (in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
-                                            <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
-                                              class="btn btn-success">التفاصيل</a>
+                                            @if (($meeting->delegates[0]->pivot->status == !\Modules\Committee\Entities\MeetingDelegate::REJECTED) ||  ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED) || ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED)) 
+                                                <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
+                                                class="btn btn-success">التفاصيل</a>
+                                                <a href="{{ route('committee.meetings.multimedia', compact('committee', 'meeting')) }}"
+                                               class="btn btn-success">مرئيات المشاركين
+                                             </a>
+                                           
+                                            @endif
                                         @endif
                                     @else
                                         @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeMeetingController', 'Committee'))

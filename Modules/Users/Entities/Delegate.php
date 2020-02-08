@@ -16,7 +16,8 @@ use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Modules\Committee\Entities\MeetingDriver;
 use Modules\Users\Events\DelegateCreatedEvent;
 use Modules\Users\Events\DelegateDeletedEvent;
 
@@ -325,5 +326,10 @@ class Delegate extends User
     public function multimedia()
     {
         return $this->hasMany(MeetingMultimedia::class, 'user_id');
+    }
+
+    public function driver()
+    {
+        return $this->hasMany(MeetingDriver::class);
     }
 }
