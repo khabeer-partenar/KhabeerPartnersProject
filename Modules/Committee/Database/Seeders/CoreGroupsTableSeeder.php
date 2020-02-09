@@ -72,7 +72,7 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\DelegateDocumentsController@destroy',
             'Modules\Committee\Http\Controllers\DelegateDocumentsController@show',
         ];
-        $advisorApps = [
+        $advisorArr = [
             'Modules\Committee\Http\Controllers\CommitteeController@approve',
         ];
         // Apps Ids
@@ -81,6 +81,9 @@ class CoreGroupsTableSeeder extends Seeder
         $coordaintorApps = App::whereIn('resource_name', $coordinatorApps)->pluck('id');
         $highLevelPermissions = App::whereIn('resource_name', $secretaryAndAdvisorApps)->pluck('id');
         $delegatesApps  = App::whereIn('resource_name', $delegatesArr)->pluck('id');
+        $advisorApps  = App::whereIn('resource_name', $advisorArr)->pluck('id');
+
+
         // Coordinator Permissions
         $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
         foreach($commId as $appId){
