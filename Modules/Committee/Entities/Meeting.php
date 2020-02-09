@@ -191,7 +191,8 @@ class Meeting extends Model
             'advisor_id' => $committee->advisor_id
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
-        $meeting->delegates()->sync($request->delegates);
+        $delegates = MeetingDelegate::prepareForSync($request->delegates);
+        $meeting->delegates()->sync($delegates);
         $meeting->participantAdvisors()->sync($request->participantAdvisors);
 
         MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
@@ -208,7 +209,8 @@ class Meeting extends Model
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
         if ($this->can_change_members) {
-            $this->delegates()->sync($request->delegates ? $request->delegates : []);
+            $delegates = MeetingDelegate::prepareForSync($request->delegates);
+            $this->delegates()->sync($delegates);
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }
 
