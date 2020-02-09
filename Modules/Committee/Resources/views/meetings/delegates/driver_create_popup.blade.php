@@ -91,7 +91,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button"  class="btn btn-primary" id="saveDelegateDriver"
-                            data-url="{{ route('meeting.delegate-driver.store-driver', compact('committee', 'meeting')) }}">إضافة</button>
+                            data-url="{{ route('meeting.delegate-driver.store-driver') }}">إضافة</button>
                 <button type="button" class="btn btn-danger"
                         data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
             </div>

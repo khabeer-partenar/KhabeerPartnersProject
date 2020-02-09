@@ -95,7 +95,7 @@
                 <div class="col-md-4">
                     <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
                 </div>
-                 <div class="col-md-8">
+                 <div class="col-md-8" id="driver-add">
                      <div class="actions item-fl item-mb20">
                          <a class="btn btn-sm btn-info"
                             style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
@@ -104,7 +104,6 @@
                          </a>
                      </div>
                  </div>
-                <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-3">
                         <div class="form-group">
@@ -306,14 +305,19 @@
     <script>
         window.onload = function() {
             document.getElementById('driver-form').style.display = 'none';
+            document.getElementById('driver-add').style.display = 'none';
         }
         function yesCheck() {
             if (document.getElementById('OptioinYes').checked) {
                 $('#drivers').removeClass('hidden');
                 document.getElementById('driver-form').style.display = 'block';
+            document.getElementById('driver-add').style.display = 'block';
+
             }
             else if(document.getElementById('optionNo').checked) {
                 document.getElementById('driver-form').style.display = 'none';
+            document.getElementById('driver-add').style.display = 'none';
+
                 $('#drivers').removeClass().addClass('hidden');
 
             }
@@ -321,11 +325,14 @@
         function noCheck() {
         if(document.getElementById('optionNo').checked) {
             document.getElementById('driver-form').style.display = 'none';
+            document.getElementById('driver-add').style.display = 'none';
+
             $('#drivers').removeClass().addClass('hidden');
 
             }
         if(document.getElementById('OptioinYes').checked) {
             document.getElementById('driver-form').style.display = 'block';
+            document.getElementById('driver-add').style.display = 'block';
             $('#drivers').removeClass('hidden');
 
             }

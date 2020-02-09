@@ -99,7 +99,6 @@
                         <td>${driver.national_id }</td>
                         <td>${driver.nationality }</td>
                         <td>${driver.religion.name }</td>
-                        <td>${driver.religion.name }</td>
                     </tr>
                     `; 
                     $('#drivers').html(trow);

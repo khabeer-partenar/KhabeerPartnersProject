@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('/{committee}/approve', 'CommitteeController@approve')->name('committees.approve');
 
         // Delegate's Driver
-        Route::post('{committee}/meeting/{meeting}/driver', 'DelegateDriversController@store')->name('meeting.delegate-driver.store-driver');
+        Route::post('/driver', 'DelegateDriversController@store')->name('meeting.delegate-driver.store-driver');
         Route::get('/drivers', 'DelegateDriversController@index')->name('drivers.search_by_name');
         Route::get('/driver', 'DelegateDriversController@show')->name('drivers.get_by_name');
 

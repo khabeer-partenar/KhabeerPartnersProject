@@ -179,7 +179,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
         Modules\Users\Providers\DelegateServiceProvider::class,
-        PrettyRoutes\ServiceProvider::class
+        // PrettyRoutes\ServiceProvider::class
     ],
 
     /*
