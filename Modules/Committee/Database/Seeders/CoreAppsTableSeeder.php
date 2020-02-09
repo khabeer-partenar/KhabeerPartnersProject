@@ -153,6 +153,7 @@ class CoreAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+
         App::create([
             'resource_name' => $generalResourceName . '\DelegateMeetingController@update', 'name' => 'حفظ دعوة المندوب علي الإجتماع',
             'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting/delegate', 'is_main_root' => 0,
@@ -195,6 +196,26 @@ class CoreAppsTableSeeder extends Seeder
             'resource_name' => $generalResourceName.'\MeetingController@index', 'name' => 'الإجتماعات',
             'icon' => 'fa fa-files-o', 'sort' => 4, 'parent_id' => 1, 'frontend_path' => 'meetings/', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+         //Driver Delegate
+
+         App::create([
+            'resource_name' => $generalResourceName . '\DelegateDriversController@store', 'name' => 'اضافة سائق للمندوب',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => '/driver', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateDriversController@show', 'name' => 'عرض سائق للمندوب',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => '/driver', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateDriversController@index', 'name' => 'عرض السائقين',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => '/drivers', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
 
