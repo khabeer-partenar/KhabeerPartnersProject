@@ -29,15 +29,13 @@ class DelegateDriversController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(DelegateDriverRequest $request, MeetingDriver $driver, Committee $committee, Meeting $meeting)
+    public function store(Request $request)
     {
         $driver = MeetingDriver::createFromRequest($request);
-        $religion = MeetingDriver::with('religiones')->findOrFail($request->religion_id);
-        
-        
+        $driver->load('religion');
+
         return response()->json([
             'driver' => $driver,
-            'religion' => $religion,
         ], 201);
     }
 
@@ -48,11 +46,8 @@ class DelegateDriversController extends Controller
      */
     public function show(Request $request, Committee $committee, Meeting $meeting)
     {
-        $driver = MeetingDriver::with('religiones')->where('id', $request->driver_id)->first();
+        $driver = MeetingDriver::with('religion')->where('id', $request->driver_id)->first();
 
         return response()->json(['driver' => $driver ], 200);
     }
-
-
-
 }

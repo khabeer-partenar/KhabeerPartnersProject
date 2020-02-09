@@ -48,7 +48,7 @@ class MeetingDriver extends Model
         
     }
    
-    public function religiones()
+    public function religion()
     {
         return $this->belongsTo(Religion::class, 'religion_id');
     }
