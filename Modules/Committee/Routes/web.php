@@ -18,9 +18,13 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('{committee}/meetings/{meeting}/multimedia', 'MeetingMultimediaController@index')->name('committee.meetings.multimedia');
 
         // Meeting Documents
-        Route::post('{committee}/meeting/{meeting}/document', 'MeetingDocumentController@storeForMeeting')->name('committee.meeting-document.store-meeting');
+        Route::post('{committee}/meetings/{meeting}/document', 'MeetingDocumentController@storeForMeeting')->name('committee.meeting-document.store-meeting');
         Route::post('{committee}/meetings/document', 'MeetingDocumentController@store')->name('committee.meeting-document.store');
-        Route::delete('{committee}/meetings/document/{document}', 'MeetingDocumentController@destroy')->name('committee.meeting-document.delete');
+        Route::delete('{committee}/meetings/{document}/document', 'MeetingDocumentController@destroy')->name('committee.meeting-document.delete');
+
+        // Delegates Documents
+        Route::post('{committee}/meetings/{meeting}/delegate-document', 'DelegateDocumentsController@store')->name('committee.meeting-document.store-delegate');
+        Route::delete('{committee}/meetings/{document}/delegate-document', 'DelegateDocumentsController@destroy')->name('committee.meeting-document.delete-delegate');
 
         // Delegates
         Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show');
@@ -49,6 +53,13 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::get('/{committee}/NominationDepartments', 'CommitteeController@getNominationDepartmentsWithRef')->name('committee.get.NominationDepartments');
         Route::get('/{committee}/export', 'CommitteeReportController@exportAllInfo')->name('committee.export.all.info');
         Route::get('/{committee}/approve', 'CommitteeController@approve')->name('committees.approve');
+
+        // Delegate's Driver
+        Route::post('{committee}/meeting/{meeting}/driver', 'DelegateDriversController@store')->name('meeting.delegate-driver.store-driver');
+        Route::get('/drivers', 'DelegateDriversController@index')->name('drivers.search_by_name');
+        Route::get('/driver', 'DelegateDriversController@show')->name('drivers.get_by_name');
+
+        // Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@getDrivers')->name('committee::meetings.delegates.show');
 
     });
     //AuthorizedName

@@ -35,7 +35,7 @@ class AuthorizedNameController extends UserBaseController
     /**
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function export(Request $request)
+    public function export()
     {
         return Excel::download(new AuthorizedListExport, 'list.xlsx');
 

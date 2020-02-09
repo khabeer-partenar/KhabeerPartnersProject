@@ -90,6 +90,76 @@
                 </div>
 
             </div>
+            <hr>
+             <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
+                <div class="col-md-4">
+                    <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
+                </div>
+                 <div class="col-md-8">
+                     <div class="actions item-fl item-mb20">
+                         <a class="btn btn-sm btn-info"
+                            style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
+                            data-target="#addDelegateModal">
+                             {{ __('messages.add') }}
+                         </a>
+                     </div>
+                 </div>
+                <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="btn-group">
+                                <label class="btn btn-primary">
+                                    <input type="radio" id="optionNo" value="" onclick="javascript:noCheck();" name="status" checked/> لا
+                                </label>
+                            </div>
+                            <div class="btn-group">
+                                <label class="btn btn-primary">
+                                    <input type="radio" id="OptioinYes" value="" name="status" onclick="javascript:yesCheck();" autofocus="true"/> نعم
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div id="driver-form">
+                            <div id="div_main_driver_of_delegate"
+                                 class="form-group col-md-8 {{ $errors->has('driver_id') ? ' has-error' : '' }}">
+                                <form id="addDriversForm">
+                                    <div class="col-md-4">
+                                        <label for="driver_of_delegate" class="control-label">
+                                            اسم السائق
+                                            <span style="color: red">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        {!! Form::select('driver_id', [], [0 => __('messages.choose_option')], ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="actions item-fl col-md-4 item-mb20">
+                                <button type="button" class="btn btn-primary" id="getDelegateDrivers"
+                                        data-url="{{ route('drivers.get_by_name') }}">إضافة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table style="width: 100%" class="table table-bordered mt-10">
+                        <thead>
+                            <tr>
+                                <th scope="col">اسم السائق</th>
+                                <th scope="col">رقم الهوية/الاقامة</th>
+                                <th scope="col">الجنسية</th>
+                                <th scope="col">الديانة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="drivers" ></tbody>
+                    </table>
+
+                </div>
+
+
+            </div>
 
             @php $ownerDocuments = $meeting->documents()->where('owner', 1)->get(); @endphp
             @if ($ownerDocuments->count() > 0)
@@ -175,8 +245,8 @@
                 </div>
 
                 <div class="col-md-2">
-                    <button type="button" data-order="{{ $meeting->delegates[0]->documents->count() }}" class="btn btn-primary" id="saveFiles"
-                            data-url="{{ route('committee.meeting-document.store-meeting', compact('committee', 'meeting')) }}">إضافة</button>
+                    <button type="button" data-order="{{ $meeting->delegates[0]->documents->count() }}" class="btn btn-primary" id="saveDelegateFiles"
+                            data-url="{{ route('committee.meeting-document.store-delegate', compact('committee', 'meeting')) }}">إضافة</button>
                 </div>
             </div>
 
@@ -191,8 +261,8 @@
                             <th scope="col">{{ __('committee::committees.options') }}</th>
                         </tr>
                         </thead>
-                        <tbody id="files">
-                        @foreach($meeting->delegates[0]->documents as $document)
+                        <tbody id="filesOfDelegate">
+                        @foreach($meeting->delegates[0]->documents  as $document)
                             <tr id="file-{{ $document->id }}">
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $document->description ? $document->description:''}}</td>
@@ -200,8 +270,8 @@
                                     <a href="{{ $document->full_path }}">{{ $document->name }}</a>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger file-remove"
-                                            data-remove-url="{{ route('committees.delete-document', $document) }}"
+                                    <button type="button" class="btn btn-danger file-remove-delegate"
+                                            data-remove-url="{{ route('committee.meeting-document.delete-delegate', $document) }}"
                                             data-remove-row="#file-{{ $meeting->id }}">
                                         حذف
                                     </button>
@@ -226,9 +296,39 @@
         </div>
 
     </div>
+    @include('committee::meetings.delegates.driver_create_popup',compact('committee'))
+
 @endsection
 
 
 @section('scripts_2')
     @include('committee::meetings.delegates.scripts')
+    <script>
+        window.onload = function() {
+            document.getElementById('driver-form').style.display = 'none';
+        }
+        function yesCheck() {
+            if (document.getElementById('OptioinYes').checked) {
+                $('#drivers').removeClass('hidden');
+                document.getElementById('driver-form').style.display = 'block';
+            }
+            else if(document.getElementById('optionNo').checked) {
+                document.getElementById('driver-form').style.display = 'none';
+                $('#drivers').removeClass().addClass('hidden');
+
+            }
+        }
+        function noCheck() {
+        if(document.getElementById('optionNo').checked) {
+            document.getElementById('driver-form').style.display = 'none';
+            $('#drivers').removeClass().addClass('hidden');
+
+            }
+        if(document.getElementById('OptioinYes').checked) {
+            document.getElementById('driver-form').style.display = 'block';
+            $('#drivers').removeClass('hidden');
+
+            }
+        }
+    </script>
 @endsection

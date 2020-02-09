@@ -63,7 +63,7 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\CommitteeMultimediaController@index',
             'Modules\Committee\Http\Controllers\MeetingMultimediaController@index',
         ];
-        $delegatesApps = [
+        $delegatesArr = [
             // Meeting
             'Modules\Committee\Http\Controllers\DelegateMeetingController@show',
             'Modules\Committee\Http\Controllers\DelegateMeetingController@update',
@@ -80,6 +80,7 @@ class CoreGroupsTableSeeder extends Seeder
         $commId = App::whereIn('resource_name', $basicApps)->pluck('id');
         $coordaintorApps = App::whereIn('resource_name', $coordinatorApps)->pluck('id');
         $highLevelPermissions = App::whereIn('resource_name', $secretaryAndAdvisorApps)->pluck('id');
+        $delegatesApps  = App::whereIn('resource_name', $delegatesArr)->pluck('id');
         // Coordinator Permissions
         $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
         foreach($commId as $appId){

@@ -5,7 +5,8 @@ namespace Modules\Committee\Http\Controllers;
 use Modules\Committee\Entities\Meeting;
 use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\MeetingDelegate;
-use Modules\Committee\Entities\MeetingDocument;
+use Modules\Committee\Entities\Nationality;
+use Modules\Committee\Entities\Religion;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\MeetingMultimedia;
 use Modules\Committee\Http\Requests\UpdateDelegateMeetingRequest;
@@ -40,7 +41,10 @@ class DelegateMeetingController extends Controller
             }
         ]);
 
-        return view('committee::meetings.delegates.show', compact('meeting', 'committee'));
+        $nationalities = Nationality::Nationalities;
+        $religions = Religion::all();
+
+        return view('committee::meetings.delegates.show', compact('meeting', 'nationalities', 'committee', 'religions'));
     }
 
     /**
@@ -56,7 +60,7 @@ class DelegateMeetingController extends Controller
     {
         MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting);
         MeetingMultimedia::createMultimedia($request->text,$meeting,$committee);
-//        MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
+        // MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));
         return redirect()->back();
     }

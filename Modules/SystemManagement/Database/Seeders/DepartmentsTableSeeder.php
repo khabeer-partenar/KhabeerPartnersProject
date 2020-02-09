@@ -19,6 +19,8 @@ class DepartmentsTableSeeder extends Seeder
     {
         Model::unguard();
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         DB::table(Department::table())->truncate();
 
         $bodiesId = Department::create([
@@ -114,5 +116,6 @@ class DepartmentsTableSeeder extends Seeder
             'is_reference' => 1
         ]);
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

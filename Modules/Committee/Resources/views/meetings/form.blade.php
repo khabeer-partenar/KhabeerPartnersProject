@@ -178,8 +178,9 @@
         <button type="button"
                 data-order="{{ isset($meeting) ? $meeting->documents->count():$documents->count() }}"
                 class="btn btn-primary" id="saveFiles"
-                data-url="{{ isset($meeting) ? route('committee.meeting-document.store-meeting',
-                 compact('committee', 'meeting')):route('committee.meeting-document.store', compact('committee')) }}"
+                data-url="{{ isset($meeting) ?
+                route('committee.meeting-document.store-meeting', compact('committee', 'meeting'))
+                :route('committee.meeting-document.store', compact('committee')) }}"
         >إضافة
         </button>
     </div>

@@ -121,6 +121,9 @@
                 }
             })
         });
+        
+
+        
 
         $(document).on('click', '.file-remove', function () {
             let btn = $(this);
