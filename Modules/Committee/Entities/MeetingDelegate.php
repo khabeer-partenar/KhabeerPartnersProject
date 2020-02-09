@@ -4,6 +4,8 @@ namespace Modules\Committee\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\SharedModel;
+use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Delegate;
 
 class MeetingDelegate extends Model
 {
@@ -24,6 +26,19 @@ class MeetingDelegate extends Model
         0 => 'no',
         1 => 'yes'
     ];
+
+    // Functions
+    public static function prepareForSync($delegatesIds = [])
+    {
+        $delegates = Delegate::whereIn('id', $delegatesIds)->pluck('parent_department_id', 'id');
+        $prepared = [];
+        foreach ($delegates as $key => $department){
+            $prepared[$key] = [
+                'department_id' => $department
+            ];
+        }
+        return $prepared;
+    }
 
     public static function updateStatusAndReason($status, $refuse_reason, $meeting)
     {
