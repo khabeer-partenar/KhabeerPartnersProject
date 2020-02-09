@@ -10,6 +10,7 @@
 namespace App\Classes\PDF;
 
 use setasign\Fpdi\Fpdi;
+use Exception;
 
 class PDFWatermarker {
 	

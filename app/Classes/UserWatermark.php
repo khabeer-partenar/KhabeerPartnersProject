@@ -10,15 +10,14 @@ class UserWatermark
 {
     public static function getWatermarkImage()
     {
-        $img = Image::make(public_path('assets/images/watermark.png'));
+        $img = Image::make(public_path('assets/images/blank.png'));
 
         $arabic = new I18N_Arabic('Glyphs');
-        $text = $arabic->utf8Glyphs(auth()->user()->name . ' - ' . auth()->user()->parentDepartment->name);
-
+        $text = $arabic->utf8Glyphs(auth()->user()->name);
         $img->text($text, 250, 80, function($font) {
             $font->file(public_path('assets/fonts/trado.ttf'));
             $font->size(30);
-            $font->color('#000000');
+            $font->color('#999');
             $font->align('center');
             $font->valign('bottom');
             $font->angle(0);
