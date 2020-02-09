@@ -40,7 +40,11 @@
                         <tbody>
                         <tr>
                             <td>{{ $meeting->type->name }}</td>
-                            <td>{{ $meeting->meeting_at. ' ' . $meeting->from  . ' ' . $meeting->to }}</td>
+                            <td>
+                                {{ $meeting->meeting_at }}
+                                <br>
+                                {{ 'من ' . $meeting->from  . ' إلي ' . $meeting->to  }}
+                            </td>
                             <td>{{ $meeting->reason }}</td>
                             <td>{{ $meeting->room->name }}</td>
                             <td>
@@ -77,7 +81,9 @@
                         <tbody id="">
                         @foreach($meeting->delegates as $delegate)
                             <tr>
-                                <td>{{ $delegate->name }}</td>
+                                <td>
+                                    <span title="{{ $delegate->phone_number }}">{{ $delegate->name }}</span>
+                                </td>
                                 <td>{{ $delegate->department->name }}</td>
                                 @if ($meeting->attendance_done)
                                     <td>

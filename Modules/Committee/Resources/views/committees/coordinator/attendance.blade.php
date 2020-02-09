@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="department_id" class="control-label">اسم الجهة</label>
                         <select name="department_id" id="department_id" class="form_control select2">
-                            <option value="0" selected>{{ __('users::departments.choose a department') }}</option>
+                            <option value="0" selected>{{ __('committee::committees.attendance_all') }}</option>
                             @foreach($departments as $department)
                                 <option value="{{ $department->id }}" {{ \Request::get('department_id') == $department->id ? 'selected':'' }}>
                                     {{ $department->name . ($department->referenceDepartment ? ' - ' .$department->referenceDepartment->name:'') }}
@@ -40,7 +40,7 @@
                     <div class="form-group">
                         <label class="control-label" for="department_type">نوع الإجتماع</label>
                         <select name="type_id" id="type_id" class="form_control select2">
-                            <option value="0" selected>{{ __('users::departments.choose a department') }}</option>
+                            <option value="0" selected>{{ __('committee::committees.attendance_all') }}</option>
                             @foreach($types as $key => $name)
                                 <option value="{{ $key }}" {{ \Request::get('type_id') == $key ? 'selected':'' }}>{{ $name }}</option>
                             @endforeach
@@ -89,7 +89,7 @@
                             </tr>
                             </thead>
                             <tbody id="delegatesDiv" class="containerUnCheckAll" data-checker="#checkAllDelegates">
-                            @if (!$committee->meetings)
+                            @if (count($committee->meetings) == 0)
                                 <tr>
                                     <td colspan="7"><center>لا يوجد بيانات</center></td>
                                 </tr>
@@ -120,7 +120,9 @@
                                                 {{ $delegate->pivot->attended ? __('committee::meetings.attended'):__('committee::meetings.absent') }}
                                             @endif
                                         </td>
-                                        <td>{{ $delegate->name }}</td>
+                                        <td>
+                                            <span title="{{ $delegate->phone_number }}">{{ $delegate->name }}</span>
+                                        </td>
                                         <td>{{ $delegate->department->name }}</td>
                                         <td>
                                             {{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}
