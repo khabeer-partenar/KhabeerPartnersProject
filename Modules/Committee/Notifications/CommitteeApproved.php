@@ -44,7 +44,7 @@ class CommitteeApproved extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('committee::committees.committeeـapproved'))
+            ->subject(__('committee::committees.approved'))
             ->markdown('committee::emails.committee_approved', ['committee' => $this->committee]);
     }
 
@@ -65,7 +65,7 @@ class CommitteeApproved extends Notification implements ShouldQueue
     public function toMobily()
     {
         return [
-            'message' => __('committee::committees.committeeـapproved')
+            'message' => __('committee::committees.approved')
                 . ' ' . $this->committee->subject
         ];
     }

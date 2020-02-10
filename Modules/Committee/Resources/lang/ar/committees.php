@@ -121,7 +121,6 @@ return [
     'attendance_yes' => 'حاضر',
     'attendance_no' => 'لم يحضر',
     'approved' => 'تم اعتماد اللجنة',
-    'committeeـapproved' => 'تم اعتماد اللجنة',
 
 
 ];

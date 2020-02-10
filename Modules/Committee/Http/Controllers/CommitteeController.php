@@ -124,6 +124,7 @@ class CommitteeController extends UserBaseController
      */
     public function edit(Committee $committee)
     {
+        //dd($committee->participantDepartmentsUsersUnique());
         if(!$committee->can_take_action) {
             return back();
         }
@@ -197,14 +198,13 @@ class CommitteeController extends UserBaseController
 
     public function approve(Committee $committee)
     {
-        
         if (($committee->advisor_id != auth()->id() && !auth()->user()->is_super_admin) && $committee->approved) {
             abort(403);
         }
         $committee->update([
             'approved' => true
         ]);
-        Notification::send($committee->advisor, new CommitteeApproved($committee));
+        Notification::send($committee->participantAdvisors, new CommitteeApproved($committee));
         return response()->json(['status' => 1]);
     }
 }

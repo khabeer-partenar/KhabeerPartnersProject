@@ -289,8 +289,10 @@ class Committee extends Model
     public function participantDepartmentsUsersUnique()
     {
         $toBeNotifiedUsers = [];
-        foreach ($this->participantDepartmentsWithRef() as $department) {
+        foreach ($this->participantDepartmentsWithRef() as $key=>$department) {
             $users = $department->users('parent')->get();
+            if($key == 1)
+            //dd($users);
             $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
             if ($department->referenceDepartment) {
                 $refUsers = $department->referenceDepartment->users('parent')->get();
