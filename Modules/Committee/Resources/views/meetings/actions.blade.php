@@ -3,6 +3,9 @@
         @if (($meeting->delegates[0]->pivot->status == !\Modules\Committee\Entities\MeetingDelegate::REJECTED) ||  ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED) || ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED))
             <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
                 class="btn btn-success">التفاصيل</a>
+                <a href="{{ route('committee.meetings.multimedia', compact('committee', 'meeting')) }}"
+                class="btn btn-success">مرئيات المشاركين
+                </a>
         @endif
     @endif
 @elseif (auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
