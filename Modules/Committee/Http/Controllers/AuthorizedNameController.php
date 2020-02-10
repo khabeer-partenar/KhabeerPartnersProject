@@ -10,6 +10,8 @@ use Modules\Core\Entities\Group;
 use Modules\Core\Traits\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\AuthorizedListExport;
+use Modules\Committee\Entities\Meeting;
+use Modules\Committee\Entities\MeetingDriver;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 
@@ -24,11 +26,12 @@ class AuthorizedNameController extends UserBaseController
      */
     public function index(Request $request)
     {
-
-        $lists = AuthorizedName::search($request->all())->paginate(10);
+        $authorizedNames = AuthorizedName::search($request->all())->paginate(3);
         $types = AuthorizedName::TYPE_TEXT;
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
-        return view('committee::authorizedName.authorized_list', compact('lists', 'advisors', 'types'));
+        $meeting = Meeting::with('advisor', 'room')->get();
+        $driverReligion = MeetingDriver::with('religiones')->get();
+        return view('committee::authorizedName.authorized_list', compact( 'advisors', 'types', 'meeting',   'driverReligion', 'authorizedNames'));
 
     }
 

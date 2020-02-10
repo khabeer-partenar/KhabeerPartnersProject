@@ -51,7 +51,7 @@
             </div>
 
             <div class="actions item-fl item-mb20">
-                <button class="btn item-mt20" type="button">{{ __('messages.print') }}</button>
+                <a class="btn item-mt20" type="button" href="{{ route('committee.multimedia.export', \Request::all()) }}">{{ __('messages.print') }}</a>
                 <button class="btn item-mt20" type="button">{{ __('messages.export') }}</button>
             </div>
         </div>
