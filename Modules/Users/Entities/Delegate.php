@@ -292,6 +292,13 @@ class Delegate extends User
         return $query;
     }
 
+    public static function scopeUserDepartment($query)
+    {
+        $department_id = auth()->user()->parent_department_id;
+        return $query->where('parent_department_id', $department_id)
+                     ->orWhere('department_reference_id', $department_id);
+    }
+
     /**
      * Relations
      *
