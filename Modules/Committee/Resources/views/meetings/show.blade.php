@@ -6,7 +6,7 @@
         <div class="portlet-title">
 
             <div class="row">
-                
+
                 <div class="col-md-9">
                     <div class="caption">
                         <i class="fa fa-eye"></i>
