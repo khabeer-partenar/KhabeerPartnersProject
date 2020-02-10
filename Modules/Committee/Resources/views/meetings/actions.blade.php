@@ -1,7 +1,9 @@
 @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB )
     @if (in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
-        <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
-           class="btn btn-success">التفاصيل</a>
+        @if (($meeting->delegates[0]->pivot->status == !\Modules\Committee\Entities\MeetingDelegate::REJECTED) ||  ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED) || ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED))
+            <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
+                class="btn btn-success">التفاصيل</a>
+        @endif
     @endif
 @elseif (auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
     @if (auth()->user()->hasPermissionWithAccess('show', 'CoordinatorMeetingController', 'Committee'))

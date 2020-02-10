@@ -119,54 +119,51 @@
                                 </label>
                             </div>
                         </div>
-                    <div class="col-md-9">
-                        <div id="driver-form">
-                            <div id="div_main_driver_of_delegate"
-                                 class="form-group col-md-8 {{ $errors->has('driver_id') ? ' has-error' : '' }}">
-                                <form id="addDriversForm">
-                                    <div class="col-md-4">
-                                        <label for="driver_of_delegate" class="control-label">
-                                            اسم السائق
-                                            <span style="color: red">*</span>
-                                        </label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        {!! Form::select('driver_id', [], [0 => __('messages.choose_option')], ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="actions item-fl col-md-4 item-mb20">
-                                <button type="button" class="btn btn-primary" id="getDelegateDrivers"
-                                        data-url="{{ route('drivers.get_by_name') }}">إضافة
-                                </button>
-                            </div>
+                </div>
+                <div class="col-md-9">
+                    <div id="driver-form">
+                        <div id="div_main_driver_of_delegate"
+                                class="form-group col-md-8 {{ $errors->has('driver_id') ? ' has-error' : '' }}">
+                            <form id="addDriversForm">
+                                <div class="col-md-4">
+                                    <label for="driver_of_delegate" class="control-label">
+                                        اسم السائق
+                                        <span style="color: red">*</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-8">
+                                    {!! Form::select('driver_id', [], [0 => __('messages.choose_option')], ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
+                                </div>
+                            </form>
+                        </div>
+                        <div class="actions item-fl col-md-4 item-mb20">
+                            <button type="button" class="btn btn-primary" id="getDelegateDrivers"
+                                    data-url="{{ route('drivers.get_by_name') }}">إضافة
+                            </button>
                         </div>
                     </div>
-
-                    <table style="width: 100%" class="table table-bordered mt-10">
-                        <thead>
-                            <tr>
-                                <th scope="col">اسم السائق</th>
-                                <th scope="col">رقم الهوية/الاقامة</th>
-                                <th scope="col">الجنسية</th>
-                                <th scope="col">الديانة</th>
-                            </tr>
-                        </thead>
-                        <tbody id="drivers" >
-                        @foreach($meeting->delegates[0]->driver  as $driver)
-                            <tr>
-                                <td>{{$driver->name}}</td>
-                                <td>{{$driver->national_id}}</td>
-                                <td>{{$driver->nationality}}</td>
-                                <td>{{$driver->religiones->name}}</td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
                 </div>
-
-
+                <input type="hidden" id="driverid" name="driver_id">
+                <table style="width: 100%" class="table table-bordered mt-10">
+                    <thead>
+                        <tr>
+                            <th scope="col">اسم السائق</th>
+                            <th scope="col">رقم الهوية/الاقامة</th>
+                            <th scope="col">الجنسية</th>
+                            <th scope="col">الديانة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="drivers" >
+                    @foreach($meeting->delegates[0]->driver  as $driver)
+                        <tr>
+                            <td>{{$driver->name}}</td>
+                            <td>{{$driver->national_id}}</td>
+                            <td>{{$driver->nationality}}</td>
+                            <td>{{$driver->religion->name}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
 
                 @php $ownerDocuments = $meeting->documents()->where('owner', 1)->get(); @endphp

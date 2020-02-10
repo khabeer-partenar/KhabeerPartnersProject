@@ -85,6 +85,7 @@
             let btn = $(this);
             let formData = $('#addDriverForm').serialize();
             let url = $(this).data('url');
+            const driver_id = $('#driver_id').val();
             console.log(formData);
             $.post({
                 url: url,
@@ -100,7 +101,7 @@
                         <td>${driver.nationality }</td>
                         <td>${driver.religion.name }</td>
                     </tr>
-                    `; 
+                    `;
                     $('#driverid').val(driver.id);
                     $('#drivers').html(trow);
                     $('[name=name]').val('');
@@ -182,7 +183,7 @@
                 }
             })
         });
-        
+
         $('#driver_id').select2({
             ajax: {
                 url: '/committees/drivers',
@@ -196,7 +197,7 @@
             },
             minimumInputLength: 3,
         });
-    
+
         $(document).on('click', '#getDelegateDrivers', function () {
             let formData = $('#driver_id').serialize();
             const url = $(this).attr('data-url');
@@ -249,7 +250,7 @@
                 }
             })
         })
-        
+
 
     });
 

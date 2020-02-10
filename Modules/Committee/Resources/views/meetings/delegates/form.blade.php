@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    
+
 
 </div>
 
@@ -120,7 +120,7 @@
 
     <div class="col-md-4">
         <div id="div_name" class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
-
+            <input type="hidden" id="driverid" name="driver_id">
             {!! Form::label('name', 'الإسم', ['class' => 'control-label']) !!}
             <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
 
@@ -185,13 +185,13 @@
 
 
                 <select id="job_role_id" class="form_control select2" name="job_role_id" disabled>
-                   
-                    
+
+
                         <option value="{{ $job->id }}"
                                 data-main="">
                             ''
                         </option>
-                   
+
                 </select>
 
                 @if ($errors->has('job_role_id'))
