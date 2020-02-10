@@ -23,6 +23,9 @@ use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
 use Modules\Committee\Entities\CommitteeDelegate;
+use Modules\Committee\Notifications\CommitteeApproved;
+use Notification;
+
 
 class CommitteeController extends UserBaseController
 {
@@ -194,12 +197,14 @@ class CommitteeController extends UserBaseController
 
     public function approve(Committee $committee)
     {
+        
         if (($committee->advisor_id != auth()->id() && !auth()->user()->is_super_admin) && $committee->approved) {
             abort(403);
         }
         $committee->update([
             'approved' => true
         ]);
+        Notification::send($committee->advisor, new CommitteeApproved($committee));
         return response()->json(['status' => 1]);
     }
 }
