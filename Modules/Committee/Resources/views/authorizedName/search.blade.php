@@ -2,12 +2,12 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="control-label" for="advisor_id"> صفة الدخول</label>
+                    <label class="control-label" for="job_title"> صفة الدخول</label>
                     {{-- {!! Form::select('job', $types, null, ['id' => 'job', 'class' => 'form_control select2', 'required' => true, 'value' => "{{ Request::input('entry_time') }}"]) !!} --}}
-                    <select name="job" id="job" class="form_control select2">
+                    <select name="job_title" id="type" class="form_control select2">
                         <option value="0">{{ __('committee::committees.all') }}</option>
                         @foreach($types as $key => $type)
-                            <option value="{{ $type }}" {{ Request::input('job') == $key ? 'selected':'' }}>{{ $type }}</option>
+                            <option value="{{ $type }}" {{ Request::input('job_title') == $key ? 'selected':'' }}>{{ $type }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -39,15 +39,15 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="national_id" class="control-label">رقم الهوية</label>
-                    <input type="number" class="form_control" value="" name="national_id" id=""
+                    <label for="" class="control-label">رقم الهوية</label>
+                    <input type="number" class="form_control" value="{{ Request::input('authorized_national_id') }}" name="authorized_national_id" id=""
                            placeholder="" autocomplete="off">
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="form-group">
                     <label for="name" class="control-label"> الاسم</label>
-                    <input type="text" class="form_control " value="" name="name" id="name"
+                    <input type="text" class="form_control " value="{{ Request::input('authorized_name') }}" name="authorized_name" id="driver_name"
                            placeholder="" autocomplete="off">
                 </div>
             </div>

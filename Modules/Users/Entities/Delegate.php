@@ -17,7 +17,7 @@ use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
-use DB;
+use Modules\Committee\Entities\MeetingDriver;
 use Modules\Users\Events\DelegateCreatedEvent;
 use Modules\Users\Events\DelegateDeletedEvent;
 
@@ -339,5 +339,10 @@ class Delegate extends User
     {
         return $this->belongsToMany(Meeting::class, MeetingDelegate::table(), 'delegate_id', 'meeting_id')
             ->withPivot('refuse_reason', 'status', 'attended');
+    }
+
+    public function driver()
+    {
+        return $this->hasMany(MeetingDriver::class);
     }
 }

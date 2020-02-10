@@ -3,10 +3,11 @@
 namespace Modules\Committee\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Modules\Users\Entities\User;
 use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Committee\Entities\Religion;
-
+use Modules\Users\Entities\Delegate;
 
 class AuthorizedName extends Model
 {
@@ -20,7 +21,7 @@ class AuthorizedName extends Model
      */
     protected $dates = [
         
-        'entry_time' ,
+        'from' ,
     ];
 
     const TYPE = [
@@ -34,27 +35,33 @@ class AuthorizedName extends Model
     ];
 
 
-    public static function scopeSearch($query, Array $filters)
+    public function scopeSearch($query, $filters)
     {
-
-        if(isset($filters['job']))
-        {
-            $query->where('job', 'LIKE', '%' . $filters['job'] . '%');
-        }
-        if(isset($filters['name']))
-         {
-            $query->where('name', 'LIKE', '%' . $filters['name'] . '%');
-        }
-        if((int)isset($filters['national_id']))
-         {
-            $query->where('national_id', 'LIKE', '%' . $filters['national_id'] . '%');
-        }
-        
-
+        $query = DB::table('meetings_delegates')
+            ->join('delegate_driver', 'meetings_delegates.driver_id', '=', 'delegate_driver.id')
+            ->join('meetings', 'meetings.id', '=', 'meetings_delegates.meeting_id')
+            ->join('users', 'users.id', '=', 'meetings_delegates.delegate_id')            
+            ->join('religions', 'religions.id', '=', 'delegate_driver.religion_id')
+            ->select('delegate_driver.name as driver_name', 'delegate_driver.national_id as 
+            driver_national_id', 'religions.name as type',           
+            'delegate_driver.id as driver_id', 'meetings.from', 
+             'delegate_driver.nationality', 'users.national_id as delegate_national_id', 
+             'users.name as delegate_name', 
+            'users.job_title');
+            if(isset($filters['authorized_name'])) {
+                $name = $filters['authorized_name'];
+                $query->where('delegate_driver.name',  $name)
+                ->orWhere('users.name', 'LIKE', $name );
+            }
+            if(isset($filters['authorized_national_id'])) {
+                $national_id = $filters['authorized_national_id'];
+                $query->where('delegate_driver.national_id', $national_id )
+                ->orWhere('users.national_id', $national_id);
+            }
+            
         return $query;
+            
     }
-
-    //releations
 
     public function advisor()
     {

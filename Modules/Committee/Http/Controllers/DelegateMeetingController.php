@@ -58,7 +58,7 @@ class DelegateMeetingController extends Controller
      */
     public function update(UpdateDelegateMeetingRequest $request, Committee $committee, Meeting $meeting)
     {
-        MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting);
+        MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting, $request->has_driver, $request->driver_id);
         MeetingMultimedia::createMultimedia($request->text,$meeting,$committee);
         // MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));

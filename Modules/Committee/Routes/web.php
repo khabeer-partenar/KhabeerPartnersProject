@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
         Route::delete('{committee}/meetings/{document}/delegate-document', 'DelegateDocumentsController@destroy')->name('committee.meeting-document.delete-delegate');
 
         // Delegates
-        Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show');
+        Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show')->middleware('delegate.status');
         Route::put('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@update')->name('committees.meetings.delegate.update');
 
         // Coordinator
@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
 
         // Committee Multimedia
         Route::get('/{committee}/multimedia', 'CommitteeMultimediaController@index')->name('committee.multimedia');
+        Route::get('/export', 'CommitteeMultimediaController@export')->name('committee.multimedia.export');
+        Route::get('/print', 'CommitteeMultimediaController@print')->name('committee.print');
 
         // Comm Documents
         Route::post('upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');

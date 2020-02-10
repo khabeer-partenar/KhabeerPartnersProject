@@ -4,6 +4,8 @@ namespace Modules\Committee\Entities;
 use Modules\Committee\Entities\Religion;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\SharedModel;
+use Modules\Committee\Entities\MeetingDelegate;
+
 
 class MeetingDriver extends Model
 {
@@ -53,10 +55,12 @@ class MeetingDriver extends Model
         return $this->belongsTo(Religion::class, 'religion_id');
     }
 
-    public function nationalities()
-    {
-        return $this->belongsTo(Nationality::class);
-    }
 
+
+
+    public function meetingDelegate()
+    {
+        return $this->belongsTo(MeetingDelegate::class, 'driver_id');
+    }
 
 }

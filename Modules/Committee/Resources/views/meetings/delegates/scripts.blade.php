@@ -101,6 +101,7 @@
                         <td>${driver.religion.name }</td>
                     </tr>
                     `; 
+                    $('#driverid').val(driver.id);
                     $('#drivers').html(trow);
                     $('[name=name]').val('');
                     $('[name=nationality]').val('');
@@ -217,7 +218,9 @@
                                 <td>${driver.religion.name }</td>
                             </tr>
                     `;
+                     $('#driverid').val(driver.id);
                      $('#drivers').html(trow);
+                    var s =  $('#driverid').val(driver.id);
                 }
 
             });
