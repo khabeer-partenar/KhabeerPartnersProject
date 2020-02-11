@@ -179,7 +179,7 @@
             <br /><br />
 
             {{-- Participant Department --}}
-            <label class="underLine">{{ __('committee::committees.treatment information') }}</label>
+            <label class="underLine">جهات المعاملة</label>
             <table class="table table-striped table-responsive-md">
                 <thead>
                 <tr>
