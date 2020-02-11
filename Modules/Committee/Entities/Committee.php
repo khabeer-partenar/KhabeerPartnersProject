@@ -298,6 +298,11 @@ class Committee extends Model
                     $toBeNotifiedUsers= $departments->coordinators('parent')->get()->merge($departments->delegates('parent')->get());
                     Notification::send($toBeNotifiedUsers, new DepartmentDeleted($this));
                 }
+                else
+                {
+                    $toBeNotifiedUsers= $departments->coordinators('parent')->get();
+                    Notification::send($toBeNotifiedUsers, new DepartmentDeleted($this));
+                }
             }
 
         }
