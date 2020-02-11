@@ -291,11 +291,23 @@ class Committee extends Model
         $toBeNotifiedUsers = [];
         foreach ($this->participantDepartmentsWithRef() as $key=>$department) {
             $users = $department->users('parent')->get();
-            if($key == 1)
-            //dd($users);
             $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
             if ($department->referenceDepartment) {
                 $refUsers = $department->referenceDepartment->users('parent')->get();
+                $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($refUsers));
+            }
+        }
+        return $toBeNotifiedUsers;
+    }
+
+    public function participantDepartmentsCoordinators()
+    {
+        $toBeNotifiedUsers = [];
+        foreach ($this->participantDepartmentsWithRef() as $key=>$department) {
+            $users = $department->coordinators('parent')->get();
+            $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
+            if ($department->referenceDepartment) {
+                $refUsers = $department->referenceDepartment->coordinators('parent')->get();
                 $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($refUsers));
             }
         }
