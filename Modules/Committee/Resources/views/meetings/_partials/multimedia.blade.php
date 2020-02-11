@@ -1,16 +1,17 @@
 @if (isset($delegates))
 
-    <div class="portlet light bordered">
-
+    <div class="portlet light bordered" id="source-html">
+            <form action="{{ route('committee.meetings.multimedia.exportWord') }}" method="POST">
+                    @csrf
         <div class="portlet-body form">
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table style="width: 100%" class="table table-bordered">
+                        <table style="width: 100%" class="table table-bordered" id="Table1">
                             <thead>
                             <tr style="font-weight:bold">
                                 <th style="width:7%" scope="col">
-                                    <input type="checkbox" id="checkAllMultimedia" class="checkInContainer" data-container="#multimediaDiv">
+                            <input type="checkbox" id="checkAllMultimedia" class="checkInContainer" data-container="#multimediaDiv">
                                 </th>
                                 <th scope="col">معلومات المشارك</th>
                                 <th scope="col" width="40%">مرئيات الإجتماع</th>
@@ -18,10 +19,15 @@
                             </tr>
                             </thead>
                             <tbody id="multimediaDiv" class="containerUnCheckAll" data-checker="#checkAllMultimedia">
-                            @foreach($delegates as $delegate)
+                            @foreach($committee->delegates as $delegate)
                                 <tr>
                                     <td>
-                                        <input type="checkbox" class="checkInContainer">
+                                    <input type="checkbox"
+                                    name="delegates[]"
+                                    value="{{ $delegate->id }}"
+                                    @if(isset($committeeDelegates))
+                                        {{ is_array($committeeDelegates) ? (in_array($delegate->id, $committeeDelegates) ? 'checked':''):'' }}
+                                    @endif >
                                     </td>
                                     <td>{{ $delegate->name . ' - ' . $delegate->department->name }}</td>
                                     <td>
@@ -51,9 +57,32 @@
             </div>
 
             <div class="actions item-fl item-mb20">
-                <a class="btn item-mt20" type="button" href="{{ route('committee.multimedia.export', \Request::all()) }}">{{ __('messages.print') }}</a>
-                <button class="btn item-mt20" type="button">{{ __('messages.export') }}</button>
+                <button class="btn item-mt20" type="submit" href="{{ route('committee.meetings.multimedia.exportWord', \Request::all()) }}">{{ __('messages.print') }}</button>
+                <a class="btn item-mt20 word-export" type="button" name="submit" href="" id="btn-export" onclick="exportHTML();">{{ __('messages.export') }}</a>
+                {{-- <button class="btn item-mt20" type="button" href="{{ route('committee.meetings.multimedia.exportWord') }}">{{ __('messages.export') }}</button> --}}
             </div>
         </div>
+    </form>
+
     </div>
 @endif
+@section('scripts')
+{{-- <script>
+    function exportHTML(){
+       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
+       var footer = "</body></html>";
+       var sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
+
+       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+       var fileDownload = document.createElement("a");
+       document.body.appendChild(fileDownload);
+       fileDownload.href = source;
+       fileDownload.download = 'document.doc';
+       fileDownload.click();
+       document.body.removeChild(fileDownload);
+    }
+</script> --}}
+@endsection

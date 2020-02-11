@@ -13,7 +13,7 @@ class CommitteeMultimediaExport implements FromView
 {
     public function view(): View
     {
-        return view('committee::meetings._partials.export', 
+        return view('committee::meetings._partials.export',
         [
             'delegates' => Delegate::all(),
 

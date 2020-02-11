@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['auth', 'see.committee']], function() {
+Route::group(['middleware' => ['auth', 'see.committee']], function () {
 
     Route::prefix('committees')->group(function () {
 
@@ -16,6 +16,9 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
 
         // Meeting Multimedia
         Route::get('{committee}/meetings/{meeting}/multimedia', 'MeetingMultimediaController@index')->name('committee.meetings.multimedia');
+
+        Route::post('/exportWord', 'MeetingMultimediaController@exportWord')->name('committee.meetings.multimedia.exportWord');
+
 
         // Meeting Documents
         Route::post('{committee}/meetings/{meeting}/document', 'MeetingDocumentController@storeForMeeting')->name('committee.meeting-document.store-meeting');
@@ -65,7 +68,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
 
     });
     //AuthorizedName
-    Route::prefix('authorized-names')->group(function (){
+    Route::prefix('authorized-names')->group(function () {
         Route::get('/', 'AuthorizedNameController@index')->name('committee.authorizedName');
         Route::get('/export', 'AuthorizedNameController@export')->name('committee.export');
         Route::get('/print', 'AuthorizedNameController@print')->name('committee.print');
@@ -75,6 +78,4 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
 
     Route::get('meetings', 'MeetingController@index')->name('meetings.calendar');
     Route::get('meetings/calendar', 'MeetingController@calendar')->name('meetings.calendar.ajax');
-
 });
-
