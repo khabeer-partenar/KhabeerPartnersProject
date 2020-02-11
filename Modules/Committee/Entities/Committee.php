@@ -20,6 +20,10 @@ use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 use Modules\Committee\Events\NominationDoneEvent;
+use Modules\Committee\Notifications\DepartmentDeleted;
+use Notification;
+
+
 
 class Committee extends Model
 {
@@ -274,13 +278,30 @@ class Committee extends Model
 
     public function updateFromRequest($request)
     {
+        $oldDepartments = $this->participantDepartments->pluck('id')->toArray();
         $this->update($request->all());
         $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $this->participantDepartments()->sync($request->departments);
         $this->update(['members_count' => $this->participantAdvisors()->count()]);
+        $this->SendNotificationDeletedDepartmentsParticipants($oldDepartments,$request->departments);
         return $this;
     }
 
+    public function SendNotificationDeletedDepartmentsParticipants($oldDepartments,$newDepartments)
+    {
+        foreach ($oldDepartments as $key => $department) {
+            if(!array_key_exists($department,$newDepartments))
+            {
+                $departments = Department::findOrFail($department);
+                if($departments->delegates('parent')->count())
+                {
+                    $toBeNotifiedUsers= $departments->coordinators('parent')->get()->merge($departments->delegates('parent')->get());
+                    Notification::send($toBeNotifiedUsers, new DepartmentDeleted($this));
+                }
+            }
+
+        }
+    }
     public function participantDepartmentsWithRef()
     {
         return $this->participantDepartments()->with('referenceDepartment')->get();

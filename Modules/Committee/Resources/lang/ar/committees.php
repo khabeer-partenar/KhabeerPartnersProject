@@ -14,6 +14,7 @@ return [
     'nomination_not_done' => 'لم يتم الترشيح',
     'nominate' => 'ترشيح',
     'nomination_add_delegte' =>'إضافة مندوب جديد',
+    'nominationـdepartmentـdeleted' => 'تم حذف الجهة خاصتكم من اللجنة',
     // delegates
     'delegates_title' => 'المندوب المرشح الممثل للجهه',
     'delegates_department' => 'الجهة/مرجعية الجهة',
