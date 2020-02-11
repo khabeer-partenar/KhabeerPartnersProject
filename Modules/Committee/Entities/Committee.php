@@ -42,7 +42,7 @@ class Committee extends Model
         'resource_staff_number', 'resource_at', 'department_out_number', 'department_out_date', 'resource_by', 'treatment_number', 'treatment_time', 'treatment_type_id',
         'treatment_urgency_id', 'treatment_importance_id', 'source_of_study_id', 'recommendation_number', 'recommended_by_id',
         'recommended_at', 'subject', 'first_meeting_at', 'tasks', 'president_id', 'advisor_id', 'members_count', 'status',
-        'reason_of_deletion', 'created_by', 'approved'
+        'reason_of_deletion', 'created_by', 'approved', 'exported'
     ];
 
     protected $appends = [
@@ -225,6 +225,11 @@ class Committee extends Model
         } else {
             CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this,Status::WAITING_DELEGATES);
         }
+    }
+
+    public function scopeExported($query, $status = true)
+    {
+        return $query->where('exported', $status);
     }
 
     /**

@@ -33,6 +33,18 @@
             @include('committee::committees.search')
 
             <br>
+
+            @if(auth()->user()->hasPermissionWithAccess('exported'))
+                <ul class="nav nav-tabs">
+                    <li class="nav-item {{ app()->request->route()->getName() == 'committees.index' ? 'active':'' }}">
+                        <a href="{{ route('committees.index') }}" class="nav-link active">تحت الإجراء</a>
+                    </li>
+                    <li class="nav-item {{ app()->request->route()->getName() == 'committees.exported' ? 'active':'' }}">
+                        <a href="{{ route('committees.exported') }}" class="nav-link">مصدرة</a>
+                    </li>
+                </ul>
+            @endif
+
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -146,7 +158,11 @@
                                         {{ $committee->advisor_id == auth()->id() ? __('committee::committees.committee advisor') : __('committee::committees.committee participant') }}
                                     </td>
                                     <td>
-                                        @include('committee::committees.actions')
+                                        @if(!$committee->exported)
+                                            @include('committee::committees.actions')
+                                        @else
+                                            @include('committee::committees.exported.actions')
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
