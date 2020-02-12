@@ -50,7 +50,7 @@ class Committee extends Model
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'first_meeting_time', 'recommended_at_hijri'
+        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'first_meeting_time', 'recommended_at_hijri','urgent_committee'
     ];
 
     protected $dates = [
@@ -85,6 +85,16 @@ class Committee extends Model
     public function setRecommendedAtAttribute($value)
     {
         $this->attributes['recommended_at'] = self::getDateFromFormat($value);
+    }
+
+    public function getUrgentCommitteeAttribute()
+    {
+        $tomrrow =Carbon::tomorrow('Asia/Riyadh');
+        $days = $tomrrow->diffInDays(Carbon::parse($this->first_meeting_at));
+        if($days == 1 || $this->treatment_urgency_id == TreatmentUrgency::URGENT)
+            return true;
+        else
+            return false;
     }
 
     public function getResourceAtHijriAttribute()

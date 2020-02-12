@@ -26,4 +26,10 @@
             <i class="fa fa-trash"></i> {{ __('committee::committees.delete') }}
         </a>
     @endif
+    @if(auth()->user()->hasPermissionWithAccess('index', 'CommitteeMultimediaController', 'Committee') && $committee->urgent_committee == true)
+        <a data-send-notification-url="{{ route('committee.notification', $committee) }}" class="btn btn-sm btn-primary custom-action-btn btn-action-notification">
+            <i class="fa fa-bell"></i>  اشعار المشاركين
+        </a>
+    @endif
+    
 @endif
