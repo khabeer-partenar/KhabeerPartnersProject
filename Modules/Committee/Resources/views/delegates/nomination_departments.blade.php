@@ -8,8 +8,7 @@
             <label class="underLine">{{ __('committee::committees.nomination_departments') }}
 
             </label>
-            @if(auth()->user()->hasPermissionWithAccess('create','DelegateController','Users')
-                && $report==false))
+            @if(auth()->user()->hasPermissionWithAccess('create','DelegateController','Users') && $report==false && !$committee->exported)
 
                 <a  class="btn btn-sm btn-info" style="float: left;margin-left: 10%;background-color: rgb(5, 125, 84);" data-toggle="modal"
                    data-target="#addDelegateModal">
@@ -21,7 +20,9 @@
                 <th scope="col">{{ __('committee::committees.nomination_deparment_name') }}</th>
                 <th scope="col">{{ __('committee::committees.nomination_criteria') }}</th>
                 <th scope="col">{{ __('committee::committees.nomination_has_nomination') }}</th>
-                <th scope="col">{{ __('committee::committees.nomination_options') }}</th>
+                @if(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE && !$committee->exported)
+                    <th scope="col">{{ __('committee::committees.nomination_options') }}</th>
+                @endif
 
             </tr>
             </thead>
@@ -39,7 +40,7 @@
                         {{ $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done') }}
                     </td>
                     <td>
-                        @if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users') && $report==false)
+                        @if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users') && $report==false && !$committee->exported)
                             <button data-toggle="modal" value="{{$department->id}}"
                                     class="btn btn-primary nominateBtn">{{__('committee::committees.nominate')}}</button>
                         @endif

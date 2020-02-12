@@ -12,8 +12,7 @@
             <th scope="col">{{ __('committee::committees.delegate_national_id') }}</th>
             <th scope="col">{{ __('committee::committees.delegate_phone') }}</th>
             <th scope="col">{{ __('committee::committees.delegate_email') }}</th>
-            @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB
-                    || auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
+            @if(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE && !$committee->exported)
                 <th scope="col">{{ __('committee::committees.delegate_options') }}</th>
             @endif
 
@@ -43,7 +42,7 @@
                 @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB
                      || auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::NORMAL_CO_JOB)
                     <td>
-                        @if(auth()->user()->hasPermissionWithAccess('removeFromCommitte','DelegateController','Users') && $report==false)
+                        @if(auth()->user()->hasPermissionWithAccess('removeFromCommitte','DelegateController','Users') && $report==false && !$committee->exported)
 
                             <a data-href="{{ route('delegate.remove.from.committee',['delegate_id'=>$delegate->id,'committee_id'=>$committee->id,'department_id'=>$delegate->pivot->nominated_department_id,'reason'=>'']) }}"
                                class="btn btn-sm btn-danger delete-row-delegate">
@@ -68,7 +67,10 @@
         <a onclick="window.history.back();" style="float: left;margin-right: 10px" class="btn btn-sm btn-primary">
             <i class="fa fa-step-backward"></i> {{ __('users::delegates.back') }}
         </a>
-        @if(auth()->user()->hasPermissionWithAccess('sendNomination','CommitteeController','Committee'))
+        @if(
+            auth()->user()->hasPermissionWithAccess('sendNomination','CommitteeController','Committee') &&
+            !$committee->exported
+        )
 
             <a id="btn-send-nomination" style="float: left;background-color: #057d54" class="btn btn-sm btn-info">
                 <i class="fa fa-send"></i> {{ __('users::delegates.sendNomination') }}

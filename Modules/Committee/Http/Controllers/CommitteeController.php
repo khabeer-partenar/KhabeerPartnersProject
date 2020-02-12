@@ -35,10 +35,35 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $committees = Committee::with('advisor', 'president', 'view')->latest()->search($request)->user()->paginate(10);
+        $committees = Committee::with('advisor', 'president', 'view')
+            ->latest()
+            ->exported(false)
+            ->search($request)
+            ->user()
+            ->paginate(10);
+
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
-        $status = Committee::STATUS;
-        return view('committee::committees.index', compact('committees', 'advisors', 'status'));
+
+        return view('committee::committees.index', compact('committees', 'advisors'));
+    }
+
+    /**
+     * Show Exported Resource
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function exported(Request $request)
+    {
+        $committees = Committee::with('advisor', 'president', 'view')
+            ->latest()
+            ->exported()
+            ->search($request)
+            ->user()
+            ->paginate(10);
+
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
+
+        return view('committee::committees.index', compact('committees', 'advisors'));
     }
 
     /**
@@ -176,6 +201,17 @@ class CommitteeController extends UserBaseController
         $committee->delete();
         $committee->groupsStatuses()->detach();
         return response()->json(['msg' => __('committee::committees.deleted')]);
+    }
+
+    public function export(Committee $committee)
+    {
+        if (($committee->advisor_id != auth()->id() && !auth()->user()->is_super_admin) && $committee->exported) {
+            abort(403);
+        }
+        $committee->update([
+            'exported' => true
+        ]);
+        return back();
     }
 
     public function sendNomination(Committee $committee)
