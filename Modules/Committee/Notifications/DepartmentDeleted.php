@@ -32,7 +32,7 @@ class DepartmentDeleted extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail']; // MobilyChannel::class
+        return ['mail', MobilyChannel::class];
     }
 
     /**
