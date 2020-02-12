@@ -3,8 +3,6 @@
 Route::group(['middleware' => ['auth', 'see.committee']], function () {
 
     Route::prefix('committees')->group(function () {
-
-
         // Meeting
         Route::get('{committee}/meetings', 'CommitteeMeetingController@index')->name('committee.meetings');
         Route::get('{committee}/meetings/create', 'CommitteeMeetingController@create')->name('committee.meetings.create');
@@ -17,7 +15,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function () {
         // Meeting Multimedia
         Route::get('{committee}/meetings/{meeting}/multimedia', 'MeetingMultimediaController@index')->name('committee.meetings.multimedia');
 
-        Route::post('/exportWord', 'MeetingMultimediaController@exportWord')->name('committee.meetings.multimedia.exportWord');
+        Route::post('{committee}/export-word', 'MeetingMultimediaController@exportWord')->name('committee.meetings.multimedia.export-word');
+
 
 
         // Meeting Documents
@@ -40,11 +39,13 @@ Route::group(['middleware' => ['auth', 'see.committee']], function () {
         Route::get('/{committee}/attendance', 'CommitteeAttendanceController@show')->name('committees.attendance');
         Route::get('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@create')->name('committees.meetings.attendance.create')->middleware('take.attendance');
         Route::post('/{committee}/meetings/{meeting}/attendance', 'MeetingAttendanceController@store')->name('committees.meetings.attendance.store')->middleware('take.attendance');
+        Route::get('/{committee}/print', 'CommitteeAttendanceController@print')->name('attendance.print');
+
 
         // Committee Multimedia
         Route::get('/{committee}/multimedia', 'CommitteeMultimediaController@index')->name('committee.multimedia');
         Route::get('/export', 'CommitteeMultimediaController@export')->name('committee.multimedia.export');
-        Route::get('/print', 'CommitteeMultimediaController@print')->name('committee.print');
+        // Route::get('/print', 'CommitteeMultimediaController@print')->name('committee.print');
 
         // Comm Documents
         Route::post('upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');

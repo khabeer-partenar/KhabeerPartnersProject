@@ -1,7 +1,6 @@
 @if (isset($delegates))
-
     <div class="portlet light bordered" id="source-html">
-            <form action="{{ route('committee.meetings.multimedia.exportWord') }}" method="POST">
+            <form action="{{ route('committee.meetings.multimedia.export-word', compact('committee')) }}" method="POST">
                     @csrf
         <div class="portlet-body form">
             <div class="form-body">
@@ -57,32 +56,11 @@
             </div>
 
             <div class="actions item-fl item-mb20">
-                <button class="btn item-mt20" type="submit" href="{{ route('committee.meetings.multimedia.exportWord', \Request::all()) }}">{{ __('messages.print') }}</button>
-                <a class="btn item-mt20 word-export" type="button" name="submit" href="" id="btn-export" onclick="exportHTML();">{{ __('messages.export') }}</a>
-                {{-- <button class="btn item-mt20" type="button" href="{{ route('committee.meetings.multimedia.exportWord') }}">{{ __('messages.export') }}</button> --}}
+                <button class="btn item-mt20" type="submit" href="">{{ __('messages.export') }}</button>
             </div>
         </div>
     </form>
 
     </div>
 @endif
-@section('scripts')
-{{-- <script>
-    function exportHTML(){
-       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-            "xmlns='http://www.w3.org/TR/REC-html40'>"+
-            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
-       var footer = "</body></html>";
-       var sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
 
-       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-       var fileDownload = document.createElement("a");
-       document.body.appendChild(fileDownload);
-       fileDownload.href = source;
-       fileDownload.download = 'document.doc';
-       fileDownload.click();
-       document.body.removeChild(fileDownload);
-    }
-</script> --}}
-@endsection

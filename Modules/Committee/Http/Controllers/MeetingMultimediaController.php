@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Response as FacadesResponse;
 use Illuminate\Support\Facades\View;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
-
 class MeetingMultimediaController extends Controller
 {
     /**
@@ -36,14 +35,8 @@ class MeetingMultimediaController extends Controller
         ]);
         return view('committee::meetings.multimedia.index', compact('committee', 'meeting'));
     }
-
     public function exportWord(Committee $committee, Request $request)
     {
-
-
-        // dd($request->all());
-        $committeeDelegates = $committee->delegates->pluck('id')->toArray();
-
         $delegates = $committee->load([
             'delegates' => function ($query) use ($committee, $request) {
                 $query->with([
@@ -56,19 +49,14 @@ class MeetingMultimediaController extends Controller
                 ]);
             }
         ])->delegates->whereIn('id', $request->delegates);
-        // dd($delegates);
-
         $headers = array(
             "Content-type"        => "text/html",
             "Content-Disposition" => "attachment;Filename=report.doc"
         );
-
         $content =  View::make('committee::meetings._partials.word', [
             'delegates' => $delegates,
-            'committeeDelegates' => $committeeDelegates,
             'committee' => $committee
         ])->render();
-
         return FacadesResponse::make($content, 200, $headers);
     }
 }

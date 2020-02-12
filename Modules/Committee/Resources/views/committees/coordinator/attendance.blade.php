@@ -67,6 +67,7 @@
 
             </form>
         </div>
+        
 
         <div class="portlet-body form">
             <div class="form-body">
@@ -76,7 +77,10 @@
                             <thead>
                             <tr style="font-weight:bold">
                                 <th style="width:7%" scope="col">
-                                    <input type="checkbox" id="checkAllDelegates" class="checkInContainer" data-container="#delegatesDiv">
+                                    <input type="checkbox" id="checkAllDelegates" class="checkInContainer" data-container="#delegatesDiv" name="checkAllDelegates[]"
+                                    @if(isset($committee->meetings))
+                                        {{ is_array($committee->meetings) ? (in_array($committee->meetings->id, $committee->meetings) ? 'checked':''):'' }}
+                                    @endif>
                                 </th>
                                 <th scope="col">نوع الإجتماع
                                     <br> تاريخ الإجتماع
@@ -136,8 +140,14 @@
                 </div>
             </div>
 
+            <div class="actions item-fl item-mb20">
+                <a class="btn btn-success" href="{{ route('attendance.print', compact('committee')) }}">طباعة</a>
+            </div>
+
         </div>
+   
     </div>
+
 @endsection
 
 

@@ -30,9 +30,8 @@ class AuthorizedNameController extends UserBaseController
         $types = AuthorizedName::TYPE_TEXT;
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $meeting = Meeting::with('advisor', 'room')->get();
-        $driverReligion = MeetingDriver::with('religiones')->get();
-        return view('committee::authorizedName.authorized_list', compact( 'advisors', 'types', 'meeting',   'driverReligion', 'authorizedNames'));
-
+        $driverReligion = MeetingDriver::with('religion')->get();
+        return view('committee::authorizedName.authorized_list', compact('advisors', 'types', 'meeting',   'driverReligion', 'authorizedNames'));
     }
 
     /**
@@ -41,16 +40,15 @@ class AuthorizedNameController extends UserBaseController
     public function export()
     {
         return Excel::download(new AuthorizedListExport, 'list.xlsx');
-
     }
 
     public function print(Request $request)
     {
-        $lists = AuthorizedName::search($request->all())->get();
-        $pdf = PDF::loadView('committee::authorizedName.print', compact('lists'));
+        $authorizedNames = AuthorizedName::search($request->all())->get();
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
+        $meeting = Meeting::with('advisor', 'room')->get();
+        $driverReligion = MeetingDriver::with('religion')->get();
+        $pdf = PDF::loadView('committee::authorizedName.print', compact('advisors', 'meeting',   'driverReligion', 'authorizedNames'));
         return $pdf->stream('document.pdf');
-
     }
-
-
 }
