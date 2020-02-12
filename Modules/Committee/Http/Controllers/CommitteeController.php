@@ -24,6 +24,7 @@ use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
 use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Committee\Notifications\CommitteeApproved;
+use Modules\Committee\Notifications\NominationDoneNotification;
 use Notification;
 
 
@@ -186,7 +187,8 @@ class CommitteeController extends UserBaseController
         $committee->log('send nomination');
         $committee->checkIfCommitteeDepartmentsHasDelegates();
         if (Delegate::checkIfNominationCompleted($committee->id)) {
-            event(new NominationDoneEvent($committee));
+            $advisor = $committee->advisor; 
+            Notification::send([$advisor,$advisor->secretaries,$committee->delegates], new NominationDoneNotification($committee));
             return response()->json(['status' => true, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
         else
