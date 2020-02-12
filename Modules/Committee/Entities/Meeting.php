@@ -298,7 +298,7 @@ class Meeting extends Model
 
     public function multimedia()
     {
-        return $this->hasMany(MeetingMultimedia::class);
+        return $this->hasMany(Multimedia::class);
     }
 
     public function userMultimedia()

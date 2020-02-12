@@ -9,21 +9,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Traits\SharedModel;
 use Modules\Users\Entities\User;
 
-class MeetingMultimedia extends Model
+class Multimedia extends Model
 {
     use SharedModel;
 
+    protected $table = 'committee_multimedia';
     protected $fillable = ['text', 'meeting_id', 'user_id', 'committee_id'];
 
-    public static function createMultimedia($texts,$meeting,$committee)
+    public static function createMultimedia($texts, $committeeId, $meetingId = null)
     {
         if (isset($texts)) {
             foreach ($texts as $text) {
                 if (!$text == null) {
                     self::query()->create(
                         [
-                            'committee_id' => $committee->id
-                            , 'meeting_id' => $meeting->id
+                            'committee_id' => $committeeId
+                            , 'meeting_id' => $meetingId
                             , 'user_id' => auth()->user()->id
                             , 'text' => $text
                         ]

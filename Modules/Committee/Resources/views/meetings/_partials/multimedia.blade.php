@@ -19,15 +19,12 @@
                             </tr>
                             </thead>
                             <tbody id="multimediaDiv" class="containerUnCheckAll" data-checker="#checkAllMultimedia">
-                            @foreach($committee->delegates as $delegate)
+                            @foreach($meeting->delegates as $delegate)
                                 <tr>
                                     <td>
                                     <input type="checkbox"
                                     name="delegates[]"
-                                    value="{{ $delegate->id }}"
-                                    @if(isset($committeeDelegates))
-                                        {{ is_array($committeeDelegates) ? (in_array($delegate->id, $committeeDelegates) ? 'checked':''):'' }}
-                                    @endif >
+                                    value="{{ $delegate->id }}">
                                     </td>
                                     <td>{{ $delegate->name . ' - ' . $delegate->department->name }}</td>
                                     <td>
@@ -67,22 +64,4 @@
     </div>
 @endif
 @section('scripts')
-{{-- <script>
-    function exportHTML(){
-       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-            "xmlns='http://www.w3.org/TR/REC-html40'>"+
-            "<head><meta charset='utf-8'><title>Export HTML to Word Document with JavaScript</title></head><body>";
-       var footer = "</body></html>";
-       var sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
-
-       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
-       var fileDownload = document.createElement("a");
-       document.body.appendChild(fileDownload);
-       fileDownload.href = source;
-       fileDownload.download = 'document.doc';
-       fileDownload.click();
-       document.body.removeChild(fileDownload);
-    }
-</script> --}}
 @endsection

@@ -466,4 +466,9 @@ class Committee extends Model
     {
         return $this->hasMany(Meeting::class);
     }
+
+    public function multimedia()
+    {
+        return $this->hasMany(Multimedia::class, 'committee_id');
+    }
 }

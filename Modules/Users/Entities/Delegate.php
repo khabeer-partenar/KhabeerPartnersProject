@@ -12,7 +12,7 @@ use Modules\Committee\Entities\CommitteeStatus;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
-use Modules\Committee\Entities\MeetingMultimedia;
+use Modules\Committee\Entities\Multimedia;
 use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
@@ -332,7 +332,7 @@ class Delegate extends User
 
     public function multimedia()
     {
-        return $this->hasMany(MeetingMultimedia::class, 'user_id');
+        return $this->hasMany(Multimedia::class, 'user_id');
     }
 
     public function meetings()

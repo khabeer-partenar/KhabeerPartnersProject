@@ -43,6 +43,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function () {
 
         // Committee Multimedia
         Route::get('/{committee}/multimedia', 'CommitteeMultimediaController@index')->name('committee.multimedia');
+        Route::get('/{committee}/multimedia/create', 'CommitteeMultimediaController@create')->name('committee.multimedia.create');
+        Route::post('/{committee}/multimedia', 'CommitteeMultimediaController@store')->name('committee.multimedia.store');
         Route::get('/export', 'CommitteeMultimediaController@export')->name('committee.multimedia.export');
         Route::get('/print', 'CommitteeMultimediaController@print')->name('committee.print');
 
