@@ -120,4 +120,6 @@ return [
     'attendance_all' => 'الكل',
     'attendance_yes' => 'حاضر',
     'attendance_no' => 'لم يحضر',
+    'export' => 'تصدير',
+    'my_multimedia' => 'المرئيات الخاصة بي علي مستوي اللجنة',
 ];

@@ -21,16 +21,4 @@
             </a>
         @endif
     @endif
-    @if (auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE)
-        @if(auth()->user()->hasPermissionWithAccess('store', 'CommitteeMultimediaController', 'Committee'))
-            <a href="{{ route('committee.multimedia.create', compact('committee')) }}" class="btn btn-success">
-                <i class="fa fa-users"></i>المرئيات
-            </a>
-        @endif
-    @endif
-    @if(auth()->user()->hasPermissionWithAccess('destroy') && $committee->can_take_action)
-        <a data-href="{{ route('committees.destroy', $committee) }}" class="btn btn-sm btn-danger delete-row-reason custom-action-btn">
-            <i class="fa fa-trash"></i> {{ __('committee::committees.delete') }}
-        </a>
-    @endif
 @endif

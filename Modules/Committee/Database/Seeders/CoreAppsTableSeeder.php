@@ -35,6 +35,12 @@ class CoreAppsTableSeeder extends Seeder
         ])->id;
 
         App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@exported', 'name' => 'المعاملات المصدرة',
+            'icon' => 'fa fa-file-o', 'sort' => 2, 'parent_id' => $committeeAppId, 'frontend_path' => 'committees/exported', 'is_main_root' => 0,
+            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@create', 'name' => 'اضافة لجنة جديد',
             'icon' => 'fa fa-file-o', 'sort' => 1, 'parent_id' => $committeesId, 'frontend_path' => 'committees/create', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
@@ -91,6 +97,12 @@ class CoreAppsTableSeeder extends Seeder
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeDocumentController@download', 'name' => 'تحميل ملفات اللجنة',
             'icon' => 'fa fa-file-o','sort' => 11, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:document/documents', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeController@export', 'name' => 'تصدير لجنة',
+            'icon' => 'fa fa-file-o','sort' => 12, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:committee/exported', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 

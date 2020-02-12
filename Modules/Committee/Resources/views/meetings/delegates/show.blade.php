@@ -90,8 +90,10 @@
                 </div>
 
             </div>
+
             <hr>
-             <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
+
+            <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
                 <div class="col-md-4">
                     <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
                 </div>
@@ -299,10 +301,11 @@
                         </div>
 
                     </div>
+
             {{ Form::close() }}
 
+        </div>
 
-    </div>
     @include('committee::meetings.delegates.driver_create_popup',compact('committee'))
 
 @endsection

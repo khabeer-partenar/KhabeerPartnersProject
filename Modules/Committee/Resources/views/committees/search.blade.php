@@ -1,4 +1,4 @@
-    <form class="" method="get" id="search-committees" action="{{ route('committees.index') }}">
+    <form class="" method="get" id="search-committees" action="{{ route(app()->request->route()->getName()) }}">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -18,7 +18,7 @@
                     <label for="status" class="control-label">حالة اللجنة</label>
                     <select name="status" id="status" class="form_control select2">
                         <option value="0">{{ __('committee::committees.choose a status') }}</option>
-                        @foreach($status as $key => $name)
+                        @foreach(\Modules\Committee\Entities\Committee::STATUS as $key => $name)
                             <option value="{{ $key }}" {{ Request::input('status') == $key ? 'selected':'' }}>{{ __('committee::committees.' . $name) }}</option>
                         @endforeach
                     </select>

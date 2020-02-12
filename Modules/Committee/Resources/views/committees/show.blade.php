@@ -18,7 +18,7 @@
                 <div class="col-md-5">
                     <div class="actions item-fl item-mb20">
 
-                        @if(auth()->user()->hasPermissionWithAccess('edit') && $committee->can_take_action)
+                        @if(auth()->user()->hasPermissionWithAccess('edit') && !$committee->exported && $committee->can_take_action)
                             <a href="{{ route('committees.edit', $committee) }}" class="btn btn-sm btn-warning">
                                 <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
                             </a>
@@ -179,7 +179,7 @@
             <br /><br />
 
             {{-- Participant Department --}}
-            <label class="underLine">{{ __('committee::committees.treatment information') }}</label>
+            <label class="underLine">جهات المعاملة</label>
             <table class="table table-striped table-responsive-md">
                 <thead>
                 <tr>
@@ -233,14 +233,31 @@
 
             <br>
             @if(
-            auth()->user()->hasPermissionWithAccess('approve','CommitteeController','Committee')
-            &&
-            ($committee->advisor_id == auth()->id() || auth()->user()->is_super_admin)
-            && !$committee->approved
+                auth()->user()->hasPermissionWithAccess('approve','CommitteeController','Committee')
+                &&
+                ($committee->advisor_id == auth()->id() || auth()->user()->is_super_admin)
+                &&
+                !$committee->approved
             )
                 <a id="btn-approve" style="float: right;background-color: #057d54" class="btn btn-sm btn-info">
                     <i class="fa fa-check"></i> {{ __('committee::committees.approve') }}
                 </a>
+            @endif
+            @if(
+                auth()->user()->hasPermissionWithAccess('export')
+                &&
+                ($committee->advisor_id == auth()->id() || auth()->user()->is_super_admin)
+                &&
+                $committee->approved
+                &&
+                !$committee->exported
+            )
+                <form method="post" action="{{ route('committees.export', compact('committee')) }}">
+                    @csrf
+                    <button id="btn btn-primary" type="submit" style="float: right" class="btn btn-sm btn-info">
+                        <i class="fa fa-check"></i> {{ __('committee::committees.export') }}
+                    </button>
+                </form>
             @endif
         </div>
     </div>

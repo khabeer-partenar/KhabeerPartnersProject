@@ -24,7 +24,7 @@ class MeetingMultimediaController extends Controller
             'delegates' => function ($query) use ($meeting) {
                 $query->with([
                     'multimedia' => function ($query) use ($meeting) {
-                        $query->where('meeting_id', $meeting->id);
+                        $query->where('meeting_id', $meeting->id)->whereNotNull('meeting_id');
                     },
                     'documents' => function ($query) use ($meeting) {
                         $query->where('meeting_id', $meeting->id);

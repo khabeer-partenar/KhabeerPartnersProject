@@ -18,15 +18,12 @@
                             </tr>
                             </thead>
                             <tbody id="multimediaDiv" class="containerUnCheckAll" data-checker="#checkAllMultimedia">
-                            @foreach($committee->delegates as $delegate)
+                            @foreach($meeting->delegates as $delegate)
                                 <tr>
                                     <td>
                                     <input type="checkbox"
                                     name="delegates[]"
-                                    value="{{ $delegate->id }}"
-                                    @if(isset($committeeDelegates))
-                                        {{ is_array($committeeDelegates) ? (in_array($delegate->id, $committeeDelegates) ? 'checked':''):'' }}
-                                    @endif >
+                                    value="{{ $delegate->id }}">
                                     </td>
                                     <td>{{ $delegate->name . ' - ' . $delegate->department->name }}</td>
                                     <td>
@@ -63,4 +60,5 @@
 
     </div>
 @endif
-
+@section('scripts')
+@endsection

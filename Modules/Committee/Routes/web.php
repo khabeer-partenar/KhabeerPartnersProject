@@ -44,6 +44,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function () {
 
         // Committee Multimedia
         Route::get('/{committee}/multimedia', 'CommitteeMultimediaController@index')->name('committee.multimedia');
+        Route::get('/{committee}/multimedia/create', 'CommitteeMultimediaController@create')->name('committee.multimedia.create');
+        Route::post('/{committee}/multimedia', 'CommitteeMultimediaController@store')->name('committee.multimedia.store');
         Route::get('/export', 'CommitteeMultimediaController@export')->name('committee.multimedia.export');
         // Route::get('/print', 'CommitteeMultimediaController@print')->name('committee.print');
 
@@ -65,7 +67,6 @@ Route::group(['middleware' => ['auth', 'see.committee']], function () {
         Route::get('/drivers', 'DelegateDriversController@index')->name('drivers.search_by_name');
         Route::get('/driver', 'DelegateDriversController@show')->name('drivers.get_by_name');
 
-        // Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@getDrivers')->name('committee::meetings.delegates.show');
 
     });
     //AuthorizedName
@@ -74,6 +75,9 @@ Route::group(['middleware' => ['auth', 'see.committee']], function () {
         Route::get('/export', 'AuthorizedNameController@export')->name('committee.export');
         Route::get('/print', 'AuthorizedNameController@print')->name('committee.print');
     });
+
+    Route::get('committees/exported', 'CommitteeController@exported')->name('committees.exported');
+    Route::post('committees/{committee}/exported', 'CommitteeController@export')->name('committees.export');
 
     Route::resource('committees', 'CommitteeController');
 
