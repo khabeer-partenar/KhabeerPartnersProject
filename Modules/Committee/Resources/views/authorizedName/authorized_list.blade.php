@@ -40,7 +40,8 @@
                 </thead>
                 <tbody>
                     @foreach($authorizedNames as $authorized)
-                    @if($authorized->driver_id)
+                        
+                    {{--  @if($authorized->delegate_id)  --}}
                         <tr>
                             <td></td>
                             <td>
@@ -54,7 +55,8 @@
                             <td> {{ $meeting[0]->advisor->name }}</td>
                             <td> {{ $meeting[0]->room->name }}</td>
                         </tr>
-                     @endif
+
+                     {{--  @endif  --}}
                         <tr>
                             <td></td>
                             <td>{{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}</td>

@@ -35,17 +35,18 @@ class MeetingMultimediaController extends Controller
         ]);
         return view('committee::meetings.multimedia.index', compact('committee', 'meeting'));
     }
-    public function exportWord(Committee $committee, Request $request)
+    public function exportWord(Committee $committee, Request $request, Meeting $meeting)
     {
-        $delegates = $committee->load([
-            'delegates' => function ($query) use ($committee, $request) {
+        $delegates = $meeting->load([
+            'delegates' => function ($query) use ($meeting) {
                 $query->with([
-                    'multimedia' => function ($query) use ($committee) {
-                        $query->where('committee_id', $committee->id);
+                    'multimedia' => function ($query) use ($meeting) {
+                        $query->where('meeting_id', $meeting->id)->whereNotNull('meeting_id');
                     },
-                    'documents' => function ($query) use ($committee) {
-                        $query->where('committee_id', $committee->id);
-                    }
+                    'documents' => function ($query) use ($meeting) {
+                        $query->where('meeting_id', $meeting->id);
+                    },
+                    'department'
                 ]);
             }
         ])->delegates->whereIn('id', $request->delegates);
@@ -55,7 +56,8 @@ class MeetingMultimediaController extends Controller
         );
         $content =  View::make('committee::meetings._partials.word', [
             'delegates' => $delegates,
-            'committee' => $committee
+            'committee' => $committee,
+            'meeting' => $meeting
         ])->render();
         return FacadesResponse::make($content, 200, $headers);
     }

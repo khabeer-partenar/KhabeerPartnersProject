@@ -47,7 +47,7 @@ class AuthorizedName extends Model
             'delegate_driver.id as driver_id', 'meetings.from', 
              'delegate_driver.nationality', 'users.national_id as delegate_national_id', 
              'users.name as delegate_name', 
-            'users.job_title');
+            'users.job_title', 'delegate_driver.delegate_id');
             if(isset($filters['authorized_name'])) {
                 $name = $filters['authorized_name'];
                 $query->where('delegate_driver.name',  $name)
@@ -58,6 +58,7 @@ class AuthorizedName extends Model
                 $query->where('delegate_driver.national_id', $national_id )
                 ->orWhere('users.national_id', $national_id);
             }
+            // dd($query);
             
         return $query;
             

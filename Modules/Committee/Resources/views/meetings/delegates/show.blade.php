@@ -121,6 +121,7 @@
                                 </label>
                             </div>
                         </div>
+                    </div>
                 </div>
                 <div class="col-md-9">
                     <div id="driver-form">
@@ -172,9 +173,7 @@
                 @if ($ownerDocuments->count() > 0)
 
                 <hr>
-
                 <label class="underLine">{{ __('committee::delegate_meeting.meeting_attachements') }}</label>
-
                 <div class="row">
                     <div class="col-md-12">
                         <table style="width: 100%" class="table table-bordered mt-10">
@@ -207,7 +206,6 @@
                     </div>
                 </div>
                 @endif
-
                 <hr>
                 <label class="underLine">{{ __('committee::delegate_meeting.my_multimedia') }}</label>
                 <div id="multimedia" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
@@ -217,12 +215,8 @@
                         <hr style="margin-top: 5px;margin-bottom: 5px">
                     @endforeach
                     <a id="btnAddMedia" class="btn btn-success">{{ __('committee::delegate_meeting.add_multimedia') }}</a>
-
-
                 </div>
-
                 <hr>
-
                 <p class="underLine">الملفات</p>
                 <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
                     <div class="col-md-5">

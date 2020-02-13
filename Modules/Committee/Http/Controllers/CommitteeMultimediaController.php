@@ -8,10 +8,8 @@ use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Multimedia;
 use Modules\Users\Entities\Delegate;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\CommitteeMultimediaExport;
-use Modules\Committee\Entities\Meeting;
-use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Response as FacadesResponse;
 
 class CommitteeMultimediaController extends Controller
 {
@@ -63,11 +61,29 @@ class CommitteeMultimediaController extends Controller
         return back();
     }
 
-    /**
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
-    public function export()
+    
+    public function exportWord(Committee $committee, Request $request)
     {
-        return Excel::download(new CommitteeMultimediaExport, 'list.xlsx');
+        $delegates = $committee->load([
+            'delegates' => function ($query) use ($committee, $request) {
+                $query->with([
+                    'multimedia' => function ($query) use ($committee) {
+                        $query->where('committee_id', $committee->id);
+                    },
+                    'documents' => function ($query) use ($committee) {
+                        $query->where('committee_id', $committee->id);
+                    }
+                ]);
+            }
+        ])->delegates->whereIn('id', $request->delegates);
+        $headers = array(
+            "Content-type"        => "text/html",
+            "Content-Disposition" => "attachment;Filename=report.doc"
+        );
+        $content =  View::make('committee::meetings._partials.word', [
+            'delegates' => $delegates,
+            'committee' => $committee
+        ])->render();
+        return FacadesResponse::make($content, 200, $headers);
     }
 }

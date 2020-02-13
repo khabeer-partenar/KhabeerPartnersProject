@@ -1,6 +1,6 @@
 @if (isset($delegates))
     <div class="portlet light bordered" id="source-html">
-            <form action="{{ route('committee.meetings.multimedia.export-word', compact('committee')) }}" method="POST">
+            <form action="{{ route('committee.meetings.multimedia.export-word', compact('committee', 'meeting')) }}" method="POST">
                     @csrf
         <div class="portlet-body form">
             <div class="form-body">

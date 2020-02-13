@@ -15,7 +15,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function () {
         // Meeting Multimedia
         Route::get('{committee}/meetings/{meeting}/multimedia', 'MeetingMultimediaController@index')->name('committee.meetings.multimedia');
 
-        Route::post('{committee}/export-word', 'MeetingMultimediaController@exportWord')->name('committee.meetings.multimedia.export-word');
+        Route::post('{committee}/meetings/{meeting}/export-word', 'MeetingMultimediaController@exportWord')->name('committee.meetings.multimedia.export-word');
 
 
 
@@ -47,7 +47,8 @@ Route::group(['middleware' => ['auth', 'see.committee']], function () {
         Route::get('/{committee}/multimedia/create', 'CommitteeMultimediaController@create')->name('committee.multimedia.create');
         Route::post('/{committee}/multimedia', 'CommitteeMultimediaController@store')->name('committee.multimedia.store');
         Route::get('/export', 'CommitteeMultimediaController@export')->name('committee.multimedia.export');
-        // Route::get('/print', 'CommitteeMultimediaController@print')->name('committee.print');
+        Route::post('{committee}/export-word', 'CommitteeMultimediaController@exportWord')->name('committee.multimedia.export-word');
+
 
         // Comm Documents
         Route::post('upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');

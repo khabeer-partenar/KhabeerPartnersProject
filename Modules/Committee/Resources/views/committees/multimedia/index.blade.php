@@ -23,7 +23,7 @@
         <div class="portlet-body">
 
             <div class="portlet light bordered" id="source-html">
-                <form action="{{ route('committee.meetings.multimedia.exportWord') }}" method="POST">
+                <form action="{{ route('committee.multimedia.export-word', compact('committee')) }}" method="POST">
                     @csrf
                     <div class="portlet-body form">
                         <div class="form-body">
@@ -78,10 +78,7 @@
 
                         <div class="actions item-fl item-mb20">
                             <button class="btn item-mt20" type="submit"
-                                    href="{{ route('committee.meetings.multimedia.exportWord', \Request::all()) }}">{{ __('messages.print') }}</button>
-                            <a class="btn item-mt20 word-export" type="button" name="submit" href="" id="btn-export"
-                               onclick="exportHTML();">{{ __('messages.export') }}</a>
-                            {{-- <button class="btn item-mt20" type="button" href="{{ route('committee.meetings.multimedia.exportWord') }}">{{ __('messages.export') }}</button> --}}
+                                    href="{{ route('committee.multimedia.export-word', compact('committee')) }}">{{ __('messages.print') }}</button>
                         </div>
                     </div>
                 </form>
