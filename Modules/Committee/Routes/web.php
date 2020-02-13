@@ -43,7 +43,7 @@ Route::group(['middleware' => ['auth', 'see.committee']], function() {
 
         // Committee Notification
 
-        Route::get('/{committee}/notification', 'CommitteeNotificationController@index')->name('committee.notification');
+        Route::get('/{committee}/notification', 'CommitteeNotificationController@sendUrgentCommiteeNotification')->name('committee.notification');
 
         // Comm Documents
         Route::post('upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');

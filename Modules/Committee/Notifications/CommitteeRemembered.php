@@ -32,7 +32,7 @@ class CommitteeRemembered extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', MobilyChannel::class];
     }
 
     /**
@@ -44,8 +44,8 @@ class CommitteeRemembered extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(trans('Committee::notifications.remember_urgent_committee_users'))
-            ->markdown('Committee::emails.committee_remembered', ['committee' => $this->committee]);
+            ->subject(__('committee::notifications.urgent_committee_users_remembered'))
+            ->markdown('committee::emails.committee_remembered', ['committee' => $this->committee]);
     }
 
     /**
@@ -65,7 +65,7 @@ class CommitteeRemembered extends Notification implements ShouldQueue
     public function toMobily()
     {
         return [
-            'message' =>__('committee::notifications.remember_urgent_committee_users')
+            'message' =>__('committee::notifications.urgent_committee_users_remembered')
                 . ' ' . $this->committee->subject
         ];
     }

@@ -17,9 +17,8 @@ class CommitteeNotificationController extends Controller
      * @param Committee $committee
      * @return Response
      */
-    public function index(Committee $committee)
+    public function sendUrgentCommiteeNotification(Committee $committee)
     {        
-        dd($committee);
         $toBeNotifiedUsers = $committee->participantAdvisors->merge($committee->delegates)->merge($committee->participantDepartmentsCoordinators());
         if($toBeNotifiedUsers->count())
             Notification::send($committee->delegates,new CommitteeRemembered($committee));

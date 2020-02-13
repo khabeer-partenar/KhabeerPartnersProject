@@ -89,8 +89,7 @@ class Committee extends Model
 
     public function getUrgentCommitteeAttribute()
     {
-        $tomrrow =Carbon::tomorrow('Asia/Riyadh');
-        $days = $tomrrow->diffInDays(Carbon::parse($this->first_meeting_at));
+        $days = Carbon::now()->diffInDays(Carbon::parse($this->first_meeting_at));
         if($days == 1 || $this->treatment_urgency_id == TreatmentUrgency::URGENT)
             return true;
         else
