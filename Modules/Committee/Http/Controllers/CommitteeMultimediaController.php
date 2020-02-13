@@ -2,16 +2,15 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
-use Modules\Committee\Entities\Multimedia;
-use Modules\Users\Entities\Delegate;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Response as FacadesResponse;
+use Modules\Committee\Entities\Multimedia;
+use Illuminate\Support\Facades\View;
 
-class CommitteeMultimediaController extends Controller
+class CommitteeMultimediaController extends UserBaseController
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +20,7 @@ class CommitteeMultimediaController extends Controller
     public function index(Committee $committee)
     {
         $delegates = $committee->load([
-            'delegates' => function ($query) use ($committee) {
+            'delegates' => function ($query) use ($committee){
                 $query->with([
                     'multimedia' => function ($query) use ($committee) {
                         $query->where('committee_id', $committee->id);
@@ -61,7 +60,7 @@ class CommitteeMultimediaController extends Controller
         return back();
     }
 
-    
+
     public function exportWord(Committee $committee, Request $request)
     {
         $delegates = $committee->load([
@@ -80,10 +79,12 @@ class CommitteeMultimediaController extends Controller
             "Content-type"        => "text/html",
             "Content-Disposition" => "attachment;Filename=report.doc"
         );
+
         $content =  View::make('committee::meetings._partials.word', [
             'delegates' => $delegates,
             'committee' => $committee
         ])->render();
+
         return FacadesResponse::make($content, 200, $headers);
     }
 }

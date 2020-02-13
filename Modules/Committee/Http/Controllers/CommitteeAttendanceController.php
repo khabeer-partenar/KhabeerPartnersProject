@@ -16,6 +16,7 @@ use niklasravnsborg\LaravelPdf\Facades\Pdf;
 class CommitteeAttendanceController extends Controller
 {
     /**
+     * This Method Should be seen by Coordinator
      * Show the specified resource.
      * @param Request $request
      * @param Committee $committee

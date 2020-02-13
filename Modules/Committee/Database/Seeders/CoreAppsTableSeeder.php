@@ -37,7 +37,7 @@ class CoreAppsTableSeeder extends Seeder
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@exported', 'name' => 'المعاملات المصدرة',
             'icon' => 'fa fa-file-o', 'sort' => 2, 'parent_id' => $committeeAppId, 'frontend_path' => 'committees/exported', 'is_main_root' => 0,
-            'displayed_in_menu' => 1, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
@@ -73,6 +73,12 @@ class CoreAppsTableSeeder extends Seeder
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@destroy', 'name' => 'حذف اللجنة',
             'icon' => 'fa fa-file-o','sort' => 8, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\CommitteeReportController@show', 'name' => 'تصدير طلب التسمية',
+            'icon' => 'fa fa-file-o','sort' => 8, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id/export', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
@@ -116,11 +122,13 @@ class CoreAppsTableSeeder extends Seeder
             'icon' => 'fa fa-file-o','sort' => 13, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
+
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@getDelegatesWithDetails', 'name' => 'عرض المندوبين فى تفاصيل اللجنة',
             'icon' => 'fa fa-file-o','sort' => 14, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
+
         App::create([
             'resource_name' => $generalResourceName . '\CommitteeController@approve', 'name' => 'اعتماد اللجنة',
             'icon' => 'fa fa-file-o','sort' => 15, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:id', 'is_main_root' => 0,
@@ -210,14 +218,19 @@ class CoreAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
-        App::create([
+        $meetingsOnlyId = App::create([
             'resource_name' => $generalResourceName.'\MeetingController@index', 'name' => 'الإجتماعات',
             'icon' => 'fa fa-files-o', 'sort' => 4, 'parent_id' => 1, 'frontend_path' => 'meetings/', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        App::create([
+            'resource_name' => $generalResourceName.'\MeetingController@calendar', 'name' => 'تقويم الإجتماعات',
+            'icon' => 'fa fa-files-o', 'sort' => 4, 'parent_id' => $meetingsOnlyId, 'frontend_path' => 'meetings/calendar', 'is_main_root' => 1,
+            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
          //Driver Delegate
-
          App::create([
             'resource_name' => $generalResourceName . '\DelegateDriversController@store', 'name' => 'اضافة سائق للمندوب',
             'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => '/driver', 'is_main_root' => 0,
@@ -252,20 +265,44 @@ class CoreAppsTableSeeder extends Seeder
 
         App::create([
             'resource_name' => $generalResourceName.'\AuthorizedNameController@print', 'name' => 'طباعة الأسماء المصرح لهم',
-            'icon' => 'fa fa-files-o', 'sort' => 3, 'parent_id' => $authorized, 'frontend_path' => 'authorized-names/export', 'is_main_root' => 1,
+            'icon' => 'fa fa-files-o', 'sort' => 3, 'parent_id' => $authorized, 'frontend_path' => 'authorized-names/print', 'is_main_root' => 1,
             'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         // Multimedia
-        App::create([
-            'resource_name' => $generalResourceName.'\CommitteeMultimediaController@index', 'name' => 'مرئيات المشاركين علي مستوي اللجنة',
+        $committeeMultimediaId = App::create([
+            'resource_name' => $generalResourceName.'\CommitteeMultimediaController@index', 'name' => 'مرئيات المشاركين',
             'icon' => 'fa fa-files-o', 'sort' => 16, 'parent_id' => $committeesId, 'frontend_path' => 'meetings/:meeting/multimedia', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        App::create([
+            'resource_name' => $generalResourceName.'\CommitteeMultimediaController@create', 'name' => 'إنشاء مرئيات المشاركين بواسطة المندوب',
+            'icon' => 'fa fa-files-o', 'sort' => 16, 'parent_id' => $committeeMultimediaId , 'frontend_path' => 'committees/:committee/multimedia/create', 'is_main_root' => 1,
+            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName.'\MeetingMultimediaController@index', 'name' => 'مرئيات المشاركين علي مستوي الإجتماع',
-            'icon' => 'fa fa-files-o', 'sort' => 12, 'parent_id' => $meetingsId, 'frontend_path' => 'meetings/:meeting/multimedia', 'is_main_root' => 1,
+            'resource_name' => $generalResourceName.'\CommitteeMultimediaController@store', 'name' => 'حفظ مرئيات المشاركين بواسطة المندوب',
+            'icon' => 'fa fa-files-o', 'sort' => 16, 'parent_id' => $committeeMultimediaId , 'frontend_path' => 'committees/:committee/multimedia/store', 'is_main_root' => 1,
+            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName.'\CommitteeMultimediaController@exportWord', 'name' => 'تصدير مرئيات المشاركين',
+            'icon' => 'fa fa-files-o', 'sort' => 16, 'parent_id' => $committeeMultimediaId , 'frontend_path' => 'committees/:committee/export-word', 'is_main_root' => 1,
+            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        $meetingsMultimediaId = App::create([
+            'resource_name' => $generalResourceName.'\MeetingMultimediaController@index', 'name' => 'مرئيات المشاركين',
+            'icon' => 'fa fa-files-o', 'sort' => 12, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting/multimedia', 'is_main_root' => 1,
+            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ])->id;
+
+        App::create([
+            'resource_name' => $generalResourceName.'\MeetingMultimediaController@exportWord', 'name' => 'تصدير مرئيات المشاركين',
+            'icon' => 'fa fa-files-o', 'sort' => 12, 'parent_id' => $meetingsMultimediaId, 'frontend_path' => 'committees/:committee/meetings/:meeting/export-word', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
@@ -279,8 +316,28 @@ class CoreAppsTableSeeder extends Seeder
         App::create([
             'resource_name' => $generalResourceName.'\MeetingAttendanceController@store', 'name' => 'حفظ تأكيد حضور المشاركين',
             'icon' => 'fa fa-files-o', 'sort' => 14, 'parent_id' => $meetingsId, 'frontend_path' => 'meetings/:meeting/multimedia', 'is_main_root' => 1,
+            'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName.'\CommitteeAttendanceController@show', 'name' => 'حالة حضور المندوبين للمنسق',
+            'icon' => 'fa fa-files-o', 'sort' => 15, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:committees/attendance', 'is_main_root' => 1,
             'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
+
+        App::create([
+            'resource_name' => $generalResourceName.'\CommitteeAttendanceController@print', 'name' => 'طباعة حالة حضور المندوبين للمنسق',
+            'icon' => 'fa fa-files-o', 'sort' => 15, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:committees/print', 'is_main_root' => 1,
+            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        // Notification
+        App::create([
+            'resource_name' => $generalResourceName.'\CommitteeNotificationController@sendUrgentCommiteeNotification', 'name' => 'إشعار المشاركين بمعاملة عاجلة',
+            'icon' => 'fa fa-files-o', 'sort' => 15, 'parent_id' => $committeesId, 'frontend_path' => 'committees/:committee/notification', 'is_main_root' => 1,
+            'displayed_in_menu' => 1 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

@@ -2,16 +2,15 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Http\Requests\SaveMeetingAttendance;
 
-class MeetingAttendanceController extends Controller
+class MeetingAttendanceController extends UserBaseController
 {
-
     /**
      * Show the form for creating a new resource.
      * @param Committee $committee

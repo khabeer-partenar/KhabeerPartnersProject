@@ -4,13 +4,15 @@ namespace Modules\Committee\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response as FacadesResponse;
 use Illuminate\Support\Facades\View;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
-class MeetingMultimediaController extends Controller
+
+class MeetingMultimediaController extends UserBaseController
 {
     /**
      * Display a listing of the resource.
@@ -35,6 +37,7 @@ class MeetingMultimediaController extends Controller
         ]);
         return view('committee::meetings.multimedia.index', compact('committee', 'meeting'));
     }
+
     public function exportWord(Committee $committee, Request $request, Meeting $meeting)
     {
         $delegates = $meeting->load([
@@ -50,10 +53,12 @@ class MeetingMultimediaController extends Controller
                 ]);
             }
         ])->delegates->whereIn('id', $request->delegates);
+
         $headers = array(
             "Content-type"        => "text/html",
             "Content-Disposition" => "attachment;Filename=report.doc"
         );
+
         $content =  View::make('committee::meetings._partials.word', [
             'delegates' => $delegates,
             'committee' => $committee,

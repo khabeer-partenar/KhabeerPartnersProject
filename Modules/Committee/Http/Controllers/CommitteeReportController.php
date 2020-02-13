@@ -12,19 +12,9 @@ use Modules\Users\Entities\Delegate;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 class CommitteeReportController extends Controller
 {
-
-    public function exportAllInfo(Committee $committee)
+    public function show(Committee $committee)
     {
-        //$delegates = $committee->getDelegatesWithDetails();
-       // return view('committee::reports.committee_detail_report', compact('committee', 'delegates'));
-
         $pdf = PDF::loadView('committee::reports.committee_detail_report', compact('committee'));
-        //$pdf->mpdf->SetWatermarkText(auth()->user()->name);
-        //$pdf->mpdf->showWatermarkText = true;
-        //$pdf->mpdf->watermark_font = 'XBZar, XBRiyaz - Arabic';
         return $pdf->stream($committee->subject . '.pdf');
-
     }
-
-
 }
