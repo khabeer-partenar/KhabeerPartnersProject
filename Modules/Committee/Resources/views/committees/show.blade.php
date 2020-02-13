@@ -178,55 +178,59 @@
 
             <br /><br />
 
-            {{-- Participant Department --}}
-            <label class="underLine">جهات المعاملة</label>
-            <table class="table table-striped table-responsive-md">
-                <thead>
-                <tr>
-                    <th style="width: 16.666%" scope="col"></th>
-                    <th scope="col">الجهات المشاركة</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($committee->participantDepartments as $department)
+            @if ($committee->participantDepartments->count() > 0)
+                {{-- Participant Department --}}
+                <label class="underLine">جهات المعاملة</label>
+                <table class="table table-striped table-responsive-md">
+                    <thead>
                     <tr>
-                        <td>{{ $loop->index + 1 }}</td>
-                        <td>
-                            {{ $department->name }}
-                        </td>
+                        <th style="width: 16.666%" scope="col"></th>
+                        <th scope="col">الجهات المشاركة</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach($committee->participantDepartments as $department)
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>
+                                {{ $department->name }}
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
 
             <br /><br />
 
-            {{-- Participant Department --}}
-            <label class="underLine">{{ __('committee::committees.files') }}</label>
-            <table class="table table-striped table-responsive-md">
-                <thead>
-                <tr>
-                    <th style="width: 16.666%" scope="col">رقم</th>
-                    <th scope="col">وصف الملف</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($committee->documents as $document)
+            @if ($committee->documents->count() > 0)
+                {{-- Participant Department --}}
+                <label class="underLine">{{ __('committee::committees.files') }}</label>
+                <table class="table table-striped table-responsive-md">
+                    <thead>
                     <tr>
-                        <td>{{ $loop->index + 1 }}</td>
-                        <td>{{ $document->description }}</td>
-                        <td>
-                            <a type="button" class="btn btn-primary"
-                               href="{{ route('committees.document.download', ['document' => $document]) }}"
-                               download>تحميل</a>
-                        </td>
+                        <th style="width: 16.666%" scope="col">رقم</th>
+                        <th scope="col">وصف الملف</th>
+                        <th scope="col"></th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach($committee->documents as $document)
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $document->description }}</td>
+                            <td>
+                                <a type="button" class="btn btn-primary"
+                                   href="{{ route('committees.document.download', ['document' => $document]) }}"
+                                   download>تحميل</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
 
-            <br>
+                <br>
+            @endif
 
             @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])

@@ -34,9 +34,8 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\CommitteeReportController@show',
             // Meeting
             'Modules\Committee\Http\Controllers\CommitteeMeetingController@index',
-            'Modules\Committee\Http\Controllers\CommitteeMeetingController@show',
-            'Modules\Committee\Http\Controllers\MeetingController@index',
             'Modules\Committee\Http\Controllers\MeetingController@calendar',
+            'Modules\Committee\Http\Controllers\MeetingController@index',
         ];
         $coordinatorApps = [
             'Modules\Committee\Http\Controllers\CoordinatorMeetingController@show',
@@ -55,6 +54,7 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\CommitteeDocumentController@delete',
             'Modules\Committee\Http\Controllers\CommitteeNotificationController@sendUrgentCommiteeNotification',
             // Meeting
+            'Modules\Committee\Http\Controllers\CommitteeMeetingController@show',
             'Modules\Committee\Http\Controllers\CommitteeMeetingController@create',
             'Modules\Committee\Http\Controllers\CommitteeMeetingController@store',
             'Modules\Committee\Http\Controllers\CommitteeMeetingController@edit',

@@ -179,6 +179,11 @@ class CoreAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        App::create([
+            'resource_name' => $generalResourceName . '\CoordinatorMeetingController@show', 'name' => 'عرض الإجتماع للمنسق',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting/coordinator', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
 
         App::create([
             'resource_name' => $generalResourceName . '\DelegateMeetingController@update', 'name' => 'حفظ دعوة المندوب علي الإجتماع',
