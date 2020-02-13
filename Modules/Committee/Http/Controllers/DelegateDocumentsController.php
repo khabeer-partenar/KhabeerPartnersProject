@@ -37,16 +37,6 @@ class DelegateDocumentsController extends UserBaseController
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      * @param int $id
      * @return Response

@@ -2,13 +2,12 @@
 
 namespace Modules\Committee\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
 
-class MeetingMultimediaController extends Controller
+class MeetingMultimediaController extends UserBaseController
 {
     /**
      * Display a listing of the resource.

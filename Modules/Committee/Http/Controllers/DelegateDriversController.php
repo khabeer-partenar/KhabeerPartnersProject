@@ -2,8 +2,8 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use Modules\Committee\Entities\Meeting;
-use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\MeetingDriver;
 use Modules\Committee\Entities\Committee;
 use Illuminate\Http\Response;
@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Modules\Committee\Http\Requests\DelegateDriverRequest;
 
 
-class DelegateDriversController extends Controller
+class DelegateDriversController extends UserBaseController
 {
     /**
      * Display a listing of the resource.
@@ -29,7 +29,7 @@ class DelegateDriversController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(DelegateDriverRequest $request)
     {
         $driver = MeetingDriver::createFromRequest($request);
         $driver->load('religion');

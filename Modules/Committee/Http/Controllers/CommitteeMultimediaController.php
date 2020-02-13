@@ -2,15 +2,13 @@
 
 namespace Modules\Committee\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
-use Modules\Users\Entities\Delegate;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\CommitteeMultimediaExport;
-use niklasravnsborg\LaravelPdf\Facades\Pdf;
-class CommitteeMultimediaController extends Controller
+
+class CommitteeMultimediaController extends UserBaseController
 {
     /**
      * Display a listing of the resource.

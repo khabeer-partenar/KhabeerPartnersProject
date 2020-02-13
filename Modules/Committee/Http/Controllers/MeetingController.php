@@ -20,6 +20,11 @@ class MeetingController extends UserBaseController
         return view('committee::meetings.calendar.index');
     }
 
+    /**
+     * Calendar Ajax
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function calendar(Request $request)
     {
         $meetings = Meeting::filterAllByUser()->calendar($request->all())->get();
