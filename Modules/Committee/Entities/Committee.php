@@ -240,6 +240,12 @@ class Committee extends Model
         }
     }
 
+    public function scopeUrgentCommittee($query)
+    {
+        return $query->whereDate('first_meeting_at', Carbon::today()->addDays(2))
+                     ->orWhereDate('first_meeting_at', Carbon::today()->addDays(1));
+    }
+
     /**
      * Functions
      */
@@ -500,6 +506,8 @@ class Committee extends Model
             ->whereNull('committee_delegate.deleted_at')
             ->withTimestamps();
     }
+
+    // create function get committees  have department but not have delegates
 
     public function creator()
     {
