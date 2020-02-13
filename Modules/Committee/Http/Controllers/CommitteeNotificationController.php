@@ -21,7 +21,7 @@ class CommitteeNotificationController extends Controller
     {        
         $toBeNotifiedUsers = $committee->participantAdvisors->merge($committee->delegates)->merge($committee->participantDepartmentsCoordinators());
         if($toBeNotifiedUsers->count())
-            Notification::send($committee->delegates,new CommitteeRemembered($committee));
+            Notification::send($toBeNotifiedUsers,new CommitteeRemembered($committee));
         return response()->json(['status' => 1,'message' => __('committee::notifications.notification_send_done')]);
     }
 }
