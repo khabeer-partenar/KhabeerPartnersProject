@@ -48,17 +48,20 @@
                             <td>{{ $meeting->reason }}</td>
                             <td>{{ $meeting->room->name }}</td>
                             <td>
-                                <a>
-                                    ترشيح مندوب جديد
-                                </a>
+                                    
                             </td>
+                            
                         </tr>
+                            
                         </tbody>
                     </table>
 
                 </div>
 
             </div>
+            <hr>
+
+            @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
 
             <hr>
 

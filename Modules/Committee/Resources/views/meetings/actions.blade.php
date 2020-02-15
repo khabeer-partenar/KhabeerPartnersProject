@@ -9,10 +9,10 @@
         {{--@endif--}}
     @endif
 @elseif (auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
-    @if (auth()->user()->hasPermissionWithAccess('show', 'CoordinatorMeetingController', 'Committee'))
+    {{--  @if (auth()->user()->hasPermissionWithAccess('show', 'CoordinatorMeetingController', 'Committee'))  --}}
         <a href="{{ route('committees.meetings.co.show', compact('committee', 'meeting')) }}"
            class="btn btn-success">التفاصيل</a>
-    @endif
+    {{--  @endif  --}}
 @else
     @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeMeetingController', 'Committee'))
         <a href="{{ route('committee.meetings.show', compact('committee', 'meeting')) }}"
