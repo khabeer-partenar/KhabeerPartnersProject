@@ -90,6 +90,11 @@ class Coordinator extends User
         return $query;
     }
 
+    public static function ParentDepartmentCoordinators($ids)
+    {
+        return self::whereIn('parent_department_id',$ids);
+    }
+
     /**
      * Relations
      *

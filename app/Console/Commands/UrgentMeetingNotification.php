@@ -4,6 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Modules\Committee\Entities\Committee;
+use Modules\Users\Entities\Coordinator;
+use Modules\Committee\Notifications\NominationRememberNotification;
+use Notification;
 use Log;
 class UrgentMeetingNotification extends Command
 {
@@ -19,7 +22,7 @@ class UrgentMeetingNotification extends Command
      *
      * @var string
      */
-    protected $description = 'send notification for urgent committee meetings having 48 hours to start ';
+    protected $description = 'send notification for urgent committee have departments not have nominations ,meetings having 48 hours to start ';
 
     /**
      * Create a new command instance.
@@ -38,9 +41,11 @@ class UrgentMeetingNotification extends Command
      */
     public function handle()
     {
-        $committees= Committee::urgentCommittee()->get();
+        $committees= Committee::urgentCommittee()->waitingDelegates()->get();
         foreach ($committees as $key => $committee) {
-            Log::info($committee->participantDepartments()->delegates);
+            $departmentsId = $committee->DepartmentsNotHaveNominationDelegates();
+            $Coordinators = Coordinator::ParentDepartmentCoordinators($departmentsId)->get();
+            Notification::send($Coordinators, new NominationRememberNotification($committee));
         }
     }
 }

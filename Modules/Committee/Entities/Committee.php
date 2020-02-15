@@ -246,6 +246,11 @@ class Committee extends Model
                      ->orWhereDate('first_meeting_at', Carbon::today()->addDays(1));
     }
 
+    public function scopeWaitingDelegates($query)
+    {
+        return $query->where('status', self::WAITING_DELEGATES);
+    }
+
     /**
      * Functions
      */
@@ -505,6 +510,15 @@ class Committee extends Model
             ->withPivot('nominated_department_id')
             ->whereNull('committee_delegate.deleted_at')
             ->withTimestamps();
+    }
+
+    public function DepartmentsNotHaveNominationDelegates()
+    {
+        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')
+            ->withPivot('nomination_criteria', 'has_nominations')
+            ->where('has_nominations',0)
+            ->pluck('department_id')->toArray();
+        
     }
 
     // create function get committees  have department but not have delegates
