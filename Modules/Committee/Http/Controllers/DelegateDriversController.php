@@ -2,7 +2,7 @@
 
 namespace Modules\Committee\Http\Controllers;
 
-use App\Http\Controllers\UserBaseController;
+use App\Http\Controllers\Controller;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingDriver;
 use Modules\Committee\Entities\Committee;
@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Modules\Committee\Http\Requests\DelegateDriverRequest;
 
 
-class DelegateDriversController extends UserBaseController
+class DelegateDriversController extends Controller
 {
     /**
      * Display a listing of the resource.

@@ -1,18 +1,20 @@
 @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB )
     @if (in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
-{{--        @if (($meeting->delegates[0]->pivot->status == !\Modules\Committee\Entities\MeetingDelegate::REJECTED) ||  ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED) || ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED))--}}
+        @if ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED) 
             <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
                 class="btn btn-success">التفاصيل</a>
+        @else
+             <a href="" class="btn btn-success" disabled>التفاصيل</a>
+        @endif
                 <a href="{{ route('committee.meetings.multimedia', compact('committee', 'meeting')) }}"
                 class="btn btn-success">مرئيات المشاركين
                 </a>
-        {{--@endif--}}
     @endif
 @elseif (auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
-    {{--  @if (auth()->user()->hasPermissionWithAccess('show', 'CoordinatorMeetingController', 'Committee'))  --}}
+    @if (auth()->user()->hasPermissionWithAccess('show', 'CoordinatorMeetingController', 'Committee'))
         <a href="{{ route('committees.meetings.co.show', compact('committee', 'meeting')) }}"
            class="btn btn-success">التفاصيل</a>
-    {{--  @endif  --}}
+    @endif
 @else
     @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeMeetingController', 'Committee'))
         <a href="{{ route('committee.meetings.show', compact('committee', 'meeting')) }}"
