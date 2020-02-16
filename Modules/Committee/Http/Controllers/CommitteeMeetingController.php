@@ -31,6 +31,7 @@ class CommitteeMeetingController extends UserBaseController
             ->with([
                 'type',
                 'attendingDelegates',
+                'absentDelegates',
                 'attendingAdvisors',
                 'room'
             ])

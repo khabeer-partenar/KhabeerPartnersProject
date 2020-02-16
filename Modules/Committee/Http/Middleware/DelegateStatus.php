@@ -19,10 +19,10 @@ class DelegateStatus
     {
         $meeting = $request->meeting;
         $committee = $request->committee;
-        $delegate = $request->delegate;
-        if ($committee && $meeting) {
-            if (auth()->user() && $meeting->delegates[0]->pivot->status == MeetingDelegate::REJECTED) {
-                return redirect()->route('committee.meetings.show', compact('committee', 'meeting'));
+        $delegate = $meeting ? $meeting->currentDelegate->first():null;
+        if ($committee && $meeting && $delegate) {
+            if ($delegate->pivot->status == MeetingDelegate::REJECTED) {
+                abort(403);
             }
         }
         return $next($request);

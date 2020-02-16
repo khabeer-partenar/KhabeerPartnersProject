@@ -57,8 +57,11 @@
                                             <i title="{{ __('committee::meetings.cannot_be_seen') }}"
                                                style="color: #e73d4a"
                                                class="fa fa-2x fa-ban" aria-hidden="true"></i>
-                                        @elseif (($meeting->deleted_at) || ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED))
+                                        @elseif (($meeting->deleted_at))
                                             <i title="{{ __('committee::meetings.cancelled') }}"
+                                               class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
+                                        @elseif ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED)
+                                            <i title="{{ __('committee::meetings.apologised') }}"
                                                class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
                                         @elseif($meeting->toDate > \Carbon\Carbon::now())
                                             <i title="{{ __('committee::meetings.incoming') }}"

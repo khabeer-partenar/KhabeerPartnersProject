@@ -260,6 +260,11 @@ class Meeting extends Model
         return $this->hasMany(MeetingDelegate::class, 'meeting_id')->where('status', MeetingDelegate::REJECTED);
     }
 
+    public function currentDelegate()
+    {
+        return $this->delegates()->where('delegate_id', auth()->id());
+    }
+
     public function type()
     {
         return $this->belongsTo(MeetingType::class);

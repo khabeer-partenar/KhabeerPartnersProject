@@ -29,6 +29,7 @@ return [
     'absence_number' => 'عدد المعتذرين',
     'meeting_title' => 'عنوان الاجتماع',
     'meeting_cancelled' => 'تم إلغاء الإجتماع',
+    'apologised' => 'قمت بالإعتذار عن الحضور',
     'confirm_attendance' => 'تأكيد حضور المشاركين في الإجتماع',
     'attended' => 'تم تأكيد الحضور',
     'absent' => 'لم يحضر',
