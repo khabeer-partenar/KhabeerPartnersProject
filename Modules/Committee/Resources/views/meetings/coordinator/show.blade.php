@@ -47,21 +47,24 @@
                             </td>
                             <td>{{ $meeting->reason }}</td>
                             <td>{{ $meeting->room->name }}</td>
+                            
                             <td>
-                                    
+                                @if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users') && !$committee->exported)
+                                    @foreach($committee->participantDepartments as $department)
+                                        <button data-toggle="modal" value="{{$department->id}}"
+                                            class="btn btn-primary nominateBtn">ترشيح مندوب جديد</button>
+                                    @endforeach
+                                @endif
                             </td>
                             
                         </tr>
-                            
                         </tbody>
                     </table>
-
+                    @include('users::delegates.index_popup',compact('committee'))
+                    @include('users::delegates.create_popup',compact('committee'))
                 </div>
 
             </div>
-            <hr>
-
-            @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
 
             <hr>
 
@@ -114,5 +117,5 @@
 
 
 @section('scripts_2')
-    @include('committee::meetings.delegates.scripts')
+    @include('committee::meetings.coordinator.scripts')
 @endsection
