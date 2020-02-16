@@ -251,6 +251,22 @@
             })
         })
 
+        $('#optionApologize').click(function() {
+            if( $(this).is(':checked')) {
+                $("#drivers_of_delegate").hide();
+            } else {
+                $("#drivers_of_delegate").show();
+            }
+        }); 
+        $('#OptioinAccept').click(function() {
+            if( $(this).is(':checked')) {
+                $("#drivers_of_delegate").show();
+            } else {
+                $("#drivers_of_delegate").hide();
+            }
+        });
+        
+
 
     });
 

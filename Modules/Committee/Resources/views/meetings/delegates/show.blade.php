@@ -93,7 +93,7 @@
 
             <hr>
 
-            <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
+            <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;" id="drivers_of_delegate">
                 <div class="col-md-4">
                     <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
                 </div>
@@ -156,16 +156,7 @@
                             <th scope="col">الديانة</th>
                         </tr>
                     </thead>
-                    <tbody id="drivers" >
-                    @foreach($meeting->delegates[0]->driver  as $driver)
-                        <tr>
-                            <td>{{$driver->name}}</td>
-                            <td>{{$driver->national_id}}</td>
-                            <td>{{$driver->nationality}}</td>
-                            <td>{{$driver->religion->name}}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
+                    <tbody id="drivers" ></tbody>
                 </table>
             </div>
 
@@ -341,6 +332,8 @@
             $('#drivers').removeClass('hidden');
 
             }
+
         }
+       
     </script>
 @endsection
