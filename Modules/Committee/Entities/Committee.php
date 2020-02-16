@@ -516,9 +516,7 @@ class Committee extends Model
     {
         return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')
             ->withPivot('nomination_criteria', 'has_nominations')
-            ->where('has_nominations',0)
-            ->pluck('department_id')->toArray();
-        
+            ->where('has_nominations',0);
     }
 
     // create function get committees  have department but not have delegates

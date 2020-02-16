@@ -15,7 +15,7 @@ class UrgentMeetingNotification extends Command
      *
      * @var string
      */
-    protected $signature = 'notification:cron';
+    protected $signature = 'urgent_meeting_soon:cron';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class UrgentMeetingNotification extends Command
     {
         $committees= Committee::urgentCommittee()->waitingDelegates()->get();
         foreach ($committees as $key => $committee) {
-            $departmentsId = $committee->DepartmentsNotHaveNominationDelegates();
+            $departmentsId = $committee->DepartmentsNotHaveNominationDelegates()->pluck('department_id')->toArray();
             $Coordinators = Coordinator::ParentDepartmentCoordinators($departmentsId)->get();
             Notification::send($Coordinators, new NominationRememberNotification($committee));
         }
