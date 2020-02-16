@@ -58,7 +58,6 @@
                                             <input type="radio" id="OptioinAccept"
                                                    value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
                                                    name="status"
-                                                   {{ $meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' checked ':'' }}
                                                    autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
                                         </label>
                                     </div>
@@ -66,7 +65,6 @@
                                         <label class="btn btn-primary">
                                             <input type="radio" id="optionApologize"
                                                    value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
-                                                   {{ $meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED?' checked ':'' }}
                                                    name="status"/> {{__('committee::delegate_meeting.apologize')}}
                                         </label>
                                     </div>
@@ -111,13 +109,12 @@
                         <div class="form-group">
                             <div class="btn-group">
                                 <label class="btn btn-primary">
-                                    <input type="radio" id="optionNo" value="0"
-                                           {{ $meeting->delegates[0]->pivot->has_driver == 0 ? ' checked ':'' }} onclick="javascript:noCheck();" name="has_driver" checked/> لا
+                                    <input type="radio" id="optionNo" value="0" onclick="javascript:noCheck();" name="has_driver" checked/> لا
                                 </label>
                             </div>
                             <div class="btn-group">
                                 <label class="btn btn-primary">
-                                    <input type="radio" id="OptioinYes" value="1" {{ $meeting->delegates[0]->pivot->has_driver == 1 ? ' checked ':'' }} name="has_driver" onclick="javascript:yesCheck();" autofocus="true"/> نعم
+                                    <input type="radio" id="OptioinYes" value="1"  name="has_driver" onclick="javascript:yesCheck();" autofocus="true"/> نعم
                                 </label>
                             </div>
                         </div>
@@ -237,7 +234,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <button type="button" data-order="{{ $meeting->delegates[0]->documents->count() }}" class="btn btn-primary" id="saveDelegateFiles"
+                        <button type="button" data-order="{{ $meeting->delegates->first()->documents->count() }}" class="btn btn-primary" id="saveDelegateFiles"
                                 data-url="{{ route('committee.meeting-document.store-delegate', compact('committee', 'meeting')) }}">إضافة</button>
                     </div>
 
@@ -254,21 +251,25 @@
                             </tr>
                             </thead>
                             <tbody id="filesOfDelegate">
-                            @foreach($meeting->delegates[0]->documents  as $document)
-                                <tr id="file-{{ $document->id }}">
-                                    <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $document->description ? $document->description:''}}</td>
-                                    <td>
-                                        <a href="{{ $document->full_path }}">{{ $document->name }}</a>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger file-remove-delegate"
-                                                data-remove-url="{{ route('committee.meeting-document.delete-delegate', compact('committee', 'document')) }}"
-                                                data-remove-row="#file-{{ $meeting->id }}">
-                                            حذف
-                                        </button>
-                                    </td>
-                                </tr>
+                                    
+                            @foreach($meeting->delegates  as $delegate)
+                                 @foreach($delegate->documents  as $document)
+                            
+                                    <tr id="file-{{ $document->id }}">
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $document->description ? $document->description:''}}</td>
+                                        <td>
+                                            <a href="{{ $document->full_path }}">{{ $document->name }}</a>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger file-remove-delegate"
+                                                    data-remove-url="{{ route('committee.meeting-document.delete-delegate', compact('committee', 'document')) }}"
+                                                    data-remove-row="#file-{{ $meeting->id }}">
+                                                حذف
+                                            </button>
+                                        </td>
+                                    </tr>
+                                 @endforeach
                             @endforeach
                             </tbody>
                         </table>
