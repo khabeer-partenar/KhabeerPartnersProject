@@ -154,7 +154,7 @@ class CoreGroupsTableSeeder extends Seeder
 
         // Delegate
         $delegate = Group::where('key', Delegate::JOB)->first();
-        foreach($basicIds as $appId){
+        foreach($basicApps as $appId){
             $delegate->permissions()->create([
                 'app_id' => $appId
             ]);
