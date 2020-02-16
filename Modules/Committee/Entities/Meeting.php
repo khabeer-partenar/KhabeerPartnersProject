@@ -102,6 +102,18 @@ class Meeting extends Model
         }
         return $query;
     }
+
+    public function scopeSoonMeeting($query)
+    {
+        return $query->whereDate('from', Carbon::today()->addDays(2))
+                     ->orWhereDate('from', Carbon::today()->addDays(1));
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('completed', 1);
+    }
+    
     /**
      * Accs & Mut
      */

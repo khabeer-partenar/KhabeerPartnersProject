@@ -8,20 +8,22 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class MeetingDoneWithoutNomination extends Notification implements ShouldQueue
+class MeetingComeSoon extends Notification implements ShouldQueue
 {
     use Queueable;
 
     private $committee;
+    private $meeting;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($committee)
+    public function __construct($committee,$meeting)
     {
         $this->committee = $committee;
+        $this->meeting = $meeting;
     }
 
     /**
@@ -44,8 +46,8 @@ class MeetingDoneWithoutNomination extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('committee::notifications.nomination_remember'))
-            ->markdown('committee::emails.meeting_done_without_nomination', ['committee' => $this->committee]);
+            ->subject(__('committee::notifications.meeting_come_soon_remember'))
+            ->markdown('committee::emails.meeting_come_soon_remember', ['committee' => $this->committee,'meeting' => $this->meeting]);
     }
 
     /**

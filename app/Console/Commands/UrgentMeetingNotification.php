@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Modules\Committee\Entities\Committee;
 use Modules\Users\Entities\Coordinator;
 use Modules\Committee\Notifications\NominationRememberNotification;
+use Modules\Committee\Notifications\MeetingComeSoon;
+use Modules\Committee\Entities\Meeting;
 use Notification;
 use Log;
 class UrgentMeetingNotification extends Command
@@ -43,9 +45,18 @@ class UrgentMeetingNotification extends Command
     {
         $committees= Committee::urgentCommittee()->waitingDelegates()->get();
         foreach ($committees as $key => $committee) {
+
             $departmentsId = $committee->DepartmentsNotHaveNominationDelegates()->pluck('department_id')->toArray();
             $Coordinators = Coordinator::ParentDepartmentCoordinators($departmentsId)->get();
             Notification::send($Coordinators, new NominationRememberNotification($committee));
+
         }
+
+        $meetings = Meeting::soonMeeting()->completed()->get();
+        foreach ($meetings as $key => $meeting) {
+            Notification::send($meeting->committee->delegates, new MeetingComeSoon($meeting->committee,$meeting));
+
+        }
+
     }
 }
