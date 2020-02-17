@@ -297,7 +297,7 @@
                     $meetingAt = old('first_meeting_at');
                 }
             @endphp
-            <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form_control datetime-picker" autocomplete="off">
+            <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form_control datetime-picker" autocomplete="off" {{ isset($committee) ? 'disabled':'' }}>
             @include('layouts.dashboard.form-error', ['key' => 'first_meeting_at'])
         </div>
     </div>

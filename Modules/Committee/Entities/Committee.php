@@ -279,7 +279,7 @@ class Committee extends Model
 
     public function updateFromRequest($request)
     {
-        $this->update($request->all());
+        $this->update($request->except('first_meeting_at'));
         $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $this->participantDepartments()->sync($request->departments);
         $this->update(['members_count' => $this->participantAdvisors()->count()]);
@@ -359,6 +359,13 @@ class Committee extends Model
     public function setView()
     {
         return $this->view == null ? $this->views()->create(['user_id' => auth()->id()]):null;
+    }
+
+    public function updateFirstMeetingAt()
+    {
+        $nearestMeeting = $this->meetings()->orderBy('from', 'asc')->first();
+        $formatted = Carbon::parse($nearestMeeting->from_date)->format('d/m/Y H:i');
+        return $this->update(['first_meeting_at' => $formatted]);
     }
 
     /**
