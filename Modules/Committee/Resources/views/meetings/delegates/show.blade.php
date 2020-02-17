@@ -122,19 +122,16 @@
                 </div>
                 <div class="col-md-9">
                     <div id="driver-form">
-                        <div id="div_main_driver_of_delegate"
-                                class="form-group col-md-8 {{ $errors->has('driver_id') ? ' has-error' : '' }}">
-                            <form id="addDriversForm">
-                                <div class="col-md-4">
-                                    <label for="driver_of_delegate" class="control-label">
-                                        اسم السائق
-                                        <span style="color: red">*</span>
-                                    </label>
-                                </div>
-                                <div class="col-md-8">
-                                    {!! Form::select('driver_id', [], [0 => __('messages.choose_option')], ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
-                                </div>
-                            </form>
+                        <div id="div_main_driver_of_delegate" class="form-group col-md-8 {{ $errors->has('driver_id') ? ' has-error' : '' }}">
+                            <div class="col-md-4">
+                                <label for="driver_of_delegate" class="control-label">
+                                    اسم السائق
+                                    <span style="color: red">*</span>
+                                </label>
+                            </div>
+                            <div class="col-md-8">
+                                {!! Form::select('driver_id', [], [0 => __('messages.choose_option')], ['id' => 'driver_id', 'class' => 'form_control select2-ajax-search', 'driver-url' => route('drivers.search_by_name')]) !!}
+                            </div>
                         </div>
                         <div class="actions item-fl col-md-4 item-mb20">
                             <button type="button" class="btn btn-primary" id="getDelegateDrivers"
@@ -182,10 +179,8 @@
                                         <a class="btn btn-info"
                                         href="{{ $document->full_path }}">{{ __('committee::delegate_meeting.show') }}</a>
 
-                                        <form style="display: inline" method="get" action="{{$document->name}}">
-                                            <a class="btn btn-info" download="{{$document->name}}"
-                                            href="{{ $document->full_path }}">{{ __('committee::delegate_meeting.download') }}</a>
-                                        </form>
+                                        <a class="btn btn-info" download="{{$document->name}}"
+                                        href="{{ $document->full_path }}">{{ __('committee::delegate_meeting.download') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -300,7 +295,7 @@
 @section('scripts_2')
     @include('committee::meetings.delegates.scripts')
     <script>
-        window.onload = function() {
+        window.ready = function() {
             document.getElementById('driver-form').style.display = 'none';
             document.getElementById('driver-add').style.display = 'none';
         }
