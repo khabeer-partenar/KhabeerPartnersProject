@@ -12,6 +12,7 @@ use Modules\Committee\Entities\Multimedia;
 use Modules\Committee\Http\Requests\UpdateDelegateMeetingRequest;
 use Modules\Users\Traits\SessionFlash;
 use Illuminate\Http\Response;
+use Modules\Committee\Entities\MeetingDriver;
 
 class DelegateMeetingController extends UserBaseController
 {
@@ -41,7 +42,7 @@ class DelegateMeetingController extends UserBaseController
             }
         ]);
 
-        $nationalities = Nationality::Nationalities;
+        $nationalities = Nationality::all();
         $religions = Religion::all();
 
         return view('committee::meetings.delegates.show', compact('meeting', 'nationalities', 'committee', 'religions'));

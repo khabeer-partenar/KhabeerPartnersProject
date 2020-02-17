@@ -5,6 +5,7 @@ use Modules\Committee\Entities\Religion;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\SharedModel;
 use Modules\Committee\Entities\MeetingDelegate;
+use Modules\Committee\Entities\Nationality;
 
 
 class MeetingDriver extends Model
@@ -43,8 +44,8 @@ class MeetingDriver extends Model
             'name' => $request->name,
             'delegate_id' => auth()->id(),
             'national_id' => $request->national_id,
-            'nationality' => $request->nationality,
-            'religion_id' => $request->input('religion_id'),
+            'nationality_id' => $request->nationality_id,
+            'religion_id' => $request->religion_id,
         ]);
         return $driver;
         
@@ -55,7 +56,10 @@ class MeetingDriver extends Model
         return $this->belongsTo(Religion::class, 'religion_id');
     }
 
-
+    public function nationality()
+    {
+        return $this->belongsTo(Nationality::class, 'nationality_id');
+    }
 
 
     public function meetingDelegate()
