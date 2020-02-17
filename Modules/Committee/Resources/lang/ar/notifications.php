@@ -7,6 +7,7 @@ return [
     'meeting_come_soon_remember' => 'تذكير بميعاد الاجتماع',
     'new_meeting_added' => 'تم انشاء اجتماع جديد للجنة',
     'meeting_details' => 'تفاصيل الاجتماع',
+    'meeting_cancelled' => 'الغاء اجتماع للجنة'
 
 
 

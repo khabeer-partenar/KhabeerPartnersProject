@@ -13,6 +13,7 @@ use Modules\Committee\Http\Requests\SaveMeetingRequest;
 use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Users\Traits\SessionFlash;
 use Modules\Committee\Notifications\MeetingCreated;
+use Modules\Committee\Notifications\MeetingCancelled;
 use Notification;
 
 class CommitteeMeetingController extends UserBaseController
@@ -151,6 +152,9 @@ class CommitteeMeetingController extends UserBaseController
     public function destroy(Committee $committee, Meeting $meeting)
     {
         $meeting->log('meeting_cancel_for_committee : ' . $committee->id);
+        $toBeNotifiedUsers = $meeting->participantAdvisors->merge($meeting->delegates);
+        if($toBeNotifiedUsers->count())
+            Notification::send($toBeNotifiedUsers, new MeetingCancelled($meeting->committee,$meeting));   
         $meeting->delete();
         self::sessionSuccess('committee::meetings.meeting_cancelled');
         return response()->json([], 200);
