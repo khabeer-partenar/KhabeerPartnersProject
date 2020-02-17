@@ -12,6 +12,8 @@ use Modules\Committee\Entities\MeetingType;
 use Modules\Committee\Http\Requests\SaveMeetingRequest;
 use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Users\Traits\SessionFlash;
+use Modules\Committee\Notifications\MeetingCreated;
+use Notification;
 
 class CommitteeMeetingController extends UserBaseController
 {
@@ -68,6 +70,9 @@ class CommitteeMeetingController extends UserBaseController
     {
         $meeting = Meeting::createFromRequest($request, $committee);
         $meeting->log('create_new_meeting_for_committee : ' . $committee->id);
+        $toBeNotifiedUsers = $meeting->participantAdvisors->merge($meeting->committee->participantDepartmentsUsersUnique());
+        if($toBeNotifiedUsers->count())
+            Notification::send($toBeNotifiedUsers, new MeetingCreated($meeting->committee,$meeting));   
         self::sessionSuccess('committee::meetings.created successfully');
         return redirect()->route('committee.meetings', compact('committee'));
     }
