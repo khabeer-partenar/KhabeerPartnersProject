@@ -47,7 +47,7 @@ class AuthorizedName extends Model
             'delegate_driver.id as driver_id', 'meetings.from', 
              'delegate_driver.nationality', 'users.national_id as delegate_national_id', 
              'users.name as delegate_name', 
-            'users.job_title', 'delegate_driver.delegate_id');
+            'users.user_type', 'delegate_driver.delegate_id');
             if(isset($filters['authorized_name'])) {
                 $name = $filters['authorized_name'];
                 $query->where('delegate_driver.name',  $name)
