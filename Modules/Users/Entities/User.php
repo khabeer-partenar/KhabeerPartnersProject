@@ -60,14 +60,6 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-
-        static::created(function ($userData) {
-
-            // Send notification mail after 5 minutes when user created
-            $when = now()->addMinutes(1);
-            $userData->notify((new NotifyNewUser($userData))->delay($when));
-
-        });
     }
 
     /**
