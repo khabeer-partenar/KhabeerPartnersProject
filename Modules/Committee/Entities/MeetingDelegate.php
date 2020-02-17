@@ -12,7 +12,7 @@ class MeetingDelegate extends Model
     use SharedModel;
 
     protected $table = 'meetings_delegates';
-    protected $fillable = ['status', 'attended', 'attendance_taker_id'];
+    protected $fillable = ['status', 'attended', 'attendance_taker_id', 'driver_id', 'has_driver', 'refuse_reason'];
 
     const INVITED = 0;
     const ACCEPTED = 1;
@@ -27,6 +27,17 @@ class MeetingDelegate extends Model
         1 => 'yes'
     ];
 
+    // Accs & Mutators
+    public function setRefuseReasonAttribute($value)
+    {
+        $this->attributes['refuse_reason'] = $this->attributes['status'] == self::ACCEPTED ? null:$value;
+    }
+
+    public function setDriverIdAttribute($value)
+    {
+        $this->attributes['driver_id'] = $this->attributes['has_driver'] == 0 ? null:$value;
+    }
+
     // Functions
     public static function prepareForSync($delegatesIds = [])
     {
@@ -40,18 +51,8 @@ class MeetingDelegate extends Model
         return $prepared;
     }
 
-    public static function updateStatusAndReason($status, $refuse_reason, $meeting, $has_diver, $driver_id)
+    public function driver()
     {
-        if ($status == MeetingDelegate::ACCEPTED) $refuse_reason = null;
-
-        self::where('meeting_id', $meeting->id)
-            ->where('delegate_id', auth()->id())
-            
-            ->update(array('status' => $status, 'refuse_reason' => $refuse_reason, 'has_driver' => $has_diver, 'driver_id' => $driver_id));
-    }
-
-    public function drivers()
-    {
-        $this->hasMany(MeetingDriver::class);
+        return $this->belongsTo(MeetingDriver::class, 'driver_id', 'id')->with('religion');
     }
 }

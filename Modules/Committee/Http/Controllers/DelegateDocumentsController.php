@@ -28,7 +28,8 @@ class DelegateDocumentsController extends UserBaseController
             'user_id' => auth()->id(),
             'size' => $file->getSize(),
             'description' => $request->description,
-            'committee_id' => $committee->id
+            'committee_id' => $committee->id,
+            'meeting_id' => $meeting->id
         ]);
         return response()->json([
             'delegateDocument' => $delegateDocument,
@@ -38,12 +39,16 @@ class DelegateDocumentsController extends UserBaseController
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param Committee $committee
+     * @param MeetingDocument $document
      * @return Response
+     * @internal param int $id
      */
     public function destroy(Committee $committee, MeetingDocument $document)
     {
-        // TODO Check on Document
+        if ($document->user_id != auth()->id()) {
+            abort(403);
+        }
         Storage::delete($document->path);
         $document->delete();
         return response()->json(['msg' => 'deleted'], 200);

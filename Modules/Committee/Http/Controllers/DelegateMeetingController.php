@@ -12,7 +12,6 @@ use Modules\Committee\Entities\Multimedia;
 use Modules\Committee\Http\Requests\UpdateDelegateMeetingRequest;
 use Modules\Users\Traits\SessionFlash;
 use Illuminate\Http\Response;
-use Modules\Committee\Entities\MeetingDriver;
 
 class DelegateMeetingController extends UserBaseController
 {
@@ -59,9 +58,9 @@ class DelegateMeetingController extends UserBaseController
      */
     public function update(UpdateDelegateMeetingRequest $request, Committee $committee, Meeting $meeting)
     {
-        MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting, $request->has_driver, $request->driver_id);
+        $meeting->updateStatusAndReason($request);
         Multimedia::createMultimedia($request->text, $committee->id, $meeting->id);
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));
-        return redirect()->back();
+        return redirect()->route('committee.meetings', compact('committee'));
     }
 }

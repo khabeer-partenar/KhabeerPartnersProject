@@ -16,7 +16,8 @@ class UpdateDelegateMeetingRequest extends FormRequest
     public function rules()
     {
         return [
-            'status'=>['integer','required',Rule::in(array(MeetingDelegate::INVITED,MeetingDelegate::REJECTED,MeetingDelegate::ACCEPTED))],
+            'status'=>['integer','nullable',Rule::in(array(MeetingDelegate::INVITED,MeetingDelegate::REJECTED,MeetingDelegate::ACCEPTED))],
+            'driver_id' => ['required_if:has_driver,1'],
             'refuse_reason' => ['required_if:status,'.MeetingDelegate::REJECTED,'max:191'],
             'text.*'=>'max:191',
         ];
