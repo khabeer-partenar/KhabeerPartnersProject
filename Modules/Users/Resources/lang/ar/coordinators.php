@@ -18,5 +18,6 @@ return [
     'delete' => 'حذف',
     'show' => 'تفاصيل',
     'information' => 'تفصايل المنسق',
-    'error happened' => 'حدث خطأ'
+    'error happened' => 'حدث خطأ',
+    'coordinator_added_to_system' => 'تم اضافتك منسق لنظام خبير'
 ];
