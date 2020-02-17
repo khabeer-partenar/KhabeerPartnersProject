@@ -236,6 +236,14 @@ class Meeting extends Model
         $this->update(['attendance_done' => 1]);
     }
 
+    public function updateStatusAndReason($request)
+    {
+        $meetingDelegate = $this->delegatesPivot()->where('delegate_id', auth()->id())->first();
+
+        $meetingDelegate->update($request->only('status', 'refuse_reason', 'has_driver', 'driver_id'));
+
+        return $meetingDelegate;
+    }
     /**
      * Relations
      */
@@ -248,6 +256,11 @@ class Meeting extends Model
     public function delegatesPivot()
     {
         return $this->hasMany(MeetingDelegate::class, 'meeting_id');
+    }
+
+    public function delegatePivot()
+    {
+        return $this->delegatesPivot()->where('delegate_id', auth()->id())->first();
     }
 
     public function attendingDelegates()

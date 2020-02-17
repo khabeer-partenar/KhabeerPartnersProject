@@ -32,6 +32,7 @@
                 <div class="alert alert-danger">{{ __('messages.error_message') }}</div>
             @endif
 
+            @php $delegate = $meeting->delegates[0]; @endphp
             <div class="row">
                 <div class="col-md-12">
                     <table style="width: 100%" class="table table-bordered mt-10">
@@ -41,8 +42,12 @@
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_date') }}</th>
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_subject') }}</th>
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_location') }}</th>
-                            <th scope="col">{{ __('committee::delegate_meeting.meeting_action') }}</th>
-
+                            @if ($delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED)
+                                <th scope="col">{{ __('committee::delegate_meeting.meeting_action') }}</th>
+                            @else
+                                <th scope="col">حالة الدعوة</th>
+                                <th scope="col">سبب الإعتذار</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -51,36 +56,41 @@
                             <td>{{ $meeting->meeting_at. ' ' . $meeting->from  . ' ' . $meeting->to }}</td>
                             <td>{{ $meeting->reason }}</td>
                             <td>{{ $meeting->room->name }}</td>
-                            <td>
-                                <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
-                                    <div class="btn-group">
-                                        <label class="btn btn-primary">
-                                            <input type="radio" id="OptioinAccept"
-                                                   value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
-                                                   name="status"
-                                                   autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
-                                        </label>
+                            @if ($delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED)
+                                <td>
+                                    <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
+                                        <div class="btn-group">
+                                            <label class="btn btn-primary">
+                                                <input type="radio" id="OptioinAccept"
+                                                       value="{{ \Modules\Committee\Entities\MeetingDelegate::ACCEPTED }}"
+                                                       name="status"
+                                                       autofocus="true"/> {{__('committee::delegate_meeting.accept')}}
+                                            </label>
+                                        </div>
+                                        <div class="btn-group">
+                                            <label class="btn btn-primary">
+                                                <input type="radio" id="optionApologize"
+                                                       value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
+                                                       name="status"/> {{__('committee::delegate_meeting.apologize')}}
+                                            </label>
+                                        </div>
+                                        {{
+                                            Form::text('refuse_reason', $delegate->pivot->refuse_reason, array(
+                                            'maxlength' => 191,
+                                            $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' disabled ':'',
+                                            'id'=>'refuse_reason','placeholder' =>  __('committee::delegate_meeting.refuse_reason'),
+                                            'class' => 'form-control'))
+                                        }}
+                                        @include('layouts.dashboard.form-error', ['key' => 'status'])
+                                        @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
                                     </div>
-                                    <div class="btn-group">
-                                        <label class="btn btn-primary">
-                                            <input type="radio" id="optionApologize"
-                                                   value="{{ \Modules\Committee\Entities\MeetingDelegate::REJECTED }}"
-                                                   name="status"/> {{__('committee::delegate_meeting.apologize')}}
-                                        </label>
-                                    </div>
-                                    {{
-                                        Form::text('refuse_reason', $meeting->delegates[0]->pivot->refuse_reason, array(
-                                        'maxlength' => 191,
-                                        $meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::ACCEPTED ? ' disabled ':'',
-                                        'id'=>'refuse_reason','placeholder' =>  __('committee::delegate_meeting.refuse_reason'),
-                                        'class' => 'form-control'))
-                                    }}
-                                    @include('layouts.dashboard.form-error', ['key' => 'status'])
-                                    @include('layouts.dashboard.form-error', ['key' => 'refuse_reason'])
-
-                                </div>
-                            </td>
-
+                                </td>
+                            @else
+                                <td>{{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}</td>
+                                <td>
+                                    {{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}
+                                </td>
+                            @endif
                         </tr>
                         </tbody>
                     </table>
@@ -90,6 +100,10 @@
             </div>
 
             <hr>
+
+            @php
+                $driver = $meeting->delegatePivot() ? $meeting->delegatePivot()->driver:null;
+            @endphp
 
             <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;" id="drivers_of_delegate">
                 <div class="col-md-4">
@@ -109,12 +123,12 @@
                         <div class="form-group">
                             <div class="btn-group">
                                 <label class="btn btn-primary">
-                                    <input type="radio" id="optionNo" value="0" onclick="javascript:noCheck();" name="has_driver" checked/> لا
+                                    <input type="radio" id="optionNo" value="0" onclick="javascript:noCheck();" name="has_driver" {{ $driver ? '':'checked' }}/> لا
                                 </label>
                             </div>
                             <div class="btn-group">
                                 <label class="btn btn-primary">
-                                    <input type="radio" id="OptioinYes" value="1"  name="has_driver" onclick="javascript:yesCheck();" autofocus="true"/> نعم
+                                    <input type="radio" id="OptioinYes" value="1" {{ $driver ? 'checked':'' }}  name="has_driver" onclick="javascript:yesCheck();" autofocus="true"/> نعم
                                 </label>
                             </div>
                         </div>
@@ -140,7 +154,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" id="driverid" name="driver_id">
+                <input type="hidden" id="driverid" name="driver_id" value="{{ $driver ? $driver->id:null }}">
                 <table style="width: 100%" class="table table-bordered mt-10">
                     <thead>
                         <tr>
@@ -150,7 +164,16 @@
                             <th scope="col">الديانة</th>
                         </tr>
                     </thead>
-                    <tbody id="drivers" ></tbody>
+                    <tbody id="drivers">
+                        @if($driver)
+                            <tr>
+                                <td>{{ $driver->name }}</td>
+                                <td>{{ $driver->national_id }}</td>
+                                <td>{{ $driver->nationality }}</td>
+                                <td>{{ $driver->religion->name }}</td>
+                            </tr>
+                        @endif
+                    </tbody>
                 </table>
             </div>
 
@@ -192,7 +215,7 @@
                 <hr>
                 <label class="underLine">{{ __('committee::delegate_meeting.my_multimedia') }}</label>
                 <div id="multimedia" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
-                    @foreach($meeting->delegates[0]->multimedia as $multimedia)
+                    @foreach($delegate->multimedia as $multimedia)
                         {{ Form::textarea(null, $multimedia->text, ['id' => 'text'.$multimedia->id, 'rows' => 2, 'cols' => 54,'style'=>'width:100%']) }}
                         <label> {{__('committee::delegate_meeting.multimedia_date') . ' : ' . $multimedia->updated_at}}</label>
                         <hr style="margin-top: 5px;margin-bottom: 5px">
@@ -229,7 +252,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <button type="button" data-order="{{ $meeting->delegates->first()->documents->count() }}" class="btn btn-primary" id="saveDelegateFiles"
+                        <button type="button" data-order="{{ $delegate->documents->count() }}" class="btn btn-primary" id="saveDelegateFiles"
                                 data-url="{{ route('committee.meeting-document.store-delegate', compact('committee', 'meeting')) }}">إضافة</button>
                     </div>
 
@@ -246,26 +269,23 @@
                             </tr>
                             </thead>
                             <tbody id="filesOfDelegate">
-                                    
-                            @foreach($meeting->delegates  as $delegate)
-                                 @foreach($delegate->documents  as $document)
-                            
-                                    <tr id="file-{{ $document->id }}">
-                                        <td>{{ $loop->index + 1 }}</td>
-                                        <td>{{ $document->description ? $document->description:''}}</td>
-                                        <td>
-                                            <a href="{{ $document->full_path }}">{{ $document->name }}</a>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger file-remove-delegate"
-                                                    data-remove-url="{{ route('committee.meeting-document.delete-delegate', compact('committee', 'document')) }}"
-                                                    data-remove-row="#file-{{ $meeting->id }}">
-                                                حذف
-                                            </button>
-                                        </td>
-                                    </tr>
-                                 @endforeach
-                            @endforeach
+                             @foreach($delegate->documents  as $document)
+
+                                <tr id="file-{{ $document->id }}">
+                                    <td>{{ $loop->index + 1 }}</td>
+                                    <td>{{ $document->description ? $document->description:''}}</td>
+                                    <td>
+                                        <a href="{{ $document->full_path }}">{{ $document->name }}</a>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger file-remove-delegate"
+                                                data-remove-url="{{ route('committee.meeting-document.delete-delegate', compact('committee', 'document')) }}"
+                                                data-remove-row="#file-{{ $meeting->id }}">
+                                            حذف
+                                        </button>
+                                    </td>
+                                </tr>
+                             @endforeach
                             </tbody>
                         </table>
                     </div>

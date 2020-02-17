@@ -5,6 +5,7 @@ namespace Modules\Committee\Http\Controllers;
 use App\Http\Controllers\UserBaseController;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingDelegate;
+use Modules\Committee\Entities\MeetingDriver;
 use Modules\Committee\Entities\Nationality;
 use Modules\Committee\Entities\Religion;
 use Modules\Committee\Entities\Committee;
@@ -58,7 +59,7 @@ class DelegateMeetingController extends UserBaseController
      */
     public function update(UpdateDelegateMeetingRequest $request, Committee $committee, Meeting $meeting)
     {
-        MeetingDelegate::updateStatusAndReason($request->status, $request->refuse_reason, $meeting, $request->has_driver, $request->driver_id);
+        $meeting->updateStatusAndReason($request);
         Multimedia::createMultimedia($request->text, $committee->id, $meeting->id);
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));
         return redirect()->route('committee.meetings', compact('committee'));
