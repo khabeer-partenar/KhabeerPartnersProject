@@ -4,6 +4,7 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Modules\Committee\Http\Middleware\CanSeeCommittee;
+use Modules\Committee\Http\Middleware\CanSeeMeeting;
 use Modules\Committee\Http\Middleware\TakeAttendance;
 use Modules\Committee\Http\Middleware\DelegateStatus;
 
@@ -67,7 +68,8 @@ class Kernel extends HttpKernel
         'coordinator.can' => \Modules\Users\Http\Middleware\CheckCoordinatorAuthority::class,
         'see.committee' => CanSeeCommittee::class,
         'take.attendance' => TakeAttendance::class,
-        'delegate.status' => DelegateStatus::class
+        'delegate.status' => DelegateStatus::class,
+        'see.meeting' => CanSeeMeeting::class
         
     ];
 

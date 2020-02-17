@@ -39,8 +39,13 @@
                             <th>نوع الإجتماع</th>
                             <th>موضوع الإجتماع</th>
                             <th>تاريخ و وقت الإجتماع</th>
-                            <th>مكان الإجتماع</th>
-                            <th>عدد المجتمعين</th>
+                            @if (
+                                auth()->user()->user_type != \Modules\Users\Entities\Coordinator::TYPE &&
+                                auth()->user()->user_type != \Modules\Users\Entities\Delegate::TYPE
+                            )
+                                <th>مكان الإجتماع</th>
+                                <th>عدد المجتمعين</th>
+                            @endif
                             <th>خيارات</th>
                         </tr>
                     </thead>
@@ -52,16 +57,12 @@
                                         @if (!$meeting->completed)
                                             <i title="{{ __('committee::meetings.not_completed') }}"
                                                class="fa fa-2x fa-question-circle-o" style="color: #d6a329;" aria-hidden="true"></i>
-                                        @elseif (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB &&
-                                        !in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
-                                            <i title="{{ __('committee::meetings.cannot_be_seen') }}"
-                                               style="color: #e73d4a"
-                                               class="fa fa-2x fa-ban" aria-hidden="true"></i>
+                                        @elseif (auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE &&
+                                        in_array(auth()->id(), $meeting->absentDelegates->pluck('delegate_id')->toArray()))
+                                            <i title="{{ __('committee::meetings.apologised') }}"
+                                               class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
                                         @elseif (($meeting->deleted_at))
                                             <i title="{{ __('committee::meetings.cancelled') }}"
-                                               class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
-                                        @elseif ($meeting->delegates[0]->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED)
-                                            <i title="{{ __('committee::meetings.apologised') }}"
                                                class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
                                         @elseif($meeting->toDate > \Carbon\Carbon::now())
                                             <i title="{{ __('committee::meetings.incoming') }}"
@@ -79,8 +80,14 @@
                                     {{ $meeting->meeting_at }} <br>
                                     {{ $meeting->from . ' - ' . $meeting->to }}
                                 </td>
-                                <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
-                                <td>{{ count($meeting->attendingDelegates) + count($meeting->attendingAdvisors) }}</td>
+                                @if (
+                                        auth()->user()->user_type != \Modules\Users\Entities\Coordinator::TYPE &&
+                                        auth()->user()->user_type != \Modules\Users\Entities\Delegate::TYPE
+                                )
+                                    <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
+                                    <td>{{ count($meeting->attendingDelegates) + count($meeting->attendingAdvisors) }}</td>
+                                @endif
+
                                 <td>
                                     @include('committee::meetings.actions')
                                 </td>
