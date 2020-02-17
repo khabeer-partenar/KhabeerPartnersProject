@@ -8,6 +8,8 @@ use Modules\Committee\Entities\Committee;
 use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Committee\Notifications\CommitteeCreated;
 use Modules\Committee\Notifications\SubmitLabelRequests;
+use Modules\Committee\Notifications\MeetingCompleteDataRemember;
+use Notification;
 
 class CommitteeCreatedListener
 {
@@ -29,5 +31,9 @@ class CommitteeCreatedListener
         foreach ($event->committee->participantDepartmentsUsersUnique() as $user) {
             $user->notify(new SubmitLabelRequests($event->committee));
         }
+
+        $toBeNotifiedUsers = $event->committee->advisor->secretaries;
+        Notification::send($toBeNotifiedUsers, new MeetingCompleteDataRemember($event->committee,$event->committee->meetings()->first()));
+
     }
 }
