@@ -382,7 +382,7 @@
         <div class="form-group {{ $errors->has('participant_advisors') ? ' has-error' : '' }}">
             {!! Form::label('participant_advisors',  __('committee::committees.participant_advisors'), ['class' => 'control-label']) !!}
 
-            <select name="participant_advisors[]" data-placeholder="{{ __('committee::committees.please choose') }}"
+            <select name="participant_advisors[]" id="participant_advisors" data-placeholder="{{ __('committee::committees.please choose') }}"
                     id="participant_advisors" class="form_control select2" multiple>
                 @php
                     $participantIds = isset($committee) ? $committee->participantAdvisors()->pluck('users.id')->toArray():[];

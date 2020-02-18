@@ -13,6 +13,19 @@
             $(formGroup).removeClass('has-error');
         });
 
+        $('#advisor_id').change(function () {
+            let advisorId = $(this).val();
+            $('select#participant_advisors option').each(function() {
+                let optionVal = $(this).val();
+                if (advisorId == optionVal) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                }
+            });
+            $('#participant_advisors').select2();
+        });
+
         // Departments
         $('#addDepartmentToParticipants').click(function () {
             let departmentsBody = $('#departmentsTableBody');
