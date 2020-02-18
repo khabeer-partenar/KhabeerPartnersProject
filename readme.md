@@ -19,3 +19,4 @@ Setting Commands:
 
 Cron Jobs:
 - Queue Command (Always will be running) : php artisan queue:work
+ 
