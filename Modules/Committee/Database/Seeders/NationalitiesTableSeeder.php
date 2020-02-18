@@ -19,7 +19,8 @@ class NationalitiesTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        DB::table(Nationality::table());
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table(Nationality::table())->truncate();
 
         $Nationalities = [
             
@@ -1256,6 +1257,6 @@ class NationalitiesTableSeeder extends Seeder
         ];
 
         Nationality::insert($Nationalities);
-           
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

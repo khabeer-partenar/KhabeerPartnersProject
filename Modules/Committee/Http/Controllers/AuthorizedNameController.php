@@ -30,9 +30,7 @@ class AuthorizedNameController extends UserBaseController
         $types = AuthorizedName::TYPE_TEXT;
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $meeting = Meeting::with('advisor', 'room')->get();
-        $driverReligion = MeetingDriver::with('religion')->get();
-        // dd($authorizedNames);
-        return view('committee::authorizedName.authorized_list', compact('advisors', 'types', 'meeting',   'driverReligion', 'authorizedNames'));
+        return view('committee::authorizedName.authorized_list', compact('advisors', 'types', 'meeting', 'authorizedNames'));
     }
 
     /**
