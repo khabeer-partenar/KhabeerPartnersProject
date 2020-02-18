@@ -3,9 +3,11 @@
 namespace Modules\Committee\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Traits\SharedModel;
 
 class Nationality extends Model
 {
+    use SharedModel;
     /**
      * The table associated with the model.
      *

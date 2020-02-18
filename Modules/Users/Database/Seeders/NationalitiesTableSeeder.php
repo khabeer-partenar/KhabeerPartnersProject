@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Modules\Committee\Database\Seeders;
+namespace Modules\Users\Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;

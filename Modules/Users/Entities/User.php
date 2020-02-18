@@ -224,7 +224,6 @@ class User extends Authenticatable
 
     public function getAuthorizedAppsAttribute()
     {
-
         if (auth()->user()->is_super_admin) {
             $apps = App::parentsFormMenu() ->with('menuChildrenRecursive')->get();
         }

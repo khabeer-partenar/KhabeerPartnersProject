@@ -9,10 +9,6 @@
 namespace App\Providers;
 
 use Illuminate\Auth\EloquentUserProvider as UserProvider;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use App\Classes\Date\CarbonHijri;
-use Carbon\Carbon;
-use Modules\Core\Entities\App;
 
 class CustomUserServiceProvider extends UserProvider
 {
