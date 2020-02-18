@@ -194,9 +194,11 @@ class Committee extends Model
             $query->whereIn('advisor_id', $advisorsId);
         } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
             // Advisors Should see Committees he owns or where he is a participant
-            $owns = auth()->user()->ownedCommittees()->pluck('committees.id')->toArray();
             $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
-            $query->whereIn('id', array_merge($owns, $participantIn));
+            $query->whereIn('id', $participantIn)
+                ->orWhere(function ($query) {
+                    $query->where('advisor_id', auth()->id());
+                });
         } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
             $departmentsId = auth()->user()->coordinatorAuthorizedIds();
             $committeeIds = CommitteeDepartment::whereIn('department_id', $departmentsId)->pluck('committee_id');

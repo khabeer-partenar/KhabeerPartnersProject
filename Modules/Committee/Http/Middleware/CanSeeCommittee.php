@@ -31,9 +31,8 @@ class CanSeeCommittee
             }
         } else if (auth()->user() && auth()->user()->authorizedApps->key == Employee::ADVISOR) {
             if ($committee) {
-                $owns = auth()->user()->ownedCommittees()->pluck('committees.id')->toArray();
                 $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
-                if (!in_array($committee->id, array_merge($owns, $participantIn))) {
+                if (!in_array($committee->id, $participantIn) && $committee->advisor_id == auth()->id()) {
                     abort(403);
                 }
             }
