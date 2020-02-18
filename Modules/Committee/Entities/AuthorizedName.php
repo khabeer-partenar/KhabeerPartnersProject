@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Modules\Users\Entities\User;
@@ -33,7 +34,6 @@ class AuthorizedName extends Model
         self::TYPE['driver'] => 'سائق',
     ];
 
-
     public function scopeSearch($query, $filters)
     {
         $query = DB::table('meetings_delegates')
@@ -44,12 +44,14 @@ class AuthorizedName extends Model
             ->join('nationalities as delegate_nationality', 'delegate_nationality.id', '=', 'users.nationality_id')
             ->join('religions', 'religions.id', '=', 'delegate_driver.religion_id')
             ->select('delegate_driver.name as driver_name', 'delegate_driver.national_id as driver_national_id',
-            'religions.name as type', 'delegate_nationality.name as delegate_nationality_name',
+            'religions.name as type', 'delegate_nationality.name as delegate_nationality_name', 'meetings_delegates.updated_at',
             'meetings_delegates.has_driver',
             'delegate_driver.id as driver_id', 'meetings.from', 
             'driver_nationality.name as driver_nationality_name', 'users.national_id as delegate_national_id',
             'users.name as delegate_name',
-            'users.nationality_id', 'delegate_driver.delegate_id');
+            'users.nationality_id', 'delegate_driver.delegate_id')->whereDate('meetings_delegates.updated_at', Carbon::today());
+
+            // $query->today();
 
             if(isset($filters['authorized_name'])) {
                 $name = $filters['authorized_name'];
@@ -85,4 +87,6 @@ class AuthorizedName extends Model
     {
         return $this->belongsTo(Nationality::class, 'nationality_id');
     }
+
+
 }
