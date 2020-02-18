@@ -16,7 +16,7 @@
     <div class="t_menu">
         
         <ul id="menu">
-            @foreach(auth()->user()->authorized_apps as $app)
+            @foreach(auth()->user()->user_authorized_apps as $app)
                 <li>
                     <a href="{{ count($app->menuChildrenRecursive) == 0 ? url($app->frontend_path):'javascript:;' }}">{{ $app->name }}</a>
                     @if(count($app->menuChildrenRecursive) > 0)

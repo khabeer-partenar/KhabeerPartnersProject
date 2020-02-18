@@ -222,7 +222,7 @@ class User extends Authenticatable
      * Here goes all attribute
      */
 
-    public function getAuthorizedAppsAttribute()
+    public function getUserAuthorizedAppsAttribute()
     {
         if (auth()->user()->is_super_admin) {
             $apps = App::parentsFormMenu() ->with('menuChildrenRecursive')->get();
