@@ -212,5 +212,4 @@ $(document).ready(function() {
             $('.top_menu').removeClass('fixed');
         }
     });
-
 });

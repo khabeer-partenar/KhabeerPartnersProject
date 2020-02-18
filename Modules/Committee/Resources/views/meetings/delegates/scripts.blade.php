@@ -197,6 +197,7 @@
                     };
                 },
             },
+            width: '100%',
             minimumInputLength: 3,
         });
 

@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function () {
         $('.select2').select2({
+            width: '100%',
             placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder') : ''
         });
 
@@ -11,6 +12,19 @@
             $(helpBlockDiv).remove();
             var formGroup = $(this).closest('.form-group');
             $(formGroup).removeClass('has-error');
+        });
+
+        $('#advisor_id').change(function () {
+            let advisorId = $(this).val();
+            $('select#participant_advisors option').each(function() {
+                let optionVal = $(this).val();
+                if (advisorId == optionVal) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                }
+            });
+            $('#participant_advisors').select2({width: '100%'});
         });
 
         // Departments
@@ -33,7 +47,7 @@
                 `;
                 $(departmentsBody).append(trow);
                 $(selectedOption).prop('disabled', true);
-                //$('.select2').select2();
+                $('.select2').select2({width: '100%'});
             }
         });
 
@@ -43,7 +57,7 @@
             const option = $('#departments').find('option[value="' + departmentId + '"]')[0];
             $(row).remove();
             $(option).prop('disabled', false);
-            $('.select2').select2();
+            $('.select2').select2({width: '100%'});
         });
 
         // Files
