@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function () {
         $('.select2').select2({
+            width: '100%',
             placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder') : ''
         });
 
@@ -23,7 +24,7 @@
                     $(this).prop('disabled', false);
                 }
             });
-            $('#participant_advisors').select2();
+            $('#participant_advisors').select2({width: '100%'});
         });
 
         // Departments
@@ -46,7 +47,7 @@
                 `;
                 $(departmentsBody).append(trow);
                 $(selectedOption).prop('disabled', true);
-                //$('.select2').select2();
+                $('.select2').select2({width: '100%'});
             }
         });
 
@@ -56,7 +57,7 @@
             const option = $('#departments').find('option[value="' + departmentId + '"]')[0];
             $(row).remove();
             $(option).prop('disabled', false);
-            $('.select2').select2();
+            $('.select2').select2({width: '100%'});
         });
 
         // Files

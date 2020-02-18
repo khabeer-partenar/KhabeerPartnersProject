@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function () {
         $('.select2').select2({
+            width: '100%',
             placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder') : ''
         });
 
