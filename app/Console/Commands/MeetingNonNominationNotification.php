@@ -42,8 +42,8 @@ class MeetingNonNominationNotification extends Command
      */
     public function handle()
     {
-        $meetings = Meeting::where('from', '>=', Carbon::today('asia/riyadh'))
-                            ->where('to', '<=',  Carbon::now('asia/riyadh'))->with('committee')->get();
+        $meetings = Meeting::where('from', '>=', Carbon::today())
+                            ->where('to', '<=',  Carbon::now())->with('committee')->get();
         foreach ($meetings as $key => $meeting) {
             $departments = $meeting->committee->DepartmentsNotHaveNominationDelegates();
             $department_reference_ids = $departments->pluck('reference_id','department_id')->toArray();

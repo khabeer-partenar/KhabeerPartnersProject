@@ -11,3 +11,5 @@ To install this project do the following steps:
 - php artisan db:seed
 - php artisan module:seed Core
 - php artisan module:seed Users
+- for run cron job in server put this command on cron file
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1

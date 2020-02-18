@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('meeting_not_have_nominations:cron')->daily();
-        $schedule->command('urgent_meeting_soon:cron')->daily();
+        $schedule->command('meeting_not_have_nominations:cron')->dailyAt('22:00');
+        $schedule->command('urgent_meeting_soon:cron')->dailyAt('23:00');
     }
 
     /**
