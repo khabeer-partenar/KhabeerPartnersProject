@@ -198,8 +198,7 @@ class Committee extends Model
             $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
             $query->whereIn('id', array_merge($owns, $participantIn));
         } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
-            $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
-            $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
+            $departmentsId = auth()->user()->coordinatorAuthorizedIds();
             $committeeIds = CommitteeDepartment::whereIn('department_id', $departmentsId)->pluck('committee_id');
             $query->whereIn('id', $committeeIds);
         } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
