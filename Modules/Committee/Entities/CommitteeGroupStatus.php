@@ -11,7 +11,7 @@ class CommitteeGroupStatus extends Model
 {
     protected $table ='committee_group_status';
 
-    public function status()
+    public function committeeStatus()
     {
         return  $this->hasOne(Status::class,'id','status');
     }

@@ -1,5 +1,5 @@
 @if ($committee)
-    <div class="row"  style="display: flex;text-align: center;margin: auto">
+    <div class="row" style="display: flex;text-align: center;margin: auto">
         @if ($committee->created_at->format('Y-m-d') == Carbon\Carbon::today()->format('Y-m-d'))
             <i title="{{__('committee::committees.icon_new_title')}}" class="fa fa-lg fa-file"
                style="color:green;margin-left: 3px;"></i>
@@ -17,13 +17,13 @@
             <i title="{{__('committee::committees.icon_read_title')}}" class="fa fa-lg fa-envelope-open-o"
                style="margin-left: 3px;"></i>
         @else
-                <i title="{{__('committee::committees.icon_un_read_title')}}" class="fa fa-lg fa-envelope-o"
-                   style="margin-left: 3px;"></i>
+            <i title="{{__('committee::committees.icon_un_read_title')}}" class="fa fa-lg fa-envelope-o"
+               style="margin-left: 3px;"></i>
         @endif
-            @if (auth()->user()->user_type == 'user' && $committee->approved)
-                <i title="{{__('committee::committees.icon_approved_title')}}" class="fa fa-lg fa-check"
-                   style="color:green"></i>
-            @endif
+        @if (auth()->user()->user_type == 'user' && $committee->approved)
+            <i title="{{__('committee::committees.icon_approved_title')}}" class="fa fa-lg fa-check"
+               style="color:green"></i>
+        @endif
     </div>
 @endif
 
