@@ -26,7 +26,7 @@ class AuthorizedNameController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $authorizedNames = AuthorizedName::search($request->all())->paginate(2);
+        $authorizedNames = AuthorizedName::search($request->all())->paginate(5);
         $types = AuthorizedName::TYPE_TEXT;
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
         $meeting = Meeting::with('advisor', 'room')->get();
