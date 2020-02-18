@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Modules\Users\Entities\User;
 use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Committee\Entities\Religion;
-use Modules\Users\Entities\Delegate;
 
 class AuthorizedName extends Model
 {
@@ -39,15 +38,18 @@ class AuthorizedName extends Model
     {
         $query = DB::table('meetings_delegates')
             ->join('delegate_driver', 'meetings_delegates.driver_id', '=', 'delegate_driver.id')
+            ->Join('nationalities as driver_nationality', 'driver_nationality.id', '=', 'delegate_driver.nationality_id')
             ->join('meetings', 'meetings.id', '=', 'meetings_delegates.meeting_id')
             ->join('users', 'users.id', '=', 'meetings_delegates.delegate_id')            
+            ->join('nationalities as delegate_nationality', 'delegate_nationality.id', '=', 'users.nationality_id')
             ->join('religions', 'religions.id', '=', 'delegate_driver.religion_id')
             ->select('delegate_driver.name as driver_name', 'delegate_driver.national_id as 
-            driver_national_id', 'religions.name as type',           
+            driver_national_id', 'religions.name as type', 'delegate_nationality.name as delegate_nationality_name',     
             'delegate_driver.id as driver_id', 'meetings.from', 
-             'delegate_driver.nationality', 'users.national_id as delegate_national_id', 
-             'users.name as delegate_name', 
-            'users.job_title', 'delegate_driver.delegate_id');
+            'driver_nationality.name as driver_nationality_name', 'users.national_id as delegate_national_id', 
+            'users.name as delegate_name', 
+            'users.nationality_id', 'delegate_driver.delegate_id');
+            
             if(isset($filters['authorized_name'])) {
                 $name = $filters['authorized_name'];
                 $query->where('delegate_driver.name',  $name)
@@ -58,7 +60,6 @@ class AuthorizedName extends Model
                 $query->where('delegate_driver.national_id', $national_id )
                 ->orWhere('users.national_id', $national_id);
             }
-            // dd($query);
             
         return $query;
             
@@ -77,5 +78,10 @@ class AuthorizedName extends Model
     public function religion()
     {
         return $this->belongsTo(Religion::class);
+    }
+
+    public function nationality()
+    {
+        return $this->belongsTo(Nationality::class, 'nationality_id');
     }
 }
