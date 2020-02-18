@@ -5,6 +5,7 @@ To install this project do the following steps:
 
 Setting Commands:
 -
+- git clone https://github.com/khabeer-partenar/KhabeerPartnersProject.git
 - cp .env.example .env
 - composer install
 - php artisan key:gen
