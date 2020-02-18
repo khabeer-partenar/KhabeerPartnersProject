@@ -221,7 +221,7 @@ class Meeting extends Model
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
         if ($this->can_change_members) {
-            $delegates = MeetingDelegate::prepareForSync($request->delegates);
+            $delegates = MeetingDelegate::prepareForSync($request->delegates,$this->delegates, $this);
             $this->delegates()->sync($delegates);
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }

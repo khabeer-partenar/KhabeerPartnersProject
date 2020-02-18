@@ -9,6 +9,9 @@ return [
     'meeting_details' => 'تفاصيل الاجتماع',
     'meeting_cancelled' => 'الغاء اجتماع للجنة',
     'meeting_complete_data_remember' => ' بيانات الاجتماع غير مكتملة للجنة',
+    'meeting_delegates_invitation' => 'تم دعوتك لحضور اجتماع',
+    'meeting_delegates_removed' => 'تم اعفاءك من اجتماع لجنة'
+
 
 
 

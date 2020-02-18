@@ -14,6 +14,7 @@ use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Users\Traits\SessionFlash;
 use Modules\Committee\Notifications\MeetingCreated;
 use Modules\Committee\Notifications\MeetingCancelled;
+use Modules\Committee\Notifications\MeetingParticpatingUpdated;
 use Notification;
 
 class CommitteeMeetingController extends UserBaseController
