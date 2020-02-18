@@ -4,7 +4,6 @@
     <div class="portlet light bordered">
 
         <div class="portlet-title">
-
             <div class="row">
                 
                 <div class="col-md-9">
@@ -13,10 +12,7 @@
                         <span class="caption-subject sbold">{{ __('committee::committees.authorizedNames') }}</span>
                     </div>
                 </div>
-
-
             </div>
-
         </div>
 
         <div class="portlet-body">
@@ -42,9 +38,7 @@
                     @foreach($authorizedNames as $authorized)
                         <tr>
                             <td></td>
-                            <td>
-                                {{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}<br>
-                            </td>
+                            <td>{{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}<br></td>
                             <td> مندوب</td>
                             <td>{{ $authorized->delegate_name }}</td>
                             <td>{{ $authorized->delegate_national_id }}</td>
