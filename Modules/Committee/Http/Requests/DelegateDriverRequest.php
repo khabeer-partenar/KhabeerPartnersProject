@@ -17,7 +17,7 @@ class DelegateDriverRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:255', new FullName],
-            'national_id' => ['required', new NationalIDRule, 'unique:delegate_driver,national_id'],
+            'national_id' => 'required|numeric|digits:10|unique:delegate_driver,national_id',
             'nationality_id' => 'required',
             'religion_id' => 'required'
         ];
