@@ -17,6 +17,6 @@ return [
     'edit' => 'تعديل',
     'delete' => 'حذف',
     'show' => 'تفاصيل',
-    'information' => 'تفصايل المنسق',
+    'information' => 'تفاصيل المنسق',
     'error happened' => 'حدث خطأ'
 ];
