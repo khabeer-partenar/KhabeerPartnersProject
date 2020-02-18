@@ -16,7 +16,7 @@ Setting Commands:
 - php artisan storage:link
 - npm install
 - npm run prod
-
+ 
 Cron Jobs:
 - Queue Command (Always will be running) : php artisan queue:work
  
