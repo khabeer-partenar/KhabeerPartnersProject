@@ -5,7 +5,6 @@ namespace Modules\Committee\Http\Controllers;
 use App\Http\Controllers\UserBaseController;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingDelegate;
-use Modules\Committee\Entities\MeetingDriver;
 use Modules\Committee\Entities\Nationality;
 use Modules\Committee\Entities\Religion;
 use Modules\Committee\Entities\Committee;
@@ -42,7 +41,7 @@ class DelegateMeetingController extends UserBaseController
             }
         ]);
 
-        $nationalities = Nationality::Nationalities;
+        $nationalities = Nationality::all();
         $religions = Religion::all();
 
         return view('committee::meetings.delegates.show', compact('meeting', 'nationalities', 'committee', 'religions'));

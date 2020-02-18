@@ -93,13 +93,15 @@
                 success: function (response) {
                     const driver = response.driver;
                     const religion = response.religion;
+                    const nationality = response.nationality;
                     $('#addDelegateModal').modal('hide')
                     let trow = `
                     <tr>
                         <td>${driver.name }</td>
                         <td>${driver.national_id }</td>
-                        <td>${driver.nationality }</td>
+                        <td>${driver.nationality.name }</td>
                         <td>${driver.religion.name }</td>
+                        
                     </tr>
                     `;
                     $('#driverid').val(driver.id);
@@ -213,9 +215,9 @@
                     let trow = '';
                         trow = `
                             <tr>
-                                <td>${driver.name}</td>
-                                <td>${driver.national_id}</td>
-                                <td>${driver.nationality}</td>
+                                <td>${driver.name }</td>
+                                <td>${driver.national_id }</td>
+                                <td>${driver.nationality.name }</td>
                                 <td>${driver.religion.name }</td>
                             </tr>
                     `;

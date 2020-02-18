@@ -52,17 +52,17 @@
                                 الجنسية
                                 <span style="color: red">*</span>
                             </label>
-                            <select name="nationality" id="room_id" class="form_control">
+                            <select name="nationality_id" id="room_id" class="form_control">
                                 <option value="">اختر جنسية السائق</option>
                                 @foreach($nationalities as  $nationality)
-                                <option value="{{ $nationality }}">
-                                        {{ $nationality }}
+                                <option value="{{ $nationality->id }}">
+                                        {{ $nationality->name }}
                                 </option>
                                 @endforeach
                             </select>
 
-                            @if ($errors->has('nationality'))
-                                <span class="help-block"><strong>{{ $errors->first('nationality') }}</strong></span>
+                            @if ($errors->has('nationality_id'))
+                                <span class="help-block"><strong>{{ $errors->first('nationality_id') }}</strong></span>
                             @endif
                         </div>
                         

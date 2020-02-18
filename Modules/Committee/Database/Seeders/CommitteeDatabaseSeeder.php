@@ -21,5 +21,6 @@ class CommitteeDatabaseSeeder extends Seeder
         $this->call(TreatmentUrgencyTableSeederTableSeeder::class);
         $this->call(TreatmentImportanceTableSeederTableSeeder::class);
         $this->call(MeetingTypesTableSeeder::class);
+        $this->call(NationalitiesTableSeeder::class);
     }
 }

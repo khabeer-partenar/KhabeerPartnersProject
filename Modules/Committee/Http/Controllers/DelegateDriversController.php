@@ -33,6 +33,7 @@ class DelegateDriversController extends Controller
     {
         $driver = MeetingDriver::createFromRequest($request);
         $driver->load('religion');
+        $driver->load('nationality');
 
         return response()->json([
             'driver' => $driver,
@@ -46,7 +47,7 @@ class DelegateDriversController extends Controller
      */
     public function show(Request $request, Committee $committee, Meeting $meeting)
     {
-        $driver = MeetingDriver::with('religion')->where('id', $request->driver_id)->first();
+        $driver = MeetingDriver::with('religion', 'nationality')->where('id', $request->driver_id)->first();
 
         return response()->json(['driver' => $driver ], 200);
     }

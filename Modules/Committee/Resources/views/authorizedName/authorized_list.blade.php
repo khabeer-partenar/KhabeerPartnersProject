@@ -47,7 +47,7 @@
                             <td>
                                 {{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}<br>
                             </td>
-                            <td>{{ $authorized->job_title }}</td>
+                            <td>مندوب</td>
                             <td>{{ $authorized->delegate_name }}</td>
                             <td>{{ $authorized->delegate_national_id }}</td>
                             <td> السعودية</td>
