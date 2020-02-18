@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
 use Modules\Committee\Entities\Committee;
+use Modules\Core\Entities\App;
 use Modules\Core\Traits\AuthorizeUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Committee\Entities\MeetingDocument;
@@ -56,7 +57,7 @@ class User extends Authenticatable
      *
      * Here goes all functions
      */
-     
+
     protected static function boot()
     {
         parent::boot();
@@ -220,6 +221,19 @@ class User extends Authenticatable
      *
      * Here goes all attribute
      */
+
+    public function getUserAuthorizedAppsAttribute()
+    {
+        if (auth()->user()->is_super_admin) {
+            $apps = App::parentsFormMenu() ->with('menuChildrenRecursive')->get();
+        }
+        else {
+            $authorizedAppIds = auth()->user()->authorizedAppsIds();
+            App::setAuthorizedApps($authorizedAppIds);
+            $apps = App::parentsFormMenu()->with('menuChildrenRecursive')->get();
+        }
+        return $apps;
+    }
 
     /**
      * Get the user's can receive sms status.

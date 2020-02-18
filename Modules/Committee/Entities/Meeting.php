@@ -107,12 +107,12 @@ class Meeting extends Model
      */
     public function getFromAttribute()
     {
-        return Carbon::parse($this->attributes['from'])->format('H:i');
+        return Carbon::parse($this->attributes['from'])->format('G:i');
     }
 
     public function getToAttribute()
     {
-        return Carbon::parse($this->attributes['to'])->format('H:i');
+        return Carbon::parse($this->attributes['to'])->format('G:i');
     }
 
     public function getFromDateAttribute()
@@ -193,7 +193,7 @@ class Meeting extends Model
 
         $delegates = MeetingDelegate::prepareForSync($request->delegates);
         $meeting->delegates()->sync($delegates);
-        $meeting->participantAdvisors()->sync($request->participantAdvisors);
+        $meeting->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors:[]);
 
         MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
 
@@ -207,6 +207,8 @@ class Meeting extends Model
             'to' => $request->to.','.$request->at,
             'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
+
+        $this->committee->updateFirstMeetingAt();
 
         if ($this->can_change_members) {
             $delegates = MeetingDelegate::prepareForSync($request->delegates);

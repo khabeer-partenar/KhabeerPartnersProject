@@ -43,13 +43,14 @@ class AuthorizedName extends Model
             ->join('users', 'users.id', '=', 'meetings_delegates.delegate_id')            
             ->join('nationalities as delegate_nationality', 'delegate_nationality.id', '=', 'users.nationality_id')
             ->join('religions', 'religions.id', '=', 'delegate_driver.religion_id')
-            ->select('delegate_driver.name as driver_name', 'delegate_driver.national_id as 
-            driver_national_id', 'religions.name as type', 'delegate_nationality.name as delegate_nationality_name',     
+            ->select('delegate_driver.name as driver_name', 'delegate_driver.national_id as driver_national_id',
+            'religions.name as type', 'delegate_nationality.name as delegate_nationality_name',
+            'meetings_delegates.has_driver',
             'delegate_driver.id as driver_id', 'meetings.from', 
-            'driver_nationality.name as driver_nationality_name', 'users.national_id as delegate_national_id', 
-            'users.name as delegate_name', 
+            'driver_nationality.name as driver_nationality_name', 'users.national_id as delegate_national_id',
+            'users.name as delegate_name',
             'users.nationality_id', 'delegate_driver.delegate_id');
-            
+
             if(isset($filters['authorized_name'])) {
                 $name = $filters['authorized_name'];
                 $query->where('delegate_driver.name',  $name)

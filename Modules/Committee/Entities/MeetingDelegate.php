@@ -41,12 +41,14 @@ class MeetingDelegate extends Model
     // Functions
     public static function prepareForSync($delegatesIds = [])
     {
-        $delegates = Delegate::whereIn('id', $delegatesIds)->pluck('parent_department_id', 'id');
         $prepared = [];
-        foreach ($delegates as $key => $department){
-            $prepared[$key] = [
-                'department_id' => $department
-            ];
+        if ($delegatesIds) {
+            $delegates = Delegate::whereIn('id', $delegatesIds)->pluck('parent_department_id', 'id');
+            foreach ($delegates as $key => $department){
+                $prepared[$key] = [
+                    'department_id' => $department
+                ];
+            }
         }
         return $prepared;
     }
