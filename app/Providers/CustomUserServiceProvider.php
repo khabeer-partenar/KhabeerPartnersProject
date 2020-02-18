@@ -20,23 +20,9 @@ class CustomUserServiceProvider extends UserProvider
     {
         $model = $this->createModel();
         
-        $userData = $this->newModelQuery($model)
+        return $this->newModelQuery($model)
                     ->where($model->getAuthIdentifierName(), $identifier)
                     ->with('authorizedApps')
                     ->first();
-
-        if ($userData->is_super_admin) {
-            $apps = App::parentsFormMenu()->with('menuChildrenRecursive')->get();
-        }
-        else {
-            $authorizedAppIds = $userData->authorizedAppsIds();
-            App::setAuthorizedApps($authorizedAppIds);
-            $apps = App::parentsFormMenu()->with('menuChildrenRecursive')->get();
-        }
-
-        \View::share([
-            'authorizedApps' => $apps
-        ]);
-        return $userData;
     }
 }
