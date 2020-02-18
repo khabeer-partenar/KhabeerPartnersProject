@@ -38,15 +38,10 @@
                     @foreach($authorizedNames as $authorized)
                         <tr>
                             <td></td>
-<<<<<<< HEAD
-                            <td>{{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}<br></td>
-                            <td> مندوب</td>
-=======
                             <td>
                                 {{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}<br>
                             </td>
                             <td>مندوب</td>
->>>>>>> staging
                             <td>{{ $authorized->delegate_name }}</td>
                             <td>{{ $authorized->delegate_national_id }}</td>
                             <td> {{ $authorized->delegate_nationality_name }}</td>

@@ -64,35 +64,35 @@
                 </tr>
             </thead>
             <tbody>
-                    @foreach($authorizedNames as $authorized)
-                    @if($authorized->driver_id)
-                        <tr>
-                            <td></td>
-                            <td>
-                                {{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}<br>
-                            </td>
-                            <td>{{ $authorized->job_title }}</td>
-                            <td>{{ $authorized->delegate_name }}</td>
-                            <td>{{ $authorized->delegate_national_id }}</td>
-                            <td> السعودية</td>
-                            <td>مسلم</td>
-                            <td> {{ $meeting[0]->advisor->name }}</td>
-                            <td> {{ $meeting[0]->room->name }}</td>
-                        </tr>
-                     @endif
+                @foreach($authorizedNames as $authorized)
+                    <tr>
+                        <td></td>
+                        <td>
+                            {{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}<br>
+                        </td>
+                        <td>مندوب</td>
+                        <td>{{ $authorized->delegate_name }}</td>
+                        <td>{{ $authorized->delegate_national_id }}</td>
+                        <td> {{ $authorized->delegate_nationality_name }}</td>
+                        <td>مسلم</td>
+                        <td> {{ $meeting[0]->advisor->name }}</td>
+                        <td> {{ $meeting[0]->room->name }}</td>
+                    </tr>
+                    @if($authorized->has_driver)
                         <tr>
                             <td></td>
                             <td>{{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}</td>
                             <td>سائق</td>
                             <td>{{ $authorized->driver_name }}</td>
                             <td>{{ $authorized->driver_national_id }}</td>
-                            <td> {{ $authorized->nationality }}</td>
+                            <td> {{ @$authorized->driver_nationality_name }}</td>
                             <td> {{ $authorized->type }}</td>
                             <td> {{ $meeting[0]->advisor->name }}</td>
                             <td> {{ $meeting[0]->room->name }}</td>
                         </tr>
-                    @endforeach
-                </tbody>
+                    @endif
+                @endforeach
+            </tbody>
         </table>
         <br><br>
     </div>
