@@ -19,6 +19,8 @@ use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 use Modules\Committee\Events\NominationDoneEvent;
 use Modules\Committee\Notifications\DepartmentDeleted;
+use Modules\Committee\Events\CommitteeCreatedEvent;
+
 use Notification;
 
 

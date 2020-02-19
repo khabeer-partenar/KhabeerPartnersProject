@@ -53,8 +53,6 @@ class MeetingDelegate extends Model
             Notification::send($new_delegates->get(), new MeetingDelegatesInviting($meeting->committee,$meeting));
 
         $prepared = [];
-
-        $delegates = Delegate::whereIn('id', $delegatesIds)->pluck('parent_department_id', 'id');
         foreach ($delegates->pluck('parent_department_id', 'id') as $key => $department){
             $prepared[$key] = [
                 'department_id' => $department

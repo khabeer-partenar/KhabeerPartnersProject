@@ -29,7 +29,7 @@ class CanSeeCommittee
                     abort(403);
                 }
             }
-        } else if (auth()->user() && auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+        } else if (auth()->user() && auth()->user()->authorizedApps->key != Employee::ADVISOR) {
             if ($committee) {
                 $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
                 if (!in_array($committee->id, $participantIn) && $committee->advisor_id == auth()->id()) {
