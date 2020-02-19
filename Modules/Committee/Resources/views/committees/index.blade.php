@@ -152,7 +152,7 @@
                                         {{ $committee->president ? $committee->president->name : '-' }}
                                     </td>
                                     <td>
-                                       {{ $committee->GroupStatus }}
+                                       {{ $committee->groupStatus->committeeStatus->status_ar }}
                                     </td>
                                     <td>
                                         {{ $committee->advisor_id == auth()->id() ? __('committee::committees.committee advisor') : __('committee::committees.committee participant') }}
