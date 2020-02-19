@@ -19,7 +19,8 @@ use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Committee\Entities\MeetingDriver;
 use Modules\Users\Events\DelegateCreatedEvent;
-use Modules\Users\Events\DelegateDeletedEvent;
+use Modules\Users\Notifications\NotifyDeletedDelegate;
+use Notification;
 
 
 class Delegate extends User
@@ -135,7 +136,9 @@ class Delegate extends User
             $department->pivot->save();
         }
         $this->setCommitteeNominationStatus($committee_id);
-        event(new DelegateDeletedEvent($delegate, $committee, $reason));
+        $advisor = $committee->advisor; 
+        Notification::send([$advisor,$advisor->secretaries,$delegate], new NotifyDeletedDelegate($delegate, $committee, $reason));
+
     }
 
     public function addDelegateToCommittee(Request $request, int $delegate_id)

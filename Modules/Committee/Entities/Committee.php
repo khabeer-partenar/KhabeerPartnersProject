@@ -8,8 +8,6 @@ use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
-use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Entities\Group;
 use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
@@ -20,6 +18,10 @@ use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 use Modules\Committee\Events\NominationDoneEvent;
+use Modules\Committee\Notifications\DepartmentDeleted;
+use Notification;
+
+
 
 class Committee extends Model
 {
@@ -46,7 +48,7 @@ class Committee extends Model
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'first_meeting_time', 'recommended_at_hijri'
+        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'first_meeting_time', 'recommended_at_hijri','urgent_committee'
     ];
 
     protected $dates = [
@@ -81,6 +83,15 @@ class Committee extends Model
     public function setRecommendedAtAttribute($value)
     {
         $this->attributes['recommended_at'] = self::getDateFromFormat($value);
+    }
+
+    public function getUrgentCommitteeAttribute()
+    {
+        $days = Carbon::now()->diffInDays(Carbon::parse($this->first_meeting_at));
+        if($days == 1 || $this->treatment_urgency_id == TreatmentUrgency::URGENT)
+            return true;
+        else
+            return false;
     }
 
     public function getResourceAtHijriAttribute()
@@ -233,6 +244,17 @@ class Committee extends Model
         return $query->where('exported', $status);
     }
 
+    public function scopeUrgentCommittee($query)
+    {
+        return $query->whereDate('first_meeting_at', Carbon::today()->addDays(2))
+                     ->orWhereDate('first_meeting_at', Carbon::today()->addDays(1));
+    }
+
+    public function scopeWaitingDelegates($query)
+    {
+        return $query->where('status', self::WAITING_DELEGATES);
+    }
+
     /**
      * Functions
      */
@@ -280,13 +302,35 @@ class Committee extends Model
 
     public function updateFromRequest($request)
     {
+        $oldDepartments = $this->participantDepartments->pluck('id')->toArray();
         $this->update($request->except('first_meeting_at'));
         $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $this->participantDepartments()->sync($request->departments);
         $this->update(['members_count' => $this->participantAdvisors()->count()]);
+        $this->SendNotificationDeletedDepartmentsParticipants($oldDepartments,$request->departments);
         return $this;
     }
 
+    public function SendNotificationDeletedDepartmentsParticipants($oldDepartments,$newDepartments)
+    {
+        foreach ($oldDepartments as $key => $department) {
+            if(!array_key_exists($department,$newDepartments))
+            {
+                $departments = Department::findOrFail($department);
+                if($departments->delegates('parent')->count())
+                {
+                    $toBeNotifiedUsers= $departments->coordinators('parent')->get()->merge($departments->delegates('parent')->get());
+                    Notification::send($toBeNotifiedUsers, new DepartmentDeleted($this));
+                }
+                else
+                {
+                    $toBeNotifiedUsers= $departments->coordinators('parent')->get();
+                    Notification::send($toBeNotifiedUsers, new DepartmentDeleted($this));
+                }
+            }
+
+        }
+    }
     public function participantDepartmentsWithRef()
     {
         return $this->participantDepartments()->with('referenceDepartment')->get();
@@ -295,11 +339,25 @@ class Committee extends Model
     public function participantDepartmentsUsersUnique()
     {
         $toBeNotifiedUsers = [];
-        foreach ($this->participantDepartmentsWithRef() as $department) {
+        foreach ($this->participantDepartmentsWithRef() as $key=>$department) {
             $users = $department->users('parent')->get();
             $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
             if ($department->referenceDepartment) {
                 $refUsers = $department->referenceDepartment->users('parent')->get();
+                $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($refUsers));
+            }
+        }
+        return $toBeNotifiedUsers;
+    }
+
+    public function participantDepartmentsCoordinators()
+    {
+        $toBeNotifiedUsers = [];
+        foreach ($this->participantDepartmentsWithRef() as $key=>$department) {
+            $users = $department->coordinators('parent')->get();
+            $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
+            if ($department->referenceDepartment) {
+                $refUsers = $department->referenceDepartment->coordinators('parent')->get();
                 $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($refUsers));
             }
         }
@@ -464,6 +522,15 @@ class Committee extends Model
             ->whereNull('committee_delegate.deleted_at')
             ->withTimestamps();
     }
+
+    public function DepartmentsNotHaveNominationDelegates()
+    {
+        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')
+            ->withPivot('nomination_criteria', 'has_nominations')
+            ->where('has_nominations',0);
+    }
+
+    // create function get committees  have department but not have delegates
 
     public function creator()
     {

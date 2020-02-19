@@ -50,6 +50,10 @@ Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting']], functio
         Route::post('{committee}/export-word', 'CommitteeMultimediaController@exportWord')->name('committee.multimedia.export-word');
 
 
+        // Committee Notification
+
+        Route::get('/{committee}/notification', 'CommitteeNotificationController@sendUrgentCommiteeNotification')->name('committee.notification');
+
         // Comm Documents
         Route::post('upload-document', 'CommitteeDocumentController@upload')->name('committees.upload-document');
         Route::post('{committee}/upload-document-direct', 'CommitteeDocumentController@uploadForCommittee')->name('committees.upload-document-direct');
