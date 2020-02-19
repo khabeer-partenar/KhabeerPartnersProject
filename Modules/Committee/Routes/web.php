@@ -72,7 +72,9 @@ Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting']], functio
         Route::get('/drivers', 'DelegateDriversController@index')->name('drivers.search_by_name');
         Route::get('/driver', 'DelegateDriversController@show')->name('drivers.get_by_name');
 
-
+        // Export Comm
+        Route::get('exported', 'CommitteeController@exported')->name('committees.exported');
+        Route::post('{committee}/exported', 'CommitteeController@export')->name('committees.export');
     });
     //AuthorizedName
     Route::prefix('authorized-names')->group(function () {
@@ -80,9 +82,6 @@ Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting']], functio
         Route::get('/export', 'AuthorizedNameController@export')->name('committee.export');
         Route::get('/print', 'AuthorizedNameController@print')->name('committee.print');
     });
-
-    Route::get('committees/exported', 'CommitteeController@exported')->name('committees.exported');
-    Route::post('committees/{committee}/exported', 'CommitteeController@export')->name('committees.export');
 
     Route::resource('committees', 'CommitteeController');
 
