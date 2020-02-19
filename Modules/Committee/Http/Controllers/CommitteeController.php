@@ -39,7 +39,7 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $committees = Committee::with('advisor', 'president', 'view')
+        $committees = Committee::with('advisor', 'president', 'view','groupStatus')
             ->latest()
             ->exported(false)
             ->search($request)
@@ -182,6 +182,7 @@ class CommitteeController extends UserBaseController
     {
         $committee = $committee->updateFromRequest($request);
         $committee->log('update_committee');
+        $committee->setMembersCount();
         self::sessionSuccess('committee::committees.updated');
         return redirect()->route('committees.index');
     }

@@ -23,7 +23,7 @@
                 </div>
 
             </div>
-        
+
         </div>
 
         <div class="portlet-body">
@@ -58,7 +58,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
 
                     <div class="col-md-4">
                         <div class="form-group">
@@ -74,7 +74,7 @@
 
                 </form>
             </div>
-            
+
             <div class="table-responsive">
                 <table class="table">
                     <thead>
@@ -88,7 +88,7 @@
 
                     </thead>
                     <tbody>
-                        
+
                         @foreach($delegatesData as $key => $delegateData)
                             <tr>
                                 <td>{{ $delegateData->name }}</td>
@@ -106,7 +106,7 @@
                                         </a>
                                     @endif
                                     @if(auth()->user()->hasPermissionWithAccess('destroy'))
-                                        <a data-href="{{ route('delegates.destroy', $delegateData) }}" class="btn btn-sm btn-danger delete-row custom-action-btn">
+                                        <a data-href="{{ route('delegates.destroy', $delegateData) }}" class="btn btn-sm btn-danger manage-delegate-delete custom-action-btn">
                                             <i class="fa fa-trash"></i> {{ __('users::delegates.delete') }}
                                         </a>
                                     @endif
@@ -120,7 +120,7 @@
                             </tr>
                         @endif
 
-                    
+
                     </tbody>
                 </table>
             </div>
@@ -132,6 +132,6 @@
     </div>
 @endsection
 
-{{--@section('scripts_2')
-    @include('users::delegates.scripts')
-@endsection--}}
+@section('scripts_2')
+    @include('users::delegates.scripts3')
+@endsection

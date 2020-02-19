@@ -36,9 +36,9 @@ class SaveDelegateRequest extends FormRequest
             'main_department_id' => ['required', 'integer','exists:'. Department::table(). ',id',  new CheckCoordinatorDepartmentType],
             'direct_department_id' => ['nullable', 'integer', new CheckCoordinatorDirectDepartmentType(request()->parent_department_id)],
             'job_title' => ['required'],
-            'national_id' => ['required', new NationalIDRule, 'unique:' . User::table()],
+            'national_id' => ['required',new NationalIDRule,'unique:' . User::table() . ',deleted_at,NULL'],
             'name' => ['required', new FilterStringRule, 'string'],
-            'phone_number' => ['required', new ValidationPhoneNumberRule, 'unique:' . User::table()],
+            'phone_number' => ['required', new ValidationPhoneNumberRule, 'unique:' . User::table() . ',deleted_at,NULL'],
             'email' => ['required', 'email', new ValidationGovEmailRule, 'unique:' . User::table()],
             'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference],
             'job_role_id' => ['required', new CheckInDelegateJobs]

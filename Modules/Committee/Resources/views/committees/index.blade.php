@@ -119,7 +119,7 @@
                                     </td>
                                     @else
                                     <td>
-                                        {{ $committee->GroupStatus }}
+                                        {{ $committee->groupStatus->committeeStatus->status_ar }}
                                     </td>
                                     @endif
                                     

@@ -99,6 +99,7 @@ class Delegate extends User
         $department->pivot->save();
 
         $this->setCommitteeNominationStatus($request->committee_id);
+        $committee->setMembersCount();
         $this->sendNotificationToNominatedDelegates($request->delegates_ids, $committee);
 
 
@@ -136,9 +137,9 @@ class Delegate extends User
             $department->pivot->save();
         }
         $this->setCommitteeNominationStatus($committee_id);
-        $advisor = $committee->advisor; 
+        $advisor = $committee->advisor;
+        $committee->setMembersCount();
         Notification::send([$advisor,$advisor->secretaries,$delegate], new NotifyDeletedDelegate($delegate, $committee, $reason));
-
     }
 
     public function addDelegateToCommittee(Request $request, int $delegate_id)
@@ -153,6 +154,7 @@ class Delegate extends User
         $department->pivot->has_nominations = 1;
         $department->pivot->save();
         $this->setCommitteeNominationStatus($committee->id);
+        $committee->setMembersCount();
         $delegate = Delegate::find($delegate_id);
         event(new DelegateCreatedEvent($delegate, $committee));
 
@@ -297,9 +299,11 @@ class Delegate extends User
 
     public static function scopeUserDepartment($query)
     {
-        $department_id = auth()->user()->parent_department_id;
-        return $query->where('parent_department_id', $department_id)
-                     ->orWhere('department_reference_id', $department_id);
+        if (auth()->user()->user_type == Coordinator::TYPE) {
+            $department_id = auth()->user()->parent_department_id;
+            return $query->where('parent_department_id', $department_id)
+                ->orWhere('department_reference_id', $department_id);
+        }
     }
 
     /**
@@ -347,5 +351,13 @@ class Delegate extends User
     public function driver()
     {
         return $this->hasMany(MeetingDriver::class);
+    }
+
+    public function checkIfDelegateInMeetings()
+    {
+        $delegates = MeetingDelegate::where('delegate_id',$this->id)
+                        ->where('status',MeetingDelegate::ACCEPTED)->get();
+        if ($delegates->count() > 0) return true;
+        return false;
     }
 }
