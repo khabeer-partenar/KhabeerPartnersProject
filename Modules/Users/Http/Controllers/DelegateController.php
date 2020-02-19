@@ -52,7 +52,7 @@ class DelegateController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $delegatesData = Delegate::with('mainDepartment', 'parentDepartment', 'directDepartment')->search($request)->paginate(10);
+        $delegatesData = Delegate::UserDepartment()->with('mainDepartment', 'parentDepartment', 'directDepartment')->search($request)->paginate(10);
         $mainDepartments = Department::getDepartments();
         return view('users::delegates.index', compact('mainDepartments', 'delegatesData'));
     }

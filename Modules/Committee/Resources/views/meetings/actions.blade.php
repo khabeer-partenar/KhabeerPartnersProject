@@ -1,7 +1,11 @@
 @if (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB )
     @if (in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
-        <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
-           class="btn btn-success">التفاصيل</a>
+        @if (!in_array(auth()->id(), $meeting->absentDelegates->pluck('delegate_id')->toArray()))
+            @if (auth()->user()->hasPermissionWithAccess('show', 'DelegateMeetingController', 'Committee'))
+                <a href="{{ route('committees.meetings.delegate.show', compact('committee', 'meeting')) }}"
+                class="btn btn-success">التفاصيل</a>
+            @endif
+        @endif
     @endif
 @elseif (auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
     @if (auth()->user()->hasPermissionWithAccess('show', 'CoordinatorMeetingController', 'Committee'))

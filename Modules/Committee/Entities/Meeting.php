@@ -95,17 +95,36 @@ class Meeting extends Model
         $query->whereBetween('from', [$fromDate, $toDate]);
     }
 
+    public function scopeFilterType($query, $data =[])
+    {
+        if (isset($data['type_id']) && $data['type_id'] != 0) {
+            $query->where('type_id', $data['type_id']);
+        }
+        return $query;
+    }
+
+    public function scopeSoonMeeting($query)
+    {
+        return $query->whereDate('from', Carbon::today()->addDays(2))
+                     ->orWhereDate('from', Carbon::today()->addDays(1));
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('completed', 1);
+    }
+    
     /**
      * Accs & Mut
      */
     public function getFromAttribute()
     {
-        return Carbon::parse($this->attributes['from'])->format('H:i');
+        return Carbon::parse($this->attributes['from'])->format('G:i');
     }
 
     public function getToAttribute()
     {
-        return Carbon::parse($this->attributes['to'])->format('H:i');
+        return Carbon::parse($this->attributes['to'])->format('G:i');
     }
 
     public function getFromDateAttribute()
@@ -184,8 +203,9 @@ class Meeting extends Model
             'advisor_id' => $committee->advisor_id
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
-        $meeting->delegates()->sync($request->delegates);
-        $meeting->participantAdvisors()->sync($request->participantAdvisors);
+        $delegates = MeetingDelegate::prepareForSync($request->delegates);
+        $meeting->delegates()->sync($delegates);
+        $meeting->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors:[]);
 
         MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
 
@@ -200,8 +220,11 @@ class Meeting extends Model
             'completed' => true
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
+        $this->committee->updateFirstMeetingAt();
+
         if ($this->can_change_members) {
-            $this->delegates()->sync($request->delegates ? $request->delegates : []);
+            $delegates = MeetingDelegate::prepareForSync($request->delegates,$this->delegates, $this);
+            $this->delegates()->sync($delegates);
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }
 
@@ -227,6 +250,14 @@ class Meeting extends Model
         $this->update(['attendance_done' => 1]);
     }
 
+    public function updateStatusAndReason($request)
+    {
+        $meetingDelegate = $this->delegatesPivot()->where('delegate_id', auth()->id())->first();
+
+        $meetingDelegate->update($request->only('status', 'refuse_reason', 'has_driver', 'driver_id'));
+
+        return $meetingDelegate;
+    }
     /**
      * Relations
      */
@@ -241,6 +272,11 @@ class Meeting extends Model
         return $this->hasMany(MeetingDelegate::class, 'meeting_id');
     }
 
+    public function delegatePivot()
+    {
+        return $this->delegatesPivot()->where('delegate_id', auth()->id())->first();
+    }
+
     public function attendingDelegates()
     {
         return $this->hasMany(MeetingDelegate::class, 'meeting_id')->where('status', MeetingDelegate::ACCEPTED);
@@ -249,6 +285,11 @@ class Meeting extends Model
     public function absentDelegates()
     {
         return $this->hasMany(MeetingDelegate::class, 'meeting_id')->where('status', MeetingDelegate::REJECTED);
+    }
+
+    public function currentDelegate()
+    {
+        return $this->delegates()->where('delegate_id', auth()->id());
     }
 
     public function type()
@@ -289,7 +330,7 @@ class Meeting extends Model
 
     public function multimedia()
     {
-        return $this->hasMany(MeetingMultimedia::class);
+        return $this->hasMany(Multimedia::class);
     }
 
     public function userMultimedia()

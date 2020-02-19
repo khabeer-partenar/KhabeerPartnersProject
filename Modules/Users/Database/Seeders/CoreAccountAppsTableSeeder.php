@@ -29,23 +29,23 @@ class CoreAccountAppsTableSeeder extends Seeder
             'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ])->id;
 
-        App::create([
-            'resource_name' => $generalResourceName . '\AccountController@edit', 'name' => 'تعديل الملف الشخصي',
-            'icon' => 'fa fa-folder-o', 'sort' => 1, 'parent_id' => $userAccountId, 'frontend_path' => 'user/account/edit', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => $generalResourceName . '\AccountController@update', 'name' => 'تحديث الملف الشخصي',
-            'icon' => 'fa fa-folder-o', 'sort' => 2, 'parent_id' => $userAccountId, 'frontend_path' => 'user/account/edit', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        App::create([
-            'resource_name' => $generalResourceName . '\AccountController@logout', 'name' => 'تسجيل الخروج',
-            'icon' => 'fa fa-folder-o', 'sort' => 3, 'parent_id' => $userAccountId, 'frontend_path' => 'user/account', 'is_main_root' => 0,
-            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
+//        App::create([
+//            'resource_name' => $generalResourceName . '\AccountController@edit', 'name' => 'تعديل الملف الشخصي',
+//            'icon' => 'fa fa-folder-o', 'sort' => 1, 'parent_id' => $userAccountId, 'frontend_path' => 'user/account/edit', 'is_main_root' => 0,
+//            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+//        ]);
+//
+//        App::create([
+//            'resource_name' => $generalResourceName . '\AccountController@update', 'name' => 'تحديث الملف الشخصي',
+//            'icon' => 'fa fa-folder-o', 'sort' => 2, 'parent_id' => $userAccountId, 'frontend_path' => 'user/account/edit', 'is_main_root' => 0,
+//            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+//        ]);
+//
+//        App::create([
+//            'resource_name' => $generalResourceName . '\AccountController@logout', 'name' => 'تسجيل الخروج',
+//            'icon' => 'fa fa-folder-o', 'sort' => 3, 'parent_id' => $userAccountId, 'frontend_path' => 'user/account', 'is_main_root' => 0,
+//            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+//        ]);
 
 
 

@@ -125,7 +125,9 @@ mix
     .copy('resources/assets/packages/calendar/daygrid/main.js', 'public/assets/js/calendar/daygrid/main.js')
     .copy('resources/assets/packages/calendar/timegrid/main.js', 'public/assets/js/calendar/timegrid/main.js')
     .copy('resources/assets/packages/calendar/list/main.js', 'public/assets/js/calendar/list/main.js')
-    .copy('resources/assets/packages/moment.js', 'public/assets/js/moment.js');
+    .copy('resources/assets/packages/moment.js', 'public/assets/js/moment.js')
+    .copy('resources/assets/packages/persian.js', 'public/assets/js/persian.js');
+
 
 
 

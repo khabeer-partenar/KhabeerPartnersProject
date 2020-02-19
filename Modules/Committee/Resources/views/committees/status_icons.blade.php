@@ -4,7 +4,7 @@
             <i title="{{__('committee::committees.icon_new_title')}}" class="fa fa-lg fa-file"
                style="color:green;margin-left: 3px;"></i>
         @endif
-        @if ($committee->treatment_urgency_id == \Modules\Committee\Entities\TreatmentUrgency::URGENT)
+        @if ($committee->urgent_committee == true)
             <i title="{{__('committee::committees.icon_urgent_title')}}" class="fa fa-lg fa-exclamation-triangle"
                style="color:red;margin-left: 3px;"></i>
         @endif

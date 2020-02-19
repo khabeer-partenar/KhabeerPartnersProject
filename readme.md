@@ -3,11 +3,21 @@
 
 To install this project do the following steps:
 
+Setting Commands:
+-
 - cp .env.example .env
 - composer install
 - php artisan key:gen
-- php artisan migrate
+- set values in .env file
+    (app_url, mysql, mail, mobily, help desk email)
 - php artisan passport:install
+- php artisan migrate
 - php artisan db:seed
-- php artisan module:seed Core
-- php artisan module:seed Users
+- php artisan storage:link
+- npm install
+- npm run prod
+
+Cron Jobs:
+-
+- * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+- Queue Command (Always will be running) : php artisan queue:work

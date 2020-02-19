@@ -12,14 +12,15 @@ use Modules\Committee\Entities\CommitteeStatus;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\MeetingDocument;
-use Modules\Committee\Entities\MeetingMultimedia;
+use Modules\Committee\Entities\Multimedia;
 use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
-use DB;
+use Modules\Committee\Entities\MeetingDriver;
 use Modules\Users\Events\DelegateCreatedEvent;
-use Modules\Users\Events\DelegateDeletedEvent;
+use Modules\Users\Notifications\NotifyDeletedDelegate;
+use Notification;
 
 
 class Delegate extends User
@@ -135,7 +136,9 @@ class Delegate extends User
             $department->pivot->save();
         }
         $this->setCommitteeNominationStatus($committee_id);
-        event(new DelegateDeletedEvent($delegate, $committee, $reason));
+        $advisor = $committee->advisor; 
+        Notification::send([$advisor,$advisor->secretaries,$delegate], new NotifyDeletedDelegate($delegate, $committee, $reason));
+
     }
 
     public function addDelegateToCommittee(Request $request, int $delegate_id)
@@ -292,6 +295,13 @@ class Delegate extends User
         return $query;
     }
 
+    public static function scopeUserDepartment($query)
+    {
+        $department_id = auth()->user()->parent_department_id;
+        return $query->where('parent_department_id', $department_id)
+                     ->orWhere('department_reference_id', $department_id);
+    }
+
     /**
      * Relations
      *
@@ -325,12 +335,17 @@ class Delegate extends User
 
     public function multimedia()
     {
-        return $this->hasMany(MeetingMultimedia::class, 'user_id');
+        return $this->hasMany(Multimedia::class, 'user_id');
     }
 
     public function meetings()
     {
         return $this->belongsToMany(Meeting::class, MeetingDelegate::table(), 'delegate_id', 'meeting_id')
             ->withPivot('refuse_reason', 'status', 'attended');
+    }
+
+    public function driver()
+    {
+        return $this->hasMany(MeetingDriver::class);
     }
 }

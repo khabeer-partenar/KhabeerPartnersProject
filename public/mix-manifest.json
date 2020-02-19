@@ -1,8 +1,8 @@
 {
-    "/assets/js/app.js": "/assets/js/app.js?id=1ea9a7b5c2b7bd58f1ac",
-    "/assets/js/custom.js": "/assets/js/custom.js?id=dad73bc827da9832c494",
-    "/assets/js/laravel-forms.js": "/assets/js/laravel-forms.js?id=23dfbd4154cb56736ad8",
-    "/assets/js/multi-input.js": "/assets/js/multi-input.js?id=282e999ce9c28e6d8131",
+    "/assets/js/app.js": "/assets/js/app.js?id=ef26a78bfeaaa6e51971",
+    "/assets/js/custom.js": "/assets/js/custom.js?id=5b71e1f31f0f1fe137cd",
+    "/assets/js/laravel-forms.js": "/assets/js/laravel-forms.js?id=79ee40b08d7484f6b14c",
+    "/assets/js/multi-input.js": "/assets/js/multi-input.js?id=095d998f8bfbab918292",
     "/assets/css/bootstrap-rtl.min.css": "/assets/css/bootstrap-rtl.min.css?id=6d53dc32c629fd4e22df",
     "/assets/css/fonts.css": "/assets/css/fonts.css?id=1a0c7fdb4ca05b8f1d10",
     "/assets/css/colorbox.css": "/assets/css/colorbox.css?id=e70eb225935aeafdf079",
@@ -45,11 +45,12 @@
     "/assets/js/menu-toggler-sidebar.js": "/assets/js/menu-toggler-sidebar.js?id=26fbff8c14a053f06724",
     "/assets/js/khabeer.js": "/assets/js/khabeer.js?id=246114e899fdde0bde55",
     "/assets/js/khabeer-validations.js": "/assets/js/khabeer-validations.js?id=b87d962e59501ca95a72",
-    "/assets/js/calendar/core/main.js": "/assets/js/calendar/core/main.js?id=e83db6dfab121c39c80b",
+    "/assets/js/calendar/core/main.js": "/assets/js/calendar/core/main.js?id=c0d0ca81bd09e16b4be1",
     "/assets/js/calendar/core/locales-all.js": "/assets/js/calendar/core/locales-all.js?id=a561ba9d056e146b651a",
     "/assets/js/calendar/interaction/main.js": "/assets/js/calendar/interaction/main.js?id=33ac731fdb4a423df645",
     "/assets/js/calendar/daygrid/main.js": "/assets/js/calendar/daygrid/main.js?id=2c6ef525f7c70b51b078",
     "/assets/js/calendar/timegrid/main.js": "/assets/js/calendar/timegrid/main.js?id=67499f46c20beb0357b5",
     "/assets/js/calendar/list/main.js": "/assets/js/calendar/list/main.js?id=a106e08ce6a0f0f544cb",
-    "/assets/js/moment.js": "/assets/js/moment.js?id=1b1c80b617bfcaf8c076"
+    "/assets/js/moment.js": "/assets/js/moment.js?id=1b1c80b617bfcaf8c076",
+    "/assets/js/persian.js": "/assets/js/persian.js?id=3a4a9d5825093208e6f4"
 }

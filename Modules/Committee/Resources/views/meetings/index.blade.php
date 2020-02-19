@@ -57,12 +57,11 @@
                                         @if (!$meeting->completed)
                                             <i title="{{ __('committee::meetings.not_completed') }}"
                                                class="fa fa-2x fa-question-circle-o" style="color: #d6a329;" aria-hidden="true"></i>
-                                        @elseif (auth()->user()->authorizedApps->key == \Modules\Users\Entities\Delegate::JOB &&
-                                        !in_array(auth()->id(), $meeting->delegatesPivot->pluck('delegate_id')->toArray()))
-                                            <i title="{{ __('committee::meetings.cannot_be_seen') }}"
-                                               style="color: #e73d4a"
-                                               class="fa fa-2x fa-ban" aria-hidden="true"></i>
-                                        @elseif ($meeting->deleted_at)
+                                        @elseif (auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE &&
+                                        in_array(auth()->id(), $meeting->absentDelegates->pluck('delegate_id')->toArray()))
+                                            <i title="{{ __('committee::meetings.apologised') }}"
+                                               class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
+                                        @elseif (($meeting->deleted_at))
                                             <i title="{{ __('committee::meetings.cancelled') }}"
                                                class="fa fa-2x fa-calendar-times-o" style="color: #e73d4a" aria-hidden="true"></i>
                                         @elseif($meeting->toDate > \Carbon\Carbon::now())
@@ -71,6 +70,7 @@
                                         @elseif($meeting->toDate <= \Carbon\Carbon::now())
                                             <i title="{{ __('committee::meetings.finished') }}"
                                                class="fa fa-2x fa-calendar-check-o" style="color: #009247" aria-hidden="true"></i>
+
                                         @endif
                                     </div>
                                 </td>
@@ -81,12 +81,13 @@
                                     {{ $meeting->from . ' - ' . $meeting->to }}
                                 </td>
                                 @if (
-                                    auth()->user()->user_type != \Modules\Users\Entities\Coordinator::TYPE &&
-                                    auth()->user()->user_type != \Modules\Users\Entities\Delegate::TYPE
+                                        auth()->user()->user_type != \Modules\Users\Entities\Coordinator::TYPE &&
+                                        auth()->user()->user_type != \Modules\Users\Entities\Delegate::TYPE
                                 )
                                     <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
                                     <td>{{ count($meeting->attendingDelegates) + count($meeting->attendingAdvisors) }}</td>
                                 @endif
+
                                 <td>
                                     @include('committee::meetings.actions')
                                 </td>
@@ -95,7 +96,6 @@
                     </tbody>
                 </table>
             </div>
-            {{ $meetings->links() }}
         </div>
 
     </div>

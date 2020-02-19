@@ -6,6 +6,7 @@ use App\Rules\CheckFlag;
 use App\Rules\CheckIfDateIsAfter;
 use App\Rules\FilterStringRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Modules\Committee\Entities\TreatmentImportance;
 use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
@@ -20,9 +21,10 @@ class SaveCommitteeRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
-        return [
+        $committee = $request->committee;
+        $rules = [
             'resource_staff_number' => 'required',
             'resource_at' => 'required|date',
             'department_out_number' => 'required',
@@ -46,19 +48,22 @@ class SaveCommitteeRequest extends FormRequest
                 ],
             'recommended_at' => 'required|date',
             'subject' => ['required', 'string', new FilterStringRule],
-            'first_meeting_at' => [
-                'required',
-                'date_format:d/m/Y H:i',
-                'after:today',
-                new CheckIfDateIsAfter('treatment_time', 'committee::committees', 'd/m/Y H:i'),
-                new CheckIfDateIsAfter('resource_at', 'committee::committees', 'd/m/Y H:i')
-            ],
             'tasks' => ['nullable', 'string', new FilterStringRule],
             'president_id' => 'nullable',
             'advisor_id' => ['required', 'exists:'. User::table(). ',id'],
             'participant_advisors' => [new PresidentIsChairman],
             'members_count' => 'nullable|integer',
         ];
+        if (!isset($committee)) {
+            $rules['first_meeting_at'] = [
+                'required',
+                'date_format:d/m/Y H:i',
+                'after:today',
+                new CheckIfDateIsAfter('treatment_time', 'committee::committees', 'd/m/Y H:i'),
+                new CheckIfDateIsAfter('resource_at', 'committee::committees', 'd/m/Y H:i')
+            ];
+        }
+        return $rules;
     }
 
     /**

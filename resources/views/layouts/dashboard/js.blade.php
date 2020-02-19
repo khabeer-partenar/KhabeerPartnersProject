@@ -57,6 +57,11 @@
 {{ Html::script(mix('assets/js/moment.js'))}}
 <!-- END MOMENTS SCRIPTS PLUGIN -->
 
+<!-- BEGIN Persian SCRIPTS PLUGIN -->
+{{ Html::script(mix('assets/js/persian.js'))}}
+<!-- END Persian SCRIPTS PLUGIN -->
+
+
 {{ Html::script(mix('assets/js/custom.js')) }}
 {{ Html::script(mix('assets/js/khabeer.js')) }}
 {{ Html::script(mix('assets/js/khabeer-validations.js')) }}

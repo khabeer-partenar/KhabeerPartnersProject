@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Modules\Core\Traits\SharedModel;
+use Modules\Users\Entities\User;
 
 class MeetingDocument extends Model
 {
@@ -30,5 +31,10 @@ class MeetingDocument extends Model
                 $document->update(['meeting_id' => $meetingId, 'path' => $newPath]);
             }
         }
+    }
+
+    public function delegateUser()
+    {
+        return $this->belongsTo(User::class);
     }
 }

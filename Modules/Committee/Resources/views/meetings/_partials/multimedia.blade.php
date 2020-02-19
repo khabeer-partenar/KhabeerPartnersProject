@@ -1,16 +1,16 @@
 @if (isset($delegates))
-
-    <div class="portlet light bordered">
-
+    <div class="portlet light bordered" id="source-html">
+            <form action="{{ route('committee.meetings.multimedia.export-word', compact('committee', 'meeting')) }}" method="POST">
+                    @csrf
         <div class="portlet-body form">
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table style="width: 100%" class="table table-bordered">
+                        <table style="width: 100%" class="table table-bordered" id="Table1">
                             <thead>
                             <tr style="font-weight:bold">
                                 <th style="width:7%" scope="col">
-                                    <input type="checkbox" id="checkAllMultimedia" class="checkInContainer" data-container="#multimediaDiv">
+                            <input type="checkbox" id="checkAllMultimedia" class="checkInContainer" data-container="#multimediaDiv">
                                 </th>
                                 <th scope="col">معلومات المشارك</th>
                                 <th scope="col" width="40%">مرئيات الإجتماع</th>
@@ -18,10 +18,12 @@
                             </tr>
                             </thead>
                             <tbody id="multimediaDiv" class="containerUnCheckAll" data-checker="#checkAllMultimedia">
-                            @foreach($delegates as $delegate)
+                            @foreach($meeting->delegates as $delegate)
                                 <tr>
                                     <td>
-                                        <input type="checkbox" class="checkInContainer">
+                                    <input type="checkbox"
+                                    name="delegates[]"
+                                    value="{{ $delegate->id }}">
                                     </td>
                                     <td>{{ $delegate->name . ' - ' . $delegate->department->name }}</td>
                                     <td>
@@ -51,9 +53,12 @@
             </div>
 
             <div class="actions item-fl item-mb20">
-                <button class="btn item-mt20" type="button">{{ __('messages.print') }}</button>
-                <button class="btn item-mt20" type="button">{{ __('messages.export') }}</button>
+                <button class="btn item-mt20" type="submit" href="">{{ __('messages.export') }}</button>
             </div>
         </div>
+    </form>
+
     </div>
 @endif
+@section('scripts')
+@endsection

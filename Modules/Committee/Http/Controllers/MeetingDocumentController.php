@@ -17,6 +17,7 @@ class MeetingDocumentController extends UserBaseController
      * Store a newly created resource in storage.
      * @param Request|DocumentUploadRequest $request
      * @param Committee $committee
+     * @param Meeting $meeting
      * @return Response
      */
     public function store(DocumentUploadRequest $request, Committee $committee)

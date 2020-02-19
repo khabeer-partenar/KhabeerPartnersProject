@@ -4,6 +4,7 @@ namespace Modules\Users\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Users\Database\Seeders\NationalitiesTableSeeder;
 
 class UsersDatabaseSeeder extends Seeder
 {
@@ -17,9 +18,11 @@ class UsersDatabaseSeeder extends Seeder
         Model::unguard();
         
         $this->call(CoreUsersAppsTableSeeder::class);
+        $this->call(NationalitiesTableSeeder::class);
         $this->call(CoreGroupsTableSeeder::class);
         $this->call(EmployeesTableSeeder::class);
         $this->call(CoordinatorsTableSeeder::class);
+        $this->call(DelegatesTableSeeder::class);
         $this->call(CoreAccountAppsTableSeeder::class);
     }
 }

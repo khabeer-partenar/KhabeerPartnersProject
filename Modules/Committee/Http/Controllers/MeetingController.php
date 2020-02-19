@@ -6,6 +6,7 @@ use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Committee\Entities\Meeting;
+use Modules\Committee\Http\Resources\MeetingCalendar as MeetingResource;
 
 class MeetingController extends UserBaseController
 {
@@ -19,18 +20,14 @@ class MeetingController extends UserBaseController
         return view('committee::meetings.calendar.index');
     }
 
+    /**
+     * Calendar Ajax
+     * @param Request $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function calendar(Request $request)
     {
-        $meetings = Meeting::filterAllByUser()->with([
-            'advisor',
-            'attendingDelegates',
-            'attendingAdvisors',
-            'absentDelegates',
-            'absentAdvisors',
-            'room',
-            'type',
-        ])->calendar($request->all())->get();
-
-        return response()->json(['meetings' => $meetings]);
+        $meetings = Meeting::filterAllByUser()->calendar($request->all())->get();
+        return  MeetingResource::collection($meetings);
     }
 }

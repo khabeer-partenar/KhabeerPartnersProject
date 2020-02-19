@@ -40,18 +40,28 @@
                         <tbody>
                         <tr>
                             <td>{{ $meeting->type->name }}</td>
-                            <td>{{ $meeting->meeting_at. ' ' . $meeting->from  . ' ' . $meeting->to }}</td>
+                            <td>
+                                {{ $meeting->meeting_at }}
+                                <br>
+                                {{ 'من ' . $meeting->from  . ' إلي ' . $meeting->to  }}
+                            </td>
                             <td>{{ $meeting->reason }}</td>
                             <td>{{ $meeting->room->name }}</td>
+                            
                             <td>
-                                <a>
-                                    ترشيح مندوب جديد
-                                </a>
+                                @if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users') && !$committee->exported)
+                                    @foreach($committee->participantDepartments as $department)
+                                        <button data-toggle="modal" value="{{$department->id}}"
+                                            class="btn btn-primary nominateBtn">ترشيح مندوب جديد</button>
+                                    @endforeach
+                                @endif
                             </td>
+                            
                         </tr>
                         </tbody>
                     </table>
-
+                    @include('users::delegates.index_popup',compact('committee'))
+                    @include('users::delegates.create_popup',compact('committee'))
                 </div>
 
             </div>
@@ -77,7 +87,9 @@
                         <tbody id="">
                         @foreach($meeting->delegates as $delegate)
                             <tr>
-                                <td>{{ $delegate->name }}</td>
+                                <td>
+                                    <span title="{{ $delegate->phone_number }}">{{ $delegate->name }}</span>
+                                </td>
                                 <td>{{ $delegate->department->name }}</td>
                                 @if ($meeting->attendance_done)
                                     <td>
@@ -105,5 +117,5 @@
 
 
 @section('scripts_2')
-    @include('committee::meetings.delegates.scripts')
+    @include('committee::meetings.coordinator.scripts')
 @endsection

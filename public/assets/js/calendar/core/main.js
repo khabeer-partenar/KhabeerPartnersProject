@@ -4389,6 +4389,8 @@ Docs & License: https://fullcalendar.io/
         params[startParam] = '';
         params[endParam] = '';
         var temproaryDate = ''
+        moment.locale('en');
+
         if(DateAction === 'NEXT')
         {
              temproaryDate  = moment(calendar.state.currentDate).add(1, 'months');
@@ -5262,7 +5264,7 @@ Docs & License: https://fullcalendar.io/
             calendar: calendar,
             range: fetchRange
         }, function (res) {
-            var rawEvents = res.rawEvents;
+            var rawEvents = res.rawEvents.data;
             var calSuccess = calendar.opt('eventSourceSuccess');
             var calSuccessRes;
             var sourceSuccessRes;

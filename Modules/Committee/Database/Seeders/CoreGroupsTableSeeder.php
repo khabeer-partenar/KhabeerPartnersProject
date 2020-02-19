@@ -22,21 +22,23 @@ class CoreGroupsTableSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        $basicResources = [
+
+        $basicIds = [
             'Modules',
-        ];
-        $basicApps = [
             // Committee
             'Modules\Committee\Http\Controllers',
             'Modules\Committee\Http\Controllers\CommitteeController@index',
+            'Modules\Committee\Http\Controllers\CommitteeController@exported',
             'Modules\Committee\Http\Controllers\CommitteeController@show',
             'Modules\Committee\Http\Controllers\CommitteeDocumentController@download',
+            'Modules\Committee\Http\Controllers\CommitteeReportController@show',
             // Meeting
             'Modules\Committee\Http\Controllers\CommitteeMeetingController@index',
-            'Modules\Committee\Http\Controllers\CommitteeMeetingController@show',
+            'Modules\Committee\Http\Controllers\MeetingController@calendar',
             'Modules\Committee\Http\Controllers\MeetingController@index',
         ];
         $coordinatorApps = [
+            'Modules\Committee\Http\Controllers\CoordinatorMeetingController@show',
             'Modules\Committee\Http\Controllers\CommitteeController@sendNomination',
             'Modules\Committee\Http\Controllers\CommitteeController@getDelegatesWithDetails',
             'Modules\Committee\Http\Controllers\CommitteeController@getNominationDepartmentsWithRef',
@@ -50,7 +52,9 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\CommitteeController@destroy',
             'Modules\Committee\Http\Controllers\CommitteeDocumentController@upload',
             'Modules\Committee\Http\Controllers\CommitteeDocumentController@delete',
+            'Modules\Committee\Http\Controllers\CommitteeNotificationController@sendUrgentCommiteeNotification',
             // Meeting
+            'Modules\Committee\Http\Controllers\CommitteeMeetingController@show',
             'Modules\Committee\Http\Controllers\CommitteeMeetingController@create',
             'Modules\Committee\Http\Controllers\CommitteeMeetingController@store',
             'Modules\Committee\Http\Controllers\CommitteeMeetingController@edit',
@@ -62,44 +66,68 @@ class CoreGroupsTableSeeder extends Seeder
             // Multimedia
             'Modules\Committee\Http\Controllers\CommitteeMultimediaController@index',
             'Modules\Committee\Http\Controllers\MeetingMultimediaController@index',
+            // Authorized Names
+            'Modules\Committee\Http\Controllers\AuthorizedNameController@index',
+            'Modules\Committee\Http\Controllers\AuthorizedNameController@print',
+            'Modules\Committee\Http\Controllers\AuthorizedNameController@export',
         ];
-        $delegatesApps = [
+        $delegatesArr = [
             // Meeting
             'Modules\Committee\Http\Controllers\DelegateMeetingController@show',
             'Modules\Committee\Http\Controllers\DelegateMeetingController@update',
+            'Modules\Committee\Http\Controllers\DelegateMeetingController@update',
+            // Multimedia
+            'Modules\Committee\Http\Controllers\CommitteeMultimediaController@create',
+            'Modules\Committee\Http\Controllers\CommitteeMultimediaController@store',
             // Documents
             'Modules\Committee\Http\Controllers\DelegateDocumentsController@store',
             'Modules\Committee\Http\Controllers\DelegateDocumentsController@destroy',
-            'Modules\Committee\Http\Controllers\DelegateDocumentsController@show',
+            // Delegate Driver
+            'Modules\Committee\Http\Controllers\DelegateDriversController@index',
+            'Modules\Committee\Http\Controllers\DelegateDriversController@store',
+            'Modules\Committee\Http\Controllers\DelegateDriversController@show',
+
         ];
-        $advisorApps = [
+        $advisorArr = [
             'Modules\Committee\Http\Controllers\CommitteeController@approve',
         ];
+
         // Apps Ids
-        $basicIds = App::whereIn('resource_name', $basicResources)->pluck('id');
-        $commId = App::whereIn('resource_name', $basicApps)->pluck('id');
-        $coordaintorApps = App::whereIn('resource_name', $coordinatorApps)->pluck('id');
+        $basicApps = App::whereIn('resource_name', $basicIds)->pluck('id');
+        $coordinatorApps = App::whereIn('resource_name', $coordinatorApps)->pluck('id');
         $highLevelPermissions = App::whereIn('resource_name', $secretaryAndAdvisorApps)->pluck('id');
+        $delegatesApps  = App::whereIn('resource_name', $delegatesArr)->pluck('id');
+        $advisorApps  = App::whereIn('resource_name', $advisorArr)->pluck('id');
+
         // Coordinator Permissions
         $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
-        foreach($commId as $appId){
+        foreach($basicApps as $appId){
             $coordinatorGroup->permissions()->create([
                 'app_id' => $appId
             ]);
         }
-        foreach($coordaintorApps as $appId){
+        foreach($coordinatorApps as $appId){
             $coordinatorGroup->permissions()->create([
                 'app_id' => $appId
             ]);
         }
+
+        // Normal Coordinator Permission
+        $normalCoordinatorGroup = Group::where('key', Coordinator::NORMAL_CO_JOB)->first();
+        foreach($basicApps as $appId){
+            $normalCoordinatorGroup->permissions()->create([
+                'app_id' => $appId
+            ]);
+        }
+        foreach($coordinatorApps as $appId){
+            $normalCoordinatorGroup->permissions()->create([
+                'app_id' => $appId
+            ]);
+        }
+
         // Sec Permissions
         $secretaryGroup = Group::where('key', Employee::SECRETARY)->first();
-        foreach($basicIds as $appId){
-            $secretaryGroup->permissions()->create([
-                'app_id' => $appId
-            ]);
-        }
-        foreach($commId as $appId){
+        foreach($basicApps as $appId){
             $secretaryGroup->permissions()->create([
                 'app_id' => $appId
             ]);
@@ -109,14 +137,10 @@ class CoreGroupsTableSeeder extends Seeder
                 'app_id' => $appId
             ]);
         }
+
         // Advisor
         $advsiorGroup = Group::where('key', Employee::ADVISOR)->first();
-        foreach($basicIds as $appId){
-            $advsiorGroup->permissions()->create([
-                'app_id' => $appId
-            ]);
-        }
-        foreach($commId as $appId){
+        foreach($basicApps as $appId){
             $advsiorGroup->permissions()->create([
                 'app_id' => $appId
             ]);
@@ -131,14 +155,10 @@ class CoreGroupsTableSeeder extends Seeder
                 'app_id' => $appId
             ]);
         }
+
         // Delegate
         $delegate = Group::where('key', Delegate::JOB)->first();
-        foreach($basicIds as $appId){
-            $delegate->permissions()->create([
-                'app_id' => $appId
-            ]);
-        }
-        foreach($commId as $appId){
+        foreach($basicApps as $appId){
             $delegate->permissions()->create([
                 'app_id' => $appId
             ]);
@@ -148,5 +168,6 @@ class CoreGroupsTableSeeder extends Seeder
                 'app_id' => $appId
             ]);
         }
+
     }
 }

@@ -11,7 +11,6 @@
             width: '100%'
         });
 
-        //$('.select2').select2();
         // Change Reference input
         $(document).on('change', '.change-reference', function () {
             let selectedOption = $(this).find(":selected")[0],
@@ -22,7 +21,7 @@
             for (let index = 0; index < selectJobElm.length; index++) {
                 if ($(selectJobElm.options[index]).attr('data-main') == is_reference) {
                     $('#job_role_id').val($(selectJobElm.options[index]).val());
-                    $('#job_role_id').select2();
+                    $('#job_role_id').select2({width: '100%'});
                 }
             }
 

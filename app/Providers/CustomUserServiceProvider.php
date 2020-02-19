@@ -9,10 +9,6 @@
 namespace App\Providers;
 
 use Illuminate\Auth\EloquentUserProvider as UserProvider;
-use Illuminate\Contracts\Auth\Authenticatable as UserContract;
-use App\Classes\Date\CarbonHijri;
-use Carbon\Carbon;
-use Modules\Core\Entities\App;
 
 class CustomUserServiceProvider extends UserProvider
 {
@@ -20,23 +16,9 @@ class CustomUserServiceProvider extends UserProvider
     {
         $model = $this->createModel();
         
-        $userData = $this->newModelQuery($model)
+        return $this->newModelQuery($model)
                     ->where($model->getAuthIdentifierName(), $identifier)
                     ->with('authorizedApps')
                     ->first();
-
-        if ($userData->is_super_admin) {
-            $apps = App::parentsFormMenu()->with('menuChildrenRecursive')->get();
-        }
-        else {
-            $authorizedAppIds = $userData->authorizedAppsIds();
-            App::setAuthorizedApps($authorizedAppIds);
-            $apps = App::parentsFormMenu()->with('menuChildrenRecursive')->get();
-        }
-
-        \View::share([
-            'authorizedApps' => $apps
-        ]);
-        return $userData;
     }
 }

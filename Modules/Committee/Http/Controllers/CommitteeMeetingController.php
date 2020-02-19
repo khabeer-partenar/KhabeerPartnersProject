@@ -12,6 +12,10 @@ use Modules\Committee\Entities\MeetingType;
 use Modules\Committee\Http\Requests\SaveMeetingRequest;
 use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Users\Traits\SessionFlash;
+use Modules\Committee\Notifications\MeetingCreated;
+use Modules\Committee\Notifications\MeetingCancelled;
+use Modules\Committee\Notifications\MeetingParticpatingUpdated;
+use Notification;
 
 class CommitteeMeetingController extends UserBaseController
 {
@@ -31,6 +35,7 @@ class CommitteeMeetingController extends UserBaseController
             ->with([
                 'type',
                 'attendingDelegates',
+                'absentDelegates',
                 'attendingAdvisors',
                 'room'
             ])
@@ -68,6 +73,9 @@ class CommitteeMeetingController extends UserBaseController
     {
         $meeting = Meeting::createFromRequest($request, $committee);
         $meeting->log('create_new_meeting_for_committee : ' . $committee->id);
+        $toBeNotifiedUsers = $meeting->participantAdvisors->merge($meeting->committee->participantDepartmentsUsersUnique());
+        if($toBeNotifiedUsers->count())
+            Notification::send($toBeNotifiedUsers, new MeetingCreated($meeting->committee,$meeting));   
         self::sessionSuccess('committee::meetings.created successfully');
         return redirect()->route('committee.meetings', compact('committee'));
     }
@@ -146,6 +154,9 @@ class CommitteeMeetingController extends UserBaseController
     public function destroy(Committee $committee, Meeting $meeting)
     {
         $meeting->log('meeting_cancel_for_committee : ' . $committee->id);
+        $toBeNotifiedUsers = $meeting->participantAdvisors->merge($meeting->delegates);
+        if($toBeNotifiedUsers->count())
+            Notification::send($toBeNotifiedUsers, new MeetingCancelled($meeting->committee,$meeting));   
         $meeting->delete();
         self::sessionSuccess('committee::meetings.meeting_cancelled');
         return response()->json([], 200);

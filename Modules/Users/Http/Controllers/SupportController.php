@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use Modules\Users\Entities\SupportTickets\SupportTickets;
 use Modules\Users\Entities\SupportTickets\SupportTicketCategories;
 use Modules\Users\Entities\SupportTickets\SupportTicketDocuments;
+use Modules\Users\Notifications\newSupportTicketAdded;
+use Notification;
 
 class SupportController extends UserBaseController
 {
@@ -35,6 +37,7 @@ class SupportController extends UserBaseController
         $ticket = SupportTickets::createFromRequest($request);
         $ticket->log('create_support_tickets');
         session()->flash('alert-success', __('users::support.support_ticket_created'));
+        Notification::route('mail', env('Mail_SUPPORT_email'))->notify(new newSupportTicketAdded($ticket, \Auth::user()));
         return redirect()->route('support.create');
     }
 

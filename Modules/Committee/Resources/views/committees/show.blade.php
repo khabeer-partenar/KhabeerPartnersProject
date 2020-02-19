@@ -18,7 +18,7 @@
                 <div class="col-md-5">
                     <div class="actions item-fl item-mb20">
 
-                        @if(auth()->user()->hasPermissionWithAccess('edit') && $committee->can_take_action)
+                        @if(auth()->user()->hasPermissionWithAccess('edit') && !$committee->exported && $committee->can_take_action)
                             <a href="{{ route('committees.edit', $committee) }}" class="btn btn-sm btn-warning">
                                 <i class="fa fa-edit"></i> {{ __('committee::committees.edit') }}
                             </a>
@@ -178,69 +178,90 @@
 
             <br /><br />
 
-            {{-- Participant Department --}}
-            <label class="underLine">{{ __('committee::committees.treatment information') }}</label>
-            <table class="table table-striped table-responsive-md">
-                <thead>
-                <tr>
-                    <th style="width: 16.666%" scope="col"></th>
-                    <th scope="col">الجهات المشاركة</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($committee->participantDepartments as $department)
+            @if ($committee->participantDepartments->count() > 0)
+                {{-- Participant Department --}}
+                <label class="underLine">جهات المعاملة</label>
+                <table class="table table-striped table-responsive-md">
+                    <thead>
                     <tr>
-                        <td>{{ $loop->index + 1 }}</td>
-                        <td>
-                            {{ $department->name }}
-                        </td>
+                        <th style="width: 16.666%" scope="col"></th>
+                        <th scope="col">الجهات المشاركة</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach($committee->participantDepartments as $department)
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>
+                                {{ $department->name }}
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
 
             <br /><br />
 
-            {{-- Participant Department --}}
-            <label class="underLine">{{ __('committee::committees.files') }}</label>
-            <table class="table table-striped table-responsive-md">
-                <thead>
-                <tr>
-                    <th style="width: 16.666%" scope="col">رقم</th>
-                    <th scope="col">وصف الملف</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($committee->documents as $document)
+            @if ($committee->documents->count() > 0)
+                {{-- Participant Department --}}
+                <label class="underLine">{{ __('committee::committees.files') }}</label>
+                <table class="table table-striped table-responsive-md">
+                    <thead>
                     <tr>
-                        <td>{{ $loop->index + 1 }}</td>
-                        <td>{{ $document->description }}</td>
-                        <td>
-                            <a type="button" class="btn btn-primary"
-                               href="{{ route('committees.document.download', ['document' => $document]) }}"
-                               download>تحميل</a>
-                        </td>
+                        <th style="width: 16.666%" scope="col">رقم</th>
+                        <th scope="col">وصف الملف</th>
+                        <th scope="col"></th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach($committee->documents as $document)
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $document->description }}</td>
+                            <td>
+                                <a type="button" class="btn btn-primary"
+                                   href="{{ route('committees.document.download', ['document' => $document]) }}"
+                                   download>تحميل</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
 
-            <br>
+                <br>
+            @endif
 
             @include('committee::delegates.nomination_departments',['committee'=>$committee,'report'=>false])
             @include('committee::delegates.committee_delegates',['committee'=>$committee,'report'=>false])
 
             <br>
             @if(
-            auth()->user()->hasPermissionWithAccess('approve','CommitteeController','Committee')
-            &&
-            ($committee->advisor_id == auth()->id() || auth()->user()->is_super_admin)
-            && !$committee->approved
+                auth()->user()->hasPermissionWithAccess('approve','CommitteeController','Committee')
+                &&
+                ($committee->advisor_id == auth()->id() || auth()->user()->is_super_admin)
+                &&
+                !$committee->approved
             )
                 <a id="btn-approve" style="float: right;background-color: #057d54" class="btn btn-sm btn-info">
                     <i class="fa fa-check"></i> {{ __('committee::committees.approve') }}
                 </a>
+            @endif
+            @if(
+                auth()->user()->hasPermissionWithAccess('export')
+                &&
+                ($committee->advisor_id == auth()->id() || auth()->user()->is_super_admin)
+                &&
+                $committee->approved
+                &&
+                !$committee->exported
+            )
+                <form method="post" action="{{ route('committees.export', compact('committee')) }}">
+                    @csrf
+                    <button id="btn btn-primary" type="submit" style="float: right" class="btn btn-sm btn-info">
+                        <i class="fa fa-check"></i> {{ __('committee::committees.export') }}
+                    </button>
+                </form>
             @endif
         </div>
     </div>

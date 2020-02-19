@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function () {
         $('.select2').select2({
+            width: '100%',
             placeholder: $(this).attr('data-placeholder') ? $(this).attr('data-placeholder') : ''
         });
 
@@ -11,6 +12,19 @@
             $(helpBlockDiv).remove();
             var formGroup = $(this).closest('.form-group');
             $(formGroup).removeClass('has-error');
+        });
+
+        $('#advisor_id').change(function () {
+            let advisorId = $(this).val();
+            $('select#participant_advisors option').each(function() {
+                let optionVal = $(this).val();
+                if (advisorId == optionVal) {
+                    $(this).prop('disabled', true);
+                } else {
+                    $(this).prop('disabled', false);
+                }
+            });
+            $('#participant_advisors').select2({width: '100%'});
         });
 
         // Departments
@@ -33,7 +47,7 @@
                 `;
                 $(departmentsBody).append(trow);
                 $(selectedOption).prop('disabled', true);
-                //$('.select2').select2();
+                $('.select2').select2({width: '100%'});
             }
         });
 
@@ -43,7 +57,7 @@
             const option = $('#departments').find('option[value="' + departmentId + '"]')[0];
             $(row).remove();
             $(option).prop('disabled', false);
-            $('.select2').select2();
+            $('.select2').select2({width: '100%'});
         });
 
         // Files
@@ -120,6 +134,37 @@
                 success: function (response) {
                     let trow = $(btn).attr('data-remove-row');
                     $(trow).remove();
+                },
+                error: function (request) {
+                    let errors = request.responseJSON.errors;
+                    let keys = Object.keys(errors);
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        text: errors[keys[0]][0], // First Error is enough
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'حسنا',
+                    });
+                }
+            })
+        })
+
+        $(document).on('click', '.btn-action-notification', function () {
+            let btn = $(this);
+            let url = $(btn).attr('data-send-notification-url');
+            $.post({
+                url: url,
+                method: 'get',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    Swal.fire({
+                        title: response.message,
+                        type: 'info',
+                        showCancelButton: false,
+                        confirmButtonText: 'حسنا',
+                    });
                 },
                 error: function (request) {
                     let errors = request.responseJSON.errors;

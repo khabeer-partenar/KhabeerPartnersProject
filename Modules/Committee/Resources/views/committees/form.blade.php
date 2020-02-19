@@ -297,7 +297,7 @@
                     $meetingAt = old('first_meeting_at');
                 }
             @endphp
-            <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form_control datetime-picker" autocomplete="off">
+            <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form_control datetime-picker" autocomplete="off" {{ isset($committee) ? 'disabled':'' }}>
             @include('layouts.dashboard.form-error', ['key' => 'first_meeting_at'])
         </div>
     </div>
@@ -382,8 +382,7 @@
         <div class="form-group {{ $errors->has('participant_advisors') ? ' has-error' : '' }}">
             {!! Form::label('participant_advisors',  __('committee::committees.participant_advisors'), ['class' => 'control-label']) !!}
 
-            <select name="participant_advisors[]" data-placeholder="{{ __('committee::committees.please choose') }}"
-                    id="participant_advisors" class="form_control select2" multiple>
+            <select name="participant_advisors[]" id="participant_advisors" data-placeholder="{{ __('committee::committees.please choose') }}" class="form_control select2" multiple>
                 @php
                     $participantIds = isset($committee) ? $committee->participantAdvisors()->pluck('users.id')->toArray():[];
                     if (old('participant_advisors')){
