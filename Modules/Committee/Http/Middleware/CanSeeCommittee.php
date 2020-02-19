@@ -29,7 +29,7 @@ class CanSeeCommittee
                     abort(403);
                 }
             }
-        } else if (auth()->user() && auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+        } else if (auth()->user() && auth()->user()->authorizedApps->key != Employee::ADVISOR) {
             if ($committee) {
                 $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
                 if (!in_array($committee->id, $participantIn) && $committee->advisor_id == auth()->id()) {
@@ -39,8 +39,7 @@ class CanSeeCommittee
         }
         elseif (auth()->user() && auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
             if ($committee) {
-                $childrenDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('id')->toArray();
-                $departmentsId = array_merge($childrenDepartments, [auth()->user()->parent_department_id]);
+                $departmentsId = auth()->user()->coordinatorAuthorizedIds();
                 $committeeIds = CommitteeDepartment::whereIn('department_id', $departmentsId)->pluck('committee_id')->toArray();
                 if (!in_array($committee->id, $committeeIds)) {
                     abort(403);

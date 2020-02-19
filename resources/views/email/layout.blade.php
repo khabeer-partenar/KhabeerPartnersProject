@@ -47,7 +47,7 @@
 </style>
 <body>
 <div class="email-container">
-    <img src="{{ asset('assets/images/logo.png') }}">
+    <img src="{{ asset('/assets/images/logo.png') }}">
     <hr>
     <div class="body">
         @yield('content')

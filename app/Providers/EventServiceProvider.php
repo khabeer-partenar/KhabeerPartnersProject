@@ -38,9 +38,6 @@ class EventServiceProvider extends ServiceProvider
         DelegateUpdatedEvent::class => [
             DelegateDepartmentChangedListener::class
         ],
-        NominationDoneEvent::class => [
-            NominationDoneListener::class
-        ],
         DelegateDeletedEvent::class => [
             DelegateDeletedListener::class
         ]

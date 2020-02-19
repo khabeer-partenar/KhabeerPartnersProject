@@ -19,5 +19,7 @@ Setting Commands:
 - npm run prod
  
 Cron Jobs:
+-
+- 59 23 * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 - Queue Command (Always will be running) : php artisan queue:work
  

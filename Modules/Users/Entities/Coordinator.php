@@ -90,6 +90,17 @@ class Coordinator extends User
         return $query;
     }
 
+    public function scopeMainCoordinator($query)
+    {
+        return $query->where('job_role_id',Group::where('key', Coordinator::MAIN_CO_JOB)->first()->id);
+    }
+
+    public static function ParentDepartmentCoordinators($ids)
+    {
+        return self::whereIn('parent_department_id',$ids);
+    }
+
+
     /**
      * Relations
      *

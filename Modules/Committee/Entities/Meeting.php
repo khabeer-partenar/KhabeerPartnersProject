@@ -102,6 +102,18 @@ class Meeting extends Model
         }
         return $query;
     }
+
+    public function scopeSoonMeeting($query)
+    {
+        return $query->whereDate('from', Carbon::today()->addDays(2))
+                     ->orWhereDate('from', Carbon::today()->addDays(1));
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('completed', 1);
+    }
+    
     /**
      * Accs & Mut
      */
@@ -211,7 +223,7 @@ class Meeting extends Model
         $this->committee->updateFirstMeetingAt();
 
         if ($this->can_change_members) {
-            $delegates = MeetingDelegate::prepareForSync($request->delegates);
+            $delegates = MeetingDelegate::prepareForSync($request->delegates,$this->delegates, $this);
             $this->delegates()->sync($delegates);
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }

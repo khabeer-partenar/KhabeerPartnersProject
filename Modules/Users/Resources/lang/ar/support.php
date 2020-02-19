@@ -6,4 +6,6 @@ return [
     'support_attachments' => 'صور عن المشكلة',
     'file description' => 'وصف الملف',
     'support_ticket_created' => 'تم ارسال الطلب بنجاح',
+    'new_support_ticket' => 'طلب دعم جديد',
+    'request_uesr' => 'صاحب الطلب'
 ];
