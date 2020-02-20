@@ -8,6 +8,7 @@ use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 use Modules\Core\Entities\Group;
 use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
@@ -20,7 +21,6 @@ use Modules\Users\Entities\User;
 use Modules\Committee\Events\NominationDoneEvent;
 use Modules\Committee\Notifications\DepartmentDeleted;
 use Modules\Committee\Events\CommitteeCreatedEvent;
-
 use Notification;
 
 
