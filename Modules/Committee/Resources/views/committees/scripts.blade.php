@@ -163,7 +163,7 @@
 
         $(document).on('click', '#btn-send-nomination', function () {
 
-            var url = '{{(isset($committee))? route("committees.send.nomination",compact("committee")):''}}';
+            var url = '{{(isset($committee))? route("committees.send.nomination", $committee->id):''}}';
             if (url == '') return;
             Swal.fire({
                 title: 'هل تريد إرسال الترشيحات الى سكرتير المستشار؟',
@@ -219,7 +219,7 @@
 
         $(document).on('click', '#btn-approve', function () {
 
-            var url = '{{(isset($committee))? route("committees.approve",compact("committee")):''}}';
+            var url = '{{(isset($committee))? route("committees.approve", $committee->id):''}}';
             if (url == '') return;
             Swal.fire({
                 title: 'هل تريد اعتماد اللجنة؟',

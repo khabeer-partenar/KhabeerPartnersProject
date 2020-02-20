@@ -5,9 +5,11 @@ namespace Modules\Committee\Entities;
 use App\Classes\Date\CarbonHijri;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
+use CommitteesParticipantAdvisors;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Modules\Committee\Events\CommitteeCreatedEvent;
 use Modules\Core\Entities\Group;
@@ -173,6 +175,97 @@ class Committee extends Model
         if ($request->created_at) {
             $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $request->created_at));
         }
+
+        return $query;
+    }
+
+    public static function filter($exported = false, $searchFilters = [])
+    {
+        $query = DB::table(self::table());
+        $additionalSelect = '';
+
+        // User Filter
+        switch (auth()->user()->authorizedApps->key) {
+            case Employee::SECRETARY:
+                $advisorsId = auth()->user()->advisors()->pluck('users.id');
+                $query->whereIn('advisor_id', $advisorsId);
+                break;
+
+            case Employee::ADVISOR:
+                $additionalSelect = "committees_participant_advisors.advisor_id'";
+                $query
+                    ->join(CommitteeAdvisor::table(), Committee::table().'.id', '=', CommitteeAdvisor::table() . '.committee_id')
+                    ->where(CommitteeAdvisor::table().'.advisor_id', auth()->id())
+                    ->orWhere(function ($query) {
+                        $query->where('committees.advisor_id', auth()->id());
+                    });
+                break;
+
+            case Coordinator::MAIN_CO_JOB:
+            case Coordinator::NORMAL_CO_JOB:
+                $additionalSelect = 'committees_participant_departments.department_id';
+                $query->join(CommitteeDepartment::table(), Committee::table().'.id', '=', CommitteeDepartment::table() . '.committee_id')
+                    ->whereIn(CommitteeDepartment::table().'.department_id', $departmentsId = auth()->user()->coordinatorAuthorizedIds());
+                break;
+
+            case Delegate::JOB:
+                $additionalSelect = 'committee_delegate.user_id';
+                $query
+                    ->join(CommitteeDelegate::table(), Committee::table().'.id', '=', CommitteeDelegate::table() . '.committee_id')
+                    ->where(CommitteeDelegate::table().'.user_id', auth()->id());
+                break;
+        }
+
+        // Load more
+        $query->leftJoin(CommitteeView::table(), function ($join) {
+            $join->on(Committee::table().'.id', '=', CommitteeView::table().'.committee_id')
+                ->where(CommitteeView::table().'.user_id', auth()->id());
+        });
+
+        $query->leftJoin(User::table() . ' as presidents', function ($join) {
+            $join->on(Committee::table().'.president_id', '=', 'presidents.id');
+        });
+
+        $query->leftJoin(User::table() . ' as advisors', function ($join) {
+            $join->on(Committee::table().'.advisor_id', '=', 'advisors.id');
+        });
+
+        $query->select(
+            DB::raw('DISTINCT(' . DB::getTablePrefix() . 'committees.id)'),
+            'committees.*',
+            CommitteeView::table().'.user_id as has_viewed',
+            'advisors.name as advisor_name',
+            'presidents.name as president_name',
+            $additionalSelect
+        );
+
+        // Additional conditions
+        $query->where('exported', $exported);
+
+        // Search
+        if (isset($searchFilters['subject'])) {
+            $query->where('subject', 'LIKE', '%' . $searchFilters['subject'] . '%');
+        }
+        if (isset($searchFilters['advisor_id']) && $searchFilters['advisor_id'] != 0) {
+            $query->where('advisor_id', $searchFilters['advisor_id']);
+        }
+        if (isset($searchFilters['status']) && $searchFilters['status'] != '0') {
+            $query->where('status', $searchFilters['status']);
+        }
+        if (isset($searchFilters['treatment_number'])) {
+            $query->where('treatment_number', $searchFilters['treatment_number']);
+        }
+        if (isset($searchFilters['treatment_time']) && $searchFilters['treatment_time'] != '') {
+            $query->whereDate('treatment_time', '=', Carbon::createFromFormat('m/d/Y', $searchFilters['treatment_time']));
+        }
+        if (isset($searchFilters['uuid'])) {
+            $query->where('uuid', $searchFilters['uuid']);
+        }
+        if (isset($searchFilters['created_at'])) {
+            $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $searchFilters['created_at']));
+        }
+
+        $query->orderBy('created_at', 'desc');
 
         return $query;
     }

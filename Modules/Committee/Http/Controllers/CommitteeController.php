@@ -5,6 +5,7 @@ namespace Modules\Committee\Http\Controllers;
 use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDocument;
 use Modules\Committee\Entities\CommitteeStatus;
@@ -35,12 +36,15 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $committees = Committee::with('advisor', 'president', 'view')
-            ->latest()
-            ->exported(false)
-            ->search($request)
-            ->user()
-            ->paginate(10);
+        $committees = Committee::filter(false, $request->all())->paginate(10);
+
+//        $committees = Committee::
+//            with('advisor', 'president', 'view')
+//            ->latest()
+//            ->exported(false)
+//            ->search($request)
+//            ->user()
+//            ->paginate(10);
 
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
 

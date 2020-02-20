@@ -1,16 +1,16 @@
 @if ($committee)
     @if(auth()->user()->hasPermissionWithAccess('show'))
-        <a href="{{ route('committees.show', $committee) }}" class="btn btn-sm btn-primary custom-action-btn">
+        <a href="{{ route('committees.show', $committee->id) }}" class="btn btn-sm btn-primary custom-action-btn">
             <i class="fa fa-eye"></i> {{ __('committee::committees.show') }}
         </a>
     @endif
     @if(auth()->user()->hasPermissionWithAccess('index','CommitteeMeetingController','Committee'))
-        <a href="{{ route('committee.meetings', $committee) }}" class="btn btn-sm btn-primary custom-action-btn">
+        <a href="{{ route('committee.meetings', $committee->id) }}" class="btn btn-sm btn-primary custom-action-btn">
             <i class="fa fa-calendar"></i> {{ __('committee::committees.meetings') }}
         </a>
     @endif
     @if(auth()->user()->hasPermissionWithAccess('index', 'CommitteeMultimediaController', 'Committee'))
-        <a href="{{ route('committee.multimedia', $committee) }}" class="btn btn-sm btn-primary custom-action-btn">
+        <a href="{{ route('committee.multimedia', $committee->id) }}" class="btn btn-sm btn-primary custom-action-btn">
             <i class="fa fa-comments"></i> مرئيات المشاركين
         </a>
     @endif
@@ -28,8 +28,9 @@
             </a>
         @endif
     @endif
-    @if(auth()->user()->hasPermissionWithAccess('destroy') && $committee->can_take_action)
-        <a data-href="{{ route('committees.destroy', $committee) }}" class="btn btn-sm btn-danger delete-row-reason custom-action-btn">
+    @if(auth()->user()->hasPermissionWithAccess('destroy'))
+        {{--&& $committee->can_take_action--}}
+        <a data-href="{{ route('committees.destroy', $committee->id) }}" class="btn btn-sm btn-danger delete-row-reason custom-action-btn">
             <i class="fa fa-trash"></i> {{ __('committee::committees.delete') }}
         </a>
     @endif

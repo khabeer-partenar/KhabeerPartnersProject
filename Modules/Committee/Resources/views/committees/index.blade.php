@@ -100,28 +100,28 @@
                                     </td>
                                     <td>
                                         {{ __('committee::committees.committee number') }}: {{ $committee->treatment_number }} <br>
-                                        {{ $committee->created_at->format('d-m-Y') }}
+                                        {{ \Carbon\Carbon::parse($committee->created_at)->format('d-m-Y') }}
                                     </td>
                                     <td>
                                         {{ $committee->uuid }} <br> 
                                         {{ $committee->subject }}
                                     </td>
                                     <td>
-                                        {{ __('committee::committees.advisor_only') }} {{ $committee->advisor->name }} <br>
+                                        {{ __('committee::committees.advisor_only') }} {{ $committee->advisor_name }} <br>
                                         {{ __('committee::committees.member') }} {{ $committee->members_count }}
                                     </td>
                                     <td>
-                                        {{ $committee->president ? $committee->president->name : '-' }}
+                                        {{ $committee->president_name ? $committee->president_name : '-' }}
                                     </td>
-                                    @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB)
-                                    <td>
-                                        {{ $committee->filterIfDepartmentHasNominations() }}
-                                    </td>
-                                    @else
-                                    <td>
-                                        {{ $committee->GroupStatus }}
-                                    </td>
-                                    @endif
+                                    {{--@if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB)--}}
+                                    {{--<td>--}}
+                                        {{--{{ $committee->filterIfDepartmentHasNominations() }}--}}
+                                    {{--</td>--}}
+                                    {{--@else--}}
+                                    {{--<td>--}}
+                                        {{--{{ $committee->GroupStatus }}--}}
+                                    {{--</td>--}}
+                                    {{--@endif--}}
                                     
                                     <td>
                                         @include('committee::committees.actions')

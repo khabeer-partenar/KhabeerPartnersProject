@@ -1,6 +1,6 @@
 @if ($committee)
     <div class="row"  style="display: flex;text-align: center;margin: auto">
-        @if ($committee->created_at->format('Y-m-d') == Carbon\Carbon::today()->format('Y-m-d'))
+        @if (\Carbon\Carbon::parse($committee->created_at)->format('Y-m-d') == Carbon\Carbon::today()->format('Y-m-d'))
             <i title="{{__('committee::committees.icon_new_title')}}" class="fa fa-lg fa-file"
                style="color:green;margin-left: 3px;"></i>
         @endif
@@ -13,7 +13,7 @@
             <i title="{{__('committee::committees.icon_importance_title')}}" class="fa fa-lg fa-lock"
                style="color:darkorange;margin-left: 3px;"></i>
         @endif
-        @if ($committee->view)
+        @if ($committee->has_viewed)
             <i title="{{__('committee::committees.icon_read_title')}}" class="fa fa-lg fa-envelope-open-o"
                style="margin-left: 3px;"></i>
         @else
