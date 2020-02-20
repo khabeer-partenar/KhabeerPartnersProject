@@ -2256,6 +2256,12 @@ Docs & License: https://fullcalendar.io/
             configurable: true
         });
 
+        Object.defineProperty(EventApi.prototype, "meetingUrl", {
+            get: function () { return this._def.meetingUrl; },
+            enumerable: true,
+            configurable: true
+        });
+
         Object.defineProperty(EventApi.prototype, "place", {
             get: function () { return this._def.place; },
             enumerable: true,
@@ -3012,7 +3018,8 @@ Docs & License: https://fullcalendar.io/
         rendering: String,
         meetingType: String,
         meetingChair: String,
-        meetingId: Number,
+        meetingId: String,
+        meetingUrl: String,
         place : String,
         attendaceNumber: String,
         absenceNumber: String,

@@ -55,6 +55,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <a id="meeting_details" href="" class="btn btn-info" role="button" >{{__('committee::meetings.details')}}</a>
                 <button  type="button" class="btn btn-danger" data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
             </div>
         </div>
