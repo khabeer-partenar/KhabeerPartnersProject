@@ -179,10 +179,9 @@ class Committee extends Model
         return $query;
     }
 
-    public static function filter($exported = false, $searchFilters = [])
+    public static function filter($exported = null, $searchFilters = [])
     {
         $query = DB::table(self::table());
-        $additionalSelect = '';
 
         // User Filter
         switch (auth()->user()->authorizedApps->key) {
@@ -232,15 +231,18 @@ class Committee extends Model
 
         $query->select(
             DB::raw('DISTINCT(' . DB::getTablePrefix() . 'committees.id)'),
+            'committees.id',
             'committees.*',
             CommitteeView::table().'.user_id as has_viewed',
             'advisors.name as advisor_name',
             'presidents.name as president_name',
-            $additionalSelect
+            isset($additionalSelect) ? $additionalSelect:'committees.subject'
         );
 
         // Additional conditions
-        $query->where('exported', $exported);
+        if ($exported){
+            $query->where('exported', $exported);
+        }
 
         // Search
         if (isset($searchFilters['subject'])) {

@@ -38,14 +38,6 @@ class CommitteeController extends UserBaseController
     {
         $committees = Committee::filter(false, $request->all())->paginate(10);
 
-//        $committees = Committee::
-//            with('advisor', 'president', 'view')
-//            ->latest()
-//            ->exported(false)
-//            ->search($request)
-//            ->user()
-//            ->paginate(10);
-
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
 
         return view('committee::committees.index', compact('committees', 'advisors'));
@@ -58,12 +50,7 @@ class CommitteeController extends UserBaseController
      */
     public function exported(Request $request)
     {
-        $committees = Committee::with('advisor', 'president', 'view')
-            ->latest()
-            ->exported()
-            ->search($request)
-            ->user()
-            ->paginate(10);
+        $committees = Committee::filter(true, $request->all())->paginate(10);
 
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
 
