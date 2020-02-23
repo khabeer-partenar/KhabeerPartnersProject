@@ -235,9 +235,12 @@ class Committee extends Model
             'committees.*',
             CommitteeView::table().'.user_id as has_viewed',
             'advisors.name as advisor_name',
-            'presidents.name as president_name',
-            isset($additionalSelect) ? $additionalSelect:'committees.subject'
+            'presidents.name as president_name'
         );
+
+        if (isset($additionalSelect)) {
+            $query->addSelect($additionalSelect);
+        }
 
         // Additional conditions
         if ($exported){
