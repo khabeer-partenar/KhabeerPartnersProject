@@ -33,12 +33,6 @@ class DelegatesTableSeeder extends Seeder
                 'main_department_id' => '1', 'parent_department_id' => '14', 'user_type' => Delegate::TYPE,
                 'title' => 'مندوب', 'job_title' => 'مطور', 'job_role_id' => '12'
             ],
-            [
-                'name' => 'أحمد فرغلي', 'national_id' => '1005800019', 'phone_number' => '0563108769', 'direct_department' => '5',
-                'email' => 'mail-1005800019@mu.gov.sa',
-                'main_department_id' => '1', 'parent_department_id' => '17', 'user_type' => Delegate::TYPE,
-                'title' => 'مندوب', 'job_title' => 'مطور', 'job_role_id' => '12'
-            ],
         ];
         for($i = 0; $i < count($delegates); $i++) {
             $delegate = User::create($delegates[$i]);
