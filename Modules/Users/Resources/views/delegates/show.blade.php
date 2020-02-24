@@ -16,7 +16,7 @@
                 <div class="col-md-3">
                     <div class="actions item-fl item-mb20">
                         @if(auth()->user()->hasPermissionWithAccess('edit'))
-                            <a href="{{ route('delegates.edit', $delegate) }}" class="btn btn-sm btn-warning">
+                            <a href="{{ route('delegates.edit',$delegate) }}" class="btn btn-sm btn-warning">
                                 <i class="fa fa-edit"></i> {{ __('users::delegates.edit') }}
                             </a>
                         @endif
@@ -42,8 +42,8 @@
                 <tr>
                     <th scope="row">اسم الجهة</th>
                     <td>
-                        {{ $delegate->parentDepartment->name }}
-                        <span style="color: #aeaeae;font-style: italic;">{{ $delegate->parentDepartment->is_reference ? '- جهة مرجعية':'' }}</span>
+                        {{ isset($delegate->parentDepartment)?$delegate->parentDepartment->name:'' }}
+                        <span style="color: #aeaeae;font-style: italic;">{{ isset($delegate->parentDepartment) && $delegate->parentDepartment->is_reference ? '- جهة مرجعية':'' }}</span>
                     </td>
                 </tr>
                 <tr>

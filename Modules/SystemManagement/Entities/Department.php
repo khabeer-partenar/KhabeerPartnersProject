@@ -213,6 +213,31 @@ class Department extends Model
                 ->get()->prepend(Department::getEmptyObjectForSelectAjax());
     }
 
+    public static function scopeGetDepartmentsWithRefWithoutPrepend($query, $parentId)
+    {
+        if (!$parentId) {
+            abort(404);
+        }
+        $parentDepartment = self::findOrFail($parentId);
+        if (auth()->user()->user_type == Coordinator::TYPE && $parentDepartment->type == self::mainDepartment) {
+            $departmentsIds = self::query()
+                ->where('reference_id', auth()->user()->parent_department_id)
+                ->orWhere(function ($query) {
+                    $query->where('id', auth()->user()->parent_department_id)->where('is_reference', true);
+                })
+                ->pluck('id');
+        }
+        if (isset($departmentsIds)) {
+            $query->whereIn('id', $departmentsIds);
+        }
+        return
+            $query
+                ->select('id', 'name', 'reference_id', 'is_reference')
+                ->where('parent_id', $parentId)
+                ->with('referenceDepartment')
+                ->get();
+    }
+
     public static function scopeGetDepartments($query)
     {
         return $query->mainDepartments($query)->pluck('name', 'id')->toArray();

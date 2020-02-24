@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Modules\Committee\Entities\Meeting;
@@ -29,6 +31,17 @@ class RouteServiceProvider extends ServiceProvider
         {
             return Meeting::where('id', $value)->withTrashed()->first();
         });
+
+      /*  Route::bind('delegate', function($value, $route)
+        {
+            try {
+                return decrypt($value);
+            }
+             catch (\Exception $e)
+            {
+                return abort(403);
+            }
+        });*/
 
         parent::boot();
     }

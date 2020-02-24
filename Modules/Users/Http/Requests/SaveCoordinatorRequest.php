@@ -4,6 +4,7 @@ namespace Modules\Users\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\SystemManagement\Entities\Department;
+use Modules\SystemManagement\Rules\CheckCoordinatorParentDepartmentType;
 use Modules\Users\Entities\User;
 use App\Rules\NationalIDRule;
 use App\Rules\FilterStringRule;
@@ -24,7 +25,7 @@ class SaveCoordinatorRequest extends FormRequest
     {
         return [
             'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::mainDepartment)],
-            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::parentDepartment)],
+            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::parentDepartment), new CheckCoordinatorParentDepartmentType(request()->main_department_id)],
             'direct_department' => ['nullable', 'string'],
             'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
             'name'                 => ['required', new FilterStringRule, 'string'],

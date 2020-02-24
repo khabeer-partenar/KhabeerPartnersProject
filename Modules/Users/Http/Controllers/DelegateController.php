@@ -53,6 +53,7 @@ class DelegateController extends UserBaseController
     public function index(Request $request)
     {
         $delegatesData = Delegate::UserDepartment()->with('mainDepartment', 'parentDepartment', 'directDepartment')->search($request)->paginate(10);
+        //dd($delegatesData);
         $mainDepartments = Department::getDepartments();
         return view('users::delegates.index', compact('mainDepartments', 'delegatesData'));
     }
@@ -82,13 +83,6 @@ class DelegateController extends UserBaseController
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
         return view("users::delegates.create", compact('mainDepartments', 'delegateJobs'));
-    }
-
-    public function removeDelegateFromCommittee(Delegate $delegate)
-    {
-        $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate);
-        return response()->json(['msg' => __('users::delegates.deleted')]);
     }
 
     public function addDelegatesToCommittee(AddDelegatesToCommittee $request, Delegate $delegate)
