@@ -85,13 +85,6 @@ class DelegateController extends UserBaseController
         return view("users::delegates.create", compact('mainDepartments', 'delegateJobs'));
     }
 
-    public function removeDelegateFromCommittee(Delegate $delegate)
-    {
-        $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate);
-        return response()->json(['msg' => __('users::delegates.deleted')]);
-    }
-
     public function addDelegatesToCommittee(AddDelegatesToCommittee $request, Delegate $delegate)
     {
         if ($request->has('delegates_ids')) {
