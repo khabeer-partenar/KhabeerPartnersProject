@@ -43,7 +43,7 @@
                             <td>
                                 {{ $meeting->meeting_at }}
                                 <br>
-                                {{ 'من ' . $meeting->from  . ' إلي ' . $meeting->to  }}
+                                {{ 'من ' . $meeting->from  . ' إلى ' . $meeting->to  }}
                             </td>
                             <td>{{ $meeting->reason }}</td>
                             <td>{{ $meeting->room->name }}</td>
