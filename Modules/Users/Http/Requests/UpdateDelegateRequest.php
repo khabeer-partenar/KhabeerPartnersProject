@@ -30,7 +30,6 @@ class UpdateDelegateRequest extends FormRequest
     public function rules(Request $request)
     {
         $delegate = $request->delegate;
-
         return [
             'parent_department_id' =>   ['required','integer','exists:'. Department::table(). ',id',  new CheckMainCoordinatorNominations(request()->parent_department_id,request()->committee_id)
                 , new CheckCoordinatorParentDepartmentType],

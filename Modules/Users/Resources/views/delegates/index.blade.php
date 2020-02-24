@@ -93,7 +93,7 @@
                             <tr>
                                 <td>{{ $delegateData->name }}</td>
                                 <td>
-                                    {{ $delegateData->mainDepartment->name }} - {{ $delegateData->parentDepartment->name }}
+                                    {{ $delegateData->mainDepartment->name }} - {{ isset($delegateData->parentDepartment)?$delegateData->parentDepartment->name:'' }}
                                 </td>
                                 <td>
                                     {{ $delegateData->phone_number }} <br>
@@ -101,7 +101,7 @@
                                 </td>
                                 <td>
                                     @if(auth()->user()->hasPermissionWithAccess('show'))
-                                        <a href="{{ route('delegates.show', $delegateData) }}" class="btn btn-sm btn-default custom-action-btn">
+                                        <a href="{{ route('delegates.show',$delegateData) }}" class="btn btn-sm btn-default custom-action-btn">
                                             <i class="fa fa-eye"></i> {{ __('users::delegates.show') }}
                                         </a>
                                     @endif

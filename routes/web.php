@@ -11,4 +11,6 @@
 |
 */
 
+use Modules\SystemManagement\Entities\Department;
+
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

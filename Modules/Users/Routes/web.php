@@ -36,10 +36,10 @@ Route::group(['middleware' => 'auth'], function()
         Route::resource('/coordinators', 'CoordinatorController')->middleware('coordinator.can');
 
         // Delegate
-        Route::resource('/delegates', 'DelegateController');
+        Route::resource('/delegates', 'DelegateController')->middleware('read.delegate');
 
         Route::get('/delegates/deleteUser/{delegate_id}/{committee_id}/{department_id}/{reason?}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
-        Route::resource('/delegates','DelegateController');
+        //Route::resource('/delegates','DelegateController');
 
         //Route::get('/delegates/deleteUser/{delegate_id}/{committee_id/{department_id}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
 
@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth'], function()
 
         // Account
         Route::prefix('account')->group(function(){
-            
+
             Route::get('/edit', 'AccountController@edit')->name('account.edit');
             Route::put('/edit', 'AccountController@update')->name('account.update');
             Route::get('/logout', 'AccountController@logout')->name('account.logout');
