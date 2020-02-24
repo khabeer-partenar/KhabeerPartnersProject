@@ -191,10 +191,10 @@ class Committee extends Model
                 break;
 
             case Employee::ADVISOR:
-                $additionalSelect = "committees_participant_advisors.advisor_id'";
+                $additionalSelect = "committees_participant_advisors.advisor_id";
                 $query
-                    ->join(CommitteeAdvisor::table(), Committee::table().'.id', '=', CommitteeAdvisor::table() . '.committee_id')
-                    ->where(CommitteeAdvisor::table().'.advisor_id', auth()->id())
+                    ->join(CommitteeAdvisor::table(), Committee::table() . '.id', '=', CommitteeAdvisor::table() . '.committee_id')
+                    ->where(CommitteeAdvisor::table() . '.advisor_id', auth()->id())
                     ->orWhere(function ($query) {
                         $query->where('committees.advisor_id', auth()->id());
                     });
@@ -203,39 +203,48 @@ class Committee extends Model
             case Coordinator::MAIN_CO_JOB:
             case Coordinator::NORMAL_CO_JOB:
                 $additionalSelect = 'committees_participant_departments.department_id';
-                $query->join(CommitteeDepartment::table(), Committee::table().'.id', '=', CommitteeDepartment::table() . '.committee_id')
-                    ->whereIn(CommitteeDepartment::table().'.department_id', $departmentsId = auth()->user()->coordinatorAuthorizedIds());
+                $query->join(CommitteeDepartment::table(), Committee::table() . '.id', '=', CommitteeDepartment::table() . '.committee_id')
+                    ->whereIn(CommitteeDepartment::table() . '.department_id', $departmentsId = auth()->user()->coordinatorAuthorizedIds());
                 break;
 
             case Delegate::JOB:
                 $additionalSelect = 'committee_delegate.user_id';
                 $query
-                    ->join(CommitteeDelegate::table(), Committee::table().'.id', '=', CommitteeDelegate::table() . '.committee_id')
-                    ->where(CommitteeDelegate::table().'.user_id', auth()->id());
+                    ->join(CommitteeDelegate::table(), Committee::table() . '.id', '=', CommitteeDelegate::table() . '.committee_id')
+                    ->where(CommitteeDelegate::table() . '.user_id', auth()->id());
                 break;
         }
 
         // Load more
         $query->leftJoin(CommitteeView::table(), function ($join) {
-            $join->on(Committee::table().'.id', '=', CommitteeView::table().'.committee_id')
-                ->where(CommitteeView::table().'.user_id', auth()->id());
+            $join->on(Committee::table() . '.id', '=', CommitteeView::table() . '.committee_id')
+                ->where(CommitteeView::table() . '.user_id', auth()->id());
         });
 
         $query->leftJoin(User::table() . ' as presidents', function ($join) {
-            $join->on(Committee::table().'.president_id', '=', 'presidents.id');
+            $join->on(Committee::table() . '.president_id', '=', 'presidents.id');
         });
 
         $query->leftJoin(User::table() . ' as advisors', function ($join) {
-            $join->on(Committee::table().'.advisor_id', '=', 'advisors.id');
+            $join->on(Committee::table() . '.advisor_id', '=', 'advisors.id');
+        });
+
+        $query->join(CommitteeGroupStatus::table() . ' as groupStatus', function ($join) {
+            $group_id = auth()->user()->job_role_id;
+            $join->on(Committee::table() . '.id', '=', 'groupStatus.committee_id')
+                ->where('groupStatus.group_id', '=', $group_id)
+                ->join(Status::table().' as committeeStatus','groupStatus.status','=','committeeStatus.id');
+
         });
 
         $query->select(
             DB::raw('DISTINCT(' . DB::getTablePrefix() . 'committees.id)'),
             'committees.id',
             'committees.*',
-            CommitteeView::table().'.user_id as has_viewed',
+            CommitteeView::table() . '.user_id as has_viewed',
             'advisors.name as advisor_name',
-            'presidents.name as president_name'
+            'presidents.name as president_name',
+            'committeeStatus.status_ar as group_status'
         );
 
         if (isset($additionalSelect)) {
@@ -243,7 +252,7 @@ class Committee extends Model
         }
 
         // Additional conditions
-        if ($exported){
+        if ($exported) {
             $query->where('exported', $exported);
         }
 
@@ -278,11 +287,11 @@ class Committee extends Model
     public function scopeUser($query)
     {
 
-        if(!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
+        if (!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
             $query->where('approved', true);
         }
 
-        if(auth()->user()->authorizedApps->key == Employee::ADVISOR) {
+        if (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
             $query->whereRaw('IF(advisor_id <> ?, approved=?, advisor_id=advisor_id)', [auth()->user()->id, true]);
         }
 
@@ -320,9 +329,9 @@ class Committee extends Model
         $committeeDepartments = $this->departments;
         $committeeDelegatesDepartments = $this->committeeDelegates;
         if ($committeeDepartments->count() == $committeeDelegatesDepartments->count()) {
-            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this,Status::NOMINATIONS_COMPLETED);
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this, Status::NOMINATIONS_COMPLETED);
         } else {
-            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this,Status::WAITING_DELEGATES);
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this, Status::WAITING_DELEGATES);
         }
     }
 
@@ -368,7 +377,7 @@ class Committee extends Model
         Meeting::create([
             'committee_id' => $committee->id,
             'type_id' => $type->id,
-            'from' => self::getDateFromFormat($request->first_meeting_at,'d/m/Y H:i'),
+            'from' => self::getDateFromFormat($request->first_meeting_at, 'd/m/Y H:i'),
             'advisor_id' => $request->advisor_id
         ]);
 
@@ -419,11 +428,10 @@ class Committee extends Model
 
     public function filterIfDepartmentHasNominations()
     {
-        foreach($this->getNominationDepartmentsWithRef() as $department)
-        {
-           return $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done'); 
+        foreach ($this->getNominationDepartmentsWithRef() as $department) {
+            return $department->pivot->has_nominations == 1 ? __('committee::committees.nomination_done') : __('committee::committees.nomination_not_done');
         }
-        
+
     }
 
     public function groupsStatuses()
@@ -457,7 +465,7 @@ class Committee extends Model
 
     public function setView()
     {
-        return $this->view == null ? $this->views()->create(['user_id' => auth()->id()]):null;
+        return $this->view == null ? $this->views()->create(['user_id' => auth()->id()]) : null;
     }
 
     public function updateFirstMeetingAt()
