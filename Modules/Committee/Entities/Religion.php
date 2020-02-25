@@ -21,7 +21,7 @@ class Religion extends Model
      *
      * @var array
      */
-    protected $fillable = ['type', 'name', 'name_en'];
+    protected $fillable = ['type', 'name_en'];
 
     public function drivers()
     {
