@@ -199,7 +199,13 @@ class CoreAppsTableSeeder extends Seeder
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\MeetingDocumentController@store', 'name' => 'رفع مرفقات الإجتماع',
+            'resource_name' => $generalResourceName . '\MeetingDocumentController@store', 'name' => 'رفع مرفقات إجتماع جديد',
+            'icon' => 'fa fa-users', 'sort' => 8, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\MeetingDocumentController@storeForMeeting', 'name' => 'رفع مرفقات الإجتماع',
             'icon' => 'fa fa-users', 'sort' => 8, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
