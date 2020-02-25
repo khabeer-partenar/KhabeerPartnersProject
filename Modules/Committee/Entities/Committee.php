@@ -202,18 +202,12 @@ class Committee extends Model
 
             case Employee::ADVISOR:
                 $query->addSelect('committees_participant_advisors.advisor_id');
-//                $query->leftJoin(CommitteeAdvisor::table(), function($join) {
-//                    $join->on(Committee::table() . '.id', '=', CommitteeAdvisor::table() . '.committee_id')
-//                        ->where(CommitteeAdvisor::table() . '.advisor_id', auth()->id())
-//                        ->orWhere(function ($query) {
-//                            $query->where('committees.advisor_id', auth()->id());
-//                        });
-//                });
                 $query->leftJoin(CommitteeAdvisor::table(), Committee::table() . '.id', '=', CommitteeAdvisor::table() . '.committee_id')
                     ->where(CommitteeAdvisor::table() . '.advisor_id', auth()->id())
                     ->orWhere(function ($query) {
                         $query->where('committees.advisor_id', auth()->id());
-                    });
+                    })
+                    ->groupBy('committees.advisor_id', 'committees.id');
                 break;
 
             case Coordinator::MAIN_CO_JOB:
