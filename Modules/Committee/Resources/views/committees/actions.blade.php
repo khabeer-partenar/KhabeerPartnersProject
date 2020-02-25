@@ -16,20 +16,19 @@
     @endif
     @if (auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
         @if(auth()->user()->hasPermissionWithAccess('show', 'CommitteeAttendanceController', 'Committee'))
-            <a href="{{ route('committees.attendance', compact('committee')) }}" class="btn btn-success">
+            <a href="{{ route('committees.attendance', $committee->id) }}" class="btn btn-success">
                 <i class="fa fa-users"></i> حالة الحضور
             </a>
         @endif
     @endif
     @if (auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE)
         @if(auth()->user()->hasPermissionWithAccess('store', 'CommitteeMultimediaController', 'Committee'))
-            <a href="{{ route('committee.multimedia.create', compact('committee')) }}" class="btn btn-success">
+            <a href="{{ route('committee.multimedia.create', $committee->id) }}" class="btn btn-success">
                 <i class="fa fa-users"></i>المرئيات
             </a>
         @endif
     @endif
-    @if(auth()->user()->hasPermissionWithAccess('destroy'))
-        {{--&& $committee->can_take_action--}}
+    @if(auth()->user()->hasPermissionWithAccess('destroy') && in_array(auth()->id(), [$committee->created_by, $committee->advisor_id]))
         <a data-href="{{ route('committees.destroy', $committee->id) }}" class="btn btn-sm btn-danger delete-row-reason custom-action-btn">
             <i class="fa fa-trash"></i> {{ __('committee::committees.delete') }}
         </a>

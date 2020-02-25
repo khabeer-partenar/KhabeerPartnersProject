@@ -181,7 +181,17 @@ class Committee extends Model
 
     public static function filter($exported = null, $searchFilters = [])
     {
-        $query = DB::table(self::table());
+        $query = DB::table(self::table())->select(
+            DB::raw('DISTINCT(' . DB::getTablePrefix() . 'committees.id)'),
+            'committees.id',
+            'committees.*',
+            CommitteeView::table() . '.user_id as has_viewed',
+            'created_by',
+            'approved',
+            'advisors.name as advisor_name',
+            'presidents.name as president_name',
+            'committeeStatus.status_ar as group_status'
+        );
 
         // User Filter
         switch (auth()->user()->authorizedApps->key) {
@@ -191,9 +201,15 @@ class Committee extends Model
                 break;
 
             case Employee::ADVISOR:
-                $additionalSelect = "committees_participant_advisors.advisor_id";
-                $query
-                    ->join(CommitteeAdvisor::table(), Committee::table() . '.id', '=', CommitteeAdvisor::table() . '.committee_id')
+                $query->addSelect('committees_participant_advisors.advisor_id');
+//                $query->leftJoin(CommitteeAdvisor::table(), function($join) {
+//                    $join->on(Committee::table() . '.id', '=', CommitteeAdvisor::table() . '.committee_id')
+//                        ->where(CommitteeAdvisor::table() . '.advisor_id', auth()->id())
+//                        ->orWhere(function ($query) {
+//                            $query->where('committees.advisor_id', auth()->id());
+//                        });
+//                });
+                $query->leftJoin(CommitteeAdvisor::table(), Committee::table() . '.id', '=', CommitteeAdvisor::table() . '.committee_id')
                     ->where(CommitteeAdvisor::table() . '.advisor_id', auth()->id())
                     ->orWhere(function ($query) {
                         $query->where('committees.advisor_id', auth()->id());
@@ -202,13 +218,13 @@ class Committee extends Model
 
             case Coordinator::MAIN_CO_JOB:
             case Coordinator::NORMAL_CO_JOB:
-                $additionalSelect = 'committees_participant_departments.department_id';
+                $query->addSelect('committees_participant_departments.department_id');
                 $query->join(CommitteeDepartment::table(), Committee::table() . '.id', '=', CommitteeDepartment::table() . '.committee_id')
-                    ->whereIn(CommitteeDepartment::table() . '.department_id', $departmentsId = auth()->user()->coordinatorAuthorizedIds());
+                    ->whereIn(CommitteeDepartment::table() . '.department_id', auth()->user()->coordinatorAuthorizedIds());
                 break;
 
             case Delegate::JOB:
-                $additionalSelect = 'committee_delegate.user_id';
+                $query->addSelect('committee_delegate.user_id');
                 $query
                     ->join(CommitteeDelegate::table(), Committee::table() . '.id', '=', CommitteeDelegate::table() . '.committee_id')
                     ->where(CommitteeDelegate::table() . '.user_id', auth()->id());
@@ -234,22 +250,7 @@ class Committee extends Model
             $join->on(Committee::table() . '.id', '=', 'groupStatus.committee_id')
                 ->where('groupStatus.group_id', '=', $group_id)
                 ->join(Status::table().' as committeeStatus','groupStatus.status','=','committeeStatus.id');
-
         });
-
-        $query->select(
-            DB::raw('DISTINCT(' . DB::getTablePrefix() . 'committees.id)'),
-            'committees.id',
-            'committees.*',
-            CommitteeView::table() . '.user_id as has_viewed',
-            'advisors.name as advisor_name',
-            'presidents.name as president_name',
-            'committeeStatus.status_ar as group_status'
-        );
-
-        if (isset($additionalSelect)) {
-            $query->addSelect($additionalSelect);
-        }
 
         // Additional conditions
         if ($exported) {
