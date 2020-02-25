@@ -34,6 +34,7 @@ return [
     'destroyـconfirmation' => 'هل انت متأكد من عملية الحذف؟',
 
     'add' => 'اضافة',
+    'add_new' => 'أضف جديد',
     'save' => 'حفظ',
     'send' => 'إرسال',
     'goBack' => 'تراجع',

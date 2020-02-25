@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting']], functio
         Route::delete('{committee}/meetings/{document}/delegate-document', 'DelegateDocumentsController@destroy')->name('committee.meeting-document.delete-delegate');
 
         // Delegates
-        Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show')->middleware('delegate.status');
+        Route::get('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@show')->name('committees.meetings.delegate.show');
         Route::put('/{committee}/meetings/{meeting}/delegate', 'DelegateMeetingController@update')->name('committees.meetings.delegate.update');
 
         // Coordinator

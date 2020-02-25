@@ -86,7 +86,6 @@
             let formData = $('#addDriverForm').serialize();
             let url = $(this).data('url');
             const driver_id = $('#driver_id').val();
-            console.log(formData);
             $.post({
                 url: url,
                 data: formData,
@@ -171,7 +170,6 @@
 
                 },
                 error: function (request) {
-                    console.log('gjh');
 
                     let errors = request.responseJSON.errors;
                     let keys = Object.keys(errors);
@@ -212,7 +210,6 @@
                 data: {'driver_id':driver_id},
                 success: function (response) {
                     const driver = response.driver;
-                    console.log(driver)
                     let trow = '';
                         trow = `
                             <tr>
@@ -268,7 +265,13 @@
                 $("#drivers_of_delegate").hide();
             }
         });
-        
+
+        $('#addDelegateModal').on('hidden.bs.modal', function () {
+            $('#driver_name').val('');
+            $('#driver_nationality_id').val('');
+            $('#driver_national_id').val('');
+            $('#driver_religion_id').val('0');
+        })
 
 
     });
