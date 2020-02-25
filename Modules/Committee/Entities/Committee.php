@@ -201,7 +201,7 @@ class Committee extends Model
                 break;
 
             case Employee::ADVISOR:
-                $query->addSelect('committees_participant_advisors.advisor_id');
+                $query->addSelect('committees_participant_advisors.advisor_id as participant_id');
                 $query->leftJoin(CommitteeAdvisor::table(), Committee::table() . '.id', '=', CommitteeAdvisor::table() . '.committee_id')
                     ->where(CommitteeAdvisor::table() . '.advisor_id', auth()->id())
                     ->orWhere(function ($query) {
@@ -214,7 +214,8 @@ class Committee extends Model
             case Coordinator::NORMAL_CO_JOB:
                 $query->addSelect('committees_participant_departments.department_id');
                 $query->join(CommitteeDepartment::table(), Committee::table() . '.id', '=', CommitteeDepartment::table() . '.committee_id')
-                    ->whereIn(CommitteeDepartment::table() . '.department_id', auth()->user()->coordinatorAuthorizedIds());
+                    ->whereIn(CommitteeDepartment::table() . '.department_id', auth()->user()->coordinatorAuthorizedIds())
+                    ->groupBy('committees.id');
                 break;
 
             case Delegate::JOB:
