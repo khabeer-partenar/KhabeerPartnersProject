@@ -48,7 +48,7 @@
                             {{ $meeting->meeting_at_ar }}
                             من
                             {{ $meeting->from }}
-                            إلي
+                            إلى
                             {{ $meeting->to }}
                         </td>
                     </tr>
