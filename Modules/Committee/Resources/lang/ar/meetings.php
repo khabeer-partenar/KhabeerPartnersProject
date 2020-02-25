@@ -33,6 +33,6 @@ return [
     'confirm_attendance' => 'تأكيد حضور المشاركين في الإجتماع',
     'attended' => 'تم تأكيد الحضور',
     'absent' => 'لم يحضر',
-    'members_multimedia' => 'مرئيات المشاركين علي مستوي الإجتماع',
+    'members_multimedia' => 'مرئيات المشاركين علي مستوى الإجتماع',
     'details' => 'المزيد'
 ];
