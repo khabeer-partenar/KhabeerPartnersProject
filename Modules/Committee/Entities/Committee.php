@@ -126,21 +126,6 @@ class Committee extends Model
 
     }
 
-    public function getGroupStatusAttribute()
-    {
-        $group_id = auth()->user()->job_role_id;
-        $groupStatus = $this->groupStatus($group_id)->first();
-        if ($groupStatus == null) {
-            // default if the user group dose not exist
-            $group_id = Group::where('key', Employee::SECRETARY)->first()->id;
-            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
-
-        } else {
-            $groupStatus = $this->groupStatus($group_id)->first()->status()->first()->status_ar;
-        }
-        return $groupStatus;
-    }
-
     public function getCanTakeActionAttribute()
     {
         return in_array(auth()->user()->id, [$this->created_by, $this->advisor_id]);
@@ -453,10 +438,11 @@ class Committee extends Model
 
     }
 
-    public function groupStatus($groupId)
+    public function groupStatus()
     {
-        return $this->hasMany(CommitteeGroupStatus::class, 'committee_id')
-            ->with('status')->where('group_id', $groupId);
+        $group_id = auth()->user()->job_role_id;
+        return $this->hasOne(CommitteeGroupStatus::class, 'committee_id')
+            ->with('committeeStatus')->where('group_id', $group_id);
     }
 
     public function setView()
