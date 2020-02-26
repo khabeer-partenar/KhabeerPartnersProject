@@ -9,8 +9,8 @@
 
                 <div class="col-md-9">
                     <div class="caption">
-                        <i class="fa fa-users"></i>
-                        <span class="caption-subject sbold">{{ __('committee::committees.meetings') }}</span>
+                        <i class="fa fa-calendar-o"></i>
+                         <span class="caption-subject sbold"> {{ __('committee::committees.committee meetings') }}</span>
                     </div>
                 </div>
 

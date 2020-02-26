@@ -110,6 +110,7 @@ return [
     'am' => 'صباحا',
     'pm' => 'مساءا',
     'meetings' => 'الإجتماعات',
+    'committee meetings' => 'قائمة إجتماعات اللجنة',
     'icon_new_title' => 'المعاملة جديدة انشأت بتاريخ اليوم',
     'icon_urgent_title' => 'المعاملة عاجلة',
     'icon_importance_title' => 'المعاملة سرية',
