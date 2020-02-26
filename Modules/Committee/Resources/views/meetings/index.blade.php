@@ -46,6 +46,9 @@
                                 <th>مكان الإجتماع</th>
                                 <th>عدد المجتمعين</th>
                             @endif
+                            @if (auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE)
+                                <th>حالة الدعوة</th>
+                            @endif
                             <th>خيارات</th>
                         </tr>
                     </thead>
@@ -87,7 +90,17 @@
                                     <td>{{ $meeting->room ? $meeting->room->name:'' }}</td>
                                     <td>{{ count($meeting->attendingDelegates) + count($meeting->attendingAdvisors) }}</td>
                                 @endif
-
+                                @if (auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE)
+                                    <td>
+                                        @if (in_array(auth()->id(), $meeting->attendingDelegates->pluck('delegate_id')->toArray()))
+                                            {{ __('committee::meetings.accepted') }}
+                                        @elseif(in_array(auth()->id(), $meeting->absentDelegates->pluck('delegate_id')->toArray()))
+                                            {{ __('committee::meetings.rejected') }}
+                                        @else
+                                            {{ __('committee::meetings.invited') }}
+                                        @endif
+                                    </td>
+                                @endif
                                 <td>
                                     @include('committee::meetings.actions')
                                 </td>

@@ -211,7 +211,7 @@ class Meeting extends Model
             'advisor_id' => $committee->advisor_id
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
-        $delegates = MeetingDelegate::prepareForSync($request->delegates);
+        $delegates = MeetingDelegate::prepareForSync($request->delegates, [], $meeting);
         $meeting->delegates()->sync($delegates);
         $meeting->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors:[]);
 
