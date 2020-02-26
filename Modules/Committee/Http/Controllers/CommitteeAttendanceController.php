@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Http\Controllers;
 
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -13,7 +14,7 @@ use Modules\Committee\Entities\MeetingType;
 use Modules\SystemManagement\Entities\Department;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
-class CommitteeAttendanceController extends Controller
+class CommitteeAttendanceController extends UserBaseController
 {
     /**
      * This Method Should be seen by Coordinator
