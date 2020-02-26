@@ -21,11 +21,13 @@ class CoordinatorMeetingController extends Controller
      */
     public function show(Committee $committee, Meeting $meeting)
     {
+        if (!$meeting->is_completed) {
+            abort(403);
+        }
         $delegates = $committee->getDelegatesWithDetails();
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
         $committee->load('participantAdvisors', 'participantDepartments', 'documents', 'view');
-        // $committee->setView();
         $meeting->load(['delegates' => function($query) {
             $query->whereIn('parent_department_id', auth()->user()->coordinatorAuthorizedIds())->with('department');
         }]);

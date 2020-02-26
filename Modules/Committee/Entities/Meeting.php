@@ -41,11 +41,11 @@ class Meeting extends Model
         } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
             $authorizedDepartments = auth()->user()->coordinatorAuthorizedIds();
             $committeeIds = CommitteeDepartment::whereIn('department_id', $authorizedDepartments)->pluck('committee_id');
-            $query->whereIn('committee_id', $committeeIds);
+            $query->whereIn('committee_id', $committeeIds)->where('completed', 1);
         } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
             $authorizedDepartments = auth()->user()->coordinatorAuthorizedIds();
             $meetingIds = MeetingDelegate::whereIn('department_id', $authorizedDepartments)->pluck('meeting_id');
-            $query->whereIn('id', $meetingIds);
+            $query->whereIn('id', $meetingIds)->where('completed', 1);;
         } elseif (auth()->user()->user_type == Delegate::TYPE) {
             $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
             $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
@@ -156,6 +156,14 @@ class Meeting extends Model
     public function getIsOldAttribute()
     {
         return Carbon::parse($this->meeting_at)->lte(Carbon::today());
+    }
+
+    public function getIsCompletedAttribute()
+    {
+        if (auth()->id() == $this->advisor_id || auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            return true;
+        }
+        return false;
     }
 
     public function setFromAttribute($value)
