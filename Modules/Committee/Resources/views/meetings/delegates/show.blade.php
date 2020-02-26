@@ -169,7 +169,7 @@
                                 <tr>
                                     <td>{{ $driver->name }}</td>
                                     <td>{{ $driver->national_id }}</td>
-                                    <td>{{ $driver->nationality }}</td>
+                                    <td>{{ $driver->nationality->name }}</td>
                                     <td>{{ $driver->religion->name }}</td>
                                 </tr>
                             @endif
@@ -228,10 +228,10 @@
 
                 <hr>
 
-                @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
 
-                    <p class="underLine">الملفات</p>
-                    <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
+                <p class="underLine">الملفات</p>
+                <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
+                @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
                         <div class="col-md-5">
                             <div class="col-md-4">
                                 {!! Form::label('tasks',  __('committee::committees.file description'), ['class' => 'control-label']) !!}
@@ -265,27 +265,30 @@
                                 إضافة
                             </button>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <table style="width: 100%" class="table table-bordered mt-10">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">{{ __('committee::committees.number') }}</th>
-                                        <th scope="col">{{ __('committee::committees.file description') }}</th>
-                                        <th scope="col">{{ __('committee::committees.file path') }}</th>
+                @endif
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table style="width: 100%" class="table table-bordered mt-10">
+                                <thead>
+                                <tr>
+                                    <th scope="col">{{ __('committee::committees.number') }}</th>
+                                    <th scope="col">{{ __('committee::committees.file description') }}</th>
+                                    <th scope="col">{{ __('committee::committees.file path') }}</th>
+                                    @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
                                         <th scope="col">{{ __('committee::committees.options') }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="filesOfDelegate">
-                                    @foreach($delegate->documents  as $document)
+                                    @endif
+                                </tr>
+                                </thead>
+                                <tbody id="filesOfDelegate">
+                                @foreach($delegate->documents  as $document)
 
-                                        <tr id="file-{{ $document->id }}">
-                                            <td>{{ $loop->index + 1 }}</td>
-                                            <td>{{ $document->description ? $document->description:''}}</td>
-                                            <td>
-                                                <a href="{{ $document->full_path }}">{{ $document->name }}</a>
-                                            </td>
+                                    <tr id="file-{{ $document->id }}">
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>{{ $document->description ? $document->description:''}}</td>
+                                        <td>
+                                            <a href="{{ $document->full_path }}">{{ $document->name }}</a>
+                                        </td>
+                                        @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
                                             <td>
                                                 <button type="button" class="btn btn-danger file-remove-delegate"
                                                         data-remove-url="{{ route('committee.meeting-document.delete-delegate', compact('committee', 'document')) }}"
@@ -293,14 +296,15 @@
                                                     حذف
                                                 </button>
                                             </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                @endif
+                </div>
+
 
             <hr>
 
