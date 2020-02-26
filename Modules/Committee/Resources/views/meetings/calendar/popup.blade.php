@@ -22,8 +22,8 @@
                                 <th scope="row" style="width: 30%;">{{ __('committee::meetings.meeting_title') }}</th>
                                 <td id="title_data" colspan="2"></td>
                             </tr>
-                            <tr>
-                                <th scope="row">{{__('committee::meetings.chairman')}}</th>
+                            <tr id="chairman_content">
+                                <th scope="row" >{{__('committee::meetings.chairman')}}</th>
                                 <td id="chairman_data" colspan="2"></td>
                             </tr>
                             <tr>
