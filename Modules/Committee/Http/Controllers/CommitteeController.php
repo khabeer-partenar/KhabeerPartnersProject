@@ -37,7 +37,7 @@ class CommitteeController extends UserBaseController
     public function index(Request $request)
     {
         $committees = Committee::filter(false, $request->all())->paginate(10);
-
+dd($committees);
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
 
         return view('committee::committees.index', compact('committees', 'advisors'));
@@ -185,7 +185,7 @@ class CommitteeController extends UserBaseController
         if(!$committee->can_take_action) {
             return back();
         }
-        
+
         $request->validate(['reason' => 'required|string|max:300']);
         $committee->update(['reason_of_deletion' => $request->reason]);
         $committee->log('delete_committee');

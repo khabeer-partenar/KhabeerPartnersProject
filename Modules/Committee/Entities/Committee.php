@@ -197,10 +197,29 @@ class Committee extends Model
 
             case Coordinator::MAIN_CO_JOB:
             case Coordinator::NORMAL_CO_JOB:
+
+                /* $nominatedDepartments = $query->leftJoin(CommitteeDepartment::table() .' as CommitteDepartments'  , function ($join) {
+                      $join->on(Committee::table() . '.id', '=', 'CommitteDepartments.committee_id')
+                          ->where('CommitteDepartments.has_nominations',true)
+                          ->whereIn('CommitteDepartments.department_id', auth()->user()->coordinatorAuthorizedIds());
+                  })->count();
+
+                  $query->selectRaw($nominatedDepartments . ' as nominatedDepartments');*/
+
+
                 $query->addSelect('committees_participant_departments.department_id');
                 $query->join(CommitteeDepartment::table(), Committee::table() . '.id', '=', CommitteeDepartment::table() . '.committee_id')
                     ->whereIn(CommitteeDepartment::table() . '.department_id', auth()->user()->coordinatorAuthorizedIds())
                     ->groupBy('committees.id');
+
+                $query->leftJoin(CommitteeDepartment::table() . ' as CommitteDepartments', function ($join) {
+                    $join->on(Committee::table() . '.id', '=', 'CommitteDepartments.committee_id')
+                        ->where('CommitteDepartments.has_nominations', true)
+                        ->whereIn('CommitteDepartments.department_id', auth()->user()->coordinatorAuthorizedIds());
+                })  ->selectRaw('COUNT(*) AS nomination_count
+                    ,CASE WHEN COUNT(*) = ' . count(auth()->user()->coordinatorAuthorizedIds()) . ' THEN 1 ELSE 0 END as nomination_status')
+                    ->groupBy('committees.id');
+
                 break;
 
             case Delegate::JOB:
@@ -229,7 +248,7 @@ class Committee extends Model
             $group_id = auth()->user()->job_role_id;
             $join->on(Committee::table() . '.id', '=', 'groupStatus.committee_id')
                 ->where('groupStatus.group_id', '=', $group_id)
-                ->join(Status::table().' as committeeStatus','groupStatus.status','=','committeeStatus.id');
+                ->join(Status::table() . ' as committeeStatus', 'groupStatus.status', '=', 'committeeStatus.id');
         });
 
         // Additional conditions

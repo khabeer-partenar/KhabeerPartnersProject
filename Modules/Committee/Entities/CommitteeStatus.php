@@ -29,9 +29,6 @@ class CommitteeStatus extends Model
         $technicalSupportGroupId = Group::where('key', Employee::TECHNICAL_SUPPORT)->first()->id;
         $chairmanOfTheCommissionGroupId = Group::where('key', Employee::CHAIRMAN_OF_THE_COMMISSION)->first()->id;
         $viceChairmanOfTheCommissionGroupId = Group::where('key', Employee::VICE_CHAIRMAN_OF_THE_COMMISSION)->first()->id;
-
-        $coordinatorGroupId = Group::where('key', Coordinator::NORMAL_CO_JOB)->first()->id;
-        $mainCoordinatorGroupId = Group::where('key', Coordinator::MAIN_CO_JOB)->first()->id;
         $delegateGroupId = Group::where('key', Delegate::JOB)->first()->id;
 
         $committee->groupsStatuses()->sync([
@@ -44,13 +41,11 @@ class CommitteeStatus extends Model
             $technicalSupportGroupId => ['status' => Status::WAITING_DELEGATES],
             $chairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
             $viceChairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
-            $coordinatorGroupId => ['status' => Status::NOMINATIONS_NOT_DONE],
-            $mainCoordinatorGroupId => ['status' => Status::NOMINATIONS_NOT_DONE],
             $delegateGroupId => ['status' => Status::NOMINATIONS_NOT_DONE]
         ]);
     }
 
-    public static function updateCommitteeGroupStatus(Committee $committee, $status)
+   /* public static function updateCommitteeGroupStatus(Committee $committee, $status,$user_id)  // user_id for coordinators
     {
         $coordinatorGroupId = Group::where('key', Coordinator::NORMAL_CO_JOB)->first()->id;
         $mainCoordinatorGroupId = Group::where('key', Coordinator::MAIN_CO_JOB)->first()->id;
@@ -61,7 +56,7 @@ class CommitteeStatus extends Model
                 , $mainCoordinatorGroupId => ['status' => $status]
                 , $delegateGroupId => ['status' => $status]
             ]);
-    }
+    }*/
 
     public static function updateCommitteeGroupsStatusToNominationsCompleted(Committee $committee,$status)
     {
@@ -74,6 +69,7 @@ class CommitteeStatus extends Model
         $technicalSupportGroupId = Group::where('key', Employee::TECHNICAL_SUPPORT)->first()->id;
         $chairmanOfTheCommissionGroupId = Group::where('key', Employee::CHAIRMAN_OF_THE_COMMISSION)->first()->id;
         $viceChairmanOfTheCommissionGroupId = Group::where('key', Employee::VICE_CHAIRMAN_OF_THE_COMMISSION)->first()->id;
+        $delegateGroupId = Group::where('key', Delegate::JOB)->first()->id;
 
         $committee->groupsStatuses()->syncWithoutDetaching(
             [$secretaryGroupId => ['status' => $status]
@@ -85,6 +81,7 @@ class CommitteeStatus extends Model
                 , $technicalSupportGroupId => ['status' => $status]
                 , $chairmanOfTheCommissionGroupId => ['status' => $status]
                 , $viceChairmanOfTheCommissionGroupId => ['status' => $status]
+                , $delegateGroupId => ['status' => $status]
             ]);
 
     }

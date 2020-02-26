@@ -71,14 +71,14 @@ class Delegate extends User
         $coordinatorsNominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
 
         $committeeNominatedDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
-        $committeeCoordinatorsNominatedDepartments = CommitteeDelegate::whereIn('nominated_department_id', $coordinatorsNominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
+        //$committeeCoordinatorsNominatedDepartments = CommitteeDelegate::whereIn('nominated_department_id', $coordinatorsNominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
 
-        if ($coordinatorsNominationDepartmentsIds->count() == $committeeCoordinatorsNominatedDepartments->count()) {
-            CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_DONE);
+       /* if ($coordinatorsNominationDepartmentsIds->count() == $committeeCoordinatorsNominatedDepartments->count()) {
+           // CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_DONE,auth()->user()->id);
         } else {
-            CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_NOT_DONE);
+           // CommitteeStatus::updateCommitteeGroupStatus($committee,Status::NOMINATIONS_NOT_DONE,,auth()->user()->id);
             CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::WAITING_DELEGATES);
-        }
+        }*/
 
         if (!$nominationDepartmentsIds->count() == $committeeNominatedDepartments->count()) {
             CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($committee,Status::WAITING_DELEGATES);

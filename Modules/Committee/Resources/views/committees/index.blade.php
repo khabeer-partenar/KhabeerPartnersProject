@@ -114,15 +114,16 @@
                                 <td>
                                     {{ $committee->president_name ? $committee->president_name : '-' }}
                                 </td>
-                              {{--  @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB)
+                                @if(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
                                     <td>
-                                        {{ $committee->filterIfDepartmentHasNominations() }}
+                                        {{ $committee->nomination_status>1?'تم الترشيح':
+                                               'لم يتم الترشيح'}}
                                     </td>
-                                @else--}}
+                                @else
                                     <td>
                                         {{ $committee->group_status }}
                                     </td>
-                                {{--@endif--}}
+                                @endif
 
                                 <td>
                                     @if(!$committee->exported)
@@ -157,15 +158,17 @@
                                 <td>
                                     {{ $committee->president_name ? $committee->president_name : '-' }}
                                 </td>
-                                @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Coordinator::MAIN_CO_JOB)
+
+                                @if(auth()->user()->job_role_id == \Modules\Users\Entities\Coordinator::TYPE)
                                     <td>
-                                        {{ $committee->filterIfDepartmentHasNominations() }}
+                                        {{ 'done' }}
                                     </td>
                                 @else
                                     <td>
                                         {{ $committee->group_status }}
                                     </td>
                                 @endif
+
                                 <td>
                                     {{ $committee->advisor_id == auth()->id() ? __('committee::committees.committee advisor') : __('committee::committees.committee participant') }}
                                 </td>
