@@ -42,15 +42,18 @@ class MeetingDelegate extends Model
     }
 
     // Functions
-    public static function prepareForSync($delegatesIds = [], $old_delegates=null, $meeting)
+    public static function prepareForSync($delegatesIds = [], $old_delegates = [], $meeting)
     {
         $delegates = Delegate::whereIn('id', $delegatesIds);
-        $removed_delegates = Delegate::whereIn('id', array_diff($old_delegates->pluck('id')->toArray(), $delegates->pluck('id')->toArray()));
-        $new_delegates = Delegate::whereIn('id', array_diff($delegates->pluck('id')->toArray(), $old_delegates->pluck('id')->toArray()));
-        if($removed_delegates->count())
-            Notification::send($removed_delegates->get(), new MeetingDelegatesRemoved($meeting->committee,$meeting));
-        if($new_delegates->count())
-            Notification::send($new_delegates->get(), new MeetingDelegatesInviting($meeting->committee,$meeting));
+
+        if (!empty($old_delegates)){
+            $removed_delegates = Delegate::whereIn('id', array_diff($old_delegates->pluck('id')->toArray(), $delegates->pluck('id')->toArray()));
+            $new_delegates = Delegate::whereIn('id', array_diff($delegates->pluck('id')->toArray(), $old_delegates->pluck('id')->toArray()));
+            if($removed_delegates->count())
+                Notification::send($removed_delegates->get(), new MeetingDelegatesRemoved($meeting->committee,$meeting));
+            if($new_delegates->count())
+                Notification::send($new_delegates->get(), new MeetingDelegatesInviting($meeting->committee,$meeting));
+        }
 
         $prepared = [];
         foreach ($delegates->pluck('parent_department_id', 'id') as $key => $department){
