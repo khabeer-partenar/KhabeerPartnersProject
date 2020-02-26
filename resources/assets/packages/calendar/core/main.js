@@ -4411,7 +4411,7 @@ Docs & License: https://fullcalendar.io/
             temproaryDate = moment().startOf('month');
         }
             params[startParam] = temproaryDate.startOf('month').format('DD-MM-YYYY');
-            params[endParam] = temproaryDate.endOf('month').format('DD-MM-YYYY');
+            params[endParam] = temproaryDate.add(1, 'months').format('DD-MM-YYYY');
 
         if (dateEnv.timeZone !== 'local') {
             params[timeZoneParam] = dateEnv.timeZone;
