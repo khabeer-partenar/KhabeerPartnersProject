@@ -27,7 +27,7 @@
 
         <div class="portlet-body form">
 
-            @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
+            @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED && !$committee->exported)
                 {{ Form::model($meeting, ['route' => ['committees.meetings.delegate.update', $committee, $meeting], 'method' => 'PUT', 'id' => 'delegate-meeting-form']) }}
             @endif
 
@@ -113,6 +113,7 @@
                     <div class="col-md-4">
                         <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
                     </div>
+                    @if(!$committee->exported)
                     <div class="col-md-12">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -154,6 +155,7 @@
                         <input type="hidden" id="driverid" name="driver_id" value="{{ $driver ? $driver->id:null }}">
 
                     </div>
+                    @endif
 
                     <table style="width: 100%" class="table table-bordered mt-10">
                         <thead>
@@ -221,7 +223,7 @@
                         <label> {{__('committee::delegate_meeting.multimedia_date') . ' : ' . $multimedia->updated_at}}</label>
                         <hr style="margin-top: 5px;margin-bottom: 5px">
                     @endforeach
-                    @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
+                    @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED && !$committee->exported)
                         <a id="btnAddMedia" class="btn btn-success">{{ __('committee::delegate_meeting.add_multimedia') }}</a>
                     @endif
                 </div>
@@ -231,7 +233,7 @@
 
                 <p class="underLine">الملفات</p>
                 <div class="row" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
-                @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
+                @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED && !$committee->exported)
                         <div class="col-md-5">
                             <div class="col-md-4">
                                 {!! Form::label('tasks',  __('committee::committees.file description'), ['class' => 'control-label']) !!}
@@ -274,7 +276,7 @@
                                     <th scope="col">{{ __('committee::committees.number') }}</th>
                                     <th scope="col">{{ __('committee::committees.file description') }}</th>
                                     <th scope="col">{{ __('committee::committees.file path') }}</th>
-                                    @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
+                                    @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED && !$committee->exported)
                                         <th scope="col">{{ __('committee::committees.options') }}</th>
                                     @endif
                                 </tr>
@@ -288,7 +290,7 @@
                                         <td>
                                             <a href="{{ $document->full_path }}">{{ $document->name }}</a>
                                         </td>
-                                        @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
+                                        @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED && !$committee->exported)
                                             <td>
                                                 <button type="button" class="btn btn-danger file-remove-delegate"
                                                         data-remove-url="{{ route('committee.meeting-document.delete-delegate', compact('committee', 'document')) }}"
@@ -308,7 +310,7 @@
 
             <hr>
 
-            @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED)
+            @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED && !$committee->exported)
 
                 <div class="row">
                     <div class="form-actions">
