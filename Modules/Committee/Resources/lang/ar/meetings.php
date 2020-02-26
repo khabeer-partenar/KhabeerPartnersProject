@@ -35,5 +35,6 @@ return [
     'attended' => 'تم تأكيد الحضور',
     'absent' => 'لم يحضر',
     'members_multimedia' => 'مرئيات المشاركين علي مستوى الإجتماع',
-    'details' => 'المزيد'
+    'details' => 'المزيد',
+    'inviting_status' => 'حالة الدعوة'
 ];

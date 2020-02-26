@@ -2240,6 +2240,16 @@ Docs & License: https://fullcalendar.io/
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(EventApi.prototype, "userType", {
+            get: function () { return this._def.userType; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EventApi.prototype, "delegateStatus", {
+            get: function () { return this._def.delegateStatus; },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(EventApi.prototype, "allDay", {
             get: function () { return this._def.allDay; },
             enumerable: true,
@@ -3035,6 +3045,8 @@ Docs & License: https://fullcalendar.io/
         absenceNumber: String,
         advisorId:String,
         userId:String,
+        userType:String,
+        delegateStatus:String,
         extendedProps: null,
 
     };

@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Committee\Http\Resources\MeetingType as TypeResource;
 use Modules\Committee\Http\Resources\MeetingAdvisor as AdvisorResource;
 use Modules\Committee\Http\Resources\MeetingRoom as RoomResource;
-use Auth;
+use Modules\Committee\Entities\MeetingDelegate;
 
 
 class MeetingCalendar extends JsonResource
@@ -23,11 +23,15 @@ class MeetingCalendar extends JsonResource
         $advisor = new AdvisorResource($this->advisor);
         $room = new RoomResource($this->room);
         if(auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE)
+        {
             $url = route('committees.meetings.delegate.show', [$this->committee, $this]);
+            $delegateStatus = __('committee::meetings.' . MeetingDelegate::STATUS[$this->currentDelegate()->first()->pivot->status]);
+        }
         elseif(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
             $url = route('committees.meetings.co.show', [$this->committee, $this]);
         else
             $url = route('committee.meetings.show', [$this->committee, $this]);
+
         return[
             'title' => $this->reason,
             'meetingType' => $type->name,
@@ -41,7 +45,9 @@ class MeetingCalendar extends JsonResource
             'meetingId' => $this->id,
             'meetingUrl' => $url,
             'advisorId' => $advisor->id,
-            'userId' => Auth::user()->id,
+            'userId' => auth()->id(),
+            'userType' => auth()->user()->user_type,
+            'delegateStatus' => empty($delegateStatus)? '':$delegateStatus,
         ];
     }
 }
