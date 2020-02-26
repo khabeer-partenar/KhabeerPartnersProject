@@ -26,6 +26,7 @@ return [
     'calendar_meeting_details' => 'تفاصيل الاجتماع',
     'chairman' => 'رئيس اللجنة',
     'attendace_number' => 'عدد الحاضرين',
+    'accepted_number' => 'عدد الذين قبلوا الإجتماع',
     'absence_number' => 'عدد المعتذرين',
     'meeting_title' => 'عنوان الاجتماع',
     'meeting_cancelled' => 'تم إلغاء الإجتماع',

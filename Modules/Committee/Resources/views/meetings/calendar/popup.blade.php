@@ -43,7 +43,7 @@
                                 <td id="to_data" colspan="2"></td>
                             </tr>
                             <tr>
-                                <th scope="row">{{ __('committee::meetings.attendace_number') }}</th>
+                                <th scope="row">{{ __('committee::meetings.accepted_number') }}</th>
                                 <td id="attendace_data" colspan="2"></td>
                             </tr>
                             <tr>
