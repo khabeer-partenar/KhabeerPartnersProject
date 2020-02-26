@@ -2230,6 +2230,16 @@ Docs & License: https://fullcalendar.io/
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(EventApi.prototype, "advisorId", {
+            get: function () { return this._def.advisorId; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EventApi.prototype, "userId", {
+            get: function () { return this._def.userId; },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(EventApi.prototype, "allDay", {
             get: function () { return this._def.allDay; },
             enumerable: true,
@@ -3023,7 +3033,10 @@ Docs & License: https://fullcalendar.io/
         place : String,
         attendaceNumber: String,
         absenceNumber: String,
-        extendedProps: null
+        advisorId:String,
+        userId:String,
+        extendedProps: null,
+
     };
     var DATE_PROPS = {
         start: null,
@@ -4411,7 +4424,7 @@ Docs & License: https://fullcalendar.io/
             temproaryDate = moment().startOf('month');
         }
             params[startParam] = temproaryDate.startOf('month').format('DD-MM-YYYY');
-            params[endParam] = temproaryDate.endOf('month').format('DD-MM-YYYY');
+            params[endParam] = temproaryDate.add(1, 'months').format('DD-MM-YYYY');
 
         if (dateEnv.timeZone !== 'local') {
             params[timeZoneParam] = dateEnv.timeZone;

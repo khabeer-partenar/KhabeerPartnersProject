@@ -38,13 +38,19 @@
             $(this).data('title') !== null ? $("#title_data").text($(this).data('title')):'';
             $(this).data('start') !== null ? $("#from_data").text(handleTime($(this).data('start'))):'';
             $(this).data('end') !== null ? $("#to_data").text(handleTime($(this).data('end'))):'';
-            $(this).data('meeting-chair') !== null ? $("#chairman_data").text($(this).data('meeting-chair')):'';
             $(this).data('meeting-place') !== null ? $("#room_data").text($(this).data('meeting-place')):'';
             $(this).data('meeting-absence-number') !== 0 ? $("#absence_data").text(persianJs($(this).data('meeting-absence-number')).englishNumber()):$("#absence_data").text('0');
             $(this).data('meeting-attendace-number') !== 0 ? $("#attendace_data").text(persianJs($(this).data('meeting-attendace-number')).englishNumber()):$("#attendace_data").text('0');
             $(this).data('meeting-type') !== null ? $("#type_data").text($(this).data('meeting-type')):'';
             $(this).data('url') !== null ? $("#meeting_details").attr('href',$(this).data('url')):'';
-
+            if($(this).data('meeting-chair') !== null  && $(this).data('advisor-id') !== $(this).data('user-id'))
+            {
+                $("#chairman_data").text($(this).data('meeting-chair'));
+            }
+            else
+            {
+                $('#chairman_content').remove();
+            }
 
         });
 
