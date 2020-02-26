@@ -22,14 +22,12 @@ class MeetingCalendar extends JsonResource
         $type = new TypeResource($this->type);
         $advisor = new AdvisorResource($this->advisor);
         $room = new RoomResource($this->room);
-        $counter = $this->withCount(['attendingDelegates', 'attendingAdvisors','absentDelegates','absentAdvisors'])->get();
         if(auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE)
             $url = route('committees.meetings.delegate.show', [$this->committee, $this]);
         elseif(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
             $url = route('committees.meetings.co.show', [$this->committee, $this]);
         else
             $url = route('committee.meetings.show', [$this->committee, $this]);
-
         return[
             'title' => $this->reason,
             'meetingType' => $type->name,
@@ -38,8 +36,8 @@ class MeetingCalendar extends JsonResource
             'color' => $type->color,
             'meetingChair' => $advisor->name,
             'place' => $room->name,
-            'attendaceNumber' => $counter[0]->attending_delegates_count +  $counter[0]->attending_advisors_count,
-            'absenceNumber' =>$counter[0]->absent_delegates_count +  $counter[0]->absent_advisors_count,
+            'attendaceNumber' => $this->attendingDelegates->count() +  $this->attendingAdvisors->count(),
+            'absenceNumber' =>$this->absentDelegates->count() +  $this->absentAdvisors->count(),
             'meetingId' => $this->id,
             'meetingUrl' => $url,
             'advisorId' => $advisor->id,
