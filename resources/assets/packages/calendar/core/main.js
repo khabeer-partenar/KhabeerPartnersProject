@@ -6096,7 +6096,7 @@ Docs & License: https://fullcalendar.io/
             this._renderLayout.unrender(); // should unrender everything else
             removeElement(this.el);
         };
-        Toolbar.prototype.render = function (props) {
+        Toolbar.prototype.render = function (props) {            
             this._renderLayout(props.layout);
             this._updateTitle(props.title);
             this._updateActiveButton(props.activeButton);
