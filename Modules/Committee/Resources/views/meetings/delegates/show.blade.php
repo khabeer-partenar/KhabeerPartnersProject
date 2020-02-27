@@ -37,6 +37,11 @@
 
             <div class="row">
                 <div class="col-md-12">
+                    <span style="color: red; font-size: 14px">
+                        @if($meeting->has_passed_eleven)
+                            {{ __('messages.cannot_change_status') }}
+                        @endif
+                    </span>
                     <table style="width: 100%" class="table table-bordered mt-10">
                         <thead>
                         <tr>
@@ -44,7 +49,7 @@
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_date') }}</th>
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_subject') }}</th>
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_location') }}</th>
-                            @if ($delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED)
+                            @if ($delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED && !$meeting->has_passed_eleven)
                                 <th scope="col">{{ __('committee::delegate_meeting.meeting_action') }}</th>
                             @else
                                 <th scope="col">حالة الدعوة</th>
@@ -58,7 +63,7 @@
                             <td>{{ $meeting->meeting_at. ' ' . $meeting->from  . ' ' . $meeting->to }}</td>
                             <td>{{ $meeting->reason }}</td>
                             <td>{{ $meeting->room->name }}</td>
-                            @if ($delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED)
+                            @if ($delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED && !$meeting->has_passed_eleven)
                                 <td>
                                     <div class="form-group {{ $errors->has('status') || $errors->has('refuse_reason') ? ' has-error' : '' }}">
                                         <div class="btn-group">
@@ -96,7 +101,6 @@
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
 
             </div>
@@ -113,7 +117,7 @@
                     <div class="col-md-4">
                         <label class="underLine">{{ __('committee::delegate_meeting.delegate_driver') }}</label>
                     </div>
-                    @if(!$committee->exported)
+                    @if(!$committee->exported && !$meeting->has_passed_eleven)
                     <div class="col-md-12">
                         <div class="col-md-3">
                             <div class="form-group">

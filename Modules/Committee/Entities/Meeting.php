@@ -94,7 +94,7 @@ class Meeting extends Model
         }
         if($data['advisor'])
             $query->MeetingAdvisor($data['advisor']);
-            
+
         $query->whereBetween('from', [$fromDate, $toDate]);
     }
 
@@ -116,11 +116,12 @@ class Meeting extends Model
     {
         return $query->where('completed', 1);
     }
-    
+
     public function scopeMeetingAdvisor($query, $id)
     {
         return $query->where('advisor_id', $id);
     }
+
     /**
      * Accs & Mut
      */
@@ -171,6 +172,13 @@ class Meeting extends Model
             return true;
         }
         return false;
+    }
+
+    public function getHasPassedElevenAttribute()
+    {
+        $now = Carbon::now();
+        $meetingDayBeforeElevenOclock = Carbon::parse($this->meeting_at)->subDay()->addHours(11);
+        return $now->greaterThan($meetingDayBeforeElevenOclock);
     }
 
     public function setFromAttribute($value)
@@ -269,7 +277,9 @@ class Meeting extends Model
     {
         $meetingDelegate = $this->delegatesPivot()->where('delegate_id', auth()->id())->first();
 
-        $meetingDelegate->update($request->only('status', 'refuse_reason', 'has_driver', 'driver_id'));
+        if (!$this->has_passed_eleven) {
+            $meetingDelegate->update($request->only('status', 'refuse_reason', 'has_driver', 'driver_id'));
+        }
 
         return $meetingDelegate;
     }
