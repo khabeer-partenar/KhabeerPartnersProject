@@ -92,6 +92,9 @@ class Meeting extends Model
             $fromDate = Carbon::now()->startOfMonth();
             $toDate = Carbon::now()->endOfMonth();
         }
+        if($data['advisor'])
+            $query->MeetingAdvisor($data['advisor']);
+            
         $query->whereBetween('from', [$fromDate, $toDate]);
     }
 
@@ -114,6 +117,10 @@ class Meeting extends Model
         return $query->where('completed', 1);
     }
     
+    public function scopeMeetingAdvisor($query, $id)
+    {
+        return $query->where('advisor_id', $id);
+    }
     /**
      * Accs & Mut
      */
