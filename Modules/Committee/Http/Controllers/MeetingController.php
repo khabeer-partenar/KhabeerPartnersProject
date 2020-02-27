@@ -6,6 +6,8 @@ use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Committee\Entities\Meeting;
+use Modules\Users\Entities\User;
+use Modules\Core\Entities\Group;
 use Modules\Committee\Http\Resources\MeetingCalendar as MeetingResource;
 
 class MeetingController extends UserBaseController
@@ -17,7 +19,8 @@ class MeetingController extends UserBaseController
      */
     public function index()
     {
-        return view('committee::meetings.calendar.index');
+        $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
+        return view('committee::meetings.calendar.index',compact('advisors'));
     }
 
     /**
