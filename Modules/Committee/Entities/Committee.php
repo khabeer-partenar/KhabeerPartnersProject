@@ -5,7 +5,6 @@ namespace Modules\Committee\Entities;
 use App\Classes\Date\CarbonHijri;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
-use CommitteesParticipantAdvisors;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
@@ -197,28 +196,17 @@ class Committee extends Model
 
             case Coordinator::MAIN_CO_JOB:
             case Coordinator::NORMAL_CO_JOB:
-
-                /* $nominatedDepartments = $query->leftJoin(CommitteeDepartment::table() .' as CommitteDepartments'  , function ($join) {
-                      $join->on(Committee::table() . '.id', '=', 'CommitteDepartments.committee_id')
-                          ->where('CommitteDepartments.has_nominations',true)
-                          ->whereIn('CommitteDepartments.department_id', auth()->user()->coordinatorAuthorizedIds());
-                  })->count();
-
-                  $query->selectRaw($nominatedDepartments . ' as nominatedDepartments');*/
-
-
-                $query->addSelect('committees_participant_departments.department_id');
                 $query->join(CommitteeDepartment::table(), Committee::table() . '.id', '=', CommitteeDepartment::table() . '.committee_id')
                     ->whereIn(CommitteeDepartment::table() . '.department_id', auth()->user()->coordinatorAuthorizedIds())
-                    ->groupBy('committees.id');
+                    ->selectRaw('COUNT(*) as counter');
 
-                $query->leftJoin(CommitteeDepartment::table() . ' as CommitteDepartments', function ($join) {
-                    $join->on(Committee::table() . '.id', '=', 'CommitteDepartments.committee_id')
-                        ->where('CommitteDepartments.has_nominations', true)
-                        ->whereIn('CommitteDepartments.department_id', auth()->user()->coordinatorAuthorizedIds());
-                })  ->selectRaw('COUNT(*) AS nomination_count
-                    ,CASE WHEN COUNT(*) = ' . count(auth()->user()->coordinatorAuthorizedIds()) . ' THEN 1 ELSE 0 END as nomination_status')
-                    ->groupBy('committees.id');
+                $query
+                    ->leftJoin(CommitteeDepartment::table() . ' as NominatedCommDepartments', function ($join) {
+                        $join->on(Committee::table() . '.id', '=', 'NominatedCommDepartments.committee_id')
+                            ->whereIn('NominatedCommDepartments.department_id', auth()->user()->coordinatorAuthorizedIds());
+                    })->selectRaw("sum(case khabeer_committees_participant_departments.has_nominations when '1' then 1 else 0 end) as nominated");
+
+                $query->groupBy('committees.id', 'NominatedCommDepartments.department_id');
 
                 break;
 
