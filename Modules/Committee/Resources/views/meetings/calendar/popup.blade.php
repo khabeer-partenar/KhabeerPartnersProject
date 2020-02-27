@@ -42,13 +42,17 @@
                                 <th scope="row">{{__('committee::meetings.to')}}</th>
                                 <td id="to_data" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr id="attendace_data_row">
                                 <th scope="row">{{ __('committee::meetings.accepted_number') }}</th>
                                 <td id="attendace_data" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr id="absence_data_row">
                                 <th scope="row">{{ __('committee::meetings.absence_number') }}</th>
                                 <td id="absence_data" colspan="2"></td>
+                            </tr>
+                            <tr id="inviting_status_row">
+                                <th scope="row">{{ __('committee::meetings.inviting_status') }}</th>
+                                <td id="inviting_status" colspan="2"></td>
                             </tr>
                         </tbody>
                     </table>

@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Committee\Http\Resources\MeetingType as TypeResource;
 use Modules\Committee\Http\Resources\MeetingAdvisor as AdvisorResource;
 use Modules\Committee\Http\Resources\MeetingRoom as RoomResource;
-use Auth;
+use Modules\Committee\Entities\MeetingDelegate;
 
 
 class MeetingCalendar extends JsonResource
@@ -22,9 +22,11 @@ class MeetingCalendar extends JsonResource
         $type = new TypeResource($this->type);
         $advisor = new AdvisorResource($this->advisor);
         $room = new RoomResource($this->room);
-        $counter = $this->withCount(['attendingDelegates', 'attendingAdvisors','absentDelegates','absentAdvisors'])->get();
         if(auth()->user()->user_type == \Modules\Users\Entities\Delegate::TYPE)
+        {
             $url = route('committees.meetings.delegate.show', [$this->committee, $this]);
+            $delegateStatus = __('committee::meetings.' . MeetingDelegate::STATUS[$this->currentDelegate()->first()->pivot->status]);
+        }
         elseif(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
             $url = route('committees.meetings.co.show', [$this->committee, $this]);
         else
@@ -38,12 +40,14 @@ class MeetingCalendar extends JsonResource
             'color' => $type->color,
             'meetingChair' => $advisor->name,
             'place' => $room->name,
-            'attendaceNumber' => $counter[0]->attending_delegates_count +  $counter[0]->attending_advisors_count,
-            'absenceNumber' =>$counter[0]->absent_delegates_count +  $counter[0]->absent_advisors_count,
+            'attendaceNumber' => $this->attendingDelegates->count() +  $this->attendingAdvisors->count(),
+            'absenceNumber' =>$this->absentDelegates->count() +  $this->absentAdvisors->count(),
             'meetingId' => $this->id,
             'meetingUrl' => $url,
             'advisorId' => $advisor->id,
-            'userId' => Auth::user()->id,
+            'userId' => auth()->id(),
+            'userType' => auth()->user()->user_type,
+            'delegateStatus' => empty($delegateStatus)? '':$delegateStatus,
         ];
     }
 }
