@@ -173,8 +173,8 @@ class Committee extends Model
             'created_by',
             'approved',
             'advisors.name as advisor_name',
-            'presidents.name as president_name',
-            'committeeStatus.status_ar as group_status'
+            'presidents.name as president_name'
+
         );
 
         // User Filter
@@ -232,12 +232,17 @@ class Committee extends Model
             $join->on(Committee::table() . '.advisor_id', '=', 'advisors.id');
         });
 
-        $query->join(CommitteeGroupStatus::table() . ' as groupStatus', function ($join) {
-            $group_id = auth()->user()->job_role_id;
-            $join->on(Committee::table() . '.id', '=', 'groupStatus.committee_id')
-                ->where('groupStatus.group_id', '=', $group_id)
-                ->join(Status::table() . ' as committeeStatus', 'groupStatus.status', '=', 'committeeStatus.id');
-        });
+        if (auth()->user()->user_type !== Coordinator::TYPE) {
+            $query->addSelect('committeeStatus.status_ar as group_status');
+            $query->join(CommitteeGroupStatus::table() . ' as groupStatus', function ($join) {
+                $group_id = auth()->user()->job_role_id;
+                $join->on(Committee::table() . '.id', '=', 'groupStatus.committee_id')
+                    ->where('groupStatus.group_id', '=', $group_id)
+                    ->join(Status::table() . ' as committeeStatus', 'groupStatus.status', '=', 'committeeStatus.id');
+            });
+
+
+        }
 
         // Additional conditions
         if ($exported) {

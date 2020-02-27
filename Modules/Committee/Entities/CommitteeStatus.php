@@ -41,22 +41,10 @@ class CommitteeStatus extends Model
             $technicalSupportGroupId => ['status' => Status::WAITING_DELEGATES],
             $chairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
             $viceChairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
-            $delegateGroupId => ['status' => Status::NOMINATIONS_NOT_DONE]
+            $delegateGroupId => ['status' => Status::WAITING_DELEGATES]
         ]);
     }
 
-   /* public static function updateCommitteeGroupStatus(Committee $committee, $status,$user_id)  // user_id for coordinators
-    {
-        $coordinatorGroupId = Group::where('key', Coordinator::NORMAL_CO_JOB)->first()->id;
-        $mainCoordinatorGroupId = Group::where('key', Coordinator::MAIN_CO_JOB)->first()->id;
-        $delegateGroupId = Group::where('key', Delegate::JOB)->first()->id;
-
-        $committee->groupsStatuses()->syncWithoutDetaching(
-            [$coordinatorGroupId => ['status' => $status]
-                , $mainCoordinatorGroupId => ['status' => $status]
-                , $delegateGroupId => ['status' => $status]
-            ]);
-    }*/
 
     public static function updateCommitteeGroupsStatusToNominationsCompleted(Committee $committee,$status)
     {

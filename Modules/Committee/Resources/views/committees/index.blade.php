@@ -116,8 +116,7 @@
                                 </td>
                                 @if(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
                                     <td>
-                                        {{ $committee->nomination_status>1?'تم الترشيح':
-                                               'لم يتم الترشيح'}}
+                                        {{ $committee->counter ==$committee->nominated?'تم الترشيح':'لم يتم الترشيح'}}
                                     </td>
                                 @else
                                     <td>
@@ -161,7 +160,8 @@
 
                                 @if(auth()->user()->job_role_id == \Modules\Users\Entities\Coordinator::TYPE)
                                     <td>
-                                        {{ 'done' }}
+                                        {{ $committee->counter ==$committee->nominated?'تم الترشيح':'لم يتم الترشيح'}}
+
                                     </td>
                                 @else
                                     <td>
