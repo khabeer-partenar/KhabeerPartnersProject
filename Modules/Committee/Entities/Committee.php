@@ -23,8 +23,6 @@ use Modules\Committee\Notifications\DepartmentDeleted;
 use Modules\Committee\Events\CommitteeCreatedEvent;
 use Notification;
 
-
-
 class Committee extends Model
 {
     use SharedModel, Log, SoftDeletes;
@@ -318,6 +316,7 @@ class Committee extends Model
 
         }
     }
+
     public function participantDepartmentsWithRef()
     {
         return $this->participantDepartments()->with('referenceDepartment')->get();
