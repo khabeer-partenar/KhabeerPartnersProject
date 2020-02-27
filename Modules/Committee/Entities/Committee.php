@@ -245,11 +245,13 @@ class Committee extends Model
     /**
      * Functions
      */
+
     public function getDelegatesWithDetails()
     {
+        $departmentsIds = auth()->user()->coordinatorAuthorizedIds();
         return $this->delegates()->with(['department' => function ($query) {
             $query->with('referenceDepartment');
-        }])->get();
+        }])->whereIn('nominated_department_id',$departmentsIds) ->get();
     }
 
     public static function getDateFromFormat($value, $format = 'm/d/Y')
@@ -368,9 +370,9 @@ class Committee extends Model
     {
         foreach($this->getNominationDepartmentsWithRef() as $department)
         {
-           return $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done'); 
+           return $department->pivot->has_nominations==1?__('committee::committees.nomination_done'):__('committee::committees.nomination_not_done');
         }
-        
+
     }
 
     public function groupsStatuses()

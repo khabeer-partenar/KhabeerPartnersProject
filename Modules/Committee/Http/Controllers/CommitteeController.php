@@ -113,6 +113,11 @@ class CommitteeController extends UserBaseController
      * @param Committee $committee
      * @return \Illuminate\Database\Eloquent\Collection
      */
+    public function getDelegatesByCoordinatorDepartments(Committee $committee)
+    {
+        return $committee->getDelegatesByCoordinatorDepartments();
+    }
+
     public function getDelegatesWithDetails(Committee $committee)
     {
         return $committee->getDelegatesWithDetails();
@@ -199,7 +204,7 @@ class CommitteeController extends UserBaseController
         if(!$committee->can_take_action) {
             return back();
         }
-        
+
         $request->validate(['reason' => 'required|string|max:300']);
         $committee->update(['reason_of_deletion' => $request->reason]);
         $committee->log('delete_committee');
@@ -224,7 +229,7 @@ class CommitteeController extends UserBaseController
         $committee->log('send nomination');
         $committee->checkIfCommitteeDepartmentsHasDelegates();
         if (Delegate::checkIfNominationCompleted($committee->id)) {
-            $advisor = $committee->advisor; 
+            $advisor = $committee->advisor;
             Notification::send([$advisor,$advisor->secretaries,$committee->delegates], new NominationDoneNotification($committee));
             return response()->json(['status' => true, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
