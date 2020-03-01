@@ -34,7 +34,6 @@
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_date') }}</th>
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_subject') }}</th>
                             <th scope="col">{{ __('committee::delegate_meeting.meeting_location') }}</th>
-                            <th scope="col">{{ __('committee::delegate_meeting.meeting_action') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -47,16 +46,6 @@
                             </td>
                             <td>{{ $meeting->reason }}</td>
                             <td>{{ $meeting->room->name }}</td>
-                            
-                            <td>
-                                @if(auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users') && !$committee->exported)
-                                    @foreach($committee->participantDepartments as $department)
-                                        <button data-toggle="modal" value="{{$department->id}}"
-                                            class="btn btn-primary nominateBtn">ترشيح مندوب جديد</button>
-                                    @endforeach
-                                @endif
-                            </td>
-                            
                         </tr>
                         </tbody>
                     </table>
@@ -82,6 +71,7 @@
                             @endif
                             <th scope="col">حالة الدعوة</th>
                             <th scope="col">سبب الإعتذار</th>
+                            <th scope="col">خيارات</th>
                         </tr>
                         </thead>
                         <tbody id="">
@@ -104,6 +94,19 @@
                                     {{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}
                                 </td>
                                 <td>{{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}</td>
+                                <td>
+                                    @if(
+                                    auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users')
+                                    && !$committee->exported
+                                    && !$meeting->is_old
+                                    && $delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::ACCEPTED
+                                    )
+                                        @foreach($committee->participantDepartments as $department)
+                                            <button data-toggle="modal" value="{{ $delegate->parent_department_id }}"
+                                                    class="btn btn-primary nominateBtn">ترشيح مندوب جديد</button>
+                                        @endforeach
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

@@ -171,7 +171,7 @@ class Meeting extends Model
         if (auth()->id() == $this->advisor_id || auth()->user()->authorizedApps->key == Employee::SECRETARY) {
             return true;
         }
-        return false;
+        return $this->completed;
     }
 
     public function getHasPassedElevenAttribute()

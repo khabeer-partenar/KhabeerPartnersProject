@@ -2,7 +2,7 @@
 
 namespace Modules\Committee\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Response;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
@@ -10,7 +10,7 @@ use Modules\Core\Entities\Group;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Delegate;
 
-class CoordinatorMeetingController extends Controller
+class CoordinatorMeetingController extends UserBaseController
 {
     /**
      * Show the specified resource.

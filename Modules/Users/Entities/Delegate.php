@@ -81,20 +81,18 @@ class Delegate extends User
 
     public function addDelegatesToCommittee(Request $request)
     {
-        $committee = Committee::where('id', $request->committee_id)->first();
+        $committee = Committee::where('id', $request->committee_id)->firstOrFail();
         $committee->delegates()->attach($request->delegates_ids,
             array('nominated_department_id' => $request->department_id,'coordinator_id' => auth()->user()->id));
 
-        $committee = Committee::where('id', $request->committee_id)->with('nominationDepartments')->first();
-        $department = $committee->nominationDepartments->find($request->department_id);
+        $committee->load('nominationDepartments');
+        $department = $committee->nominationDepartments->findOrFail($request->department_id);
         $department->pivot->has_nominations = 1;
         $department->pivot->save();
 
         $this->setCommitteeNominationStatus($request->committee_id);
         $committee->setMembersCount();
         $this->sendNotificationToNominatedDelegates($request->delegates_ids, $committee);
-
-
     }
 
     public function sendNotificationToNominatedDelegates($delegates, $committee)
