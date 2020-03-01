@@ -24,48 +24,58 @@ class AuthorizedName extends Model
         'from' ,
     ];
 
-    const TYPE = [
-        'delegate' => 'مندوب',
-        'driver' => 'سائق',
-    ];
-
     const TYPE_TEXT = [
-        self::TYPE['delegate'] => 'مندوب ',
-        self::TYPE['driver'] => 'سائق',
+        'delegate' => 'مندوب ',
+        'driver' => 'سائق'
     ];
 
     public function scopeSearch($query, $filters)
     {
         $query = DB::table('meetings_delegates')
-            ->join('delegate_driver', 'meetings_delegates.driver_id', '=', 'delegate_driver.id')
-            ->Join('nationalities as driver_nationality', 'driver_nationality.id', '=', 'delegate_driver.nationality_id')
             ->join('meetings', 'meetings.id', '=', 'meetings_delegates.meeting_id')
-            ->join('users', 'users.id', '=', 'meetings_delegates.delegate_id')            
+            ->join('users', 'users.id', '=', 'meetings_delegates.delegate_id')
             ->join('nationalities as delegate_nationality', 'delegate_nationality.id', '=', 'users.nationality_id')
-            ->join('religions', 'religions.id', '=', 'delegate_driver.religion_id')
+            ->join('meetings_rooms', 'meetings_rooms.id', '=', 'meetings.room_id')
+            ->join('users as advisors', 'advisors.id', '=', 'meetings.advisor_id')
+            ->leftJoin('delegate_driver', 'meetings_delegates.driver_id', '=', 'delegate_driver.id')
+            ->leftJoin('nationalities as driver_nationality', 'driver_nationality.id', '=', 'delegate_driver.nationality_id')
+            ->leftJoin('religions', 'religions.id', '=', 'delegate_driver.religion_id')
             ->select('delegate_driver.name as driver_name', 'delegate_driver.national_id as driver_national_id',
             'religions.name as type', 'delegate_nationality.name as delegate_nationality_name', 'meetings_delegates.updated_at',
             'meetings_delegates.has_driver',
             'delegate_driver.id as driver_id', 'meetings.from', 
             'driver_nationality.name as driver_nationality_name', 'users.national_id as delegate_national_id',
-            'users.name as delegate_name',
-            'users.nationality_id', 'delegate_driver.delegate_id')->whereDate('meetings_delegates.updated_at', Carbon::today());
+            'users.name as delegate_name', 'meetings.completed', 'meetings.advisor_id', 'meetings.room_id',
+            'advisors.name as advisor_name', 'meetings_rooms.name as room_name',
+            'users.nationality_id', 'delegate_driver.delegate_id')
+            ->where('completed', 1);
 
-            // $query->today();
+        if(isset($filters['authorized_name'])) {
+            $name = $filters['authorized_name'];
+            $query->where('delegate_driver.name',  $name)->orWhere('users.name', 'LIKE', $name);
+        }
+        if (isset($filters['advisor_id']) && $filters['advisor_id'] != 0) {
+            $query->where('meetings.advisor_id', $filters['advisor_id']);
+        }
+        if (isset($filters['entry_time']) && $filters['entry_time'] != '') {
+            $entryTime = Carbon::createFromFormat('m/d/Y', $filters['entry_time']);
+            $query->whereDate('meetings.from', $entryTime);
+        } else {
+            $query->whereDate('meetings.from', Carbon::today());
+        }
+        if(isset($filters['authorized_national_id'])) {
+            $nationalId = $filters['authorized_national_id'];
+            $query->where('delegate_driver.national_id', $nationalId )->orWhere('users.national_id', $nationalId)
+                ->selectRaw("
+                    CASE 
+                   `khabeer_delegate_driver`.`national_id`
+                    WHEN '$nationalId' THEN 'driver'
+                    ELSE 'delegate'
+                    END as user_type"
+                );
+        }
 
-            if(isset($filters['authorized_name'])) {
-                $name = $filters['authorized_name'];
-                $query->where('delegate_driver.name',  $name)
-                ->orWhere('users.name', 'LIKE', $name );
-            }
-            if(isset($filters['authorized_national_id'])) {
-                $national_id = $filters['authorized_national_id'];
-                $query->where('delegate_driver.national_id', $national_id )
-                ->orWhere('users.national_id', $national_id);
-            }
-            
         return $query;
-            
     }
 
     public function advisor()

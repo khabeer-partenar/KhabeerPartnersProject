@@ -7,7 +7,7 @@
                     <select name="job_title" id="type" class="form_control select2">
                         <option value="0">{{ __('committee::committees.all') }}</option>
                         @foreach($types as $key => $type)
-                            <option value="{{ $type }}" {{ Request::input('job_title') == $key ? 'selected':'' }}>{{ $type }}</option>
+                            <option value="{{ $key }}" {{ Request::input('job_title') == $key ? 'selected':'' }}>{{ $type }}</option>
                         @endforeach
                     </select>
                 </div>
