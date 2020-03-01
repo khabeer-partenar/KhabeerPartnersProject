@@ -82,11 +82,9 @@ class Delegate extends User
     public function addDelegatesToCommittee(Request $request)
     {
         $committee = Committee::where('id', $request->committee_id)->firstOrFail();
-        $committee->delegates()->attach($request->delegates_ids,
-            array('nominated_department_id' => $request->department_id,'coordinator_id' => auth()->user()->id));
+        $committee->delegates()->attach($request->delegates_ids, ['nominated_department_id' => $request->department_id,'coordinator_id' => auth()->user()->id]);
 
-        $committee->load('nominationDepartments');
-        $department = $committee->nominationDepartments->findOrFail($request->department_id);
+        $department = $committee->nominationDepartments()->where('department_id', $request->department_id)->firstOrFail();
         $department->pivot->has_nominations = 1;
         $department->pivot->save();
 
@@ -138,11 +136,10 @@ class Delegate extends User
         $committee->delegates()->attach($delegate_id, array('nominated_department_id' => $request->parent_department_id
             ,'coordinator_id' => auth()->user()->id));
 
-        $committee1 = Committee::findOrFail($request->committee_id)->with('nominationDepartments')->first();
-        $department = $committee1->nominationDepartments->find($request->parent_department_id);
-
+        $department = $committee->nominationDepartments()->where('department_id', $request->department_id)->firstOrFail();
         $department->pivot->has_nominations = 1;
         $department->pivot->save();
+
         $this->setCommitteeNominationStatus($committee->id);
         $committee->setMembersCount();
         $delegate = Delegate::find($delegate_id);

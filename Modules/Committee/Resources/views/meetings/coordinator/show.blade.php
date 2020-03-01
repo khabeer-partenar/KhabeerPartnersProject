@@ -101,10 +101,8 @@
                                     && !$meeting->is_old
                                     && $delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::ACCEPTED
                                     )
-                                        @foreach($committee->participantDepartments as $department)
-                                            <button data-toggle="modal" value="{{ $delegate->parent_department_id }}"
-                                                    class="btn btn-primary nominateBtn">ترشيح مندوب جديد</button>
-                                        @endforeach
+                                        <button data-toggle="modal" value="{{ $delegate->parent_department_id }}"
+                                                class="btn btn-primary nominateBtn">ترشيح مندوب جديد</button>
                                     @endif
                                 </td>
                             </tr>
