@@ -41,11 +41,11 @@ class Meeting extends Model
         } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
             $authorizedDepartments = auth()->user()->coordinatorAuthorizedIds();
             $committeeIds = CommitteeDepartment::whereIn('department_id', $authorizedDepartments)->pluck('committee_id');
-            $query->whereIn('committee_id', $committeeIds);
+            $query->whereIn('committee_id', $committeeIds)->where('completed', 1);
         } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
             $authorizedDepartments = auth()->user()->coordinatorAuthorizedIds();
             $meetingIds = MeetingDelegate::whereIn('department_id', $authorizedDepartments)->pluck('meeting_id');
-            $query->whereIn('id', $meetingIds);
+            $query->whereIn('id', $meetingIds)->where('completed', 1);;
         } elseif (auth()->user()->user_type == Delegate::TYPE) {
             $allowedMeetingIds = MeetingDelegate::where('delegate_id', auth()->id())->pluck('meeting_id');
             $query->whereIn('id', $allowedMeetingIds)->where('completed', 1);
@@ -92,6 +92,9 @@ class Meeting extends Model
             $fromDate = Carbon::now()->startOfMonth();
             $toDate = Carbon::now()->endOfMonth();
         }
+        if($data['advisor'])
+            $query->MeetingAdvisor($data['advisor']);
+
         $query->whereBetween('from', [$fromDate, $toDate]);
     }
 
@@ -102,6 +105,23 @@ class Meeting extends Model
         }
         return $query;
     }
+
+    public function scopeSoonMeeting($query)
+    {
+        return $query->whereDate('from', Carbon::today()->addDays(2))
+                     ->orWhereDate('from', Carbon::today()->addDays(1));
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('completed', 1);
+    }
+
+    public function scopeMeetingAdvisor($query, $id)
+    {
+        return $query->where('advisor_id', $id);
+    }
+
     /**
      * Accs & Mut
      */
@@ -144,6 +164,21 @@ class Meeting extends Model
     public function getIsOldAttribute()
     {
         return Carbon::parse($this->meeting_at)->lte(Carbon::today());
+    }
+
+    public function getIsCompletedAttribute()
+    {
+        if (auth()->id() == $this->advisor_id || auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getHasPassedElevenAttribute()
+    {
+        $now = Carbon::now();
+        $meetingDayBeforeElevenOclock = Carbon::parse($this->meeting_at)->subDay()->addHours(11);
+        return $now->greaterThan($meetingDayBeforeElevenOclock);
     }
 
     public function setFromAttribute($value)
@@ -190,8 +225,8 @@ class Meeting extends Model
             'completed' => true,
             'advisor_id' => $committee->advisor_id
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
-
-        $delegates = MeetingDelegate::prepareForSync($request->delegates);
+        MeetingDelegate::MeetingCreateDelegatesNotifications($request->delegates,$meeting);
+        $delegates = MeetingDelegate::prepareForSync($request->delegates ? $request->delegates :[]);
         $meeting->delegates()->sync($delegates);
         $meeting->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors:[]);
 
@@ -209,9 +244,9 @@ class Meeting extends Model
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
 
         $this->committee->updateFirstMeetingAt();
-
         if ($this->can_change_members) {
-            $delegates = MeetingDelegate::prepareForSync($request->delegates);
+            MeetingDelegate::MeetingUpdateDelegatesNotifications($request->delegates,$this->delegates,$this);
+            $delegates = MeetingDelegate::prepareForSync($request->delegates ? $request->delegates :[]);
             $this->delegates()->sync($delegates);
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }
@@ -242,7 +277,9 @@ class Meeting extends Model
     {
         $meetingDelegate = $this->delegatesPivot()->where('delegate_id', auth()->id())->first();
 
-        $meetingDelegate->update($request->only('status', 'refuse_reason', 'has_driver', 'driver_id'));
+        if (!$this->has_passed_eleven) {
+            $meetingDelegate->update($request->only('status', 'refuse_reason', 'has_driver', 'driver_id'));
+        }
 
         return $meetingDelegate;
     }

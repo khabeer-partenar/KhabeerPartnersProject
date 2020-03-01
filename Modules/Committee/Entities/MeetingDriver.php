@@ -11,7 +11,7 @@ use Modules\Committee\Entities\Nationality;
 class MeetingDriver extends Model
 {
     use SharedModel;
-    // use SharedModel, SoftDeletes;
+
     protected $table = 'delegate_driver';
 
     protected $fillable = ['name', 'national_id', 'nationality_id', 'religion_id', 'delegate_id', 'nationality'];

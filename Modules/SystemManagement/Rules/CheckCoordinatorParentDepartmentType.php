@@ -8,13 +8,15 @@ use Modules\Users\Entities\Coordinator;
 
 class CheckCoordinatorParentDepartmentType implements Rule
 {
+    protected $main_deparment_id;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($main_deparment_id)
     {
+        $this->main_deparment_id=$main_deparment_id;
         //
     }
 
@@ -27,22 +29,8 @@ class CheckCoordinatorParentDepartmentType implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (in_array(auth()->user()->authorizedApps->key, [Coordinator::MAIN_CO_JOB, Coordinator::NORMAL_CO_JOB])) {
-            if (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
-                $mainDepartmentsIds = array();
-                $coordinator = Coordinator::find(auth()->user()->id);
-                array_push($mainDepartmentsIds, $coordinator->main_department_id);
-                $childrenMainDepartments = auth()->user()->parentDepartment->referenceChildrenDepartments()->pluck('parent_id')->toArray();
-                $finalMainDepartmentsIds = array_merge($mainDepartmentsIds, $childrenMainDepartments);
-
-            } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
-                $coordinator = Coordinator::find(auth()->user()->id);
-                $finalMainDepartmentsIds = Department::where('id', $coordinator->main_department_id)->pluck('id')->toArray();
-            }
-            $parentDepart = Department::whereIn('parent_id',$finalMainDepartmentsIds)->pluck('id')->toArray();
-            return in_array((int) $value,$parentDepart,true);
-        }
-        return true;
+        $departments = Department::GetDepartmentsWithRefWithoutPrepend($this->main_deparment_id)->pluck('id')->toArray();
+        return in_array((int) $value,$departments,true);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Modules\Users\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Modules\SystemManagement\Rules\CheckCoordinatorParentDepartmentType;
 use Modules\Users\Entities\User;
 use Modules\SystemManagement\Entities\Department;
 
@@ -29,8 +30,8 @@ class UpdateCoordinatorRequest extends FormRequest
         $coordinator = $request->coordinator;
         return [
             'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::mainDepartment)],
-            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::parentDepartment)],
-            'direct_department' => ['string'],
+            'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::parentDepartment), new CheckCoordinatorParentDepartmentType(request()->main_department_id)],
+            'direct_department' => ['nullable', 'string'],
             'national_id' => ['required', new NationalIDRule, Rule::unique(User::table())->ignore($coordinator->id)],
             'name' => ['required', new FilterStringRule, 'string'],
             'phone_number' => ['required', new ValidationPhoneNumberRule, Rule::unique(User::table())->ignore($coordinator->id)],

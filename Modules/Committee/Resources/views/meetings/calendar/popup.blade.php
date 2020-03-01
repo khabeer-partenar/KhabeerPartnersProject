@@ -22,8 +22,8 @@
                                 <th scope="row" style="width: 30%;">{{ __('committee::meetings.meeting_title') }}</th>
                                 <td id="title_data" colspan="2"></td>
                             </tr>
-                            <tr>
-                                <th scope="row">{{__('committee::meetings.chairman')}}</th>
+                            <tr id="chairman_content">
+                                <th scope="row" >{{__('committee::meetings.chairman')}}</th>
                                 <td id="chairman_data" colspan="2"></td>
                             </tr>
                             <tr>
@@ -42,19 +42,24 @@
                                 <th scope="row">{{__('committee::meetings.to')}}</th>
                                 <td id="to_data" colspan="2"></td>
                             </tr>
-                            <tr>
-                                <th scope="row">{{ __('committee::meetings.attendace_number') }}</th>
+                            <tr id="attendace_data_row">
+                                <th scope="row">{{ __('committee::meetings.accepted_number') }}</th>
                                 <td id="attendace_data" colspan="2"></td>
                             </tr>
-                            <tr>
+                            <tr id="absence_data_row">
                                 <th scope="row">{{ __('committee::meetings.absence_number') }}</th>
                                 <td id="absence_data" colspan="2"></td>
+                            </tr>
+                            <tr id="inviting_status_row">
+                                <th scope="row">{{ __('committee::meetings.inviting_status') }}</th>
+                                <td id="inviting_status" colspan="2"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="modal-footer">
+                <a id="meeting_details" href="" class="btn btn-info" role="button" >{{__('committee::meetings.details')}}</a>
                 <button  type="button" class="btn btn-danger" data-dismiss="modal">{{__('users::delegates.close_window')}}</button>
             </div>
         </div>

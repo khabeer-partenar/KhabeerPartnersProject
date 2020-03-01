@@ -34,6 +34,7 @@ return [
     'destroyـconfirmation' => 'هل انت متأكد من عملية الحذف؟',
 
     'add' => 'اضافة',
+    'add_new' => 'أضف جديد',
     'save' => 'حفظ',
     'send' => 'إرسال',
     'goBack' => 'تراجع',
@@ -54,4 +55,6 @@ return [
     'error with the :attribute' => 'قيمة :attribute بها خطأ',
     'export' => 'تصدير',
     'print' => 'طباعة',
+
+    'cannot_change_status' => 'لا يمكنك قبول الدعوة أو إضافة سائق بعد الساعة الحادية عشر اليوم الأسبق للإجتماع'
 ];

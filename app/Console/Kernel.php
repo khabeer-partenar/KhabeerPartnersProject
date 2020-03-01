@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\UrgentMeetingNotification::class,
+        Commands\MeetingNonNominationNotification::class,
     ];
 
     /**
@@ -24,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('meeting_not_have_nominations:cron')->cron('* * * * *');
+        $schedule->command('urgent_meeting_soon:cron')->cron('* * * * *');
     }
 
     /**

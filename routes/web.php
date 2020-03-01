@@ -11,6 +11,4 @@
 |
 */
 
-use Modules\Committee\Entities\CommitteeGroupStatus;
-
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

@@ -4,8 +4,11 @@ namespace Modules\Committee\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Traits\SharedModel;
-use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Delegate;
+use Modules\Committee\Notifications\MeetingDelegatesInviting;
+use Modules\Committee\Notifications\MeetingDelegatesRemoved;
+use Notification;
+
 
 class MeetingDelegate extends Model
 {
@@ -41,16 +44,46 @@ class MeetingDelegate extends Model
     // Functions
     public static function prepareForSync($delegatesIds = [])
     {
+        $delegates = Delegate::whereIn('id', $delegatesIds)->pluck('parent_department_id', 'id');
+
         $prepared = [];
-        if ($delegatesIds) {
-            $delegates = Delegate::whereIn('id', $delegatesIds)->pluck('parent_department_id', 'id');
-            foreach ($delegates as $key => $department){
-                $prepared[$key] = [
-                    'department_id' => $department
-                ];
-            }
+        foreach ($delegates as $key => $department){
+            $prepared[$key] = [
+                'department_id' => $department
+            ];
         }
         return $prepared;
+    }
+
+    public static function MeetingCreateDelegatesNotifications($delegatesIds = [], $meeting)
+    {
+        if($delegatesIds)
+        {
+            $new_delegates = Delegate::whereIn('id', $delegatesIds);
+            if($new_delegates->count())
+                Notification::send($new_delegates->get(), new MeetingDelegatesInviting($meeting->committee,$meeting));
+        }
+        
+    }
+
+    public static function MeetingUpdateDelegatesNotifications($delegatesIds = [], $old_delegates = [], $meeting)
+    {
+            if($delegatesIds)
+            {
+                $delegates = Delegate::whereIn('id', $delegatesIds);
+                $removed_delegates = Delegate::whereIn('id', array_diff($old_delegates->pluck('id')->toArray(), $delegates->pluck('id')->toArray()));
+                $new_delegates = Delegate::whereIn('id', array_diff($delegates->pluck('id')->toArray(), $old_delegates->pluck('id')->toArray()));
+                if($removed_delegates->count())
+                    Notification::send($removed_delegates->get(), new MeetingDelegatesRemoved($meeting->committee,$meeting));
+                if($new_delegates->count())
+                    Notification::send($new_delegates->get(), new MeetingDelegatesInviting($meeting->committee,$meeting));
+            }
+            else
+            {
+                $removed_delegates = Delegate::whereIn('id', $old_delegates->pluck('id')->toArray());
+                if($removed_delegates->count())
+                    Notification::send($removed_delegates->get(), new MeetingDelegatesRemoved($meeting->committee,$meeting));
+            }
     }
 
     public function driver()

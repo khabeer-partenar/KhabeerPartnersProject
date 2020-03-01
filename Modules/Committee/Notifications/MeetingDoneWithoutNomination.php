@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Users\Notifications;
+namespace Modules\Committee\Notifications;
 
 use App\Channels\MobilyChannel;
 use Illuminate\Bus\Queueable;
@@ -8,21 +8,20 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NotifyNewUser extends Notification implements ShouldQueue
+class MeetingDoneWithoutNomination extends Notification implements ShouldQueue
 {
     use Queueable;
 
-
-    public $user;
+    private $committee;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($committee)
     {
-        $this->user = $user;
+        $this->committee = $committee;
     }
 
     /**
@@ -33,7 +32,7 @@ class NotifyNewUser extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', MobilyChannel::class];
+        return ['mail'];
     }
 
     /**
@@ -44,10 +43,9 @@ class NotifyNewUser extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $user = $this->user;
         return (new MailMessage)
-                ->subject(__('users::mail.message_subject'))
-                ->markdown('users::users.welcomeMail', compact('user'));
+            ->subject(__('committee::notifications.nomination_remember'))
+            ->markdown('committee::emails.meeting_done_without_nomination', ['committee' => $this->committee]);
     }
 
     /**
@@ -59,15 +57,13 @@ class NotifyNewUser extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
+            'committee' => $this->committee,
+            'notified_user' => $notifiable
         ];
     }
 
-    public function toMobily($notifiable)
+    public function toMobily()
     {
-        return [
-            'message' => 'test'
-        ];
-    }
 
+    }
 }

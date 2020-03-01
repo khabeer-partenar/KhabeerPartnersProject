@@ -53,6 +53,7 @@ class DelegateController extends UserBaseController
     public function index(Request $request)
     {
         $delegatesData = Delegate::UserDepartment()->with('mainDepartment', 'parentDepartment', 'directDepartment')->search($request)->paginate(10);
+        //dd($delegatesData);
         $mainDepartments = Department::getDepartments();
         return view('users::delegates.index', compact('mainDepartments', 'delegatesData'));
     }
@@ -82,13 +83,6 @@ class DelegateController extends UserBaseController
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
         return view("users::delegates.create", compact('mainDepartments', 'delegateJobs'));
-    }
-
-    public function removeDelegateFromCommittee(Delegate $delegate)
-    {
-        $delegate->log('remove_delegate_from_committee');
-        $delegate->removeDelegateFromCommittee($delegate);
-        return response()->json(['msg' => __('users::delegates.deleted')]);
     }
 
     public function addDelegatesToCommittee(AddDelegatesToCommittee $request, Delegate $delegate)
@@ -147,6 +141,10 @@ class DelegateController extends UserBaseController
 
     public function destroy(Delegate $delegate)
     {
+        if ($delegate->checkIfDelegateInMeetings())
+        {
+            return response()->json(['status' =>true, 'msg'=> __('users::delegates.delegate_in_meetings_can_not_remove')]);
+        }
         $delegate->log('delete_delegate');
         $delegate->delete();
         return response()->json(['msg' => __('users::delegates.deleted')]);
@@ -154,10 +152,16 @@ class DelegateController extends UserBaseController
 
     public function removeFromCommitte($delegate_id, $committee_id, $department_id, $reason)
     {
+        $delegate = Delegate::find($delegate_id);
         if (CommitteeDelegate::checkIfMainCoordinatorNominateDelegates($committee_id)) {
             return response()->json(['code' => '0', 'msg' => __('users::delegates.delegate_can_not_delete')]);
 
-        } else {
+        }
+        elseif ($delegate->checkIfDelegateInMeetings())
+        {
+            return response()->json(['code' => '0', 'msg' => __('users::delegates.delegate_in_meetings_can_not_remove')]);
+        }
+        else {
             $delegate = Delegate::find($delegate_id);
             $delegate->log('remove_delegate_from_committee');
             $delegate->removeDelegateFromCommittee($delegate, $committee_id, $department_id, $reason,true);

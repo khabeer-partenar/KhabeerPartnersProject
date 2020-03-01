@@ -24,6 +24,10 @@ use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
 use Modules\Committee\Entities\CommitteeDelegate;
+use Modules\Committee\Notifications\CommitteeApproved;
+use Modules\Committee\Notifications\NominationDoneNotification;
+use Notification;
+
 
 class CommitteeController extends UserBaseController
 {
@@ -100,6 +104,11 @@ class CommitteeController extends UserBaseController
      * @param Committee $committee
      * @return \Illuminate\Database\Eloquent\Collection
      */
+    public function getDelegatesByCoordinatorDepartments(Committee $committee)
+    {
+        return $committee->getDelegatesByCoordinatorDepartments();
+    }
+
     public function getDelegatesWithDetails(Committee $committee)
     {
         return $committee->getDelegatesWithDetails();
@@ -169,6 +178,7 @@ class CommitteeController extends UserBaseController
     {
         $committee = $committee->updateFromRequest($request);
         $committee->log('update_committee');
+        $committee->setMembersCount();
         self::sessionSuccess('committee::committees.updated');
         return redirect()->route('committees.index');
     }
@@ -210,7 +220,8 @@ class CommitteeController extends UserBaseController
         $committee->log('send nomination');
         $committee->checkIfCommitteeDepartmentsHasDelegates();
         if (Delegate::checkIfNominationCompleted($committee->id)) {
-            event(new NominationDoneEvent($committee));
+            $advisor = $committee->advisor;
+            Notification::send([$advisor,$advisor->secretaries,$committee->delegates], new NominationDoneNotification($committee));
             return response()->json(['status' => true, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
         else
@@ -227,6 +238,8 @@ class CommitteeController extends UserBaseController
         $committee->update([
             'approved' => true
         ]);
+        $toBeNotifiedUsers = $committee->participantAdvisors->merge($committee->participantDepartmentsCoordinators());
+        Notification::send($toBeNotifiedUsers, new CommitteeApproved($committee));
         return response()->json(['status' => 1]);
     }
 }

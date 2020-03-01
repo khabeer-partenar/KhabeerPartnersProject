@@ -7,6 +7,7 @@ use Modules\Committee\Http\Middleware\CanSeeCommittee;
 use Modules\Committee\Http\Middleware\CanSeeMeeting;
 use Modules\Committee\Http\Middleware\TakeAttendance;
 use Modules\Committee\Http\Middleware\DelegateStatus;
+use Modules\Users\Http\Middleware\CanReadDelegate;
 
 class Kernel extends HttpKernel
 {
@@ -69,8 +70,9 @@ class Kernel extends HttpKernel
         'see.committee' => CanSeeCommittee::class,
         'take.attendance' => TakeAttendance::class,
         'delegate.status' => DelegateStatus::class,
-        'see.meeting' => CanSeeMeeting::class
-        
+        'see.meeting' => CanSeeMeeting::class,
+        'read.delegate' => CanReadDelegate::class,
+
     ];
 
     /**

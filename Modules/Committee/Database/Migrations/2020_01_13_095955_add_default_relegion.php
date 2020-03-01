@@ -18,7 +18,7 @@ class AddDefaultRelegion extends Migration
         Religion::create(
             ['name' => 'مسلم', 'name_en' => 'muslim', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
         Religion::create(
-            ['name' => 'مسيحي', 'name_en' => 'christian', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
+            ['name' => 'غير مسلم', 'name_en' => 'christian', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]);
     }
 
     /**

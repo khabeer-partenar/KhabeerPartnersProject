@@ -18,16 +18,8 @@
       
 
 @if(auth()->user()->hasPermissionWithAccess('destroy'))
-
-    {!! Form::model($id, ['method' => 'delete', 'route' => ['core.groups.destroy', $id], 'class' =>'form-inline form-delete-modal', 'style' => 'display: inline;']) !!}
-        
-        {!! Form::hidden('id', $id) !!}
-        
-        <button type="submit" class="btn btn-xs btn-danger delete-object-modal-button" >
+        <button type="button" class="btn btn-xs btn-danger delete-row" data-href="{{route('core.groups.destroy',$id)}}">
             <i class="fa fa-trash-o"></i>
             {{ __('core::groups.action_delete') }}
         </button>
-        
-    {!! Form::close() !!}
-
 @endif

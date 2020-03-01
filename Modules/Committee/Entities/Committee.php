@@ -21,6 +21,8 @@ use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 use Modules\Committee\Events\NominationDoneEvent;
+use Modules\Committee\Notifications\DepartmentDeleted;
+use Notification;
 
 class Committee extends Model
 {
@@ -47,7 +49,7 @@ class Committee extends Model
     ];
 
     protected $appends = [
-        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'first_meeting_time', 'recommended_at_hijri'
+        'resource_at_hijri', 'created_at_hijri', 'first_meeting_at_hijri', 'first_meeting_time', 'recommended_at_hijri','urgent_committee'
     ];
 
     protected $dates = [
@@ -82,6 +84,15 @@ class Committee extends Model
     public function setRecommendedAtAttribute($value)
     {
         $this->attributes['recommended_at'] = self::getDateFromFormat($value);
+    }
+
+    public function getUrgentCommitteeAttribute()
+    {
+        $days = Carbon::now()->diffInDays(Carbon::parse($this->first_meeting_at));
+        if($days == 1 || $this->treatment_urgency_id == TreatmentUrgency::URGENT)
+            return true;
+        else
+            return false;
     }
 
     public function getResourceAtHijriAttribute()
@@ -322,9 +333,9 @@ class Committee extends Model
         $committeeDepartments = $this->departments;
         $committeeDelegatesDepartments = $this->committeeDelegates;
         if ($committeeDepartments->count() == $committeeDelegatesDepartments->count()) {
-            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this, Status::NOMINATIONS_COMPLETED);
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this,Status::NOMINATIONS_COMPLETED);
         } else {
-            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this, Status::WAITING_DELEGATES);
+            CommitteeStatus::updateCommitteeGroupsStatusToNominationsCompleted($this,Status::WAITING_DELEGATES);
         }
     }
 
@@ -333,14 +344,26 @@ class Committee extends Model
         return $query->where('exported', $status);
     }
 
+    public function scopeUrgentCommittee($query)
+    {
+        return $query->whereDate('first_meeting_at', Carbon::today()->addDays(2))
+                     ->orWhereDate('first_meeting_at', Carbon::today()->addDays(1));
+    }
+
+    public function scopeWaitingDelegates($query)
+    {
+        return $query->where('status', self::WAITING_DELEGATES);
+    }
+
     /**
      * Functions
      */
     public function getDelegatesWithDetails()
     {
+        $departmentsIds = auth()->user()->coordinatorAuthorizedIds();
         return $this->delegates()->with(['department' => function ($query) {
             $query->with('referenceDepartment');
-        }])->get();
+        }])->whereIn('nominated_department_id',$departmentsIds) ->get();
     }
 
     public static function getDateFromFormat($value, $format = 'm/d/Y')
@@ -370,7 +393,7 @@ class Committee extends Model
         Meeting::create([
             'committee_id' => $committee->id,
             'type_id' => $type->id,
-            'from' => self::getDateFromFormat($request->first_meeting_at, 'd/m/Y H:i'),
+            'from' => self::getDateFromFormat($request->first_meeting_at,'d/m/Y H:i'),
             'advisor_id' => $request->advisor_id
         ]);
 
@@ -380,11 +403,34 @@ class Committee extends Model
 
     public function updateFromRequest($request)
     {
+        $oldDepartments = $this->participantDepartments->pluck('id')->toArray();
         $this->update($request->except('first_meeting_at'));
         $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $this->participantDepartments()->sync($request->departments);
         $this->update(['members_count' => $this->participantAdvisors()->count()]);
+        $this->SendNotificationDeletedDepartmentsParticipants($oldDepartments,$request->departments);
         return $this;
+    }
+
+    public function SendNotificationDeletedDepartmentsParticipants($oldDepartments,$newDepartments)
+    {
+        foreach ($oldDepartments as $key => $department) {
+            if(!array_key_exists($department,$newDepartments))
+            {
+                $departments = Department::findOrFail($department);
+                if($departments->delegates('parent')->count())
+                {
+                    $toBeNotifiedUsers= $departments->coordinators('parent')->get()->merge($departments->delegates('parent')->get());
+                    Notification::send($toBeNotifiedUsers, new DepartmentDeleted($this));
+                }
+                else
+                {
+                    $toBeNotifiedUsers= $departments->coordinators('parent')->get();
+                    Notification::send($toBeNotifiedUsers, new DepartmentDeleted($this));
+                }
+            }
+
+        }
     }
 
     public function participantDepartmentsWithRef()
@@ -395,11 +441,25 @@ class Committee extends Model
     public function participantDepartmentsUsersUnique()
     {
         $toBeNotifiedUsers = [];
-        foreach ($this->participantDepartmentsWithRef() as $department) {
+        foreach ($this->participantDepartmentsWithRef() as $key=>$department) {
             $users = $department->users('parent')->get();
             $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
             if ($department->referenceDepartment) {
                 $refUsers = $department->referenceDepartment->users('parent')->get();
+                $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($refUsers));
+            }
+        }
+        return $toBeNotifiedUsers;
+    }
+
+    public function participantDepartmentsCoordinators()
+    {
+        $toBeNotifiedUsers = [];
+        foreach ($this->participantDepartmentsWithRef() as $key=>$department) {
+            $users = $department->coordinators('parent')->get();
+            $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($users));
+            if ($department->referenceDepartment) {
+                $refUsers = $department->referenceDepartment->coordinators('parent')->get();
                 $toBeNotifiedUsers = array_merge($toBeNotifiedUsers, Arr::flatten($refUsers));
             }
         }
@@ -424,7 +484,7 @@ class Committee extends Model
         foreach ($this->getNominationDepartmentsWithRef() as $department) {
             return $department->pivot->has_nominations == 1 ? __('committee::committees.nomination_done') : __('committee::committees.nomination_not_done');
         }
-
+        
     }
 
     public function groupsStatuses()
@@ -459,7 +519,7 @@ class Committee extends Model
 
     public function setView()
     {
-        return $this->view == null ? $this->views()->create(['user_id' => auth()->id()]) : null;
+        return $this->view == null ? $this->views()->create(['user_id' => auth()->id()]):null;
     }
 
     public function updateFirstMeetingAt()
@@ -565,6 +625,15 @@ class Committee extends Model
             ->withTimestamps();
     }
 
+    public function DepartmentsNotHaveNominationDelegates()
+    {
+        return $this->belongsToMany(Department::class, 'committees_participant_departments', 'committee_id', 'department_id')
+            ->withPivot('nomination_criteria', 'has_nominations')
+            ->where('has_nominations',0);
+    }
+
+    // create function get committees  have department but not have delegates
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
@@ -578,5 +647,12 @@ class Committee extends Model
     public function multimedia()
     {
         return $this->hasMany(Multimedia::class, 'committee_id');
+    }
+
+    public function setMembersCount()
+    {
+        $count = $this->committeeDelegates->count() + $this->participantAdvisors->count();
+        $this->members_count=$count;
+        $this->save();
     }
 }

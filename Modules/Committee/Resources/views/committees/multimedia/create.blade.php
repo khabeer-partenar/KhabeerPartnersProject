@@ -22,8 +22,10 @@
 
             <br>
 
-            <form method="post" action="{{ route('committee.multimedia.store', compact('committee')) }}">
+            @if(!$committee->exported)
+                <form method="post" action="{{ route('committee.multimedia.store', compact('committee')) }}">
                 @csrf
+            @endif
                 <div id="multimedia" style="border: #d6a329 solid 1px;padding: 20px;border-radius: 5px;">
                     @foreach($committee->multimedia as $multimedia)
 
@@ -35,15 +37,18 @@
 
                     @endforeach
 
-                    <a id="btnAddMedia" class="btn btn-success">{{ __('committee::delegate_meeting.add_multimedia') }}</a>
-
+                    @if(!$committee->exported)
+                        <a id="btnAddMedia" class="btn btn-success">{{ __('committee::delegate_meeting.add_multimedia') }}</a>
+                    @endif
                 </div>
 
-                <div class="row">
-                    <div class="form-actions">
-                        {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue item-fl item-mt20', 'id' => 'save-delegate-meeting']) }}
+                @if(!$committee->exported)
+                    <div class="row">
+                        <div class="form-actions">
+                            {{ Form::button(__('messages.save'), ['type' => 'submit', 'class' => 'btn blue item-fl item-mt20', 'id' => 'save-delegate-meeting']) }}
+                        </div>
                     </div>
-                </div>
+                @endif
 
             </form>
 

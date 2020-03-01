@@ -128,13 +128,14 @@ class GroupsController extends UserBaseController
      */
     public function destroy($id)
     {
-        $group = Group::find($id);
+        $group = Group::findOrFail($id);
+        if($group->users()->count())
+            return response()->json(['msg' => __('core::groups.group_delete_have_uesrs')],400);
         $group->permissions()->delete();
-        $group->users()->detach();
         $group->delete();
         $group->log('delete_group');
-
-        return redirect()->route('core.groups.index');
+            session()->flash('alert-success', __('core::groups.deleted'));
+        return response()->json([]);
     }
   
     /**

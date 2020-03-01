@@ -1,6 +1,6 @@
 @csrf
 <div   id="addDelegateModal"  class="modal fade" role="dialog">
-    <div id="delegateModal"  class="modal-lg modal-notify modal-info" role="document" style="width: auto; margin: 10%;">
+    <div id="delegateModal"  class="modal-info" role="document" style="width: 50%; margin: 10% auto;;">
         <!-- Modal content-->
         <div class="modal-content">
             <div id="loadingSpinner" style="display:none; position: fixed; z-index: 1031;top: 50%;right: 50%">
@@ -26,7 +26,7 @@
                         <div id="div_name" class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="control-label">اسم السائق ثلاثي</label>
                             <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
-                            <input name="name" type="text" value="" class="form_control">
+                            <input name="name" type="text" id="driver_name" value="" class="form_control">
                                 @if ($errors->has('name'))
                                     <span class="help-block"><strong>{{ $errors->first('name') }}</strong></span>
                                 @endif
@@ -37,7 +37,7 @@
                             {!! Form::label('national_id', ' رقم الهوية/الاقامة', ['class' => 'control-label']) !!}
                             <label style="position: absolute;text-align: center;font-size: large; color: #e32;display:inline;">*</label>
 
-                                {!! Form::text('national_id', null, ['id' => 'national_id', 'class' => 'form_control']) !!}
+                                {!! Form::text('national_id', null, ['id' => 'driver_national_id', 'class' => 'form_control']) !!}
 
                                 @if ($errors->has('national_id'))
                                     <span class="help-block"><strong>{{ $errors->first('national_id') }}</strong></span>
@@ -52,7 +52,7 @@
                                 الجنسية
                                 <span style="color: red">*</span>
                             </label>
-                            <select name="nationality_id" id="room_id" class="form_control">
+                            <select name="nationality_id" id="driver_nationality_id" class="form_control">
                                 <option value="">اختر جنسية السائق</option>
                                 @foreach($nationalities as  $nationality)
                                 <option value="{{ $nationality->id }}">
@@ -70,7 +70,7 @@
                     <div class="col-md-6">
                         <div id="div_religion" class="form-group {{ $errors->has('religion') ? ' has-error' : '' }}">
                             {!! Form::label('religion', 'الديانة', ['class' => 'control-label']) !!}
-                                <select name="religion_id" id="religion_id"
+                                <select name="religion_id" id="driver_religion_id"
                                         class="form_control  load-religion_id"
                                         >
                                     <option value="0">{{ __('users::departments.choose a department') }}</option>

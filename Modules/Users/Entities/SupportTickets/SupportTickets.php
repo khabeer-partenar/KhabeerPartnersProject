@@ -28,4 +28,9 @@ class SupportTickets extends Model
         SupportTicketDocuments::updateDocumentsTicket($ticket->id);
         return $ticket;
     }
+
+    public function type()
+    {
+        return $this->belongsTo(SupportTicketCategories::class,'type_id');
+    }
 }

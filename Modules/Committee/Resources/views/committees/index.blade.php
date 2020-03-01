@@ -49,49 +49,49 @@
                 <table class="table">
                     <thead>
 
-                    <tr role="row">
-                        @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
-                            <th></th>
-                            <th>
-                                {{ __('committee::committees.committee id') }} <br/>
-                                {{ __('committee::committees.committee created at') }}
-                            </th>
-                            <th>
-                                {{ __('committee::committees.committee uuid') }} <br/>
-                                {{ __('committee::committees.committee subject') }}
-                            </th>
-                            <th>
-                                {{ __('committee::committees.advisor') }} <br/>
-                                {{ __('committee::committees.members count') }}
-                            </th>
-                            <th>{{ __('committee::committees.president_id') }}</th>
-                            <th>{{ __('committee::committees.status') }}</th>
-                            <th>{{ __('committee::committees.options') }}</th>
-                        @else
-                            <th></th>
-                            <th>
-                                {{ __('committee::committees.committee id') }} <br/>
-                                {{ __('committee::committees.committee created at') }}
-                            </th>
-                            <th>
-                                {{ __('committee::committees.committee uuid') }} <br/>
-                                {{ __('committee::committees.committee subject') }}
-                            </th>
-                            <th>
-                                {{ __('committee::committees.advisor') }} <br/>
-                                {{ __('committee::committees.members count') }}
-                            </th>
-                            <th>{{ __('committee::committees.president_id') }}</th>
-                            <th>{{ __('committee::committees.status') }}</th>
-                            <th>{{ __('committee::committees.advisor_status') }}</th>
-                            <th>{{ __('committee::committees.options') }}</th>
-                        @endif
-                    </tr>
+                        <tr role="row">
+                            @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
+                                <th></th>
+                                <th>
+                                    {{ __('committee::committees.committee id') }} <br /> 
+                                    {{ __('committee::committees.committee created at') }}
+                                </th>
+                                <th>
+                                    {{ __('committee::committees.committee uuid') }} <br /> 
+                                    {{ __('committee::committees.committee subject') }}
+                                </th>
+                                <th>
+                                    {{ __('committee::committees.advisor') }} <br />
+                                    {{ __('committee::committees.members count') }}
+                                </th>
+                                <th>{{ __('committee::committees.president_id') }}</th>
+                                <th>{{ __('committee::committees.status') }}</th>
+                                <th>{{ __('committee::committees.options') }}</th>
+                            @else 
+                                <th></th>
+                                <th>
+                                    {{ __('committee::committees.committee id') }} <br /> 
+                                    {{ __('committee::committees.committee created at') }}
+                                </th>
+                                <th>
+                                    {{ __('committee::committees.committee uuid') }} <br />
+                                    {{ __('committee::committees.committee subject') }}
+                                </th>
+                                <th>
+                                    {{ __('committee::committees.advisor') }} <br /> 
+                                    {{ __('committee::committees.members count') }}
+                                </th>
+                                <th>{{ __('committee::committees.president_id') }}</th>
+                                <th>{{ __('committee::committees.status') }}</th>
+                                <th>{{ __('committee::committees.advisor_status') }}</th>
+                                <th>{{ __('committee::committees.options') }}</th>
+                            @endif
+                        </tr>
 
                     </thead>
                     <tbody>
 
-                    @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
+                        @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
 
                         @foreach($committees as $key => $committee)
                             <tr>
@@ -182,7 +182,7 @@
                             </tr>
                         @endforeach
 
-                    @endif
+                        @endif
 
 
                     @if($committees->count() == 0)

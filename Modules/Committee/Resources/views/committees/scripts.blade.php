@@ -149,6 +149,37 @@
             })
         })
 
+        $(document).on('click', '.btn-action-notification', function () {
+            let btn = $(this);
+            let url = $(btn).attr('data-send-notification-url');
+            $.post({
+                url: url,
+                method: 'get',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    Swal.fire({
+                        title: response.message,
+                        type: 'info',
+                        showCancelButton: false,
+                        confirmButtonText: 'حسنا',
+                    });
+                },
+                error: function (request) {
+                    let errors = request.responseJSON.errors;
+                    let keys = Object.keys(errors);
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        text: errors[keys[0]][0], // First Error is enough
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonText: 'حسنا',
+                    });
+                }
+            })
+        })
+
         // On Submit
         $("#save-committee").click(function (e) {
             e.preventDefault();

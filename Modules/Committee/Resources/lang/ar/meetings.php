@@ -7,7 +7,7 @@ return [
     'room_details' => 'تفاصيل الصالة',
     'day' => 'اليوم',
     'from' => 'من',
-    'to' => 'إلي',
+    'to' => 'إلى',
     'room' => 'الصالة',
     'reason' => 'موضوع الإجتماع',
     'created successfully' => 'تم إنشاء الإجتماع بنجاح',
@@ -26,6 +26,7 @@ return [
     'calendar_meeting_details' => 'تفاصيل الاجتماع',
     'chairman' => 'رئيس اللجنة',
     'attendace_number' => 'عدد الحاضرين',
+    'accepted_number' => 'عدد الذين قبلوا الإجتماع',
     'absence_number' => 'عدد المعتذرين',
     'meeting_title' => 'عنوان الاجتماع',
     'meeting_cancelled' => 'تم إلغاء الإجتماع',
@@ -33,5 +34,7 @@ return [
     'confirm_attendance' => 'تأكيد حضور المشاركين في الإجتماع',
     'attended' => 'تم تأكيد الحضور',
     'absent' => 'لم يحضر',
-    'members_multimedia' => 'مرئيات المشاركين علي مستوي الإجتماع',
+    'members_multimedia' => 'مرئيات المشاركين علي مستوى الإجتماع',
+    'details' => 'المزيد',
+    'inviting_status' => 'حالة الدعوة'
 ];

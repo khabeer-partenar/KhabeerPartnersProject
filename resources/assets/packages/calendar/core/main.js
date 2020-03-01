@@ -2230,6 +2230,26 @@ Docs & License: https://fullcalendar.io/
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(EventApi.prototype, "advisorId", {
+            get: function () { return this._def.advisorId; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EventApi.prototype, "userId", {
+            get: function () { return this._def.userId; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EventApi.prototype, "userType", {
+            get: function () { return this._def.userType; },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(EventApi.prototype, "delegateStatus", {
+            get: function () { return this._def.delegateStatus; },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(EventApi.prototype, "allDay", {
             get: function () { return this._def.allDay; },
             enumerable: true,
@@ -2252,6 +2272,12 @@ Docs & License: https://fullcalendar.io/
         });
         Object.defineProperty(EventApi.prototype, "meetingId", {
             get: function () { return this._def.meetingId; },
+            enumerable: true,
+            configurable: true
+        });
+
+        Object.defineProperty(EventApi.prototype, "meetingUrl", {
+            get: function () { return this._def.meetingUrl; },
             enumerable: true,
             configurable: true
         });
@@ -3012,11 +3038,17 @@ Docs & License: https://fullcalendar.io/
         rendering: String,
         meetingType: String,
         meetingChair: String,
-        meetingId: Number,
+        meetingId: String,
+        meetingUrl: String,
         place : String,
         attendaceNumber: String,
         absenceNumber: String,
-        extendedProps: null
+        advisorId:String,
+        userId:String,
+        userType:String,
+        delegateStatus:String,
+        extendedProps: null,
+
     };
     var DATE_PROPS = {
         start: null,
@@ -4404,7 +4436,7 @@ Docs & License: https://fullcalendar.io/
             temproaryDate = moment().startOf('month');
         }
             params[startParam] = temproaryDate.startOf('month').format('DD-MM-YYYY');
-            params[endParam] = temproaryDate.endOf('month').format('DD-MM-YYYY');
+            params[endParam] = temproaryDate.add(1, 'months').format('DD-MM-YYYY');
 
         if (dateEnv.timeZone !== 'local') {
             params[timeZoneParam] = dateEnv.timeZone;
@@ -6064,7 +6096,7 @@ Docs & License: https://fullcalendar.io/
             this._renderLayout.unrender(); // should unrender everything else
             removeElement(this.el);
         };
-        Toolbar.prototype.render = function (props) {
+        Toolbar.prototype.render = function (props) {            
             this._renderLayout(props.layout);
             this._updateTitle(props.title);
             this._updateActiveButton(props.activeButton);
