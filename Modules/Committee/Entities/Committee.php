@@ -358,6 +358,15 @@ class Committee extends Model
     /**
      * Functions
      */
+    public static function isUrgentCommittee($committee)
+    {
+        $days = Carbon::now()->diffInDays(Carbon::parse($committee->first_meeting_at));
+        if($days == 1 || $committee->treatment_urgency_id == TreatmentUrgency::URGENT)
+            return true;
+        else
+            return false;
+    }
+
     public function getDelegatesWithDetails()
     {
         $departmentsIds = auth()->user()->coordinatorAuthorizedIds();
