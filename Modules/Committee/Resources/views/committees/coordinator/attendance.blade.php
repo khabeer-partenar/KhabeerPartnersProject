@@ -76,12 +76,6 @@
                         <table style="width: 100%" class="table table-bordered">
                             <thead>
                             <tr style="font-weight:bold">
-                                <th style="width:7%" scope="col">
-                                    <input type="checkbox" id="checkAllDelegates" class="checkInContainer" data-container="#delegatesDiv" name="checkAllDelegates[]"
-                                    @if(isset($committee->meetings))
-                                        {{ is_array($committee->meetings) ? (in_array($committee->meetings->id, $committee->meetings) ? 'checked':''):'' }}
-                                    @endif>
-                                </th>
                                 <th scope="col">نوع الإجتماع
                                     <br> تاريخ الإجتماع
                                 </th>
@@ -101,14 +95,6 @@
                             @foreach($committee->meetings as $meeting)
                                 @foreach($meeting->delegates as $delegate)
                                     <tr>
-                                        <td>
-                                            <div class="form-group {{ $errors->has('delegates.*') ? ' has-error' : '' }}">
-                                                <input type="checkbox"
-                                                       name="delegates[]"
-                                                       value="{{ $delegate->id }}"
-                                                >
-                                            </div>
-                                        </td>
                                         <td>
                                             {{ $meeting->type->name }}
                                             <br>

@@ -29,8 +29,7 @@ class AuthorizedNameController extends UserBaseController
         $authorizedNames = AuthorizedName::search($request->all())->get();
         $types = AuthorizedName::TYPE_TEXT;
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
-        $meeting = Meeting::with('advisor', 'room')->get();
-        return view('committee::authorizedName.authorized_list', compact('advisors', 'types', 'meeting', 'authorizedNames'));
+        return view('committee::authorizedName.authorized_list', compact('advisors', 'types', 'authorizedNames'));
     }
 
     /**
@@ -45,9 +44,8 @@ class AuthorizedNameController extends UserBaseController
     {
         $authorizedNames = AuthorizedName::search($request->all())->get();
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
-        $meeting = Meeting::with('advisor', 'room')->get();
         $driverReligion = MeetingDriver::with('religion')->get();
-        $pdf = PDF::loadView('committee::authorizedName.print', compact('advisors', 'meeting',   'driverReligion', 'authorizedNames'));
+        $pdf = PDF::loadView('committee::authorizedName.print', compact('advisors',   'driverReligion', 'authorizedNames'));
         return $pdf->stream('document.pdf');
     }
 }
