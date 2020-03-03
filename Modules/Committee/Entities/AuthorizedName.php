@@ -52,7 +52,9 @@ class AuthorizedName extends Model
 
         if(isset($filters['authorized_name'])) {
             $name = $filters['authorized_name'];
-            $query->where('delegate_driver.name',  $name)->orWhere('users.name', 'LIKE', $name);
+            $query->where('delegate_driver.name',  $name)->orWhere(function ($query) use ($name) {
+                $query->where('users.name', 'LIKE', $name);
+            });
         }
         if (isset($filters['advisor_id']) && $filters['advisor_id'] != 0) {
             $query->where('meetings.advisor_id', $filters['advisor_id']);
