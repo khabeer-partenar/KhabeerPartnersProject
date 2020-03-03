@@ -65,7 +65,8 @@ class AuthorizedName extends Model
         }
         if(isset($filters['authorized_national_id'])) {
             $nationalId = $filters['authorized_national_id'];
-            $query->where('delegate_driver.national_id', $nationalId )->orWhere('users.national_id', $nationalId)
+            $query->where('delegate_driver.national_id', $nationalId )->orWhere(function ($query) use ($nationalId){
+                $query->where('users.national_id', $nationalId)
                 ->selectRaw("
                     CASE 
                    `khabeer_delegate_driver`.`national_id`
@@ -73,6 +74,7 @@ class AuthorizedName extends Model
                     ELSE 'delegate'
                     END as user_type"
                 );
+            });
         }
 
         return $query;
