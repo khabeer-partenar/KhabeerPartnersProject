@@ -50,92 +50,31 @@
                     <thead>
 
                         <tr role="row">
-                            @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
-                                <th></th>
-                                <th>
-                                    {{ __('committee::committees.committee id') }} <br /> 
-                                    {{ __('committee::committees.committee created at') }}
-                                </th>
-                                <th>
-                                    {{ __('committee::committees.committee uuid') }} <br /> 
-                                    {{ __('committee::committees.committee subject') }}
-                                </th>
-                                <th>
-                                    {{ __('committee::committees.advisor') }} <br />
-                                    {{ __('committee::committees.members count') }}
-                                </th>
-                                <th>{{ __('committee::committees.president_id') }}</th>
+                            <th></th>
+                            <th>
+                                {{ __('committee::committees.committee id') }} <br />
+                                {{ __('committee::committees.committee created at') }}
+                            </th>
+                            <th>
+                                {{ __('committee::committees.committee uuid') }} <br />
+                                {{ __('committee::committees.committee subject') }}
+                            </th>
+                            <th>
+                                {{ __('committee::committees.advisor') }} <br />
+                                {{ __('committee::committees.members count') }}
+                            </th>
+                            <th>{{ __('committee::committees.president_id') }}</th>
+                            @if(auth()->user()->user_type != \Modules\Users\Entities\Delegate::JOB)
                                 <th>{{ __('committee::committees.status') }}</th>
-                                <th>{{ __('committee::committees.options') }}</th>
-                            @else 
-                                <th></th>
-                                <th>
-                                    {{ __('committee::committees.committee id') }} <br /> 
-                                    {{ __('committee::committees.committee created at') }}
-                                </th>
-                                <th>
-                                    {{ __('committee::committees.committee uuid') }} <br />
-                                    {{ __('committee::committees.committee subject') }}
-                                </th>
-                                <th>
-                                    {{ __('committee::committees.advisor') }} <br /> 
-                                    {{ __('committee::committees.members count') }}
-                                </th>
-                                <th>{{ __('committee::committees.president_id') }}</th>
-                                <th>{{ __('committee::committees.status') }}</th>
-                                <th>{{ __('committee::committees.advisor_status') }}</th>
-                                <th>{{ __('committee::committees.options') }}</th>
                             @endif
+                            @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Employee::ADVISOR)
+                                <th>{{ __('committee::committees.advisor_status') }}</th>
+                            @endif
+                            <th>{{ __('committee::committees.options') }}</th>
                         </tr>
 
                     </thead>
                     <tbody>
-
-                        @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
-
-                        @foreach($committees as $key => $committee)
-                            <tr>
-                                <td>
-                                    @include('committee::committees.status_icons')
-                                </td>
-                                <td>
-                                    {{ __('committee::committees.committee number') }}
-                                    : {{ $committee->treatment_number }} <br>
-                                    {{ \Carbon\Carbon::parse($committee->created_at) }}
-                                </td>
-                                <td>
-                                    {{ $committee->uuid }} <br>
-                                    {{ $committee->subject }}
-                                </td>
-                                <td>
-                                    {{ __('committee::committees.advisor_only') }} {{ $committee->advisor_name }} <br>
-                                    {{ __('committee::committees.member') }} {{ $committee->members_count }}
-                                </td>
-                                <td>
-                                    {{ $committee->president_name ? $committee->president_name : '-' }}
-                                </td>
-                                @if(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
-                                    <td>
-                                        {{ $committee->counter ==$committee->nominated?'تم الترشيح':'لم يتم الترشيح'}}
-                                    </td>
-                                @else
-                                    <td>
-                                        {{ $committee->group_status }}
-                                    </td>
-                                @endif
-
-                                <td>
-                                    @if(!$committee->exported)
-                                        @include('committee::committees.actions')
-                                    @else
-                                        @include('committee::committees.exported.actions')
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-
-                    @else
-
                         @foreach($committees as $key => $committee)
                             <tr>
                                 <td>
@@ -158,20 +97,22 @@
                                     {{ $committee->president_name ? $committee->president_name : '-' }}
                                 </td>
 
-                                @if(auth()->user()->job_role_id == \Modules\Users\Entities\Coordinator::TYPE)
+                                @if(auth()->user()->user_type == \Modules\Users\Entities\Coordinator::TYPE)
                                     <td>
                                         {{ $committee->counter ==$committee->nominated?'تم الترشيح':'لم يتم الترشيح'}}
-
                                     </td>
-                                @else
+                                @elseif (auth()->user()->user_type != \Modules\Users\Entities\Delegate::JOB)
                                     <td>
                                         {{ $committee->group_status }}
                                     </td>
                                 @endif
 
-                                <td>
-                                    {{ $committee->advisor_id == auth()->id() ? __('committee::committees.committee advisor') : __('committee::committees.committee participant') }}
-                                </td>
+                                @if(auth()->user()->authorizedApps->key == \Modules\Users\Entities\Employee::ADVISOR)
+                                    <td>
+                                        {{ $committee->advisor_id == auth()->id() ? __('committee::committees.committee advisor') : __('committee::committees.committee participant') }}
+                                    </td>
+                                @endif
+
                                 <td>
                                     @if(!$committee->exported)
                                         @include('committee::committees.actions')
@@ -181,9 +122,6 @@
                                 </td>
                             </tr>
                         @endforeach
-
-                        @endif
-
 
                     @if($committees->count() == 0)
                         <tr>
