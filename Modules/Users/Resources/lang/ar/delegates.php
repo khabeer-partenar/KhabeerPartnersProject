@@ -32,7 +32,6 @@ return [
     'edit' => 'تعديل',
     'delete' => 'حذف',
     'show' => 'تفاصيل',
-    'information' => 'تفصايل المنسق',
     'error happened' => 'حدث خطأ',
     'new delegate has been created with subject' => 'تم اضافة مندوب جديد باسم',
     'sendNomination'=>'إرسال الترشيح',
