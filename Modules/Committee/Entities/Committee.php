@@ -199,6 +199,7 @@ class Committee extends Model
                 $query->addSelect('committees_participant_advisors.advisor_id as participant_id');
                 $query->leftJoin(CommitteeAdvisor::table(), Committee::table() . '.id', '=', CommitteeAdvisor::table() . '.committee_id')
                     ->where(CommitteeAdvisor::table() . '.advisor_id', auth()->id())
+                    ->where('approved', 1)
                     ->orWhere(function ($query) {
                         $query->where('committees.advisor_id', auth()->id());
                     })
@@ -217,7 +218,8 @@ class Committee extends Model
                             ->whereIn('NominatedCommDepartments.department_id', auth()->user()->coordinatorAuthorizedIds());
                     })->selectRaw("sum(case khabeer_committees_participant_departments.has_nominations when '1' then 1 else 0 end) as nominated");
 
-                $query->groupBy('committees.id', 'NominatedCommDepartments.department_id');
+                $query->groupBy('committees.id', 'NominatedCommDepartments.department_id')
+                    ->where('approved', true);
 
                 break;
 
@@ -225,7 +227,8 @@ class Committee extends Model
                 $query->addSelect('committee_delegate.user_id');
                 $query
                     ->join(CommitteeDelegate::table(), Committee::table() . '.id', '=', CommitteeDelegate::table() . '.committee_id')
-                    ->where(CommitteeDelegate::table() . '.user_id', auth()->id());
+                    ->where(CommitteeDelegate::table() . '.user_id', auth()->id())
+                    ->where('approved', true);
                 break;
         }
 

@@ -199,7 +199,7 @@ class Group extends Model
     {
         return $query->whereIn('key', [
             'office_of_the_president', 'advisor', 'director_of_consultants_offices', 'secretary', 'associate_consultant', 'portfolio_manager',
-            'technical_support', 'minister', 'director_of_the_minister_office', 'main_coordinator', 'delegate', 'acting_delegate',
+            'technical_support', 'minister', 'director_of_the_minister_office', 'acting_delegate',
             'chairman_of_the_commission', 'vice_chairman_of_the_commission'
         ]);
     }
