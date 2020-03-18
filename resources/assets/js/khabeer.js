@@ -212,4 +212,23 @@ $(document).ready(function() {
             $('.top_menu').removeClass('fixed');
         }
     });
+
+    $(".hijri-date-input").hijriDatePicker({
+        showTodayButton: true,
+        showClear:true,
+        useCurrent:false,
+        hijri:true,
+        showSwitcher:false
+    });
+
+    $(".hijri-date-input").on('dp.change', function (arg) {
+        var id = "#"+$(this).attr('name');
+        if (!arg.date) {
+            $(id).html('');
+            return;
+        };
+        let date = arg.date;
+        $("#resource_at").html(" التاريخ الميلادي : " + date.format("DD-MM-YYYY"));
+    });
 });
+
