@@ -295,7 +295,28 @@
 
 
         });
+
+    $(".hijri-date-input").hijriDatePicker({
+        showTodayButton: true,
+        showClear:true,
+        useCurrent:false,
+        hijri:true,
+        showSwitcher:false
     });
+
+    $(".hijri-date-input").on('dp.change', function (arg) {
+
+        if (!arg.date) {
+            //$("#selected-date").html('');
+            return;
+        };
+
+        let date = arg.date;
+        alert(date);
+        //$("#selected-date").html(date.format("YYYY/M/D") + " Hijri:" + date.format("iYYYY/iM/iD"));
+    });
+    });
+
 
 </script>
 

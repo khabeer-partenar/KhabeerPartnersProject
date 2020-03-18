@@ -27,7 +27,7 @@
                     $resourceAt = old('resource_at');
                 }
             @endphp
-            <input type="text" name="resource_at" id="resource_at" value="{{ $resourceAt }}" class="form_control date-picker" autocomplete="off">
+            <input type="text" name="resource_at" id="resource_at" value="{{ $resourceAt }}" class="form_control hijri-date-input" autocomplete="off">
             @include('layouts.dashboard.form-error', ['key' => 'resource_at'])
         </div>
     </div>

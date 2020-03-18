@@ -1,8 +1,8 @@
 {
-    "/assets/js/app.js": "/assets/js/app.js?id=00d4b6be2b3d3c1a70b1",
-    "/assets/js/custom.js": "/assets/js/custom.js?id=5b71e1f31f0f1fe137cd",
-    "/assets/js/laravel-forms.js": "/assets/js/laravel-forms.js?id=79ee40b08d7484f6b14c",
-    "/assets/js/multi-input.js": "/assets/js/multi-input.js?id=095d998f8bfbab918292",
+    "/assets/js/app.js": "/assets/js/app.js?id=83849ca3f257f3b05507",
+    "/assets/js/custom.js": "/assets/js/custom.js?id=a7385ac70db5cd26731a",
+    "/assets/js/laravel-forms.js": "/assets/js/laravel-forms.js?id=a366277080f4d642ccd3",
+    "/assets/js/multi-input.js": "/assets/js/multi-input.js?id=3c36a7520da4f5abae44",
     "/assets/css/bootstrap-rtl.min.css": "/assets/css/bootstrap-rtl.min.css?id=fef244ee86b684682f16",
     "/assets/css/fonts.css": "/assets/css/fonts.css?id=734cef5c0aa1211ffb4e",
     "/assets/css/colorbox.css": "/assets/css/colorbox.css?id=4af27bf42383c1ca0676",
@@ -10,7 +10,7 @@
     "/assets/css/calendar/core/main.css": "/assets/css/calendar/core/main.css?id=531c14b4b77ee9a3a66c",
     "/assets/css/calendar/daygrid/main.css": "/assets/css/calendar/daygrid/main.css?id=819ae3db8586d8ba18a5",
     "/assets/css/calendar/list/main.css": "/assets/css/calendar/list/main.css?id=daa0621dead774d51b87",
-    "/assets/css/main.css": "/assets/css/main.css?id=2d56874ea66a03aebfc3",
+    "/assets/css/main.css": "/assets/css/main.css?id=6170c63a3fa0cdeae7c5",
     "/assets/js/jquery.js": "/assets/js/jquery.js?id=4f252523d4af0b478c81",
     "/assets/js/core.js": "/assets/js/core.js?id=ec22515ec07e823734eb",
     "/assets/js/app-metronic.js": "/assets/js/app-metronic.js?id=36edfda45a0ec7ba7c49",
@@ -52,5 +52,6 @@
     "/assets/js/calendar/timegrid/main.js": "/assets/js/calendar/timegrid/main.js?id=98372a8fc5dd91307c6b",
     "/assets/js/calendar/list/main.js": "/assets/js/calendar/list/main.js?id=99d0722d5002c40804d1",
     "/assets/js/moment.js": "/assets/js/moment.js?id=1b1c80b617bfcaf8c076",
+    "/assets/js/hijriDate/bootstrap-hijri-datetimepicker.js": "/assets/js/hijriDate/bootstrap-hijri-datetimepicker.js?id=635a025fa2744bc6f06e",
     "/assets/js/persian.js": "/assets/js/persian.js?id=6ef5e0d28baa0996bee5"
 }
