@@ -23,11 +23,16 @@
 
             @php
                 $resourceAt = isset($committee) ? $committee->resource_at->format('m/d/Y'):null;
+                $hijri_resource_at = isset($committee) ? $committee->hijri_resource_at->format('m/d/Y'):null;
+
                 if (old('resource_at')){
                     $resourceAt = old('resource_at');
+                    $hijri_resource_at = old('hijri_resource_at');
                 }
+
             @endphp
-            <input type="text" name="resource_at" value="{{ $resourceAt }}" class="form_control hijri-date-input" autocomplete="off">
+            <input type="text" name="hijri_resource_at" value="{{ $hijri_resource_at }}" class="form_control hijri-date-input" autocomplete="off">
+            <input type="hidden"  name="resource_at" value="{{ $resourceAt }}" class="form_control">  
             <label id="resource_at" class="control-label">
             @include('layouts.dashboard.form-error', ['key' => 'resource_at'])
         </div>
@@ -60,11 +65,16 @@
 
             @php
                 $departmentOutDate = isset($committee) ? $committee->department_out_date->format('m/d/Y'):null;
+                $hijri_departmentOutDate = isset($committee) ? $committee->hijri_department_out_date->format('m/d/Y'):null;
+
                 if (old('department_out_date')){
                     $departmentOutDate = old('department_out_date');
+                    $hijri_departmentOutDate = old('hijri_department_out_date');
                 }
             @endphp
-            <input type="text" name="department_out_date" id="department_out_date" value="{{ $departmentOutDate }}" class="form_control date-picker" autocomplete="off">
+            <input type="text" name="hijri_department_out_date" value="{{ $hijri_departmentOutDate }}" class="form_control hijri-date-input" autocomplete="off">
+            <input type="hidden" name="department_out_date"  value="{{ $departmentOutDate }}" class="form_control">
+            <label id="department_out_date" class="control-label">
             @include('layouts.dashboard.form-error', ['key' => 'department_out_date'])
         </div>
     </div>
@@ -142,11 +152,17 @@
 
             @php
                 $treatmentTime = isset($committee) ? $committee->treatment_time->format('m/d/Y'):null;
+                $hijri_treatmentTime = isset($committee) ? $committee->hijri_treatmentTime->format('m/d/Y'):null;
+
                 if (old('treatment_time')){
                     $treatmentTime = old('treatment_time');
+                    $hijri_treatmentTime = old('hijri_treatment_time');
+
                 }
             @endphp
-            <input type="text" name="treatment_time" id="treatment_time" value="{{ $treatmentTime }}" class="form_control date-picker" autocomplete="off">
+            <input type="text" name="hijri_treatment_time" value="{{ $hijri_treatmentTime }}" class="form_control hijri-date-input" autocomplete="off">
+            <input type="hidden" name="treatment_time" value="{{ $treatmentTime }}" class="form_control">
+            <label id="treatment_time" class="control-label">
             @include('layouts.dashboard.form-error', ['key' => 'treatment_time'])
         </div>
     </div>
@@ -201,11 +217,15 @@
 
             @php
                 $recommendedAt = isset($committee) ? $committee->recommended_at->format('m/d/Y'):null;
+                $hijri_recommendedAt = isset($committee) ? $committee->hijri_recommended_at->format('m/d/Y'):null;
                 if (old('recommended_at')){
                     $recommendedAt = old('recommended_at');
+                    $hijri_recommendedAt = old('hijri_recommended_at');
                 }
             @endphp
-            <input type="text" name="recommended_at" id="recommended_at" value="{{ $recommendedAt }}" class="form_control date-picker" autocomplete="off">
+            <input type="text" name="hijri_recommended_at"  value="{{ $hijri_recommendedAt }}" class="form_control hijri-date-input" autocomplete="off">
+            <input type="hidden" name="recommended_at"  value="{{ $recommendedAt }}" class="form_controls">
+            <label id="recommended_at" class="control-label">
             @include('layouts.dashboard.form-error', ['key' => 'recommended_at'])
         </div>
     </div>
@@ -284,8 +304,7 @@
             @include('layouts.dashboard.form-error', ['key' => 'treatment_importance_id'])
         </div>
     </div>
-
-    <div class="col-md-4">
+    <div class="col-md-2">
         <div class="form-group {{ $errors->has('first_meeting_at') ? ' has-error' : '' }}">
             <label for="first_meeting_at" class="control-label">
                 {{ __('committee::committees.first_meeting_at') }}
@@ -294,12 +313,39 @@
 
             @php
                 $meetingAt = isset($committee) ? $committee->first_meeting_at->format('d/m/Y H:i'):null;
+                $hijri_meetingAt = isset($committee) ? $committee->first_meeting_at->format('d/m/Y H:i'):null;
+
                 if (old('first_meeting_at')){
                     $meetingAt = old('first_meeting_at');
+                    $hijri_meetingAt = old('hijri_first_meeting_at');
                 }
             @endphp
-            <input type="text" name="first_meeting_at" id="first_meeting_at" value="{{ $meetingAt }}" class="form_control datetime-picker" autocomplete="off" {{ isset($committee) ? 'disabled':'' }}>
+            <input type="text" name="hijri_first_meeting_at"  value="{{ $hijri_meetingAt }}" class="form_control hijri-date-input" autocomplete="off" {{ isset($committee) ? 'disabled':'' }}>
+            <input type="hidden" name="first_meeting_at"  value="{{ $meetingAt }}" class="form_control">
+            <label id="first_meeting_at" class="control-label">
             @include('layouts.dashboard.form-error', ['key' => 'first_meeting_at'])
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group {{ $errors->has('first_meeting_at') ? ' has-error' : '' }}">
+            <label for="from" class="control-label">
+                {{ __('committee::committees.first_meeting_at_time') }}
+                <span style="color: red">*</span>
+            </label>
+            @php
+                $from = isset($meeting) ? $meeting->from:null;
+                if (old('first_meeting_at')){
+                    $meetingAt = old('time_first_meet');
+                }
+            @endphp
+            <input data-default-time="false"
+                   data-show-meridian="false"
+                   data-template="false"
+                   type="text" name="time_first_meet"
+                   id="from" value="{{ $meetingAt }}"
+                   class="form_control timepicker timepicker-default" autocomplete="off">
+            @include('layouts.dashboard.form-error', ['key' => 'from'])
         </div>
     </div>
 

@@ -218,17 +218,20 @@ $(document).ready(function() {
         showClear:true,
         useCurrent:false,
         hijri:true,
+        hijriFormat:'iYYYY/iM/iD',
         showSwitcher:false
     });
 
     $(".hijri-date-input").on('dp.change', function (arg) {
-        var id = "#"+$(this).attr('name');
+        var name =($(this).attr('name').split("hijri_"))[1];
         if (!arg.date) {
             $(id).html('');
             return;
         };
         let date = arg.date;
-        $("#resource_at").html(" التاريخ الميلادي : " + date.format("DD-MM-YYYY"));
+        $("#" + name).html(" التاريخ الميلادي : " + date.format("YYYY/M/D"));
+        $(`input[name="${name}"]`).val(date.format('M/D/YYYY'));
+
     });
 });
 
