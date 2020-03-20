@@ -230,7 +230,7 @@ $(document).ready(function() {
         };
         let date = arg.date;
         $("#" + name).html(" التاريخ الميلادي : " + date.format("YYYY/M/D"));
-        $(`input[name="${name}"]`).val(date.format('M/D/YYYY'));
+        $(`input[name="${name}"]`).val(date.format('MM/DD/YYYY'));
 
     });
 });

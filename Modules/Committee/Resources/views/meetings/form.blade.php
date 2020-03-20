@@ -70,11 +70,17 @@
             </label>
             @php
                 $meetingAt = isset($meeting) ? \Carbon\Carbon::parse($meeting->meeting_at)->format('m/d/Y'):null;
+                $meetingAt_hijri = isset($meeting) ? \Carbon\Carbon::parse($meeting->meeting_at_hijri):null;
+
                 if (old('at')){
                     $meetingAt = old('at');
+                    $meetingAt_hijri = old('hijri_at');
+
                 }
             @endphp
-            <input type="text" name="at" id="at" value="{{ $meetingAt }}" class="form_control date-picker" autocomplete="off">
+            <input type="text" name="hijri_at"  value="{{ $meetingAt_hijri }}" class="form_control hijri-date-input" autocomplete="off">
+            <input type="hidden" name="at"  value="{{ $meetingAt }}" class="form_control">
+            <label id="at" class="control-label">
             @include('layouts.dashboard.form-error', ['key' => 'at'])
         </div>
     </div>
