@@ -308,4 +308,10 @@ class DepartmentController extends UserBaseController
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesUpdated'));
         return redirect()->route('system-management.departments-authorities.index');
     }
+
+    public function loadDepartmentsByParentIdForDelegates(Request $request)
+    {
+        $departments = Department::ChildrenDepartmentsByParentId($request->get('parentId'));
+        return response()->json($departments);
+    }
 }

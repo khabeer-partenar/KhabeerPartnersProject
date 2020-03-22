@@ -218,12 +218,11 @@ class Department extends Model
         if (!$parentId) {
             abort(404);
         }
-        $parentDepartment = self::findOrFail($parentId);
-        if (auth()->user()->user_type == Coordinator::TYPE && $parentDepartment->type == self::mainDepartment) {
+        if (auth()->user()->user_type == Coordinator::TYPE) {
             $departmentsIds = self::query()
                 ->where('reference_id', auth()->user()->parent_department_id)
                 ->orWhere(function ($query) {
-                    $query->where('id', auth()->user()->parent_department_id)->where('is_reference', true);
+                    $query->where('id', auth()->user()->parent_department_id);
                 })
                 ->pluck('id');
         }
@@ -401,5 +400,29 @@ class Department extends Model
         return $this->belongsToMany(Committee::class, 'committees_participant_departments', 'department_id', 'committee_id')
             ->withTimestamps()
             ->withPivot('nomination_criteria');
+    }
+
+    public static function scopeChildrenDepartmentsByParentId($query,$parentId)
+    {
+        if (!$parentId) {
+            abort(404);
+        }
+        if (auth()->user()->user_type == Coordinator::TYPE) {
+            $departmentsIds = self::query()
+                ->where('reference_id', auth()->user()->parent_department_id)
+                ->orWhere(function ($query) {
+                    $query->where('id', auth()->user()->parent_department_id);
+                })
+                ->pluck('id');
+        }
+        if (isset($departmentsIds)) {
+            $query->whereIn('id', $departmentsIds);
+        }
+        return
+            $query
+                ->select('id', 'name', 'reference_id', 'is_reference')
+                ->where('parent_id', $parentId)
+                ->with('referenceDepartment')
+                ->get()->prepend(Department::getEmptyObjectForSelectAjax());
     }
 }

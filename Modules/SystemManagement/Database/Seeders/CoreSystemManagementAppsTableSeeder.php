@@ -44,6 +44,12 @@ class CoreSystemManagementAppsTableSeeder extends Seeder
         ]);
 
         App::create([
+            'resource_name' => $generalResourceName . '\DepartmentController@loadDepartmentsByParentIdForDelegates', 'name' => 'اختيار الجهات من القوائم المنسدلة للمندوبين',
+            'icon' => 'fa fa-folder-o','sort' => 2, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/departments/children/Delegates', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
             'resource_name' => $generalResourceName . '\DepartmentController@destroy', 'name' => 'حذف',
             'icon' => 'fa fa-bars', 'sort' => 3, 'parent_id' => $systemManagementAppId, 'frontend_path' => 'system-management/departments', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()

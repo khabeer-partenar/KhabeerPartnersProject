@@ -69,7 +69,6 @@ class Delegate extends User
     {
         $committee = Committee::find($committee_id);
         $nominationDepartmentsIds = $committee->nominationDepartments()->pluck('department_id');
-        $coordinatorsNominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
 
         $committeeNominatedDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
 
@@ -136,7 +135,7 @@ class Delegate extends User
         $committee->delegates()->attach($delegate_id, array('nominated_department_id' => $request->parent_department_id
             ,'coordinator_id' => auth()->user()->id));
 
-        $department = $committee->nominationDepartments()->where('department_id', $request->department_id)->firstOrFail();
+        $department = $committee->nominationDepartments()->where('department_id', $request->parent_department_id)->firstOrFail();
         $department->pivot->has_nominations = 1;
         $department->pivot->save();
 
