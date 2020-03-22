@@ -85,3 +85,8 @@
 {{ Html::script(mix('assets/js/bootstrap-datepicker-ar.min.js')) }}
 
 
+<!-- BEGIN HIJRI DATE  SCRIPTS PLUGIN -->
+
+{{ Html::script(mix('assets/js/hijriDate/bootstrap-hijri-datetimepicker.js'))}}
+
+<!-- END HIJRI DATE SCRIPTS PLUGIN -->

@@ -32,6 +32,7 @@ mix
         'resources/assets/css/select2-bootstrap_ar.min.css',
        'resources/assets/css/jquery.datetimepicker.min.css',
        'resources/assets/css/bootstrap-timepicker.min.css',
+       'resources/assets/css/bootstrap-datetimepicker.css',
        'resources/assets/css/custom.css',
    ], 'public/assets/css/main.css')
 
@@ -126,6 +127,7 @@ mix
     .copy('resources/assets/packages/calendar/timegrid/main.js', 'public/assets/js/calendar/timegrid/main.js')
     .copy('resources/assets/packages/calendar/list/main.js', 'public/assets/js/calendar/list/main.js')
     .copy('resources/assets/packages/moment.js', 'public/assets/js/moment.js')
+    .copy('resources/assets/packages/hijriDate/bootstrap-hijri-datetimepicker.js', 'public/assets/js/hijriDate/bootstrap-hijri-datetimepicker.js')
     .copy('resources/assets/packages/persian.js', 'public/assets/js/persian.js');
 
 

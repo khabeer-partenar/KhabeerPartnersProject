@@ -2,6 +2,7 @@
 
 namespace Modules\Committee\Entities;
 
+use App\Classes\Date\CarbonHijri;
 use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,7 @@ class Meeting extends Model
         'from', 'to', 'type_id', 'room_id', 'attendance_done',
         'committee_id', 'reason', 'description', 'completed', 'advisor_id'
     ];
-    protected $appends = ['meeting_at', 'meeting_at_ar', 'from_date', 'to_date', 'is_old'];
+    protected $appends = ['meeting_at', 'meeting_at_hijri', 'meeting_at_ar', 'from_date', 'to_date', 'is_old'];
 
     /**
      * Scopes
@@ -179,6 +180,12 @@ class Meeting extends Model
         $now = Carbon::now();
         $meetingDayBeforeElevenOclock = Carbon::parse($this->meeting_at)->subDay()->addHours(11);
         return $now->greaterThan($meetingDayBeforeElevenOclock);
+    }
+
+    public function getMeetingAtHijriAttribute()
+    {
+        $date = Carbon::parse($this->attributes['from'])->format('Y-m-d');
+        return CarbonHijri::toHijriFromMiladi($date);
     }
 
     public function setFromAttribute($value)

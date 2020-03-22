@@ -40,6 +40,7 @@ return [
     'treatment_urgency_id' => 'اعجلية المعاملة',
     'treatment_importance_id' => 'سرية المعاملة',
     'first_meeting_at' => 'تاريخ أول اجتماع',
+    'first_meeting_at_time' => 'توقيت أول اجتماع',
     'subject' => 'الموضوع',
     'president_id' => 'رئيس الدراسة',
     'advisor_id' => 'المستشار المسؤول عن الدراسة',
