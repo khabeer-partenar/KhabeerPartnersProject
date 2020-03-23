@@ -27,7 +27,7 @@
 
                 if (old('resource_at')){
                     $resourceAt = old('resource_at');
-                    $resource_at_hijri = old('resource_at_hijri');
+                    $resource_at_hijri = old('hijri_resource_at');
                 }
 
             @endphp

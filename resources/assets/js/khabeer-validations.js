@@ -15,6 +15,13 @@ $(document).ready(function() {
         $(formGroup).removeClass('has-error');
     });
 
+    $(".hijri-date-input").on('dp.change', function (arg) {
+        var helpBlockDiv = $(this).parent().find('.help-block');
+        $(helpBlockDiv).remove();
+        var formGroup = $(this).closest('.form-group');
+        $(formGroup).removeClass('has-error');
+    });
+
     $('select').change(function () {
         var helpBlockDiv = $(this).parent().find('.help-block');
         $(helpBlockDiv).remove();
