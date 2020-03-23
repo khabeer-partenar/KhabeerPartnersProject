@@ -33,7 +33,7 @@
             @endphp
             <input type="text" name="hijri_resource_at" value="{{ $resource_at_hijri }}" class="form_control hijri-date-input" autocomplete="off">
             <input type="hidden"  name="resource_at" value="{{ $resourceAt }}" class="form_control">  
-            <label id="resource_at" class="control-label">
+            <label id="resource_at" class="control-label"></label>
             @include('layouts.dashboard.form-error', ['key' => 'resource_at'])
         </div>
     </div>
@@ -74,7 +74,7 @@
             @endphp
             <input type="text" name="hijri_department_out_date" value="{{ $department_out_date_hijri }}" class="form_control hijri-date-input" autocomplete="off">
             <input type="hidden" name="department_out_date"  value="{{ $departmentOutDate }}" class="form_control">
-            <label id="department_out_date" class="control-label">
+            <label id="department_out_date" class="control-label"></label>
             @include('layouts.dashboard.form-error', ['key' => 'department_out_date'])
         </div>
     </div>
@@ -162,7 +162,7 @@
             @endphp
             <input type="text" name="hijri_treatment_time" value="{{ $treatmentTime_hijri }}" class="form_control hijri-date-input" autocomplete="off">
             <input type="hidden" name="treatment_time" value="{{ $treatmentTime }}" class="form_control">
-            <label id="treatment_time" class="control-label">
+            <label id="treatment_time" class="control-label"></label>
             @include('layouts.dashboard.form-error', ['key' => 'treatment_time'])
         </div>
     </div>
@@ -225,7 +225,7 @@
             @endphp
             <input type="text" name="hijri_recommended_at"  value="{{ $recommended_at_hijri }}" class="form_control hijri-date-input" autocomplete="off">
             <input type="hidden" name="recommended_at"  value="{{ $recommendedAt }}" class="form_controls">
-            <label id="recommended_at" class="control-label">
+            <label id="recommended_at" class="control-label"></label>
             @include('layouts.dashboard.form-error', ['key' => 'recommended_at'])
         </div>
     </div>
@@ -322,7 +322,7 @@
             @endphp
             <input type="text" name="hijri_first_meeting_at"  value="{{ $first_meeting_at_hijri }}" class="form_control hijri-date-input" autocomplete="off" {{ isset($committee) ? 'disabled':'' }}>
             <input type="hidden" name="first_meeting_at"  value="{{ $meetingAt }}" class="form_control">
-            <label id="first_meeting_at" class="control-label">
+            <label id="first_meeting_at" class="control-label"></label>
             @include('layouts.dashboard.form-error', ['key' => 'first_meeting_at'])
         </div>
     </div>
@@ -336,7 +336,7 @@
             @php
                 $first_meeting_at_time = isset($committee) ? $committee->first_meeting_at_time:null;
                 if (old('first_meeting_at')){
-                    $meetingAt = old('time_first_meet');
+                    $first_meeting_at_time = old('time_first_meet');
                 }
             @endphp
             <input data-default-time="false"

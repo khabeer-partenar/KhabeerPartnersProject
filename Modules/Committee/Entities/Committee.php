@@ -78,7 +78,7 @@ class Committee extends Model
 
     public function setFirstMeetingAtAttribute($value)
     {
-        $this->attributes['first_meeting_at'] = self::getDateFromFormat($value, 'd/m/Y H:i');
+        $this->attributes['first_meeting_at'] = self::getDateFromFormat($value, 'd/m/Y G:i');
     }
 
     public function setRecommendedAtAttribute($value)
@@ -546,7 +546,7 @@ class Committee extends Model
     public function updateFirstMeetingAt()
     {
         $nearestMeeting = $this->meetings()->orderBy('from', 'asc')->first();
-        $formatted = Carbon::parse($nearestMeeting->from_date)->format('d/m/Y H:i');
+        $formatted = Carbon::parse($nearestMeeting->from_date)->format('d/m/Y G:i');
         return $this->update(['first_meeting_at' => $formatted]);
     }
 

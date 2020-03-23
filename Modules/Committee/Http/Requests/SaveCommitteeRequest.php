@@ -57,10 +57,10 @@ class SaveCommitteeRequest extends FormRequest
         if (!isset($committee)) {
             $rules['first_meeting_at'] = [
                 'required',
-                'date_format:d/m/Y H:i',
+                'date_format:d/m/Y G:i',
                 'after:today',
-                new CheckIfDateIsAfter('treatment_time', 'committee::committees', 'd/m/Y H:i'),
-                new CheckIfDateIsAfter('resource_at', 'committee::committees', 'd/m/Y H:i')
+                new CHeckIfDateIsAfter('treatment_time', 'committee::committees', 'd/m/Y G:i'),
+                new CheckIfDateIsAfter('resource_at', 'committee::committees', 'd/m/Y G:i')
             ];
         }
         return $rules;
