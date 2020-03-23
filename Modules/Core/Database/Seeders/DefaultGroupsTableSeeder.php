@@ -42,10 +42,6 @@ class DefaultGroupsTableSeeder extends Seeder
         ]);
 
         Group::create([
-            'parent_id' => 0, 'name' => 'مستشار مشارك', 'key' => 'associate_consultant', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        Group::create([
             'parent_id' => 0, 'name' => 'مدير المحافظ', 'key' => 'portfolio_manager', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
