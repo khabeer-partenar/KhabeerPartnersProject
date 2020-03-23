@@ -24,7 +24,6 @@ class CommitteeStatus extends Model
         $advisorGroupId = Group::where('key', Employee::ADVISOR)->first()->id;
         $officeOfThePresidentGroupId = Group::where('key', Employee::OFFICE_OF_THE_PRESIDENT)->first()->id;
         $directorOfConsultantsOfficesGroupId = Group::where('key', Employee::DIRECTOR_OF_CONSULTANTS_OFFICES)->first()->id;
-        $associateConsultantGroupId = Group::where('key', Employee::ASSOCIATE_CONSULTANT)->first()->id;
         $portfolioManagerGroupId = Group::where('key', Employee::PORTFOLIO_MANAGER)->first()->id;
         $technicalSupportGroupId = Group::where('key', Employee::TECHNICAL_SUPPORT)->first()->id;
         $chairmanOfTheCommissionGroupId = Group::where('key', Employee::CHAIRMAN_OF_THE_COMMISSION)->first()->id;
@@ -36,7 +35,6 @@ class CommitteeStatus extends Model
             $advisorGroupId => ['status' => Status::WAITING_DELEGATES],
             $officeOfThePresidentGroupId => ['status' => Status::WAITING_DELEGATES],
             $directorOfConsultantsOfficesGroupId => ['status' => Status::WAITING_DELEGATES],
-            $associateConsultantGroupId => ['status' => Status::WAITING_DELEGATES],
             $portfolioManagerGroupId => ['status' => Status::WAITING_DELEGATES],
             $technicalSupportGroupId => ['status' => Status::WAITING_DELEGATES],
             $chairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
@@ -52,7 +50,6 @@ class CommitteeStatus extends Model
         $advisorGroupId = Group::where('key', Employee::ADVISOR)->first()->id;
         $officeOfThePresidentGroupId = Group::where('key', Employee::OFFICE_OF_THE_PRESIDENT)->first()->id;
         $directorOfConsultantsOfficesGroupId = Group::where('key', Employee::DIRECTOR_OF_CONSULTANTS_OFFICES)->first()->id;
-        $associateConsultantGroupId = Group::where('key', Employee::ASSOCIATE_CONSULTANT)->first()->id;
         $portfolioManagerGroupId = Group::where('key', Employee::PORTFOLIO_MANAGER)->first()->id;
         $technicalSupportGroupId = Group::where('key', Employee::TECHNICAL_SUPPORT)->first()->id;
         $chairmanOfTheCommissionGroupId = Group::where('key', Employee::CHAIRMAN_OF_THE_COMMISSION)->first()->id;
@@ -64,7 +61,6 @@ class CommitteeStatus extends Model
                 , $advisorGroupId => ['status' => $status]
                 , $officeOfThePresidentGroupId => ['status' => $status]
                 , $directorOfConsultantsOfficesGroupId => ['status' => $status]
-                , $associateConsultantGroupId => ['status' => $status]
                 , $portfolioManagerGroupId => ['status' => $status]
                 , $technicalSupportGroupId => ['status' => $status]
                 , $chairmanOfTheCommissionGroupId => ['status' => $status]

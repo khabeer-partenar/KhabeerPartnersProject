@@ -16,7 +16,7 @@
 
                 <select {{$mainDepartment!=0?'disabled':''}} name="main_department_id" id="main_department_id"
                         class="form_control select2 load-departments"
-                        data-url="{{ route('system-management.departments.children') }}"
+                        data-url="{{ route('system-management.departments.childrenForDelegates') }}"
                         data-child="#parent_department_id">
                     <option value="0">{{ __('users::departments.choose a department') }}</option>
 

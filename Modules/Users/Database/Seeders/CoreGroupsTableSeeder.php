@@ -27,6 +27,7 @@ class CoreGroupsTableSeeder extends Seeder
         ];
         $allCoordinatorsResources = [
             'Modules\SystemManagement\Http\Controllers\DepartmentController@loadDepartmentsByParentId',
+            'Modules\SystemManagement\Http\Controllers\DepartmentController@loadDepartmentsByParentIdForDelegates',
             'Modules\Users\Http\Controllers\DelegateController@index',
             'Modules\Users\Http\Controllers\DelegateController@create',
             'Modules\Users\Http\Controllers\DelegateController@store',

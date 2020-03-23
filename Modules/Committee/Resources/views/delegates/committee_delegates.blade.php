@@ -1,5 +1,4 @@
-@if(auth()->user()->hasPermissionWithAccess('getDepartmentDelegatesNotInCommittee','DelegateController','Users')
-&& auth()->user()->hasPermissionWithAccess('getDelegatesWithDetails','CommitteeController','Committee'))
+@if(auth()->user()->hasPermissionWithAccess('getDelegatesWithDetails','CommitteeController','Committee'))
     <br /><br />
     <p class="underLine">{{ __('committee::committees.delegates_title') }}</p>
 
