@@ -32,8 +32,7 @@ class ValidationGovEmailRule implements Rule
         }
 
         $email = $email[count($email)-2] .'.'. $email[count($email)-1];
-    
-        return $email == 'gov.sa';
+        return strtolower($email) == 'gov.sa';
     }
 
     /**
