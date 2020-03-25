@@ -4,7 +4,7 @@
 
             <li>
                 <a href="{{ url('/') }}" title="الرئيسية"><img src="{{ asset('assets/images/f_logo.png') }}"></a>
-                جميع الحقوق محفوظة © 1441-2019
+                جميع الحقوق محفوظة © {{ \App\Classes\Date\CarbonHijri::toHijriFromMiladi(\Carbon\Carbon::today(), 'Y')  }}-{{ \Carbon\Carbon::now()->year }}
             </li>
 
             <li class="flist">
@@ -24,7 +24,7 @@
             <li class="newsletter">
                 <strong>القائمة البريدية</strong>
                 <span>اشترك معنا في القائمة البريدية ليصلك جديدنا ...</span>
-                <input type="text" value="البريد الإلكتروني ..." onclick="if (this.value == 'البريد الإلكتروني ...') { this.value = '' }" onblur=" if (this.value= ='' ) { this.value='البريد الإلكتروني ...' }" />
+                <input type="text" value="البريد الإلكتروني ..." onclick="if (this.value == 'البريد الإلكتروني ...') { this.value = '' }" onblur=" if (this.value == '' ) { this.value='البريد الإلكتروني ...' }" />
                 <input type="button" value="اشترك" title="اضغط للاشتراك" />
             </li>
         
