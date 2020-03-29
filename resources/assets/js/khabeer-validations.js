@@ -106,7 +106,7 @@ $(document).ready(function() {
 
         email = email.split('.');
         var govEmail = email[email.length-2] + '.' + email[email.length-1];
-        if(govEmail != 'gov.sa') {
+        if(govEmail.toLowerCase() != 'gov.sa') {
             $(formGroup).removeClass('has-error').addClass('has-error');
             $(formGroup).append('<span class="help-block"><strong>البريد الإلكتروني يجب ان ينتهي بإمتداد gov.sa</strong></span>');
             return false;  
