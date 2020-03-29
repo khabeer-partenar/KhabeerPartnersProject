@@ -154,7 +154,6 @@ $(document).ready(function() {
             $.ajax({
                 url: path,
                 success: function (response) {
-                    console.log(response);
                     let select = $(child)[0];
                     let length = Object.keys(response).length;
                     for (let index = 0; index < length; index++) {
