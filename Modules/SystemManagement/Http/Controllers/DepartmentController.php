@@ -261,8 +261,7 @@ class DepartmentController extends UserBaseController
         $staffsDepartment       = Department::staffsDepartments()->select('name', 'id')->get();
         $staffExpertsDepartment = Department::staffExpertsDepartments($staffsDepartment[0]->id)->pluck('name', 'id');
         $staffsDepartment = $staffsDepartment->pluck('name', 'id');
-        $directManager = [0 => __('messages.choose_option')];
-        return view('systemmanagement::departmentsAuthorities.create', compact('staffsDepartment', 'staffExpertsDepartment', 'directManager'));
+        return view('systemmanagement::departmentsAuthorities.create', compact('staffsDepartment', 'staffExpertsDepartment'));
     }
 
     /**
@@ -274,7 +273,7 @@ class DepartmentController extends UserBaseController
         $staffsDepartmentId       = Department::staffsDepartments()->select('id')->first()->id;
         $staffExpertsDepartmentId = Department::staffExpertsDepartments($staffsDepartmentId)->select('id')->first()->id;
 
-        $data = ['parent_id' => $staffExpertsDepartmentId, 'name' => $request->department_name, 'type' => 3, 'direct_manager_id' => $request->direct_manager_id];
+        $data = ['parent_id' => $staffExpertsDepartmentId, 'name' => $request->department_name, 'type' => 3];
         $department = Department::createNewDepartment($data);
         $department->log('create_department');
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesCreated'));
@@ -302,7 +301,7 @@ class DepartmentController extends UserBaseController
      */
     public function departmentsAuthoritiesUpdate(UpdateDepartmentAuthoritiesRequest $request, Department $department)
     {
-        $data = ['name' => $request->department_name, 'direct_manager_id' => $request->direct_manager_id];
+        $data = ['name' => $request->department_name];
         $department->updateDepartment($data);
         $department->log('update_department');
         session()->flash('alert-success', __('systemmanagement::systemmanagement.departmentAuthoritiesUpdated'));

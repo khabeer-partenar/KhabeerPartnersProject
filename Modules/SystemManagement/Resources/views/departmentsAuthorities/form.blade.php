@@ -58,20 +58,4 @@
         </div>
     </div>
 
-    <div class="col-md-6">
-        <div class="form-group {{ $errors->has('direct_manager_id') ? ' has-error' : '' }}">
-
-            <label for="direct_manager_id" class="control-label">
-                {{ __('systemmanagement::systemmanagement.directManagerId') }}
-            </label>
-
-            {!! Form::select('direct_manager_id', isset($directManager) ? $directManager : [], null, ['id' => 'direct_manager_id', 'class' => 'form_control select2-ajax-search', 'data-ajax--url' => route('employees.search_by_name')]) !!}
-
-            @if ($errors->has('direct_manager_id'))
-                <span class="help-block" ><strong>{{ $errors->first('direct_manager_id') }}</strong></span>
-            @endif
-
-        </div>
-    </div>
-
 </div>

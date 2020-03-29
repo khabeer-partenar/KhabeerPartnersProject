@@ -25,7 +25,6 @@ class UpdateDepartmentAuthoritiesRequest extends FormRequest
 
         return [
             'department_name'   => ['required', 'max:255', new FilterStringRule, 'unique:'. Department::table() . ',name,' . $department->id],
-            'direct_manager_id' => ['nullable', 'integer', 'exists:'. Employee::table(). ',id'],
         ];
     }
 

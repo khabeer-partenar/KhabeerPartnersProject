@@ -33,7 +33,7 @@ class Department extends Model
      * @var array
      */
     protected $fillable = [
-        'parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id', 'telephone', 'address', 'email', 'direct_manager_id', 'order',
+        'parent_id', 'name', 'type', 'key', 'can_deleted', 'is_reference', 'reference_id', 'telephone', 'address', 'email', 'order',
         'shown_in_committee_recommended', 'shown_in_committee_source_of_study'
     ];
 
@@ -169,9 +169,6 @@ class Department extends Model
      */
     public function updateDepartment($data)
     {
-        if (!isset($data['direct_manager_id'])) {
-            $data['direct_manager_id'] = null;
-        }
         return $this->update($data);
     }
 
@@ -381,19 +378,6 @@ class Department extends Model
     {
         return $this->hasMany(self::class, 'reference_id', 'id');
     }
-
-    /**
-     * Get parent of dept
-     */
-    public function directManager()
-    {
-        return $this->hasOne(Employee::class, 'id', 'direct_manager_id');
-    }
-
-//    public function committeesPivot()
-//    {
-//        return $this->hasMany(CommitteeDepartment::class, 'department_id');
-//    }
 
     public function committees()
     {
