@@ -384,10 +384,18 @@ class Committee extends Model
 
     public function getDelegatesWithDetails()
     {
-        $departmentsIds = auth()->user()->coordinatorAuthorizedIds();
-        return $this->delegates()->with(['department' => function ($query) {
-            $query->with('referenceDepartment');
-        }])->whereIn('nominated_department_id',$departmentsIds) ->get();
+        if (auth()->user()->user_type==Coordinator::TYPE) {
+            $departmentsIds = auth()->user()->coordinatorAuthorizedIds();
+            return $this->delegates()->with(['department' => function ($query) {
+                $query->with('referenceDepartment');
+            }])->whereIn('nominated_department_id', $departmentsIds)->get();
+        }
+        else
+        {
+            return $this->delegates()->with(['department' => function ($query) {
+                $query->with('referenceDepartment');
+            }])->get();
+        }
     }
 
     public static function getDateFromFormat($value, $format = 'm/d/Y')
