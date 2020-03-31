@@ -204,7 +204,7 @@ class Committee extends Model
         switch (auth()->user()->authorizedApps->key) {
             case Employee::SECRETARY:
                 $advisorsId = auth()->user()->advisors()->pluck('users.id');
-                $query->whereIn('advisor_id', $advisorsId);
+                $query->whereIn(Committee::table() . '.advisor_id', $advisorsId);
                 break;
 
             case Employee::ADVISOR:
@@ -280,10 +280,10 @@ class Committee extends Model
             $query->where('subject', 'LIKE', '%' . $searchFilters['subject'] . '%');
         }
         if (isset($searchFilters['advisor_id']) && $searchFilters['advisor_id'] != 0) {
-            $query->where('advisor_id', $searchFilters['advisor_id']);
+            $query->where(Committee::table() . '.advisor_id', $searchFilters['advisor_id']);
         }
         if (isset($searchFilters['status']) && $searchFilters['status'] != '0') {
-            $query->where('status', $searchFilters['status']);
+            $query->where(Committee::table() . '.status', $searchFilters['status']);
         }
         if (isset($searchFilters['treatment_number'])) {
             $query->where('treatment_number', $searchFilters['treatment_number']);
@@ -295,7 +295,7 @@ class Committee extends Model
             $query->where('uuid', $searchFilters['uuid']);
         }
         if (isset($searchFilters['created_at'])) {
-            $query->whereDate('created_at', '=', Carbon::createFromFormat('m/d/Y', $searchFilters['created_at']));
+            $query->whereDate(Committee::table() . '.created_at', '=', Carbon::createFromFormat('m/d/Y', $searchFilters['created_at']));
         }
 
         $query->orderBy('created_at', 'desc');
