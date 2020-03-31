@@ -3,11 +3,13 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label" for="advisor_id">المستشار المسؤول</label>
-
                     <select name="advisor_id" id="advisor_id" class="form_control select2">
+                        @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
                         <option value="0">{{ __('committee::committees.all') }}</option>
+                        @endif
                         @foreach($advisors as $key => $name)
-                            <option value="{{ $key }}" {{ Request::input('advisor_id') == $key ? 'selected':'' }}>{{ $name }}</option>
+                            <option value="{{ $key }}"  {{ Request::input('advisor_id') == $key ? 'selected':'' }} 
+                            {{ auth()->user()->id == $key ? 'selected disabled':'' }}>{{ $name }}</option>
                         @endforeach
                     </select>
                 </div>

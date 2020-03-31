@@ -412,7 +412,9 @@
             </label>
 
             <select name="advisor_id" id="advisor_id" class="form_control select2">
+                @if(auth()->user()->authorizedApps->key != \Modules\Users\Entities\Employee::ADVISOR)
                 <option value="0">{{ __('committee::committees.please choose') }}</option>
+                @endif
                 @php
                     $advisorId = isset($committee) ? $committee->advisor_id:'';
                     if (old('resource_by')){
