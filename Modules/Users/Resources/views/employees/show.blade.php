@@ -18,6 +18,7 @@
                         @if(auth()->user()->hasPermissionWithAccess('edit'))
                             <a href="{{ route('employees.edit', $employee) }}" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> {{ __('messages.edit') }}</a>
                         @endif
+                        <a href="{{ route('employees.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
                     </div>
                 </div>
             </div>

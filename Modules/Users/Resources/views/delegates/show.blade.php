@@ -20,6 +20,7 @@
                                 <i class="fa fa-edit"></i> {{ __('users::delegates.edit') }}
                             </a>
                         @endif
+                        <a href="{{ route('delegates.index') }}" class="btn red">{{ __('messages.goBack') }}</a>
                     </div>
                 </div>
             </div>
