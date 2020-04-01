@@ -225,7 +225,8 @@ $(document).ready(function() {
     $(".hijri-date-input").on('dp.change', function (arg) {
         var name =($(this).attr('name').split("hijri_"))[1];
         if (!arg.date) {
-            $(id).html('');
+            $("#" + name).html('');
+            $(`input[name="${name}"]`).val('');
             return;
         };
         let date = arg.date;
