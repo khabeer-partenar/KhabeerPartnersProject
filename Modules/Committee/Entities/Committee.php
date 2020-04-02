@@ -33,6 +33,7 @@ class Committee extends Model
     const HOLD = 'hold';
     const WAITING_SIGNATURE = 'waiting_for_signature';
     const SIGNATURE_COMPLETED = 'signature_completed';
+    const COMMITTEE_ADVISOR = 1;
     const STATUS = [
         self::WAITING_DELEGATES => 'Waiting for Delegates',
         self::NOMINATIONS_COMPLETED => 'Nominations Completed',
@@ -418,7 +419,7 @@ class Committee extends Model
         );
         $committee->participantAdvisors()->attach($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $committee->participantDepartments()->sync($request->departments);
-        $committee->update(['members_count' => $committee->participantAdvisors()->count()]);
+        $committee->update(['members_count' => $committee->participantAdvisors()->count() + self::COMMITTEE_ADVISOR ]);
         $committee->updateDocuments();
 
         $type = MeetingType::where('slug', MeetingType::PRIMARY)->first();
@@ -439,7 +440,7 @@ class Committee extends Model
         $this->update($request->except('first_meeting_at'));
         $this->participantAdvisors()->sync($request->participant_advisors[0] != null ? $request->participant_advisors : []);
         $this->participantDepartments()->sync($request->departments);
-        $this->update(['members_count' => $this->participantAdvisors()->count()]);
+        $this->update(['members_count' => $this->participantAdvisors()->count() + self::COMMITTEE_ADVISOR]);
         $this->SendNotificationDeletedDepartmentsParticipants($oldDepartments,$request->departments);
         return $this;
     }
@@ -683,7 +684,7 @@ class Committee extends Model
 
     public function setMembersCount()
     {
-        $count = $this->committeeDelegates->count() + $this->participantAdvisors->count();
+        $count = $this->committeeDelegates->count() + $this->participantAdvisors->count() + self::COMMITTEE_ADVISOR;
         $this->members_count=$count;
         $this->save();
     }
