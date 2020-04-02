@@ -38,13 +38,11 @@ class WaterMarker
         }
 
         $savedPath = $tempPath . md5($this->document->id + auth()->id()) . '.pdf';
-
         $watermarker = new PDFWatermarker(
             Storage::path($this->document->path),
             $savedPath,
             $watermark
         );
-
         //Set page range. Use 1-based index.
         $watermarker->setPageRange(1);
 

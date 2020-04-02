@@ -23,7 +23,7 @@
         "nwidart/laravel-modules": "^5.0",
         "phpoffice/phpword": "^0.17.0",
         "rap2hpoutre/laravel-log-viewer": "^1.2",
-        "setasign/fpdf": "1.8.1",
+        "setasign/fpdf": "^1.8.2",
         "setasign/fpdi": "^2.2",
         "yajra/laravel-datatables-oracle": "~9.0"
     },

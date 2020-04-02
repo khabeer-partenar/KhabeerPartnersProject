@@ -58,7 +58,6 @@ class CommitteeDocumentController extends UserBaseController
         $watermarkPath = UserWatermark::getWatermarkImage();
         $waterMarker = new WaterMarker($document, $watermarkPath);
         $savedPath = $waterMarker->drawWaterMark();
-
         return response()->download($savedPath, $document->name);
     }
 }
