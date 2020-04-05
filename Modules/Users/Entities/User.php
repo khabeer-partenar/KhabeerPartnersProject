@@ -31,7 +31,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'national_id', 'email', 'phone_number', 'direct_department_id', 'job_role_id', 'department_reference_id',
         'job_title','specialty', 'title', 'main_department_id', 'parent_department_id', 'user_type', 'direct_department',
-        'receive_sms'
+        'receive_sms', 'last_time_active'
     ];
 
     /**

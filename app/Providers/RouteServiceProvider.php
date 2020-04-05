@@ -26,22 +26,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
         Route::bind('meeting', function($value, $route)
         {
             return Meeting::where('id', $value)->withTrashed()->first();
         });
-
-      /*  Route::bind('delegate', function($value, $route)
-        {
-            try {
-                return decrypt($value);
-            }
-             catch (\Exception $e)
-            {
-                return abort(403);
-            }
-        });*/
 
         parent::boot();
     }

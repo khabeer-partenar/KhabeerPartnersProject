@@ -52,12 +52,10 @@ class AuthController extends Controller
 
         $userData = User::where(['national_id' => $request->national_id])->first();
 
-//        if($request->national_id == 1000000001 && $request->password != '0000') {
-//            return redirect()->route('login')->withInput($request->except('password'))->with('error_login', 'invalid_login');
-//        }
-
         if ($userData != false) {
             auth()->login($userData, true);
+
+            $userData->update(['last_time_active' => now()]);
 
             if($request->call_type == 'api') {
                 $token = $userData->createToken('APIAPP')->accessToken;

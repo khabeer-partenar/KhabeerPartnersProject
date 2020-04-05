@@ -1,7 +1,7 @@
 <?php
 header('Vary:X-Requested-With');
 
-Route::group(['middleware' => 'web', 'as' => 'core.', 'prefix' => 'core'], function()
+Route::group(['middleware' => ['web', 'still.loggedIn'], 'as' => 'core.', 'prefix' => 'core'], function()
 {
     // Apps Routes
     Route::get('/apps', 'AppsController@index')->name('apps.index');

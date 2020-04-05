@@ -27,7 +27,7 @@ Route::group(['middleware' => 'guest'], function()
     Route::post('/login', 'AuthController@login')->name('login');
 });
 
-Route::group(['middleware' => 'auth'], function()
+Route::group(['middleware' => 'auth', 'still.loggedIn'], function()
 {
 
     Route::prefix('users')->group(function(){

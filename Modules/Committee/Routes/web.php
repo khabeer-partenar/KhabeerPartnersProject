@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting']], function () {
+Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting', 'still.loggedIn']], function () {
 
     Route::prefix('committees')->group(function () {
         // Meeting
