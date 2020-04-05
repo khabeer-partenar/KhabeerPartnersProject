@@ -152,7 +152,7 @@
                             <a href="${delegateDocument.full_path}">${delegateDocument.name}</a>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger file-remove"
+                            <button type="button" class="btn btn-danger file-remove-delegate"
                              data-remove-url="${response.delete_url}"
                              data-remove-row="#file-${delegateDocument.id}">
                                 حذف

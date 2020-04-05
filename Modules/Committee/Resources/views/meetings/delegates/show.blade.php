@@ -98,6 +98,7 @@
                                     {{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}
                                 </td>
                             @endif
+                            {{$delegate->pivot->status}}
                         </tr>
                         </tbody>
                     </table>
@@ -296,11 +297,13 @@
                                         </td>
                                         @if($delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::REJECTED && !$committee->exported)
                                             <td>
-                                                <button type="button" class="btn btn-danger file-remove-delegate"
-                                                        data-remove-url="{{ route('committee.meeting-document.delete-delegate', compact('committee', 'document')) }}"
-                                                        data-remove-row="#file-{{ $meeting->id }}">
-                                                    حذف
-                                                </button>
+                                                @if($delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::INVITED)
+                                                    <button type="button" class="btn btn-danger file-remove-delegate"
+                                                            data-remove-url="{{ route('committee.meeting-document.delete-delegate', compact('committee', 'document')) }}"
+                                                            data-remove-row="#file-{{ $document->id }}">
+                                                        حذف
+                                                    </button>
+                                                @endif
                                             </td>
                                         @endif
                                     </tr>
