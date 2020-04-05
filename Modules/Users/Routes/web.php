@@ -1,26 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-use Modules\Committee\Entities\Committee;
-use Modules\Core\Entities\App;
-use Modules\Core\Entities\Group;
-use Modules\Core\Entities\Status;
-use Modules\Core\Transformers\App as AppTransformer;
-use Modules\SystemManagement\Entities\Department;
-use Modules\Users\Entities\Coordinator;
-use Modules\Users\Entities\Employee;
-
 Route::group(['middleware' => 'guest'], function()
 {
     Route::get('/login', 'AuthController@showLoginForm')->name('showLoginForm');

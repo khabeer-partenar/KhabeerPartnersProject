@@ -100,4 +100,14 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | User Session Time
+    |--------------------------------------------------------------------------
+    |
+    | You may set here the amount of minutes before destroying the User session.
+    |
+    */
+    'logout_after' => env('LOGOUT_AFTER', 30)
+
 ];
