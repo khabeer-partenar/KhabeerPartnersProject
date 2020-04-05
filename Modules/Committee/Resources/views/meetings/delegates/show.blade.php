@@ -98,7 +98,6 @@
                                     {{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}
                                 </td>
                             @endif
-                            {{$delegate->pivot->status}}
                         </tr>
                         </tbody>
                     </table>
