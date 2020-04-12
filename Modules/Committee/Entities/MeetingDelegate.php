@@ -15,7 +15,10 @@ class MeetingDelegate extends Model
     use SharedModel;
 
     protected $table = 'meetings_delegates';
-    protected $fillable = ['status', 'attended', 'attendance_taker_id', 'driver_id', 'has_driver', 'refuse_reason'];
+    protected $fillable = [
+        'status', 'attended', 'attendance_taker_id', 'driver_id', 'has_driver', 'refuse_reason',
+        'department_id', 'delegate_id', 'meeting_id'
+    ];
 
     const INVITED = 0;
     const ACCEPTED = 1;

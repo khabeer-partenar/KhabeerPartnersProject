@@ -49,8 +49,6 @@
                         </tr>
                         </tbody>
                     </table>
-                    @include('users::delegates.index_popup',compact('committee'))
-                    @include('users::delegates.create_popup',compact('committee'))
                 </div>
 
             </div>
@@ -75,13 +73,18 @@
                         </tr>
                         </thead>
                         <tbody id="">
-                        @foreach($meeting->delegates as $delegate)
+                        @foreach($meetingDepartments as $department)
+                            @php $delegate = $department->meetingDelegates->first() @endphp
                             <tr>
-                                <td>
-                                    <span title="{{ $delegate->phone_number }}">{{ $delegate->name }}</span>
-                                </td>
-                                <td>{{ $delegate->department->name }}</td>
-                                @if ($meeting->attendance_done)
+                                @if ($delegate)
+                                    <td>
+                                        <span title="{{ $delegate->phone_number }}">{{ $delegate->name }}</span>
+                                    </td>
+                                @else
+                                    <td>لا يوجد مرشح</td>
+                                @endif
+                                <td>{{ $department->name }}</td>
+                                @if ($meeting->attendance_done && $delegate)
                                     <td>
                                         @if ($delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED)
                                             {{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}
@@ -90,20 +93,18 @@
                                         @endif
                                     </td>
                                 @endif
+                                @if ($delegate)
+                                    <td>{{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}</td>
+                                    <td>{{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'-' }}</td>
+                                @else
+                                    <td>-</td><td>-</td>
+                                @endif
                                 <td>
-                                    {{ __('committee::meetings.' . \Modules\Committee\Entities\MeetingDelegate::STATUS[$delegate->pivot->status]) }}
-                                </td>
-                                <td>{{ $delegate->pivot->status == \Modules\Committee\Entities\MeetingDelegate::REJECTED ? $delegate->pivot->refuse_reason:'' }}</td>
-                                <td>
-                                    @if(
-                                    auth()->user()->hasPermissionWithAccess('addDelegatesToCommittee','DelegateController','Users')
-                                    && !$committee->exported
-                                    && !$meeting->is_old
-                                    && $delegate->pivot->status != \Modules\Committee\Entities\MeetingDelegate::ACCEPTED
-                                    )
-                                        <button data-toggle="modal" value="{{ $delegate->parent_department_id }}"
-                                                class="btn btn-primary nominateBtn">ترشيح مندوب جديد</button>
-                                    @endif
+                                    <button
+                                            {{ $delegate ? 'data-id=' . $delegate->id:'' }}
+                                            data-ref-dep="{{ $department->reference_id }}"
+                                            data-department="{{ $department->id }}"
+                                            class="btn btn-primary update-nomination">تعديل</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -113,6 +114,54 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- Modal -->
+    <div id="delegatesModal" class="modal fade" role="dialog">
+        <div class="modal-notify modal-info" role="document" style="overflow-y: initial !important;width: auto; margin: 10% 15%;">
+            <input id="nominate_path" value="{{ route('committee.meetings.nominate', compact('committee', 'meeting')) }}" hidden>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div style="height: 50px; background-color: #057d54"
+                     class="modal-header d-flex text-center justify-content-center">
+                    <p style="color: white" class="heading">
+                        <strong>تعديل المندوب المرشح</strong>
+                    </p>
+                    <div class="clearfix"></div>
+                </div>
+                <form id="delegates-nominations">
+                    <div class="modal-body">
+                        <table class="table table-bordered table-responsive-md">
+                            <tbody>
+                                <tr class="delegates_rows" data-dep="0">
+                                    <th style="width: 16.66%" scope="row" >
+                                        <input type="radio" class="delegate_id" value="0" name="delegate_id">
+                                    </th>
+                                    <td colspan="2">حذف المندوب من الإجتماع</td>
+                                </tr>
+                                @foreach($delegates as $delegate)
+                                    <tr class="delegates_rows" data-dep="{{ $delegate->department->id }}">
+                                        <th style="width: 16.66%" scope="row">
+                                            <input type="radio" class="delegate_id" value="{{ $delegate->id }}" name="delegate_id">
+                                        </th>
+                                        <td>{{ $delegate->name }}</td>
+                                        <td>{{ $delegate->department->name }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <input name="department_id" id="department_id" value="" hidden>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="save-nomination">حفظ</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">إغلاق</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
 @endsection
 

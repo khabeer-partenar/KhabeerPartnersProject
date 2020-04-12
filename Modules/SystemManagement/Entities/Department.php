@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDepartment;
+use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\User;
 use Modules\Users\Entities\Employee;
@@ -384,6 +385,12 @@ class Department extends Model
         return $this->belongsToMany(Committee::class, 'committees_participant_departments', 'department_id', 'committee_id')
             ->withTimestamps()
             ->withPivot('nomination_criteria');
+    }
+
+    public function meetingDelegates()
+    {
+        return $this->belongsToMany(Delegate::class, MeetingDelegate::table(), 'department_id', 'delegate_id')
+            ->withPivot('refuse_reason', 'status', 'attended');
     }
 
     public static function scopeChildrenDepartmentsByParentId($query,$parentId)

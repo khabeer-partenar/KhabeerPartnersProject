@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
+use Modules\SystemManagement\Entities\Department;
 use Modules\SystemManagement\Entities\MeetingRoom;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
@@ -378,5 +379,10 @@ class Meeting extends Model
     public function advisor()
     {
         return $this->belongsTo(User::class, 'advisor_id');
+    }
+
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class, 'meetings_delegates', 'meeting_id', 'department_id');
     }
 }

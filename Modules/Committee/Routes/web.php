@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting', 'still.lo
 
         // Coordinator
         Route::get('/{committee}/meetings/{meeting}/coordinator', 'CoordinatorMeetingController@show')->name('committees.meetings.co.show');
+        Route::put('/{committee}/meetings/{meeting}/nominate', 'DelegateMeetingController@nominate')->name('committee.meetings.nominate');
 
         // Attendance
         Route::get('/{committee}/attendance', 'CommitteeAttendanceController@show')->name('committees.attendance');

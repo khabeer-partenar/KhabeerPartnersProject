@@ -27,23 +27,6 @@ class DelegateController extends UserBaseController
 {
     use SessionFlash;
 
-    protected $userType = '';
-
-    /**
-     * DelegateController constructor.
-     * @param Request $request
-     */
-    public function __construct(Request $request)
-    {
-        parent::__construct($request);
-        $this->middleware(function ($request, $next) {
-            if (Auth::user()->user_type == Delegate::TYPE) {
-                $this->userType = Delegate::TYPE;
-            }
-            return $next($request);
-        });
-    }
-
     /**
      * Display a listing of the resource.
      * @param Request $request
@@ -53,7 +36,6 @@ class DelegateController extends UserBaseController
     public function index(Request $request)
     {
         $delegatesData = Delegate::UserDepartment()->with('mainDepartment', 'parentDepartment', 'directDepartment')->search($request)->paginate(10);
-        //dd($delegatesData);
         $mainDepartments = Department::getDepartments();
         return view('users::delegates.index', compact('mainDepartments', 'delegatesData'));
     }
@@ -168,12 +150,4 @@ class DelegateController extends UserBaseController
             return response()->json(['code' => '1', 'msg' => __('users::delegates.deleted')]);
         }
     }
-    /**
-     * Remove the specified resource from storage.
-     * @param Coordinator $coordinator
-     * @return Response
-     * @internal param int $id
-     */
-
-
 }
