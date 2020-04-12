@@ -3,8 +3,10 @@
 namespace Modules\Committee\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\SystemManagement\Entities\Department;
+use Modules\Users\Entities\Delegate;
 
-class DocumentUploadRequest extends FormRequest
+class MeetingDelegateNominateRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,8 +16,8 @@ class DocumentUploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png,gif|max:20000',
-            'description' => 'required|max:100'
+            'delegate_id' => ['required', 'exists:'. Delegate::table(). ',id'],
+            'department_id' => ['required', 'exists:'. Department::table(). ',id'],
         ];
     }
 

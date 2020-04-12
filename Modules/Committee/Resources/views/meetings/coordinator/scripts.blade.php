@@ -212,6 +212,7 @@
 
             //return false;
         });
+
         $(document).on('click', '.nominateBtn', function () {
             var department_id = this.value;
             var committe_id = '{{$committee->id}}';
@@ -310,6 +311,58 @@
 
             });
 
+        });
+
+        $(document).on('click', '.update-nomination', function(){
+            const btn = $(this);
+            const id = $(btn).attr('data-id');
+            const depId = $(btn).attr('data-department');
+            const depRef = $(btn).attr('data-ref-dep');
+            let rows = $('.delegates_rows');
+            $(rows).each(function() {
+                // Hide other Deps
+                let currentDep = $(this).attr('data-dep');
+                if (currentDep != depId && currentDep != '0' && currentDep != depRef) {
+                    $(this).hide();
+                }
+                // Select Current User
+                let input = $(this).find('.delegate_id');
+                if (input.val() == id) {
+                    $(input).attr('checked', true);
+                }
+            });
+            $('#department_id').val(depId);
+            $("#delegatesModal").modal();
+        });
+
+        $(document).on('click', '#save-nomination', function() {
+            let data = $('#delegates-nominations').serialize();
+            let path = $('#nominate_path').val();
+            $.ajax({
+                'type': 'put',
+                'url': path,
+                'data': data,
+                success: function(response) {
+                    window.location.reload();
+                },
+                error: function (request, status, error) {
+                    Swal.fire({
+                        title: 'حدث خطأ',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#D3D3D3',
+                        confirmButtonText: 'حسنا',
+                    });
+                }
+            })
+        });
+
+        $('#delegatesModal').on('hidden.bs.modal', function () {
+            let rows = $('.delegates_rows');
+            $(rows).each(function() {
+                // Hide other Deps
+                $(this).show();
+            })
         });
 
         function getNominationDepartments() {
@@ -462,7 +515,5 @@
         }
 
     });
-
-
 </script>
 

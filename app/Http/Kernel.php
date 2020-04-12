@@ -8,6 +8,7 @@ use Modules\Committee\Http\Middleware\CanSeeMeeting;
 use Modules\Committee\Http\Middleware\TakeAttendance;
 use Modules\Committee\Http\Middleware\DelegateStatus;
 use Modules\Users\Http\Middleware\CanReadDelegate;
+use Modules\Users\Http\Middleware\CheckIfStillLoggedIn;
 
 class Kernel extends HttpKernel
 {
@@ -72,6 +73,7 @@ class Kernel extends HttpKernel
         'delegate.status' => DelegateStatus::class,
         'see.meeting' => CanSeeMeeting::class,
         'read.delegate' => CanReadDelegate::class,
+        'still.loggedIn' => CheckIfStillLoggedIn::class
 
     ];
 
