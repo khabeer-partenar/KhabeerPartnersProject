@@ -31,8 +31,7 @@ class SaveDelegateRequest extends FormRequest
     public function rules()
     {
         return [
-            'parent_department_id' =>   ['required','integer','exists:'. Department::table(). ',id',  new CheckMainCoordinatorNominations(request()->parent_department_id,request()->committee_id)
-                , new CheckCoordinatorParentDepartmentType(request()->main_department_id)],
+            'parent_department_id' =>   ['required','integer','exists:'. Department::table(). ',id',  new CheckMainCoordinatorNominations(request()->parent_department_id,request()->committee_id)],
             'main_department_id' => ['required', 'integer','exists:'. Department::table(). ',id',  new CheckCoordinatorDepartmentType],
             'direct_department' => ['nullable', 'string'],
             'job_title' => ['required'],
