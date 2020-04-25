@@ -35,8 +35,8 @@
                     <thead>
 
                         <tr role="row">
-                            <th>{{ __('systemmanagement::systemmanagement.departmentManagementParentName') }}</th>
                             <th>{{ __('systemmanagement::systemmanagement.departmentManagementName') }}</th>
+                            <th>{{ __('systemmanagement::systemmanagement.departmentManagementParentName') }}</th>
                             <th>{{ __('systemmanagement::systemmanagement.departmentManagementReferenceName') }}</th>
                             <th></th>
                         </tr>
