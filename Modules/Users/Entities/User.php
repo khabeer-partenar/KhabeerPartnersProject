@@ -204,7 +204,11 @@ class User extends Authenticatable
         if(auth()->user()->authorizedApps->key == Employee::ADVISOR) {
             $query->where('users.id', auth()->user()->id);
         }
-        else{
+        elseif(auth()->user()->authorizedApps->key == Employee::SECRETARY) {
+            $advisorsId = UsersAdvisorsSecretaries::AdvisorsId(auth()->user()->id);
+            $query->whereIn('users.id', $advisorsId);
+        }
+        elseif(auth()->user()->user_type == Coordinator::TYPE || auth()->user()->user_type == Delegate::TYPE){
             $query->whereIn('users.id', $advisorsId);
         }
 
