@@ -21,6 +21,10 @@ class UsersAdvisorsSecretaries extends Model
     ];
 
 
+    public static function ScopeAdvisorsId($query,$secretary_id)
+    {
+        return $query->where('secretary_user_id',$secretary_id)->pluck('advisor_user_id')->toArray();
+    }
     /**
      * Get secretary user data
      */
@@ -28,4 +32,5 @@ class UsersAdvisorsSecretaries extends Model
     {
         return $this->hasOne(User::class, 'id', 'secretary_user_id');
     }
+
 }
