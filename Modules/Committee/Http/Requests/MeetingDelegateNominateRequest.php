@@ -16,7 +16,7 @@ class MeetingDelegateNominateRequest extends FormRequest
     public function rules()
     {
         return [
-            'delegate_id' => ['required', 'exists:'. Delegate::table(). ',id'],
+            'delegate_id' => ['exists:'. Delegate::table(). ',id'],
             'department_id' => ['required', 'exists:'. Department::table(). ',id'],
         ];
     }
