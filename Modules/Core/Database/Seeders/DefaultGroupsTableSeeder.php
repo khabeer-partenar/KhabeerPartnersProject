@@ -34,27 +34,11 @@ class DefaultGroupsTableSeeder extends Seeder
         ]);
 
         Group::create([
-            'parent_id' => 0, 'name' => 'مدير مكاتب المستشارين', 'key' => 'director_of_consultants_offices', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        Group::create([
             'parent_id' => 0, 'name' => 'السكرتير', 'key' => 'secretary', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         Group::create([
-            'parent_id' => 0, 'name' => 'مدير المحافظ', 'key' => 'portfolio_manager', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        Group::create([
             'parent_id' => 0, 'name' => 'الدعم التقني', 'key' => 'technical_support', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        Group::create([
-            'parent_id' => 0, 'name' => 'الوزير', 'key' => 'minister', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
-
-        Group::create([
-            'parent_id' => 0, 'name' => 'مدير مكتب الوزير', 'key' => 'director_of_the_minister_office', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         Group::create([
@@ -69,17 +53,8 @@ class DefaultGroupsTableSeeder extends Seeder
             'parent_id' => 0, 'name' => 'المندوب', 'key' => 'delegate', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
-        Group::create([
-            'parent_id' => 0, 'name' => 'مندوب بالنيابة', 'key' => 'acting_delegate', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
 
-        Group::create([
-            'parent_id' => 0, 'name' => 'معالي رئيس الهيئة', 'key' => 'chairman_of_the_commission', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
 
-        Group::create([
-            'parent_id' => 0, 'name' => 'معالي نائب رئيس الهيئة', 'key' => 'vice_chairman_of_the_commission', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
-        ]);
 
     }
 }
