@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting', 'still.loggedIn', 'prevent.back']], function () {
+Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting', 'still.loggedIn']], function () {
 
     Route::prefix('committees')->group(function () {
         // Meeting
@@ -81,7 +81,7 @@ Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting', 'still.lo
         Route::get('/print', 'AuthorizedNameController@print')->name('committee.print');
     });
 
-    Route::resource('committees', 'CommitteeController');
+    Route::resource('committees', 'CommitteeController')->middleware('prevent.back');
 
     Route::get('meetings', 'MeetingController@index')->name('meetings.calendar');
     Route::get('meetings/calendar', 'MeetingController@calendar')->name('meetings.calendar.ajax');

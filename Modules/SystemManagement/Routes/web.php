@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(['middleware' => ['auth', 'still.loggedIn', 'prevent.back'], 'as' => 'system-management.', 'prefix' => 'system-management'], function()
+Route::group(['middleware' => ['auth', 'still.loggedIn'], 'as' => 'system-management.', 'prefix' => 'system-management'], function()
 {
     
     Route::group(['as' => 'departments.', 'prefix' => 'departments'], function()
