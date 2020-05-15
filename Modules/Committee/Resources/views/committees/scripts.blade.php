@@ -183,7 +183,10 @@
         // On Submit
         $("#save-committee").click(function (e) {
             e.preventDefault();
-            let firstMeetAt =  moment($("input[name='first_meeting_at']").val()).format('DD/MM/YYYY');
+            let timestamp = $("input[name='first_meeting_at']").val().split(' ');
+            
+            let firstMeetAt =  timestamp.length === 2 ? timestamp[0]:moment(timestamp[0]).format('DD/MM/YYYY');
+            
             let timeFirstMeetAt = $("input[name='time_first_meet']").val();
             let participantAdvisors = $('#participant_advisors').val();
             if(firstMeetAt && timeFirstMeetAt)
