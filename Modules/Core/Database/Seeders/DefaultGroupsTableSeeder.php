@@ -53,8 +53,17 @@ class DefaultGroupsTableSeeder extends Seeder
             'parent_id' => 0, 'name' => 'المندوب', 'key' => 'delegate', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
+        Group::create([
+            'parent_id' => 0, 'name' => 'منسق التصاريح', 'key' => 'authorizations_coordinator', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
 
+        Group::create([
+            'parent_id' => 0, 'name' => 'معالي رئيس الهيئة', 'key' => 'chairman_of_the_commission', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
 
+        Group::create([
+            'parent_id' => 0, 'name' => 'معالي نائب رئيس الهيئة', 'key' => 'vice_chairman_of_the_commission', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
 
     }
 }

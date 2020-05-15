@@ -12,7 +12,7 @@
 */
 
 
-Route::group(['middleware' => 'web'], function()
+Route::group(['middleware' => 'web', 'prevent.back'], function()
 {
     Route::get('/', 'IndexController@index')->name('index');
     Route::get('/un_authorized_user', 'IndexController@unauthorizedUser')->name('index.un_authorized_user');

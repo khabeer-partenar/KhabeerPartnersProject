@@ -66,10 +66,6 @@ class CoreGroupsTableSeeder extends Seeder
             // Multimedia
             'Modules\Committee\Http\Controllers\CommitteeMultimediaController@index',
             'Modules\Committee\Http\Controllers\MeetingMultimediaController@index',
-            // Authorized Names
-            'Modules\Committee\Http\Controllers\AuthorizedNameController@index',
-            'Modules\Committee\Http\Controllers\AuthorizedNameController@print',
-            'Modules\Committee\Http\Controllers\AuthorizedNameController@export',
         ];
         $delegatesArr = [
             // Meeting
@@ -91,6 +87,12 @@ class CoreGroupsTableSeeder extends Seeder
         $advisorArr = [
             'Modules\Committee\Http\Controllers\CommitteeController@approve',
         ];
+        $authorizationsCoordinatorArr = [
+            // Authorized Names
+            'Modules\Committee\Http\Controllers\AuthorizedNameController@index',
+            'Modules\Committee\Http\Controllers\AuthorizedNameController@print',
+            'Modules\Committee\Http\Controllers\AuthorizedNameController@export',
+        ];
 
         // Apps Ids
         $basicApps = App::whereIn('resource_name', $basicIds)->pluck('id');
@@ -98,6 +100,7 @@ class CoreGroupsTableSeeder extends Seeder
         $highLevelPermissions = App::whereIn('resource_name', $secretaryAndAdvisorApps)->pluck('id');
         $delegatesApps  = App::whereIn('resource_name', $delegatesArr)->pluck('id');
         $advisorApps  = App::whereIn('resource_name', $advisorArr)->pluck('id');
+        $authorizationsCoordinatorApps = App::whereIn('resource_name', $authorizationsCoordinatorArr)->pluck('id');
 
         // Coordinator Permissions
         $coordinatorGroup = Group::where('key', Coordinator::MAIN_CO_JOB)->first();
@@ -165,6 +168,14 @@ class CoreGroupsTableSeeder extends Seeder
         }
         foreach($delegatesApps as $appId){
             $delegate->permissions()->create([
+                'app_id' => $appId
+            ]);
+        }
+
+        // Authorizations Coordinator
+        $authorizedCoordinator = Group::where('key', Employee::AUTHORIZATIONS_COORDINATOR)->firstOrFail();
+        foreach ($authorizationsCoordinatorApps as $appId) {
+            $authorizedCoordinator->permissions()->create([
                 'app_id' => $appId
             ]);
         }

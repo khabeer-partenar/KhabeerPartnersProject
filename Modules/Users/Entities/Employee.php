@@ -15,14 +15,9 @@ class Employee extends User
     const OFFICE_OF_THE_PRESIDENT = 'office_of_the_president';
     const DIRECTOR_OF_CONSULTANTS_OFFICES = 'director_of_consultants_offices';
     const ASSOCIATE_CONSULTANT = 'associate_consultant';
-    const PORTFOLIO_MANAGER = 'portfolio_manager';
     const TECHNICAL_SUPPORT = 'technical_support';
-    const MINISTER = 'minister';
-    const DIRECTOR_OF_THE_MINISTER_OFFICE = 'director_of_the_minister_office';
-    const CHAIRMAN_OF_THE_COMMISSION = 'chairman_of_the_commission';
-    const VICE_CHAIRMAN_OF_THE_COMMISSION = 'vice_chairman_of_the_commission';
     const CORDINATOR = 'cordinator';
-
+    const AUTHORIZATIONS_COORDINATOR = 'authorizations_coordinator';
 
     /**
      * add global scope

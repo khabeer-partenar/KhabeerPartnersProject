@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\PreventBackHistory;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Modules\Committee\Http\Middleware\CanSeeCommittee;
 use Modules\Committee\Http\Middleware\CanSeeMeeting;
@@ -73,7 +74,8 @@ class Kernel extends HttpKernel
         'delegate.status' => DelegateStatus::class,
         'see.meeting' => CanSeeMeeting::class,
         'read.delegate' => CanReadDelegate::class,
-        'still.loggedIn' => CheckIfStillLoggedIn::class
+        'still.loggedIn' => CheckIfStillLoggedIn::class,
+        'prevent.back' => PreventBackHistory::class,
 
     ];
 

@@ -312,7 +312,7 @@
             </label>
 
             @php
-                $meetingAt = isset($committee) ? $committee->first_meeting_at->format('d/m/Y H:i'):null;
+                $meetingAt = isset($committee) ? $committee->first_meeting_at->format('d/m/Y G:i'):null;
                 $first_meeting_at_hijri = isset($committee) ? $committee->first_meeting_at_hijri:null;
 
                 if (old('first_meeting_at')){

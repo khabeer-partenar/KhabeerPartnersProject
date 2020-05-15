@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting', 'still.loggedIn']], function () {
+Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting', 'still.loggedIn', 'prevent.back']], function () {
 
     Route::prefix('committees')->group(function () {
         // Meeting
@@ -14,10 +14,7 @@ Route::group(['middleware' => ['auth', 'see.committee', 'see.meeting', 'still.lo
 
         // Meeting Multimedia
         Route::get('{committee}/meetings/{meeting}/multimedia', 'MeetingMultimediaController@index')->name('committee.meetings.multimedia');
-
         Route::post('{committee}/meetings/{meeting}/export-word', 'MeetingMultimediaController@exportWord')->name('committee.meetings.multimedia.export-word');
-
-
 
         // Meeting Documents
         Route::post('{committee}/meetings/{meeting}/document', 'MeetingDocumentController@storeForMeeting')->name('committee.meeting-document.store-meeting');
