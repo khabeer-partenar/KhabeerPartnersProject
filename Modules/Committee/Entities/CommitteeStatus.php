@@ -20,27 +20,17 @@ class CommitteeStatus extends Model
 
     public static function createCommitteeGroupsStatus(Committee $committee)
     {
-        $secretaryGroupId = Group::where('key', Employee::SECRETARY)->first()->id;
-        $advisorGroupId = Group::where('key', Employee::ADVISOR)->first()->id;
-        $officeOfThePresidentGroupId = Group::where('key', Employee::OFFICE_OF_THE_PRESIDENT)->first()->id;
-        $directorOfConsultantsOfficesGroupId = Group::where('key', Employee::DIRECTOR_OF_CONSULTANTS_OFFICES)->first()->id;
-        $portfolioManagerGroupId = Group::where('key', Employee::PORTFOLIO_MANAGER)->first()->id;
-        $technicalSupportGroupId = Group::where('key', Employee::TECHNICAL_SUPPORT)->first()->id;
-        $chairmanOfTheCommissionGroupId = Group::where('key', Employee::CHAIRMAN_OF_THE_COMMISSION)->first()->id;
-        $viceChairmanOfTheCommissionGroupId = Group::where('key', Employee::VICE_CHAIRMAN_OF_THE_COMMISSION)->first()->id;
-        $delegateGroupId = Group::where('key', Delegate::JOB)->first()->id;
-
-        $committee->groupsStatuses()->sync([
-            $secretaryGroupId => ['status' => Status::WAITING_DELEGATES],
-            $advisorGroupId => ['status' => Status::WAITING_DELEGATES],
-            $officeOfThePresidentGroupId => ['status' => Status::WAITING_DELEGATES],
-            $directorOfConsultantsOfficesGroupId => ['status' => Status::WAITING_DELEGATES],
-            $portfolioManagerGroupId => ['status' => Status::WAITING_DELEGATES],
-            $technicalSupportGroupId => ['status' => Status::WAITING_DELEGATES],
-            $chairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
-            $viceChairmanOfTheCommissionGroupId => ['status' => Status::WAITING_DELEGATES],
-            $delegateGroupId => ['status' => Status::WAITING_DELEGATES]
-        ]);
+        $employeeGroups = Group::where('key', '<>', [
+            Coordinator::MAIN_CO_JOB,
+            Coordinator::NORMAL_CO_JOB
+        ])->pluck('id');
+        
+        $syncArr = [];
+        foreach ($employeeGroups as $groupId) {
+            $syncArr[$groupId] = ['status' => Status::WAITING_DELEGATES];
+        }
+        
+        $committee->groupsStatuses()->sync($syncArr);
     }
 
 
