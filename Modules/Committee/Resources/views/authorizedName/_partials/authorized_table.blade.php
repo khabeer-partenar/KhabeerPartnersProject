@@ -4,7 +4,8 @@
         <th></th>
         <th> تاريخ الدخول</th>
         <th> صفة الدخول</th>
-        <th> الاسم ثلاثي  </th>
+        <th>الاسم ثلاثي</th>
+        <th>الجهة</th>
         <th> رقم الهوية / الاقامة</th>
         <th> الجنسية</th>
         <th>الديانة</th>
@@ -23,6 +24,7 @@
                 </td>
                 <td>مندوب</td>
                 <td>{{ $authorized->delegate_name }}</td>
+                <td>{{ $authorized->delegate_department_name }}</td>
                 <td>{{ $authorized->delegate_national_id }}</td>
                 <td> {{ $authorized->delegate_nationality_name }}</td>
                 <td>مسلم</td>
@@ -36,6 +38,7 @@
                 <td>{{ date('m-d-Y H:i:s', strtotime($authorized->from)) }}</td>
                 <td>سائق</td>
                 <td>{{ $authorized->driver_name }}</td>
+                <td>-</td>
                 <td>{{ $authorized->driver_national_id }}</td>
                 <td> {{ @$authorized->driver_nationality_name }}</td>
                 <td> {{ $authorized->type }}</td>

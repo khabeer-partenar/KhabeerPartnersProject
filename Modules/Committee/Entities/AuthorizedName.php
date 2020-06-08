@@ -40,14 +40,15 @@ class AuthorizedName extends Model
             ->leftJoin('delegate_driver', 'meetings_delegates.driver_id', '=', 'delegate_driver.id')
             ->leftJoin('nationalities as driver_nationality', 'driver_nationality.id', '=', 'delegate_driver.nationality_id')
             ->leftJoin('religions', 'religions.id', '=', 'delegate_driver.religion_id')
+            ->leftJoin('departments', 'departments.id', '=', 'users.parent_department_id')
             ->select('delegate_driver.name as driver_name', 'delegate_driver.national_id as driver_national_id',
-            'religions.name as type', 'delegate_nationality.name as delegate_nationality_name', 'meetings_delegates.updated_at',
-            'meetings_delegates.has_driver',
-            'delegate_driver.id as driver_id', 'meetings.from', 
-            'driver_nationality.name as driver_nationality_name', 'users.national_id as delegate_national_id',
-            'users.name as delegate_name', 'meetings.completed', 'meetings.advisor_id', 'meetings.room_id',
-            'advisors.name as advisor_name', 'meetings_rooms.name as room_name',
-            'users.nationality_id', 'delegate_driver.delegate_id')
+                'religions.name as type', 'delegate_nationality.name as delegate_nationality_name', 'meetings_delegates.updated_at',
+                'meetings_delegates.has_driver',
+                'delegate_driver.id as driver_id', 'meetings.from',
+                'driver_nationality.name as driver_nationality_name', 'users.national_id as delegate_national_id',
+                'users.name as delegate_name', 'meetings.completed', 'meetings.advisor_id', 'meetings.room_id',
+                'advisors.name as advisor_name', 'meetings_rooms.name as room_name', 'users.parent_department_id',
+                'users.nationality_id', 'delegate_driver.delegate_id', 'departments.name as delegate_department_name')
             ->where('completed', 1);
 
         if(isset($filters['authorized_name'])) {
