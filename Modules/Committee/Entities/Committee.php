@@ -677,6 +677,12 @@ class Committee extends Model
         return $this->hasMany(Meeting::class);
     }
 
+    public function firstMeeting()
+    {
+        $type = MeetingType::where('slug', MeetingType::PRIMARY)->first();
+        return $this->meetings()->completed()->orderBy('from')->where('type_id', $type->id);
+    }
+
     public function multimedia()
     {
         return $this->hasMany(Multimedia::class, 'committee_id');

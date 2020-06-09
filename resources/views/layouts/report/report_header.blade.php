@@ -2,10 +2,10 @@
 
 <style>
     body {
-        font-size: 1.5em !important;
+        font-size: 1.3em ;
     }
 </style>
-<div style="width: 100%; height: 20%" >
+<div style="width: 100%; height: 15%" >
     <table>
 
         <tr>
@@ -15,7 +15,7 @@
             </td>
             <td width="300px">
                 <label >رقم الطلب : {{  $committee->uuid}}</label>
-                <br>
+                <br><br>
                 <label >تاريخ الطلب : {{  $committee->created_at_hijri}}</label>
             </td>
         </tr>

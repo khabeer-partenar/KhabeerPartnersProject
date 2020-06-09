@@ -39,70 +39,6 @@
     </div>
 
     <div class="col-md-4">
-        <div class="form-group {{ $errors->has('department_out_number') ? ' has-error' : '' }}">
-            <label for="department_out_number" class="control-label">
-                {{ __('committee::committees.department_out_number') }}
-                <span style="color: red">*</span>
-            </label>
-
-            {!! Form::text('department_out_number', null, ['id' => 'department_out_number', 'class' => 'form_control']) !!}
-            @include('layouts.dashboard.form-error', ['key' => 'department_out_number'])
-        </div>
-    </div>
-
-</div>
-
-<br />
-
-<div class="row">
-    
-    <div class="col-md-4">
-        <div class="form-group {{ $errors->has('department_out_date') ? ' has-error' : '' }}">
-            <label for="resource_at" class="control-label">
-                {{ __('committee::committees.department_out_date') }}
-                <span style="color: red">*</span>
-            </label>
-
-            @php
-                $departmentOutDate = isset($committee) ? $committee->department_out_date->format('m/d/Y'):null;
-                $department_out_date_hijri = isset($committee) ? $committee->department_out_date_hijri:null;
-
-                if (old('department_out_date')){
-                    $departmentOutDate = old('department_out_date');
-                    $department_out_date_hijri = old('hijri_department_out_date');
-                }
-            @endphp
-            <input type="text" name="hijri_department_out_date" value="{{ $department_out_date_hijri }}" class="form_control hijri-date-input" autocomplete="off">
-            <input type="hidden" name="department_out_date"  value="{{ $departmentOutDate }}" class="form_control">
-            <label id="department_out_date" class="control-label"></label>
-            @include('layouts.dashboard.form-error', ['key' => 'department_out_date'])
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="form-group {{ $errors->has('treatment_type_id') ? ' has-error' : '' }}">
-            <label for="treatment_type_id" class="control-label">
-                {{ __('committee::committees.treatment_type_id') }}
-                <span style="color: red">*</span>
-            </label>
-
-            <select name="treatment_type_id" id="treatment_type_id" class="form_control select2">
-                <option value="0">{{ __('committee::committees.please choose') }}</option>
-                @php
-                    $treatmentTypeId = isset($committee) ? $committee->treatment_type_id:'';
-                    if (old('treatment_type_id')){
-                        $treatmentTypeId = old('treatment_type_id');
-                    }
-                @endphp
-                @foreach($treatmentTypes as $id => $name)
-                    <option value="{{ $id }}" {{ $treatmentTypeId == $id ? 'selected':'' }}>{{ $name }}</option>
-                @endforeach
-            </select>
-            @include('layouts.dashboard.form-error', ['key' => 'treatment_type_id'])
-        </div>
-    </div>
-
-    <div class="col-md-4">
         <div class="form-group {{ $errors->has('resource_by') ? ' has-error' : '' }}">
             <label for="resource_by" class="control-label">
                 {{ __('committee::committees.resource_by') }}
@@ -130,40 +66,38 @@
 <br />
 
 <div class="row">
-    
-    <div class="col-md-4">
-        <div class="form-group {{ $errors->has('treatment_number') ? ' has-error' : '' }}">
-            <label for="treatment_number" class="control-label">
-                {{ __('committee::committees.treatment_number') }}
+    <div class="col-md-4">  
+        <div class="form-group {{ $errors->has('department_out_number') ? ' has-error' : '' }}">
+            <label for="department_out_number" class="control-label">
+                {{ __('committee::committees.department_out_number') }}
                 <span style="color: red">*</span>
             </label>
 
-            {!! Form::number('treatment_number', null, ['id' => 'treatment_number', 'class' => 'form_control']) !!}
-            @include('layouts.dashboard.form-error', ['key' => 'treatment_number'])
+            {!! Form::text('department_out_number', null, ['id' => 'department_out_number', 'class' => 'form_control']) !!}
+            @include('layouts.dashboard.form-error', ['key' => 'department_out_number'])
         </div>
     </div>
 
     <div class="col-md-4">
-        <div class="form-group {{ $errors->has('treatment_time') ? ' has-error' : '' }}">
-            <label for="treatment_time" class="control-label">
-                {{ __('committee::committees.treatment_time') }}
+        <div class="form-group {{ $errors->has('department_out_date') ? ' has-error' : '' }}">
+            <label for="resource_at" class="control-label">
+                {{ __('committee::committees.department_out_date') }}
                 <span style="color: red">*</span>
             </label>
 
             @php
-                $treatmentTime = isset($committee) ? $committee->treatment_time->format('m/d/Y'):null;
-                $treatmentTime_hijri = isset($committee) ? $committee->treatmentTime_hijri:null;
+                $departmentOutDate = isset($committee) ? $committee->department_out_date->format('m/d/Y'):null;
+                $department_out_date_hijri = isset($committee) ? $committee->department_out_date_hijri:null;
 
-                if (old('treatment_time')){
-                    $treatmentTime = old('treatment_time');
-                    $treatmentTime_hijri = old('hijri_treatment_time');
-
+                if (old('department_out_date')){
+                    $departmentOutDate = old('department_out_date');
+                    $department_out_date_hijri = old('hijri_department_out_date');
                 }
             @endphp
-            <input type="text" name="hijri_treatment_time" value="{{ $treatmentTime_hijri }}" class="form_control hijri-date-input" autocomplete="off">
-            <input type="hidden" name="treatment_time" value="{{ $treatmentTime }}" class="form_control">
-            <label id="treatment_time" class="control-label"></label>
-            @include('layouts.dashboard.form-error', ['key' => 'treatment_time'])
+            <input type="text" name="hijri_department_out_date" value="{{ $department_out_date_hijri }}" class="form_control hijri-date-input" autocomplete="off">
+            <input type="hidden" name="department_out_date"  value="{{ $departmentOutDate }}" class="form_control">
+            <label id="department_out_date" class="control-label"></label>
+            @include('layouts.dashboard.form-error', ['key' => 'department_out_date'])
         </div>
     </div>
 
@@ -195,7 +129,7 @@
 <br />
 
 <div class="row">
-
+    
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('recommendation_number') ? ' has-error' : '' }}">
             <label for="recommendation_number" class="control-label">
@@ -258,6 +192,92 @@
 <br />
 
 <div class="row">
+    <div class="col-md-4">
+        <div class="form-group {{ $errors->has('treatment_number') ? ' has-error' : '' }}">
+            <label for="treatment_number" class="control-label">
+                {{ __('committee::committees.treatment_number') }}
+                <span style="color: red">*</span>
+            </label>
+
+            {!! Form::number('treatment_number', null, ['id' => 'treatment_number', 'class' => 'form_control']) !!}
+            @include('layouts.dashboard.form-error', ['key' => 'treatment_number'])
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group {{ $errors->has('treatment_time') ? ' has-error' : '' }}">
+            <label for="treatment_time" class="control-label">
+                {{ __('committee::committees.treatment_time') }}
+                <span style="color: red">*</span>
+            </label>
+
+            @php
+                $treatmentTime = isset($committee) ? $committee->treatment_time->format('m/d/Y'):null;
+                $treatmentTime_hijri = isset($committee) ? $committee->treatmentTime_hijri:null;
+
+                if (old('treatment_time')){
+                    $treatmentTime = old('treatment_time');
+                    $treatmentTime_hijri = old('hijri_treatment_time');
+
+                }
+            @endphp
+            <input type="text" name="hijri_treatment_time" value="{{ $treatmentTime_hijri }}" class="form_control hijri-date-input" autocomplete="off">
+            <input type="hidden" name="treatment_time" value="{{ $treatmentTime }}" class="form_control">
+            <label id="treatment_time" class="control-label"></label>
+            @include('layouts.dashboard.form-error', ['key' => 'treatment_time'])
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group {{ $errors->has('treatment_type_id') ? ' has-error' : '' }}">
+            <label for="treatment_type_id" class="control-label">
+                {{ __('committee::committees.treatment_type_id') }}
+                <span style="color: red">*</span>
+            </label>
+
+            <select name="treatment_type_id" id="treatment_type_id" class="form_control select2">
+                <option value="0">{{ __('committee::committees.please choose') }}</option>
+                @php
+                    $treatmentTypeId = isset($committee) ? $committee->treatment_type_id:'';
+                    if (old('treatment_type_id')){
+                        $treatmentTypeId = old('treatment_type_id');
+                    }
+                @endphp
+                @foreach($treatmentTypes as $id => $name)
+                    <option value="{{ $id }}" {{ $treatmentTypeId == $id ? 'selected':'' }}>{{ $name }}</option>
+                @endforeach
+            </select>
+            @include('layouts.dashboard.form-error', ['key' => 'treatment_type_id'])
+        </div>
+    </div>
+
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group {{ $errors->has('treatment_importance_id') ? ' has-error' : '' }}">
+            <label for="treatment_importance_id" class="control-label">
+                {{ __('committee::committees.treatment_importance_id') }}
+                <span style="color: red">*</span>
+            </label>
+
+            <select name="treatment_importance_id" id="treatment_importance_id" class="form_control select2">
+                <option value="0">{{ __('committee::committees.please choose') }}</option>
+                @php
+                    $treatmentImportanceId = isset($committee) ? $committee->treatment_importance_id:'';
+                    if (old('treatment_importance_id')){
+                        $treatmentImportanceId = old('treatment_importance_id');
+                    }
+                @endphp
+                @foreach($treatmentImportance as $id => $name)
+                    <option value="{{ $id }}" {{ $treatmentImportanceId == $id ? 'selected':'' }}>{{ $name }}</option>
+                @endforeach
+            </select>
+            @include('layouts.dashboard.form-error', ['key' => 'treatment_importance_id'])
+        </div>
+    </div>
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_urgency_id') ? ' has-error' : '' }}">
@@ -282,28 +302,6 @@
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="form-group {{ $errors->has('treatment_importance_id') ? ' has-error' : '' }}">
-            <label for="treatment_importance_id" class="control-label">
-                {{ __('committee::committees.treatment_importance_id') }}
-                <span style="color: red">*</span>
-            </label>
-
-            <select name="treatment_importance_id" id="treatment_importance_id" class="form_control select2">
-                <option value="0">{{ __('committee::committees.please choose') }}</option>
-                @php
-                    $treatmentImportanceId = isset($committee) ? $committee->treatment_importance_id:'';
-                    if (old('treatment_importance_id')){
-                        $treatmentImportanceId = old('treatment_importance_id');
-                    }
-                @endphp
-                @foreach($treatmentImportance as $id => $name)
-                    <option value="{{ $id }}" {{ $treatmentImportanceId == $id ? 'selected':'' }}>{{ $name }}</option>
-                @endforeach
-            </select>
-            @include('layouts.dashboard.form-error', ['key' => 'treatment_importance_id'])
-        </div>
-    </div>
     <div class="col-md-2">
         <div class="form-group {{ $errors->has('first_meeting_at') ? ' has-error' : '' }}">
             <label for="first_meeting_at" class="control-label">
