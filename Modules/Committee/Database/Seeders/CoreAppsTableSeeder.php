@@ -224,13 +224,13 @@ class CoreAppsTableSeeder extends Seeder
 
 
         App::create([
-            'resource_name' => $generalResourceName . '\DelegateDocumentsController@store', 'name' => 'رفع مرفقات الإجتماع الخاصة بالمندوب',
+            'resource_name' => $generalResourceName . '\DelegateMeetingDocumentController@store', 'name' => 'رفع مرفقات الإجتماع الخاصة بالمندوب',
             'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([
-            'resource_name' => $generalResourceName . '\DelegateDocumentsController@destroy', 'name' => 'حذف مرفقات الإجتماع الخاصة بالمندوب',
+            'resource_name' => $generalResourceName . '\DelegateMeetingDocumentController@destroy', 'name' => 'حذف مرفقات الإجتماع الخاصة بالمندوب',
             'icon' => 'fa fa-users', 'sort' => 11, 'parent_id' => $meetingsId, 'frontend_path' => 'committees/:committee/meetings/:meeting', 'is_main_root' => 0,
             'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
@@ -303,6 +303,18 @@ class CoreAppsTableSeeder extends Seeder
             'resource_name' => $generalResourceName.'\CommitteeMultimediaController@store', 'name' => 'حفظ مرئيات المشاركين بواسطة المندوب',
             'icon' => 'fa fa-files-o', 'sort' => 16, 'parent_id' => $committeeMultimediaId , 'frontend_path' => 'committees/:committee/multimedia/store', 'is_main_root' => 1,
             'displayed_in_menu' => 0 , 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateCommitteeDocumentController@store', 'name' => 'حذف مرفقات المندوب علي اللجنة',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $committeeMultimediaId, 'frontend_path' => 'committees/:committee/delegate-document', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
+        ]);
+
+        App::create([
+            'resource_name' => $generalResourceName . '\DelegateCommitteeDocumentController@destroy', 'name' => 'رفع مرفقات المندوب علي اللجنة',
+            'icon' => 'fa fa-users', 'sort' => 10, 'parent_id' => $committeeMultimediaId, 'frontend_path' => 'committees/:committee/:document/delegate-document', 'is_main_root' => 0,
+            'displayed_in_menu' => 0, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()
         ]);
 
         App::create([

@@ -41,9 +41,10 @@ class CommitteeMultimediaController extends UserBaseController
      */
     public function create(Committee $committee)
     {
-        $committee->load(['multimedia' => function ($query) {
-            $query->where('user_id', auth()->id())->orderBy('created_at','asc');
-        }]);
+        $committee->load([
+            'multimedia' => function ($query) {$query->where('user_id', auth()->id())->orderBy('created_at','asc');},
+            'documents' => function ($query) { $query->where('user_id', auth()->id())->orderBy('created_at', 'asc');}
+        ]);
         return view('committee::committees.multimedia.create', compact('committee'));
     }
 

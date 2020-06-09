@@ -76,8 +76,10 @@ class CoreGroupsTableSeeder extends Seeder
             'Modules\Committee\Http\Controllers\CommitteeMultimediaController@create',
             'Modules\Committee\Http\Controllers\CommitteeMultimediaController@store',
             // Documents
-            'Modules\Committee\Http\Controllers\DelegateDocumentsController@store',
-            'Modules\Committee\Http\Controllers\DelegateDocumentsController@destroy',
+            'Modules\Committee\Http\Controllers\DelegateMeetingDocumentController@store',
+            'Modules\Committee\Http\Controllers\DelegateMeetingDocumentController@destroy',
+            'Modules\Committee\Http\Controllers\DelegateCommitteeDocumentController@store',
+            'Modules\Committee\Http\Controllers\DelegateCommitteeDocumentController@destroy',
             // Delegate Driver
             'Modules\Committee\Http\Controllers\DelegateDriversController@index',
             'Modules\Committee\Http\Controllers\DelegateDriversController@store',
