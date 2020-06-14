@@ -61,8 +61,7 @@ class AuthorizedName extends Model
             $query->where('meetings.advisor_id', $filters['advisor_id']);
         }
         if (isset($filters['entry_time']) && $filters['entry_time'] != '') {
-            $entryTime = Carbon::createFromFormat('m/d/Y', $filters['entry_time']);
-            $query->whereDate('meetings.from', $entryTime);
+            $query->whereDate('meetings.from', $filters['entry_time']);
         } else {
             $query->whereDate('meetings.from', Carbon::today());
         }

@@ -13,6 +13,8 @@ use App\Exports\AuthorizedListExport;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingDriver;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use App\Classes\Date\CarbonHijri;
+
 
 
 class AuthorizedNameController extends UserBaseController
@@ -26,6 +28,7 @@ class AuthorizedNameController extends UserBaseController
      */
     public function index(Request $request)
     {
+        $request->hijri_entry_time !== null ? $request->request->add(['entry_time' => carbonHijri::toMiladiFromHijri($request->hijri_entry_time)]):null;
         $authorizedNames = AuthorizedName::search($request->all())->get();
         $types = AuthorizedName::TYPE_TEXT;
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');

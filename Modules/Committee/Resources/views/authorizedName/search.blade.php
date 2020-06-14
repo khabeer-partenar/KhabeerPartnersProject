@@ -13,13 +13,16 @@
                 </div>
             </div>
 
-
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="entry_time" class="control-label">تاريخ الدخول</label>
-                    <input type="text" class="form_control date-picker"  name="entry_time" value="{{ Request::input('entry_time') }}" id="entry_time"
-                           placeholder="" autocomplete="off">
-                </div>
+                        <input type="text" name="hijri_entry_time" value="{{ Request::input('hijri_entry_time')  }}" class="form_control hijri-date-input" autocomplete="off">
+                       @if(Request::input('hijri_entry_time') !== null)
+                        <label id="entry_time" class="control-label">{{ __('committee::committees.georgian_date') .  ' ' . Carbon\Carbon::parse(Request::input('entry_time'))->format('Y/m/d')}}</label>
+                      @else
+                      <label id="entry_time" class="control-label"></label>
+                      @endif
+            </div>
             </div>
 
             <div class="col-md-4">
