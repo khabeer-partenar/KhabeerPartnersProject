@@ -291,8 +291,7 @@ class DepartmentController extends UserBaseController
         $staffsDepartment       = Department::staffsDepartments()->select('name', 'id')->get();
         $staffExpertsDepartment = Department::staffExpertsDepartments($staffsDepartment[0]->id)->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
         $staffsDepartment = $staffsDepartment->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
-        $directManager = $department->directManager()->pluck('name', 'id')->prepend(__('messages.choose_option'), '');
-        return view('systemmanagement::departmentsAuthorities.edit', compact('department', 'staffsDepartment', 'staffExpertsDepartment', 'directManager'));
+        return view('systemmanagement::departmentsAuthorities.edit', compact('department', 'staffsDepartment', 'staffExpertsDepartment'));
     }
 
     /**
