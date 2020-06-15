@@ -207,7 +207,7 @@
             var url = '{{(isset($committee))? route("committees.send.nomination", $committee->id):''}}';
             if (url == '') return;
             Swal.fire({
-                title: 'هل تريد إرسال الترشيحات الى سكرتير المستشار؟',
+                title: 'هل تريد إرسال تنبيه استكمال الترشيحات الي السكرتير',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#337ab7',
@@ -244,7 +244,7 @@
                             var errors = data.responseJSON;
                             console.log(data);
                             Swal.fire({
-                                title: 'لم يتم ارسال الترشيح',
+                                title: 'لم يتم استكمال الترشيح',
                                 type: 'error',
                                 confirmButtonText: 'حسنا'
                             })
