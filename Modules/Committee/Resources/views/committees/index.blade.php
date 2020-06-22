@@ -82,7 +82,7 @@
                                 </td>
                                 <td>
                                     {{ __('committee::committees.committee number') }}
-                                    : {{ $committee->treatment_number }} <br>
+                                    : {{ $committee->department_out_number }} <br>
                                     {{ $committee->created_at}}
                                 </td>
                                 <td>

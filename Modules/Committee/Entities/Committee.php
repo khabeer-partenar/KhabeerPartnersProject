@@ -187,7 +187,7 @@ class Committee extends Model
         return $query;
     }
 
-    public static function filter($exported = null, $searchFilters = [])
+    public static function filter($exported = false, $searchFilters = [])
     {
         $query = DB::table(self::table())->select(
             DB::raw('DISTINCT(' . DB::getTablePrefix() . 'committees.id)'),
@@ -272,9 +272,7 @@ class Committee extends Model
         }
 
         // Additional conditions
-        if ($exported) {
-            $query->where('exported', $exported);
-        }
+         $query->where('exported', $exported);
 
         // Search
         if (isset($searchFilters['subject'])) {
