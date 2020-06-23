@@ -22,5 +22,6 @@ class UsersDatabaseSeeder extends Seeder
         $this->call(CoreGroupsTableSeeder::class);
         $this->call(EmployeesTableSeeder::class);
         $this->call(CoreAccountAppsTableSeeder::class);
+        $this->call(SuppportCategoriesTableSeederTableSeeder::class);
     }
 }
