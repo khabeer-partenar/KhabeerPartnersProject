@@ -538,7 +538,6 @@ class Committee extends Model
         } elseif (auth()->user()->is_super_admin) {
 
         }
-
     }
 
     public function groupStatus()

@@ -47,7 +47,7 @@ class Delegate extends User
         $committee = Committee::find($committee_id);
         $nominationDepartmentsIds = $committee->getNominationDepartmentsWithRef()->pluck('id');
         $committeeNominationDepartments = CommitteeDelegate::whereIn('nominated_department_id', $nominationDepartmentsIds)->distinct()->pluck('nominated_department_id');
-        if ($nominationDepartmentsIds->count() == $committeeNominationDepartments->count()) {
+        if ($committeeNominationDepartments->count() >= 1) {
             return true;
         }
         return false;
