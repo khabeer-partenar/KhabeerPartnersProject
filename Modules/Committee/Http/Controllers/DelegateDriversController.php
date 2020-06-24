@@ -10,7 +10,6 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Modules\Committee\Http\Requests\DelegateDriverRequest;
 
-
 class DelegateDriversController extends Controller
 {
     /**
@@ -32,9 +31,7 @@ class DelegateDriversController extends Controller
     public function store(DelegateDriverRequest $request)
     {
         $driver = MeetingDriver::createFromRequest($request);
-        $driver->load('religion');
-        $driver->load('nationality');
-
+        $driver->load('religion', 'nationality');
         return response()->json([
             'driver' => $driver,
         ], 201);

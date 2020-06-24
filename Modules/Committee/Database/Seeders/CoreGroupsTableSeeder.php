@@ -71,7 +71,6 @@ class CoreGroupsTableSeeder extends Seeder
             // Meeting
             'Modules\Committee\Http\Controllers\DelegateMeetingController@show',
             'Modules\Committee\Http\Controllers\DelegateMeetingController@update',
-            'Modules\Committee\Http\Controllers\DelegateMeetingController@update',
             // Multimedia
             'Modules\Committee\Http\Controllers\CommitteeMultimediaController@create',
             'Modules\Committee\Http\Controllers\CommitteeMultimediaController@store',

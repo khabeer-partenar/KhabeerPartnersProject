@@ -79,7 +79,8 @@ class DelegateMeetingController extends UserBaseController
     {
         $meeting->departments()->detach($request->department_id);
         if ($request->delegate_id != 0) {
-            $delegate = Delegate::where('id', $request->delegate_id)->first();
+            $delegate = Delegate::where('id', $request->delegate_id)->firstOrFail();
+            $committee->delegates()->attach($delegate->id, ['nominated_department_id' => $request->department_id, 'coordinator_id' => auth()->user()->id]);
             $meeting->delegatesPivot()->create([
                 'delegate_id' => $delegate->id,
                 'department_id' => $request->department_id
