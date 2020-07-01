@@ -40,8 +40,10 @@ class CommitteeController extends UserBaseController
      */
     public function index(Request $request)
     {
-        $committees = Committee::filter(false, $request->all())->paginate(10);
+        $committees = Committee::filter($request->all())->where('exported', false)->paginate(10);
+
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
+
         return view('committee::committees.index', compact('committees', 'advisors'));
     }
 
@@ -52,7 +54,7 @@ class CommitteeController extends UserBaseController
      */
     public function exported(Request $request)
     {
-        $committees = Committee::filter(true, $request->all())->paginate(10);
+        $committees = Committee::filter($request->all())->where('exported', true)->paginate(10);
 
         $advisors = Group::advisorUsersFilter()->filterByJob()->pluck('users.name', 'users.id');
 
@@ -132,9 +134,10 @@ class CommitteeController extends UserBaseController
         $delegates = $committee->getDelegatesWithDetails();
         $mainDepartments = Department::getDepartments();
         $delegateJobs = Group::whereIn('key', [Delegate::JOB])->get(['id', 'name', 'key']);
+        $secrtariesIds = $committee->advisor->secretaries->pluck('id')->toArray();
         $committee->load('participantAdvisors', 'participantDepartments', 'documents', 'view');
         $committee->setView();
-        return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs'));
+        return view('committee::committees.show', compact('committee', 'delegates', 'mainDepartments', 'delegateJobs', 'secrtariesIds'));
     }
 
     /**
@@ -222,10 +225,7 @@ class CommitteeController extends UserBaseController
             Notification::send([$advisor,$advisor->secretaries,$committee->delegates], new NominationDoneNotification($committee));
             return response()->json(['status' => true, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
-        else
-        {
-            return response()->json(['status' => false, 'msg' => __('committee::committees.nomination_not_compeleted')]);
-        }
+        return response()->json(['status' => false, 'msg' => __('committee::committees.nomination_not_compeleted')]);
     }
 
     public function approve(Committee $committee)

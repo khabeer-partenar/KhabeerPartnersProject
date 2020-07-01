@@ -22,7 +22,7 @@ class SaveEmployeeRequest extends FormRequest
     {
         return [
             'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id'],
-            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
+            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table() . ',deleted_at,NULL'],
             'name'                 => ['required', new FilterStringRule, 'string', 'max:255'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table()],
             'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table()],

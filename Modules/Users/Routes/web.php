@@ -18,9 +18,6 @@ Route::group(['middleware' => 'auth', 'still.loggedIn'], function()
         Route::resource('/delegates', 'DelegateController')->middleware('read.delegate');
 
         Route::get('/delegates/deleteUser/{delegate_id}/{committee_id}/{department_id}/{reason?}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
-        //Route::resource('/delegates','DelegateController');
-
-        //Route::get('/delegates/deleteUser/{delegate_id}/{committee_id/{department_id}', 'DelegateController@removeFromCommitte')->name('delegate.remove.from.committee');
 
         Route::post('/delegates/add_delegate','DelegateController@addDelegatesToCommittee')->name('delegates.add_delegates');
         Route::get('/delegates/DepartmentDelegatesNotInCommittee/{department_id}/{committee_id}','DelegateController@getDepartmentDelegatesNotInCommittee');

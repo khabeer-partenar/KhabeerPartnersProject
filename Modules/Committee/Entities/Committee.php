@@ -187,7 +187,7 @@ class Committee extends Model
         return $query;
     }
 
-    public static function filter($exported = false, $searchFilters = [])
+    public static function filter($searchFilters = [])
     {
         $query = DB::table(self::table())->select(
             DB::raw('DISTINCT(' . DB::getTablePrefix() . 'committees.id)'),
@@ -267,12 +267,7 @@ class Committee extends Model
                     ->where('groupStatus.group_id', '=', $group_id)
                     ->join(Status::table() . ' as committeeStatus', 'groupStatus.status', '=', 'committeeStatus.id');
             });
-
-
         }
-
-        // Additional conditions
-         $query->where('exported', $exported);
 
         // Search
         if (isset($searchFilters['subject'])) {
@@ -298,46 +293,6 @@ class Committee extends Model
         }
 
         $query->orderBy('created_at', 'desc');
-
-        return $query;
-    }
-
-    public function scopeUser($query)
-    {
-
-        if (!in_array(auth()->user()->authorizedApps->key, [Employee::ADVISOR, Employee::SECRETARY]) && !auth()->user()->is_super_admin) {
-            $query->where('approved', true);
-        }
-
-        if (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-            $query->whereRaw('IF(advisor_id <> ?, approved=?, advisor_id=advisor_id)', [auth()->user()->id, true]);
-        }
-
-        if (auth()->user()->authorizedApps->key == Employee::SECRETARY) {
-            // Secretary Should see Committees for his Advisors Only
-            $advisorsId = auth()->user()->advisors()->pluck('users.id');
-            $query->whereIn('advisor_id', $advisorsId);
-        } elseif (auth()->user()->authorizedApps->key == Employee::ADVISOR) {
-            // Advisors Should see Committees he owns or where he is a participant
-            $participantIn = auth()->user()->participantInCommittees()->pluck('committees.id')->toArray();
-            $query->whereIn('id', $participantIn)
-                ->orWhere(function ($query) {
-                    $query->where('advisor_id', auth()->id());
-                });
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::MAIN_CO_JOB) {
-            $departmentsId = auth()->user()->coordinatorAuthorizedIds();
-            $committeeIds = CommitteeDepartment::whereIn('department_id', $departmentsId)->pluck('committee_id');
-            $query->whereIn('id', $committeeIds);
-        } elseif (auth()->user()->authorizedApps->key == Coordinator::NORMAL_CO_JOB) {
-            $parentDepartmentId = auth()->user()->parentDepartment->pluck('id');
-            $committeeIds = CommitteeDepartment::whereIn('department_id', $parentDepartmentId)->pluck('committee_id');
-            $query->whereIn('id', $committeeIds);
-        } elseif (auth()->user()->authorizedApps->key == Delegate::JOB) {
-            $delegate = Delegate::find(auth()->user()->id);
-            $committeeIds = $delegate->committees()->pluck('committee_id');
-            $query->whereIn('id', $committeeIds);
-
-        }
 
         return $query;
     }

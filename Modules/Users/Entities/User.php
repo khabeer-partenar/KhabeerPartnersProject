@@ -200,7 +200,7 @@ class User extends Authenticatable
 
     public function scopeFilterByJob($query)
     {
-        $advisorsId = Committee::filter(false)->groupBy('advisor_id')->pluck('advisor_id');
+        $advisorsId = Committee::filter()->groupBy('advisor_id')->pluck('advisor_id');
         if(auth()->user()->authorizedApps->key == Employee::ADVISOR) {
             $query->where('users.id', auth()->user()->id);
         }

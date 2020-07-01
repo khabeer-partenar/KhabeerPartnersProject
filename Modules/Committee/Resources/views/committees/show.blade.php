@@ -250,7 +250,7 @@
             @if(
                 auth()->user()->hasPermissionWithAccess('export')
                 &&
-                ($committee->advisor_id == auth()->id() || auth()->user()->is_super_admin)
+                ($committee->advisor_id == auth()->id() || in_array(auth()->id(), $secrtariesIds) || auth()->user()->is_super_admin)
                 &&
                 $committee->approved
                 &&
