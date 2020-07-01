@@ -8,14 +8,14 @@
             </li>
 
             <li class="flist">
-                <a href="#!">شروط الاستخدام</a>
-                <a href="#!">سياسة الخصوصية</a>
+                <a href="https://www.boe.gov.sa/ar/Pages/TermsOfUse.aspx">شروط الاستخدام</a>
+                <a href="https://www.boe.gov.sa/ar/Pages/Privacy.aspx">سياسة الخصوصية</a>
                 <a href="#!">الأسئلة الشائعة</a>
                 <a href="#!">خريطة الموقع</a>
             </li>
 
             <li class="flist">
-                <a href="#!">تعريف بالهيئة</a>
+                <a href="https://www.boe.gov.sa/ar/About/Pages/default.aspx">تعريف بالهيئة</a>
                 <a href="#!">تسجيل الموردين</a>
                 <a href="#!">تسجيل المستخدمين</a>
                 <a href="#!">اتصل بنا</a>
