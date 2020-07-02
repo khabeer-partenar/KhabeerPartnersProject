@@ -123,10 +123,6 @@ class DelegateController extends UserBaseController
 
     public function destroy(Delegate $delegate)
     {
-        if ($delegate->checkIfDelegateInMeetings())
-        {
-            return response()->json(['status' =>true, 'msg'=> __('users::delegates.delegate_in_meetings_can_not_remove')]);
-        }
         $delegate->log('delete_delegate');
         $delegate->delete();
         return response()->json(['msg' => __('users::delegates.deleted')]);
