@@ -407,6 +407,7 @@ textarea.form_control{height: 150px}
 .table td {text-align: center;}
 .table th {text-align: center;}
 .no-align td, .no-align th {text-align: right;}
+.btn-login{font-size: 13px}
 
 /*
 ====================MOBILE===========================

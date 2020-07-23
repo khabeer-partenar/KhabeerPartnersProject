@@ -17,6 +17,10 @@ use Modules\Users\Listeners\DelegateCreatedListener;
 use Modules\Users\Listeners\DelegateDeletedListener;
 use Modules\Users\Listeners\DelegateDepartmentChangedListener;
 use Modules\Users\Notifications\DelegateDepartmentChangedNotification;
+use Aacotroneo\Saml2\Events\Saml2LoginEvent;
+use Aacotroneo\Saml2\Events\Saml2LogoutEvent;
+use App\Listeners\Saml2LoginListener;
+use App\Listeners\Saml2LogoutListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -40,7 +44,13 @@ class EventServiceProvider extends ServiceProvider
         ],
         DelegateDeletedEvent::class => [
             DelegateDeletedListener::class
-        ]
+        ],
+        Saml2LoginEvent::class => [
+            Saml2LoginListener::class,
+        ],
+        Saml2LogoutEvent::class => [
+            Saml2LogoutListener::class,
+        ],
     ];
 
     /**

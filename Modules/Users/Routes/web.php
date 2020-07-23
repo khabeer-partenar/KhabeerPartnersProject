@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth', 'still.loggedIn'], function()
         Route::get('/employees/{employee}/upgrate-to-super-admin', 'EmployeeController@upgrateToSuperAdmin')->name('employees.upgrate_to_super_admin');
         Route::resource('/employees', 'EmployeeController');
 
-        // User Controller 
+        // User Controller
         Route::get('/search', 'UserController@search')->name('users.search');
 
         // Account
