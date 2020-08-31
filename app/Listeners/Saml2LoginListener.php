@@ -45,7 +45,7 @@ class Saml2LoginListener
                 Auth::login($user);
             }
             else
-                session()->flash('sso_login_error', __('messages.sso_user_not_auth'));
+            session()->flash('sso_login_error', __('messages.sso_user_not_auth'));
 
 
         }catch (ModelNotFoundException $ex ) {

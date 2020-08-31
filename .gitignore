@@ -16,3 +16,5 @@ yarn-error.log
 udo systemctl stop nginx
 ~/
 /public/temp/*
+/.vagrant/*
+
