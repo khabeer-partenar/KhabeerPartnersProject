@@ -41,7 +41,7 @@ return $settings = array(
     /**
      * Where to redirect after logout
      */
-    'logoutRoute' => '/login',
+    'logoutRoute' => '/',
 
     /**
      * Where to redirect after login if no other option was provided
@@ -51,7 +51,7 @@ return $settings = array(
     /**
      * Where to redirect after login if no other option was provided
      */
-    'errorRoute' => '/errors',
+    'errorRoute' => '/un_authorized_user',
 
     // If 'proxyVars' is True, then the Saml lib will trust proxy headers
     // e.g X-Forwarded-Proto / HTTP_X_FORWARDED_PROTO. This is useful if
@@ -66,5 +66,5 @@ return $settings = array(
      * a `$returnTo` argument), this value allows you to pass your own controller, and have
      * it used in the routes definition.
      */
-     //= 'saml2_controller' => '',
+    'saml2_controller' => 'App\Http\Controllers\Saml\MySaml2Controller'
 );

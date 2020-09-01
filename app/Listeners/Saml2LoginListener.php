@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use Aacotroneo\Saml2\Events\Saml2LoginEvent;
+use Illuminate\Support\Facades\Session;
 use Modules\Users\Entities\User;
 use App\Classes\Saml\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -34,6 +35,8 @@ class Saml2LoginListener
 
         try {
             $messageId = $event->getSaml2Auth()->getLastMessageId();
+            Session::put(['sessionIndex' => $event->getSaml2User()->getSessionIndex()]);
+            Session::put(['nameId' => $event->getSaml2User()->getNameId()]);
             $userData = $event->getSaml2User()->getAttributes();
             $user_id = $userData[self::ATTR_PATH . 'userid'][0];
             $nafaz_user = NafazUser::where('national_id',$user_id)->count();
