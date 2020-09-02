@@ -43,7 +43,7 @@
                         <a href="{{ route('support.create') }}">طلب دعم</a>
                     </li>
                     <li>
-                        <a href="{{ route('saml2_logout',['idpName'=>'iam']) }}">تسجيل الخروج</a>
+                        <a href="{{ Session::exists('sessionIndex') ? route('saml2_logout',['idpName'=>'iam']):route('account.logout') }}">تسجيل الخروج</a>
                     </li>
                 </ul>
             </li>

@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use Aacotroneo\Saml2\Events\Saml2LogoutEvent;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 class Saml2LogoutListener
 {
     /**
@@ -25,7 +23,7 @@ class Saml2LogoutListener
      */
     public function handle(Saml2LogoutEvent $event)
     {
-        Auth::logout();
-        Session::save();
+        //Auth::logout();
+        //Session::save();
     }
 }
