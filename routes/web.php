@@ -12,4 +12,4 @@
 */
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
-Route::get('logout', '\Modules\Users\Http\Controllers\AccountController@logout');
+Route::post('logout', '\Modules\Users\Http\Controllers\AccountController@logout');

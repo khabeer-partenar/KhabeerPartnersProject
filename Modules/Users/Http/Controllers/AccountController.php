@@ -5,6 +5,7 @@ namespace Modules\Users\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 use Modules\Users\Http\Requests\UpdateAccountRequest;
 use App\Http\Controllers\UserBaseController;
 use Modules\Core\Entities\Group;
@@ -44,7 +45,7 @@ class AccountController extends Controller
             auth()->user()->token()->revoke();
             return response()->json('success', 200);
         }
-
+	Session::forget('sessionIndex');
         auth()->logout();
         return redirect()->to('/login');
     }
