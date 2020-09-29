@@ -14,11 +14,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            if(config('app.env') === 'local')
-                return route('login');
-            else
-             return route('saml2_login', ['idpName' => 'iam']);
-
+            return route('login');
         }
     }
 }
