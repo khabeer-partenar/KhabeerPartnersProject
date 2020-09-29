@@ -2,7 +2,11 @@
 
 Route::group(['middleware' => 'guest'], function()
 {
+    if(config('app.env') === 'local')
     Route::get('/login', 'AuthController@showLoginForm')->name('showLoginForm');
+    else
+    Route::get('/login', function() { return redirect('/'); })->name('showLoginForm');
+
     Route::post('/login', 'AuthController@login')->name('login');
 });
 
