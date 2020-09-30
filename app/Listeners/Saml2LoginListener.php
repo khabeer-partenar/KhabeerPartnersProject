@@ -46,6 +46,9 @@ class Saml2LoginListener
                 if(!$nafaz_user)
                     $nafaz_user = NafazUser::create($response);
                 Auth::login($user);
+                $user->update(['last_time_active' => now()]);
+
+
             }
             else
             session()->flash('sso_login_error', __('messages.sso_user_not_auth'));

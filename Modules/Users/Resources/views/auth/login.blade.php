@@ -16,7 +16,7 @@
         <div class="content app_inner_pages_container" style="min-height:auto;">
 
             <!-- BEGIN LOGIN FORM -->
-            @if(config('app.env') == 'local')
+            @if(config('app.env') === 'local')
             {{ Form::open(['route' => 'login', 'class' => 'login-form', 'method' => 'POST']) }}
                 <h3 class="form-title font-green">{{ __('messages.sign_in')}}</h3>
 
