@@ -12,5 +12,5 @@
 */
 
 
-Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('validate-user-is-super-admin');
+//Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('validate-user-is-super-admin');
 Route::post('logout', '\Modules\Users\Http\Controllers\AccountController@logout');
