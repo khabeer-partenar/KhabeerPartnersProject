@@ -34,7 +34,7 @@
 
                 <div class="form-group">
                     <label class="control-label">{{ __('messages.password') }}</label>
-                    {{ Form::password('password', ['class' => 'form_control form_control-solid placeholder-no-fix', 'required' => true, 'placeholder' => __('messages.password')]) }}
+                    {{ Form::password('password', ['class' => 'form_control form_control-solid placeholder-no-fix', 'required' => true,  'placeholder' => __('messages.password'), 'autocomplete' => 'off']) }}
                 </div>
 
                 <div class="">

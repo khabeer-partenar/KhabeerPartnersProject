@@ -81,6 +81,7 @@ class Kernel extends HttpKernel
         'read.delegate' => CanReadDelegate::class,
         'still.loggedIn' => CheckIfStillLoggedIn::class,
         'prevent.back' => PreventBackHistory::class,
+        'validate-user-is-super-admin' => \App\Http\Middleware\ValidateUserIsSuperAdmin::class,
 
     ];
 
