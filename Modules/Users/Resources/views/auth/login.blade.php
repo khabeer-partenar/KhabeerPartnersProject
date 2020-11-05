@@ -16,8 +16,13 @@
         <div class="content app_inner_pages_container" style="min-height:auto;">
 
             <!-- BEGIN LOGIN FORM -->
+            
             @if(config('app.env') === 'local')
+            <img class="img-responsive" src="{{url('assets/images/logo.png')}}">
+            <br />
+            <p style="text-align: center; color: #3ba161">{{ __('messages.app_name') }}</p>
             {{ Form::open(['route' => 'login', 'class' => 'login-form', 'method' => 'POST']) }}
+            
                 <h3 class="form-title font-green">{{ __('messages.sign_in')}}</h3>
 
                 @if (session('error_login'))
@@ -47,7 +52,11 @@
             <br>
             @else
                 <img class="img-responsive" src="{{url('assets/images/logo.png')}}">
+                
                 <br>
+                
+                <p style="text-align: center; color: #3ba161">{{ __('messages.app_name') }}</p>
+                <br />
                 <a class=" nafaz-prod-style btn btn-login red uppercase" href="{{route('saml2_login', ['idpName' => 'iam'])}}" type="button">{{__('messages.sso_sign_in')}}</a>
             @endif
             @if (Session::has('sso_login_error'))
