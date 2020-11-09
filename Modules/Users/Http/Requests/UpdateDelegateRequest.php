@@ -32,7 +32,7 @@ class UpdateDelegateRequest extends FormRequest
         $delegate = $request->delegate;
         return [
             'parent_department_id' =>   ['required','integer','exists:'. Department::table(). ',id',  new CheckMainCoordinatorNominations(request()->parent_department_id,request()->committee_id)
-                , new CheckCoordinatorParentDepartmentType],
+                , new CheckCoordinatorParentDepartmentType($request->main_department_id)],
             'main_department_id' => ['required', 'integer','exists:'. Department::table(). ',id',  new CheckCoordinatorDepartmentType],
             'direct_department_id' => ['nullable', 'integer', new CheckCoordinatorDirectDepartmentType(request()->parent_department_id)],
             'job_title' => ['required'],
