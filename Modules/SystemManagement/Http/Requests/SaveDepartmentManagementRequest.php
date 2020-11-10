@@ -21,7 +21,7 @@ class SaveDepartmentManagementRequest extends FormRequest
     {
         return [
             'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::mainDepartment)],
-            'name' => ['required', 'max:255', new FilterStringRule, 'unique:'. Department::table() . ',name'],
+            'name' => ['required', 'max:255', new FilterStringRule, 'unique:'. Department::table() . ',name,NULL,id,deleted_at,NULL'],
             'telephone' => ['nullable', 'numeric'],
             'address' => ['nullable', 'max:255', new FilterStringRule],
             'email' => ['nullable', 'email', new ValidationGovEmailRule],

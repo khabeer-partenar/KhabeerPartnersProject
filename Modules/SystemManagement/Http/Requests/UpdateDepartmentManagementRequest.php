@@ -22,7 +22,7 @@ class UpdateDepartmentManagementRequest extends FormRequest
         $department = $request->department;
 
         return [
-            'name' => ['required', 'max:255', new FilterStringRule, 'unique:'. Department::table() . ',name,'. $department->id],
+            'name' => ['required', 'max:255', new FilterStringRule, 'unique:'. Department::table() . ',name,' . $department->id .',id,deleted_at,NULL'],
             'telephone' => ['nullable', 'numeric'],
             'address' => ['nullable', 'max:255', new FilterStringRule],
             'email' => ['nullable', 'email', new ValidationGovEmailRule],
