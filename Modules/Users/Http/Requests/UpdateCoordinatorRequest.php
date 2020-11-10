@@ -34,8 +34,8 @@ class UpdateCoordinatorRequest extends FormRequest
             'direct_department' => ['nullable', 'string'],
             'national_id' => ['required', new NationalIDRule, Rule::unique(User::table())->ignore($coordinator->id)],
             'name' => ['required', new FilterStringRule, 'string'],
-            'phone_number' => ['required', new ValidationPhoneNumberRule, Rule::unique(User::table())->ignore($coordinator->id)],
-            'email' => ['required', 'email', new ValidationGovEmailRule, Rule::unique(User::table())->ignore($coordinator->id)],
+            'phone_number' => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table() . ',phone_number,' . $coordinator->id .',id,deleted_at,NULL'],
+            'email' => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table() . ',email,' . $coordinator->id .',id,deleted_at,NULL'],
             'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference],
             'job_role_id' => ['required', new CheckInCoordinatorJobs]
         ];

@@ -38,8 +38,8 @@ class UpdateDelegateRequest extends FormRequest
             'job_title' => ['required'],
             'national_id' => ['required', new NationalIDRule, Rule::unique(User::table())->ignore($delegate->id)],
             'name' => ['required', new FilterStringRule, 'string'],
-            'phone_number' => ['required', new ValidationPhoneNumberRule, Rule::unique(User::table())->ignore($delegate->id)],
-            'email' => ['required', 'email', new ValidationGovEmailRule, Rule::unique(User::table())->ignore($delegate->id)],
+            'phone_number' => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table() . ',phone_number,' . $delegate->id .',id,deleted_at,NULL'],
+            'email' => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table() . ',email,' . $delegate->id .',id,deleted_at,NULL'],
             'department_reference_id' => ['nullable', 'integer', new CheckDepartmentReference],
             'job_role_id' => ['required', new CheckInDelegateJobs]
         ];
