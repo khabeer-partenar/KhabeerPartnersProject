@@ -28,11 +28,11 @@
                             <i class="fa fa-file-pdf-o"></i> {{ __('committee::committees.committee_export') }}
                         </a>
                     </div>
-                    
+
                 </div>
 
             </div>
-            
+
         </div>
 
         <div class="portlet-body form">
@@ -41,21 +41,15 @@
             <table class="table table-striped table-responsive-md no-align">
                 <tbody>
                     <tr>
-                        <th style="width: 16.66%" scope="row">رقم الطلب و تاريخه</th>
+                        <th style="width: 16.66%" scope="row">رقم وارد الهيئة</th>
                         <td>
-                            {{ $committee->uuid }}
-                            {{ __('committee::committees.on_date') }}
-                            {{ $committee->created_at_hijri }}
+                            {{ $committee->resource_staff_number }}
                         </td>
                     </tr>
                     <tr>
-                        <th style="width: 16.66%" scope="row">جهة التوريد و رقم وارد الهيئة</th>
+                        <th style="width: 16.66%" scope="row">وردت من</th>
                         <td>
                             {{ $committee->resourceDepartment->name }}
-                            {{ __('committee::committees.with_number') }}
-                            ({{ $committee->resource_staff_number }})
-                            {{ __('committee::committees.on_date') }}
-                            {{ $committee->resource_at_hijri }}
                         </td>
                     </tr>
                     <tr>
@@ -67,15 +61,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row">رقم المعاملة و تاريخها</th>
-                        <td>
-                            ({{ $committee->treatment_number }})
-                            {{ __('committee::committees.on_date') }}
-                            {{ $committee->resource_at_hijri }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">الجهة الموصية بدراسة المعاملة و رقمها</th>
+                        <th scope="row">الجهة الموصية بالدراسة</th>
                         <td>
                             {{ $committee->recommendedByDepartment->name }}
                             {{ __('committee::committees.with_number') }}
@@ -88,6 +74,10 @@
                         <th scope="row">الجهة مصدر الدراسة</th>
                         <td>
                             {{ $committee->sourceOfStudy->name }}
+                            {{ __('committee::committees.with_number') }}
+                            ({{ $committee->treatment_number }})
+                            {{ __('committee::committees.on_date') }}
+                            {{ $committee->resource_at_hijri }}
                         </td>
                     </tr>
                     <tr>
@@ -120,12 +110,14 @@
                             {{ $committee->tasks }}
                         </td>
                     </tr>
+                    @if($committee->president)
                     <tr>
                         <th scope="row">برئاسة</th>
                         <td>
-                            {{ $committee->president ? $committee->president->name:'-'  }}
+                            {{ $committee->president}}
                         </td>
                     </tr>
+                    @endif
                     <tr>
                         <th scope="row">تاريخ الاجتماع و مقره</th>
                         <td>

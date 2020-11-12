@@ -1,7 +1,6 @@
 <p class="underLine">{{ __('committee::committees.treatment information') }}</p>
 
 <div class="row">
-
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('resource_staff_number') ? ' has-error' : '' }}">
             <label for="resource_staff_number" class="control-label">
@@ -32,12 +31,16 @@
 
             @endphp
             <input type="text" name="hijri_resource_at" value="{{ $resource_at_hijri }}" class="form_control hijri-date-input" autocomplete="off">
-            <input type="hidden"  name="resource_at" value="{{ $resourceAt }}" class="form_control">  
+            <input type="hidden"  name="resource_at" value="{{ $resourceAt }}" class="form_control">
             <label id="resource_at" class="control-label"></label>
             @include('layouts.dashboard.form-error', ['key' => 'resource_at'])
         </div>
     </div>
+</div>
 
+<br />
+
+<div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('resource_by') ? ' has-error' : '' }}">
             <label for="resource_by" class="control-label">
@@ -61,15 +64,10 @@
         </div>
     </div>
 
-</div>
-
-<br />
-
-<div class="row">
-    <div class="col-md-4">  
+    <div class="col-md-4">
         <div class="form-group {{ $errors->has('department_out_number') ? ' has-error' : '' }}">
             <label for="department_out_number" class="control-label">
-                {{ __('committee::committees.department_out_number') }}
+                {{ __('committee::committees.out_number') }}
                 <span style="color: red">*</span>
             </label>
 
@@ -81,7 +79,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('department_out_date') ? ' has-error' : '' }}">
             <label for="resource_at" class="control-label">
-                {{ __('committee::committees.department_out_date') }}
+                {{ __('committee::committees.out_date') }}
                 <span style="color: red">*</span>
             </label>
 
@@ -100,7 +98,11 @@
             @include('layouts.dashboard.form-error', ['key' => 'department_out_date'])
         </div>
     </div>
+</div>
 
+<br />
+
+<div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('recommended_by_id') ? ' has-error' : '' }}">
             <label for="recommended_by_id" class="control-label">
@@ -124,12 +126,6 @@
         </div>
     </div>
 
-</div>
-
-<br />
-
-<div class="row">
-    
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('recommendation_number') ? ' has-error' : '' }}">
             <label for="recommendation_number" class="control-label">
@@ -164,6 +160,11 @@
         </div>
     </div>
 
+</div>
+
+<br />
+
+<div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('source_of_study_id') ? ' has-error' : '' }}">
             <label for="source_of_study_id" class="control-label">
@@ -187,15 +188,10 @@
         </div>
     </div>
 
-</div>
-
-<br />
-
-<div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_number') ? ' has-error' : '' }}">
             <label for="treatment_number" class="control-label">
-                {{ __('committee::committees.treatment_number') }}
+                {{ __('committee::committees.out_number') }}
                 <span style="color: red">*</span>
             </label>
 
@@ -207,7 +203,7 @@
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_time') ? ' has-error' : '' }}">
             <label for="treatment_time" class="control-label">
-                {{ __('committee::committees.treatment_time') }}
+                {{ __('committee::committees.out_date') }}
                 <span style="color: red">*</span>
             </label>
 
@@ -227,6 +223,12 @@
             @include('layouts.dashboard.form-error', ['key' => 'treatment_time'])
         </div>
     </div>
+
+</div>
+
+<br />
+
+<div class="row">
 
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_type_id') ? ' has-error' : '' }}">
@@ -250,12 +252,6 @@
             @include('layouts.dashboard.form-error', ['key' => 'treatment_type_id'])
         </div>
     </div>
-
-</div>
-
-<br />
-
-<div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('treatment_importance_id') ? ' has-error' : '' }}">
             <label for="treatment_importance_id" class="control-label">
@@ -301,8 +297,12 @@
             @include('layouts.dashboard.form-error', ['key' => 'treatment_urgency_id'])
         </div>
     </div>
+</div>
 
-    <div class="col-md-2">
+<br />
+
+<div class="row">
+    <div class="col-md-4">
         <div class="form-group {{ $errors->has('first_meeting_at') ? ' has-error' : '' }}">
             <label for="first_meeting_at" class="control-label">
                 {{ __('committee::committees.first_meeting_at') }}
@@ -325,7 +325,7 @@
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="form-group {{ $errors->has('first_meeting_at') ? ' has-error' : '' }}">
             <label for="from" class="control-label">
                 {{ __('committee::committees.first_meeting_at_time') }}
@@ -343,15 +343,13 @@
                    type="text" name="time_first_meet"
                    id="from" value="{{ $first_meeting_at_time }}"
                    class="form_control timepicker timepicker-default" autocomplete="off"
-                   {{ isset($committee) ? 'disabled':'' }}>
+                {{ isset($committee) ? 'disabled':'' }}>
             @include('layouts.dashboard.form-error', ['key' => 'from'])
         </div>
     </div>
 
 </div>
-
 <br />
-
 <div class="row">
     <div class="col-md-12">
         <div class="form-group {{ $errors->has('subject') ? ' has-error' : '' }}">
@@ -368,6 +366,17 @@
 
 <br />
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group {{ $errors->has('tasks') ? ' has-error' : '' }}">
+            {!! Form::label('tasks',  __('committee::committees.tasks'), ['class' => 'control-label']) !!}
+
+            {!! Form::textArea('tasks', null, ['id' => 'tasks', 'class' => 'form_control', 'rows' => '5']) !!}
+            @include('layouts.dashboard.form-error', ['key' => 'tasks'])
+        </div>
+    </div>
+</div>
+<br />
 <div class="row">
     <div class="col-md-4">
         <div class="form-group {{ $errors->has('president_id') ? ' has-error' : '' }}">
@@ -386,15 +395,6 @@
                 @endforeach
             </select>
             @include('layouts.dashboard.form-error', ['key' => 'president_id'])
-        </div>
-    </div>
-
-    <div class="col-md-8">
-        <div class="form-group {{ $errors->has('tasks') ? ' has-error' : '' }}">
-            {!! Form::label('tasks',  __('committee::committees.tasks'), ['class' => 'control-label']) !!}
-
-            {!! Form::textArea('tasks', null, ['id' => 'tasks', 'class' => 'form_control', 'rows' => '5']) !!}
-            @include('layouts.dashboard.form-error', ['key' => 'tasks'])
         </div>
     </div>
 </div>
@@ -426,7 +426,7 @@
             @include('layouts.dashboard.form-error', ['key' => 'advisor_id'])
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="form-group {{ $errors->has('participant_advisors') ? ' has-error' : '' }}">
             {!! Form::label('participant_advisors',  __('committee::committees.participant_advisors'), ['class' => 'control-label']) !!}
 
