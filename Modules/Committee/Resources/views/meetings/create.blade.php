@@ -6,7 +6,7 @@
         <div class="portlet-title">
 
             <div class="row">
-                
+
                 <div class="col-md-9">
                     <div class="caption">
                         <i class="fa fa-plus"></i>
@@ -16,9 +16,12 @@
 
                 <div class="col-md-3">
                     <div class="actions item-fl item-mb20">
+                        <a href="{{ route('committees.show', compact('committee')) }}" class="btn red">{{ __('committee::committees.details') }}</a>
                         <a href="{{ route('committee.meetings', compact('committee')) }}" class="btn red">{{ __('messages.goBack') }}</a>
                     </div>
                 </div>
+
+
 
             </div>
 
