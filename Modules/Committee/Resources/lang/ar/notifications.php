@@ -10,5 +10,8 @@ return [
     'meeting_cancelled' => 'الغاء اجتماع للجنة',
     'meeting_complete_data_remember' => ' بيانات الاجتماع غير مكتملة للجنة',
     'meeting_delegates_invitation' => 'تم دعوتك لحضور اجتماع',
-    'meeting_delegates_removed' => 'تم اعفاءك من اجتماع لجنة'
+    'meeting_delegates_removed' => 'تم اعفاءك من اجتماع لجنة',
+    'committee_approved_coordinators' => ':ورد إليكم طلب تسمية مندبين جديد في منصة شركاء خبير
+للاطلاع على الرابط',
+    'committee_approved_advisors' => 'تمت إضافتكم للمشاركة في دراسة معاملة مع المستشار '
 ];

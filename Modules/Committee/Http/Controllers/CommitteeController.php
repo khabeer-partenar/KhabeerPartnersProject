@@ -15,6 +15,7 @@ use Modules\Committee\Entities\TreatmentType;
 use Modules\Committee\Entities\TreatmentUrgency;
 use Modules\Committee\Events\NominationDoneEvent;
 use Modules\Committee\Http\Requests\SaveCommitteeRequest;
+use Modules\Committee\Notifications\CommitteeApprovedCoordinators;
 use Modules\Core\Entities\Group;
 use Modules\Core\Entities\Status;
 use Modules\Core\Traits\Log;
@@ -24,9 +25,9 @@ use Modules\Users\Entities\Employee;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
 use Modules\Committee\Entities\CommitteeDelegate;
-use Modules\Committee\Notifications\CommitteeApproved;
+use Modules\Committee\Notifications\CommitteeApprovedAdvisors;
 use Modules\Committee\Notifications\NominationDoneNotification;
-use Notification;
+use Illuminate\Support\Facades\Notification;
 
 
 class CommitteeController extends UserBaseController
@@ -236,8 +237,8 @@ class CommitteeController extends UserBaseController
         $committee->update([
             'approved' => true
         ]);
-        $toBeNotifiedUsers = $committee->participantAdvisors->merge($committee->participantDepartmentsCoordinators());
-        Notification::send($toBeNotifiedUsers, new CommitteeApproved($committee));
+        Notification::send($committee->participantAdvisors, new CommitteeApprovedAdvisors($committee));
+        Notification::send($committee->participantDepartmentsCoordinators(), new CommitteeApprovedCoordinators($committee));
         return response()->json(['status' => 1]);
     }
 }

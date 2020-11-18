@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class CommitteeApproved extends Notification implements ShouldQueue
+class CommitteeApprovedAdvisors extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -45,7 +45,7 @@ class CommitteeApproved extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(__('committee::committees.approved'))
-            ->markdown('committee::emails.committee_approved', ['committee' => $this->committee]);
+            ->markdown('committee::emails.committee_approved_advisors', ['committee' => $this->committee]);
     }
 
     /**
@@ -65,8 +65,7 @@ class CommitteeApproved extends Notification implements ShouldQueue
     public function toMobily()
     {
         return [
-            'message' => __('committee::committees.approved')
-                . ' ' . $this->committee->subject
+            'message' =>    $this->committee->advisor->name . __('committee::notification.committee_approved_advisors')
         ];
     }
 }
