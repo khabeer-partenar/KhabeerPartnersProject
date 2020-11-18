@@ -13,5 +13,8 @@ return [
     'meeting_delegates_removed' => 'تم اعفاءك من اجتماع لجنة',
     'committee_approved_coordinators' => ':ورد إليكم طلب تسمية مندبين جديد في منصة شركاء خبير
 للاطلاع على الرابط',
-    'committee_approved_advisors' => 'تمت إضافتكم للمشاركة في دراسة معاملة مع المستشار '
+    'committee_approved_advisors' => 'تمت إضافتكم للمشاركة في دراسة معاملة مع المستشار ',
+    'committee_deleted_desc' => ' تم إلغاء دراسة المعاملة رقم (:number)  وبناء عليه حذفت من النظام
+للاطلاع على الرابط',
+
 ];
