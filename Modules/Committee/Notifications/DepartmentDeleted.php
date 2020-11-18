@@ -65,8 +65,8 @@ class DepartmentDeleted extends Notification implements ShouldQueue
     public function toMobily()
     {
         return [
-            'message' => __('committee::committees.nominationـdepartmentـdeleted')
-                . ' ' . $this->committee->subject
+            'message' => __('committee::notifications.committee_deleted_desc', ['number' => $this->committee->resource_staff_number])
+                . ' ' . route('index')
         ];
     }
 }
