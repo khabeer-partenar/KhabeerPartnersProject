@@ -5,6 +5,8 @@ namespace Modules\Users\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\UserBaseController;
+use Illuminate\Support\Facades\Notification;
+use Modules\Users\Notifications\NewUserAdded;
 use Yajra\Datatables\Datatables;
 use Modules\Users\Http\Requests\SaveEmployeeRequest;
 use Modules\Users\Http\Requests\UpdateEmployeeRequest;
@@ -49,6 +51,7 @@ class EmployeeController extends UserBaseController
     {
         $employee = Employee::createNewEmployee($request);
         $employee->log('create_employee');
+        Notification::send($employee, new NewUserAdded($employee));
         session()->flash('alert-success', __('users::employees.userCreated'));
         return redirect()->route('employees.index');
     }

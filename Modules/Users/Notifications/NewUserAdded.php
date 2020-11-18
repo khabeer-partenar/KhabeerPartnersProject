@@ -8,20 +8,20 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewCoordinatorAdded extends Notification implements ShouldQueue
+class NewUserAdded extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $coordinator;
+    private $user;
 
     /**
      * Create a new notification instance.
      *
      * @param $committee
      */
-    public function __construct($coordinator)
+    public function __construct($user)
     {
-        $this->coordinator = $coordinator;
+        $this->user = $user;
     }
 
     /**
@@ -44,8 +44,8 @@ class NewCoordinatorAdded extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('users::coordinators.coordinator_added_to_system'))
-            ->markdown('users::emails.new_coordinator_added', ['coordinator'=>$this->coordinator]);
+            ->subject(__('users::general.user_added_to_system'))
+            ->markdown('users::emails.new_user_added', ['user'=>$this->user]);
     }
 
     /**
@@ -57,19 +57,15 @@ class NewCoordinatorAdded extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'coordinator' => $this->coordinator,
+            'coordinator' => $this->user,
         ];
     }
 
     public function toMobily($notifiable)
     {
-      /*  return [
-            'message' => ''
-        ];*/
-
         return [
-            'message' => __('users::coordinators.coordinator_added_to_system')
-                . ' ' . route('committees.show', $this->coordinator)
+            'message' => __('users::general.user_added_to_system')
+                . ' ' . route('index')
         ];
     }
 }

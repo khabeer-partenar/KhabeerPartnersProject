@@ -6,6 +6,7 @@ use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Core\Entities\Group;
@@ -19,6 +20,7 @@ use Modules\Users\Http\Requests\SaveCoordinatorRequestByCo;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequestByCo;
 use Modules\Users\Http\Requests\UpdateDelegateRequest;
+use Modules\Users\Notifications\NewUserAdded;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
 use Crypt;
@@ -101,6 +103,7 @@ class DelegateController extends UserBaseController
             $delegate2->addDelegateToCommittee($request, $delegate->id);
         } else {
             self::sessionSuccess('users::delegates.created');
+            Notification::send($delegate, new NewUserAdded($delegate));
             return redirect()->route('delegates.index');
         }
 

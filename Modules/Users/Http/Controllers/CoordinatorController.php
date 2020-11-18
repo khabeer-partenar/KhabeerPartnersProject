@@ -14,8 +14,8 @@ use Modules\Users\Http\Requests\SaveCoordinatorRequest;
 use Modules\Users\Http\Requests\UpdateCoordinatorRequest;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\Facades\DataTables;
-use Modules\Users\Notifications\NewCoordinatorAdded;
-use Notification;
+use Modules\Users\Notifications\NewUserAdded;
+use Illuminate\Support\Facades\Notification;
 
 class CoordinatorController extends UserBaseController
 {
@@ -54,7 +54,7 @@ class CoordinatorController extends UserBaseController
     {
         $coordinator = Coordinator::createFromRequest($request);
         $coordinator->log('create_coordinator');
-        Notification::send($coordinator, new NewCoordinatorAdded($coordinator));
+        Notification::send($coordinator, new NewUserAdded($coordinator));
         self::sessionSuccess('users::coordinators.created');
         return redirect()->route('coordinators.index');
     }
