@@ -29,7 +29,7 @@ class Mobily
             "Password" => "19888",
             "Tagname"=>"KP.BOE",
             "Message" => $message,
-            "RecepientNumber" => '966596430095',
+            "RecepientNumber" => $number,
             "ReplacementList" =>"",
             "SendDateTime" => "0",
             "EnableDR" =>False,
