@@ -65,8 +65,7 @@ class CommitteeCreated extends Notification implements ShouldQueue
     public function toMobily($notifiable)
     {
         return [
-            'message' => __('committee::committees.new committee has been created with subject')
-                . ' ' . $this->committee->subject
+            'message' => __('committee::committees.committee_need_approve')
                 . ' ' . route('committees.show', $this->committee)
         ];
     }

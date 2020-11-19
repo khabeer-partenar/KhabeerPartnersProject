@@ -23,17 +23,8 @@ class CommitteeCreatedListener
     {
         // Notify Adivsors
         $event->committee->advisor->notify(new CommitteeCreated($event->committee));
-        // Notify Participant Advisors
-        foreach ($event->committee->participantAdvisors as $advisor) {
-            $advisor->notify(new CommitteeCreated($event->committee));
-        }
-        // Notify Departments
-        foreach ($event->committee->participantDepartmentsUsersUnique() as $user) {
-            $user->notify(new SubmitLabelRequests($event->committee));
-        }
-
         $toBeNotifiedUsers = $event->committee->advisor->secretaries;
-        Notification::send($toBeNotifiedUsers, new MeetingCompleteDataRemember($event->committee,$event->committee->meetings()->first()));
+        //Notification::send($toBeNotifiedUsers, new MeetingCompleteDataRemember($event->committee,$event->committee->meetings()->first()));
 
     }
 }

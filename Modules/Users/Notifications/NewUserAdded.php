@@ -65,7 +65,9 @@ class NewUserAdded extends Notification implements ShouldQueue
     {
         return [
             'message' => __('users::general.user_added_to_system')
-                . ' ' . route('index')
+                . __('users::general.system_path')
+                . ' ' . route('index') . ' '
+                . __('users::general.absher_login')
         ];
     }
 }
