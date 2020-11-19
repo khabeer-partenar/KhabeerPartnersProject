@@ -3,11 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Notification;
 use Modules\Committee\Entities\Meeting;
 use Modules\Users\Entities\Coordinator;
 use Modules\Committee\Notifications\meetingDoneWithoutNomination;
 use Carbon\Carbon;
-use Notification;
 use Log;
 class MeetingNonNominationNotification extends Command
 {
@@ -51,7 +51,7 @@ class MeetingNonNominationNotification extends Command
              $Coordinators = Coordinator::ParentDepartmentCoordinators(array_replace($department_ids,array_filter($department_reference_ids)))->mainCoordinator()->get();
              Notification::send($Coordinators, new meetingDoneWithoutNomination($meeting->committee));
 
-        }  
-              
+        }
+
     }
 }

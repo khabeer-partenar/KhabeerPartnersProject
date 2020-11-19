@@ -2,11 +2,9 @@
 
 namespace Modules\Committee\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
-use Modules\Users\Entities\Delegate;
 use Modules\Committee\Notifications\CommitteeRemembered;
 use Illuminate\Support\Facades\Notification;
 
@@ -21,7 +19,8 @@ class CommitteeNotificationController extends Controller
     {
         $toBeNotifiedUsers = $committee->participantAdvisors->merge($committee->delegates)->merge($committee->participantDepartmentsCoordinators());
         if($toBeNotifiedUsers->count())
-            Notification::send($toBeNotifiedUsers,new CommitteeRemembered($committee,$committee->meetings()->first()));
+
+        Notification::send($toBeNotifiedUsers,new CommitteeRemembered($committee,$committee->meetings()->first()));
         return response()->json(['status' => 1,'message' => __('committee::notifications.notification_send_done')]);
     }
 }

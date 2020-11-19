@@ -63,9 +63,8 @@ private $committee;
     public function toMobily($notifiable)
     {
         return [
-            'message' => __('committee::notifications.nomination_remember')
-                . ' ' . $this->committee->subject
-                . ' ' . route('committees.show', $this->committee)
+            'message' => __('committee::committees.committee_not_have_nomination_alert')
+                . ' ' .route('committees.show', $this->committee)
         ];
     }
 }

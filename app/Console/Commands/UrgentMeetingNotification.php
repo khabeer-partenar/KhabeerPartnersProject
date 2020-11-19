@@ -8,7 +8,7 @@ use Modules\Users\Entities\Coordinator;
 use Modules\Committee\Notifications\NominationRememberNotification;
 use Modules\Committee\Notifications\MeetingComeSoon;
 use Modules\Committee\Entities\Meeting;
-use Notification;
+use Illuminate\Support\Facades\Notification;
 use Log;
 class UrgentMeetingNotification extends Command
 {
