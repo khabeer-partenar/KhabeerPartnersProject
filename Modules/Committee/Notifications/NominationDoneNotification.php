@@ -11,15 +11,17 @@ use App\Channels\MobilyChannel;
 class NominationDoneNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-private $committee;
+    private $committee;
+    private $department;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($committee)
+    public function __construct($committee, $department)
     {
         $this->committee = $committee;
+        $this->department = $department;
 
     }
 
@@ -43,8 +45,8 @@ private $committee;
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('committee::committees.nomination done') . ' ' . $this->committee->subject)
-            ->markdown('committee::emails.nomination_done', ['committee' => $this->committee]);
+            ->subject(__('committee::committees.nomination done for committee') . ' ' . $this->committee->subject)
+            ->markdown('committee::emails.nomination_done', ['committee' => $this->committee, 'department' => $this->department]);
     }
 
     /**
@@ -63,8 +65,8 @@ private $committee;
     public function toMobily($notifiable)
     {
         return [
-            'message' => __('committee::committees.nomination done')
-                . ' ' . $this->committee->subject
+            'message' => __('committee::committees.committee_nomination_advisors',
+                ['number' => $this->committee->resource_staff_number, 'department'=> $this->department])
                 . ' ' . route('committees.show', $this->committee)
         ];
     }

@@ -22,6 +22,7 @@ use Modules\Core\Traits\Log;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
+use Modules\Users\Notifications\NotifyDelegatesOfAddetion;
 use Modules\Users\Traits\SessionFlash;
 use Yajra\DataTables\DataTables;
 use Modules\Committee\Entities\CommitteeDelegate;
@@ -223,7 +224,10 @@ class CommitteeController extends UserBaseController
         $committee->checkIfCommitteeDepartmentsHasDelegates();
         if (Delegate::checkIfNominationCompleted($committee->id)) {
             $advisor = $committee->advisor;
-            Notification::send([$advisor,$advisor->secretaries,$committee->delegates], new NominationDoneNotification($committee));
+            foreach ($committee->getNominationDepartmentsWithRef()->pluck('name') as $department){
+                Notification::send([$advisor,$advisor->secretaries], new NominationDoneNotification($committee, $department));
+            }
+            Notification::send($committee->delegates, new NotifyDelegatesOfAddetion($committee));
             return response()->json(['status' => true, 'msg' => __('committee::committees.nomination_send_successfully')]);
         }
         return response()->json(['status' => false, 'msg' => __('committee::committees.nomination_not_compeleted')]);

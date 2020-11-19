@@ -13,17 +13,15 @@ class NotifyDelegatesOfAddetion extends Notification implements ShouldQueue
     use Queueable;
 
     private $committee;
-    private $delegate;
 
     /**
      * Create a new notification instance.
      *
      * @param $committee
      */
-    public function __construct($delegate, $committee)
+    public function __construct($committee)
     {
         $this->committee = $committee;
-        $this->delegate = $delegate;
     }
 
     /**
@@ -47,7 +45,7 @@ class NotifyDelegatesOfAddetion extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(__('users::delegates.you added to a committee') . ' ' . $this->committee->subject)
-            ->markdown('users::emails.email_notify_delegate', ['committee' => $this->committee,'delegate'=>$this->delegate]);
+            ->markdown('users::emails.email_notify_delegate', ['committee' => $this->committee]);
     }
 
     /**
@@ -60,22 +58,16 @@ class NotifyDelegatesOfAddetion extends Notification implements ShouldQueue
     {
         return [
             'committee' => $this->committee,
-            'delegate' => $this->delegate,
             'notified_user' => $notifiable
         ];
     }
 
     public function toMobily($notifiable)
     {
-      /*  return [
-            'message' => ''
-        ];*/
 
         return [
-            'message' => __('users::delegates.you added to a committee')
-                . ' ' . $this->committee->subject
-                    . ' '. __('users::delegates.committee first meeting date')
-                . ' ' . $this->committee->first_meeting_at
+            'message' => __('committee::committees.committee_nomination_delegates',
+                    ['number' => $this->committee->resource_staff_number])
                 . ' ' . route('committees.show', $this->committee)
         ];
     }

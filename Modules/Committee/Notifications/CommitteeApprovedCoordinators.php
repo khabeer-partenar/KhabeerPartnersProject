@@ -65,7 +65,7 @@ class CommitteeApprovedCoordinators extends Notification implements ShouldQueue
     public function toMobily()
     {
         return [
-            'message' => __('committee::notification.committee_approved_coordinators')
+            'message' => __('committee::notifications.committee_approved_coordinators')
                 . ' ' . route('committees.show', $this->committee)
         ];
     }

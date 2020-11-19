@@ -130,6 +130,9 @@ return [
     'out_number' => 'رقم صادر',
     'out_date' => 'تاريخ صادر',
     'details' => 'تفاصيل المعاملة',
-    'committee_need_approve' => ': تم اعداد طلب مندوبين جديد وبحاجة الي اعتمادكم للاطلاع علي الرابط'
+    'committee_need_approve' => ': تم اعداد طلب مندوبين جديد وبحاجة الي اعتمادكم للاطلاع علي الرابط',
+    'committee_nomination_advisors' => ' : تم ترشيح مندوب (:department) في معاملة رقم (:number)  للاطلاع علي الرابط',
+    'committee_nomination_delegates' => ': تم ترشيحكم للمشاركة في دراسة معاملة جديدة بهيئة الخبراء رقم (:number)  للاطلاع علي الرابط',
+
 
 ];

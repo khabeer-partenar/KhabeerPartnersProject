@@ -43,9 +43,5 @@ class DelegateCreatedListener
             $secretary->notify(new DelegateCreatedNotification($event->delegate,$event->committee));
         }
 
-        // notify delegates
-     // $delegate1 =  Delegate::find($event->delegate->id);
-        $event->delegate->notify(new NotifyDelegatesOfAddetion($event->delegate,$event->committee));
-
     }
 }

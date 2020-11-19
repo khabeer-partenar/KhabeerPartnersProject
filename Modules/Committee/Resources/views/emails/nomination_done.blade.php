@@ -2,10 +2,9 @@
 
 @section('content')
     <h4>
-        {{ __('committee::committees.nomination done for committee') }}
+        {{ __('committee::committees.committee_nomination_advisors', ['number' => $committee->resource_staff_number, 'department'=> $department]) }}
     </h4>
-    <h4>{{ $committee->subject }}</h4>
     <a target="_blank" href="{{ route('committees.show', compact('committee')) }}" class="btn btn-green no-decoration">
-        {{ __('committee::committees.show') }}
+        {{ route('committees.show', compact('committee')) }}
     </a>
 @endsection
