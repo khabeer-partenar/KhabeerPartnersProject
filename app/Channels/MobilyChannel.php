@@ -18,6 +18,6 @@ class MobilyChannel
     {
         $notificationObject = $notification->toMobily($notifiable);
         $msg = $notificationObject['message'];
-        Mobily::send($notifiable->phone_number, $msg);
+        Mobily::sendMessage($msg,  $notifiable->phone_number);
     }
 }

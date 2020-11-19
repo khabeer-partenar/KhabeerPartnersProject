@@ -65,7 +65,7 @@ class CommitteeApprovedAdvisors extends Notification implements ShouldQueue
     public function toMobily()
     {
         return [
-            'message' =>    $this->committee->advisor->name . __('committee::notification.committee_approved_advisors')
+            'message' =>  __('committee::notifications.committee_approved_advisors') .   $this->committee->advisor->name
         ];
     }
 }
