@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Users\Entities\Delegate;
 use Modules\Committee\Notifications\CommitteeRemembered;
-use Notification;
+use Illuminate\Support\Facades\Notification;
 
 class CommitteeNotificationController extends Controller
 {
@@ -18,10 +18,10 @@ class CommitteeNotificationController extends Controller
      * @return Response
      */
     public function sendUrgentCommiteeNotification(Committee $committee)
-    {        
+    {
         $toBeNotifiedUsers = $committee->participantAdvisors->merge($committee->delegates)->merge($committee->participantDepartmentsCoordinators());
         if($toBeNotifiedUsers->count())
-            Notification::send($toBeNotifiedUsers,new CommitteeRemembered($committee));
+            Notification::send($toBeNotifiedUsers,new CommitteeRemembered($committee,$committee->meetings()->first()));
         return response()->json(['status' => 1,'message' => __('committee::notifications.notification_send_done')]);
     }
 }
