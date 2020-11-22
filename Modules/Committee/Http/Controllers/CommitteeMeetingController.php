@@ -75,7 +75,7 @@ class CommitteeMeetingController extends UserBaseController
         $meeting->log('create_new_meeting_for_committee : ' . $committee->id);
         $toBeNotifiedUsers = $meeting->participantAdvisors->merge($meeting->committee->participantDepartmentsUsersUnique());
         if($toBeNotifiedUsers->count())
-            Notification::send($toBeNotifiedUsers, new MeetingCreated($meeting->committee,$meeting));   
+            Notification::send($toBeNotifiedUsers, new MeetingCreated($meeting->committee,$meeting));
         self::sessionSuccess('committee::meetings.created successfully');
         return redirect()->route('committee.meetings', compact('committee'));
     }
@@ -156,7 +156,7 @@ class CommitteeMeetingController extends UserBaseController
         $meeting->log('meeting_cancel_for_committee : ' . $committee->id);
         $toBeNotifiedUsers = $meeting->participantAdvisors->merge($meeting->delegates);
         if($toBeNotifiedUsers->count())
-            Notification::send($toBeNotifiedUsers, new MeetingCancelled($meeting->committee,$meeting));   
+            Notification::send($toBeNotifiedUsers, new MeetingCancelled($meeting->committee,$meeting));
         $meeting->delete();
         self::sessionSuccess('committee::meetings.meeting_cancelled');
         return response()->json([], 200);

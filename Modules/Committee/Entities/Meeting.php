@@ -259,6 +259,8 @@ class Meeting extends Model
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }
 
+        //MeetingDelegate::MeetingCreateDelegatesNotifications($request->delegates,$this);
+
         return $this;
     }
 

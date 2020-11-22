@@ -5,7 +5,9 @@ namespace Modules\Committee\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Committee\Entities\Committee;
+use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Observers\CommitteeObserver;
+use Modules\Committee\Observers\MeetingObserver;
 
 class CommitteeServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,8 @@ class CommitteeServiceProvider extends ServiceProvider
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
         Committee::observe(CommitteeObserver::class);
+        Meeting::observe(MeetingObserver::class);
+
     }
 
     /**
