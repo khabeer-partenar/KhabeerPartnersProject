@@ -70,16 +70,12 @@ class NotifyDeletedDelegate extends Notification implements ShouldQueue
 
     public function toMobily($notifiable)
     {
-      /*  return [
-            'message' => ''
-        ];*/
-
         return [
             'message' => __('users::delegates.delegate deleted')
                 . ' ' . $this->delegate->name
-                . ' '. __('users:delegates.delegate deleted for committee')
+                . ' '. __('users::delegates.delegate deleted for committee')
                 . ' ' . $this->committee->subject
-                . ' '. __('users:delegates.delegate deleted reasone')
+                . ' '. __('users::delegates.delegate deleted reason')
                 . ' ' . $this->reason
                 . ' ' . route('committees.show', $this->committee)
         ];

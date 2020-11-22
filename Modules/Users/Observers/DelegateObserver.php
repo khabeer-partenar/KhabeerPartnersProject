@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\CommitteeDelegate;
 use Modules\Core\Traits\Log;
+use Modules\SystemManagement\Entities\Department;
 use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Events\DelegateUpdatedEvent;
@@ -34,6 +35,7 @@ class DelegateObserver
     public function updated(Delegate $delegate)
     {
         $oldParentDepartmentId = $delegate->getOriginal('parent_department_id');
+        $oldparentDeparment = Department::findOrFail($oldParentDepartmentId);
         if ($oldParentDepartmentId !== $delegate->parent_department_id) {
             $nominations = CommitteeDelegate::getDepartmentNominations($oldParentDepartmentId, $delegate->id);
             if (optional($nominations)) {
@@ -59,7 +61,7 @@ class DelegateObserver
                     $committee = Committee::findOrFail($nomination->committee_id);
 
                     $delegate->removeDelegateFromCommittee($delegate, $nomination->committee_id, $nomination->nominated_department_id, '');
-                    event(new DelegateUpdatedEvent($delegate,$coordinator,$committee,$message));
+                    event(new DelegateUpdatedEvent($delegate,$coordinator,$committee,$message, $oldparentDeparment));
 
                 }
             }

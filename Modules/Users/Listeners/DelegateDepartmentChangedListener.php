@@ -26,7 +26,7 @@ class DelegateDepartmentChangedListener
      */
     public function handle($event)
     {
-        $event->coordinator->notify(new DelegateDepartmentChangedNotification($event->delegate,$event->committee,$event->message));
+        $event->coordinator->notify(new DelegateDepartmentChangedNotification($event->delegate,$event->committee,$event->message, $event->old_department));
 
     }
 }

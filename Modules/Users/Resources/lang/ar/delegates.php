@@ -43,10 +43,11 @@ return [
     'delegate deleted reason'=>'سبب الحذف',
     'delegate_can_not_delete'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك حذفه',
     'delegate_can_not_delegate'=>'لقد تم ترشيح المندوب من قبل المنسق المرجعى لذلك لا يمكنك الترشيح',
-    'delegate_department_changed'=>'تم نقل مندوب الى جهه اخرى',
+    'delegate_department_changed'=>'تم نقل المندوب الى جهه اخرى',
     'delegate_department_changed2'=>'من فضلك قم بترشيح مندوب اخر',
-    'delegate_in_meetings_can_not_remove' => 'لا يمكن حذف المندوب لانه موجود فى الاجتماعات قم بترشيح بديل اولا'
-
+    'delegate_in_meetings_can_not_remove' => 'لا يمكن حذف المندوب لانه موجود فى الاجتماعات قم بترشيح بديل اولا',
+    'delegate_in_department_before' => 'مندوب ب :name سابقا',
+    'replace_delegate_from_committee' => 'يرجى ترشيح ممثلا بديلا عن  '
 
 
 ];

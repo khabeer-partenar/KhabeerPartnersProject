@@ -15,18 +15,20 @@ class DelegateUpdatedEvent
     public $coordinator;
     public $committee;
     public $message;
+    public $old_department;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Delegate $delegate,Coordinator $coordinator,Committee $committee,$message)
+    public function __construct(Delegate $delegate,Coordinator $coordinator,Committee $committee,$message, $old_department)
     {
         $this->delegate = $delegate;
         $this->coordinator = $coordinator;
         $this->committee = $committee;
         $this->message = $message;
+        $this->old_department = $old_department;
 
     }
 

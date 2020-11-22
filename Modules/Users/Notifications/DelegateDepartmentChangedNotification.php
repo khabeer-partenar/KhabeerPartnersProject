@@ -17,18 +17,19 @@ class DelegateDepartmentChangedNotification extends Notification implements Shou
     private $committee;
     private $delegate;
     private $message;
+    private $old_department;
 
     /**
      * Create a new notification instance.
      *
      * @param $committee
      */
-    public function __construct($delegate, $committee,$message)
+    public function __construct($delegate, $committee, $message, $old_department)
     {
         $this->committee = $committee;
         $this->delegate = $delegate;
         $this->message = $message;
-
+        $this->old_department =  $old_department;
     }
 
     /**
@@ -52,7 +53,7 @@ class DelegateDepartmentChangedNotification extends Notification implements Shou
     {
         return (new MailMessage)
             ->subject(__('users::delegates.delegate_department_changed') . ' ' . $this->delegate->name)
-            ->markdown('users::emails.delegate_nomination_department_changed', ['committee' => $this->committee,'delegate'=>$this->delegate,'message'=>$this->message]);
+            ->markdown('users::emails.delegate_nomination_department_changed', ['committee' => $this->committee,'delegate'=>$this->delegate,'message'=>$this->message, 'old_department' => $this->old_department]);
     }
 
     /**
@@ -74,8 +75,8 @@ class DelegateDepartmentChangedNotification extends Notification implements Shou
     public function toMobily($notifiable)
     {
         return [
-            'message' => __('users::delegates.delegate_department_changed' . ' ' . $this->message)
-                . ' ' . $this->delegate->name
+            'message' => __('users::delegates.replace_delegate_from_committee')
+                . ' ' . $this->delegate->name . ' ' . __('users::delegates.delegate_in_department_before', ['name' => $this->old_department->name])
                 . ' ' . route('committees.show', $this->committee)
         ];
     }
