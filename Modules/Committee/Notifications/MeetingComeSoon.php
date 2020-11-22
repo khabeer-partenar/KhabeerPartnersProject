@@ -3,6 +3,7 @@
 namespace Modules\Committee\Notifications;
 
 use App\Channels\MobilyChannel;
+use App\Classes\Date\CarbonHijri;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -47,7 +48,7 @@ class MeetingComeSoon extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(__('committee::notifications.meeting_come_soon_remember'))
-            ->markdown('committee::emails.meeting_come_soon_remember', ['committee' => $this->committee,'meeting' => $this->meeting]);
+            ->markdown('committee::emails.meeting_come_soon_remember', ['committee' => $this->committee,'meeting' => $this->meeting, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->meeting_at, 'l')]);
     }
 
     /**

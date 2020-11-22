@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Notifications\CommitteeRemembered;
 use Illuminate\Support\Facades\Notification;
+use Modules\Committee\Notifications\MeetingComeSoon;
 
 class CommitteeNotificationController extends Controller
 {
@@ -17,6 +18,8 @@ class CommitteeNotificationController extends Controller
      */
     public function sendUrgentCommiteeNotification(Committee $committee)
     {
+        Notification::send($committee->meetings()->first()->delegates, new MeetingComeSoon($committee,$committee->meetings()->first()));
+        dd('sad');
         $toBeNotifiedUsers = $committee->participantAdvisors->merge($committee->delegates)->merge($committee->participantDepartmentsCoordinators());
         if($toBeNotifiedUsers->count())
 

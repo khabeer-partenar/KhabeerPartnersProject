@@ -17,6 +17,7 @@ return [
     'committee_deleted_desc' => ' تم إلغاء دراسة المعاملة رقم (:number)  وبناء عليه حذفت من النظام
 للاطلاع على الرابط',
     'very_urgent_and_important' => 'مهم وعاجل جدا',
-    'urgent_committee_notification'  => ': تقرر عقد اجتماع اليوم (:day) تاريخ (:date) في هيئة الخبراء لدراسة المعاملة رقم (:number) في صالة (:hall) للاطلاع علي الرابط '
+    'urgent_committee_notification'  => ': تقرر عقد اجتماع اليوم (:day) تاريخ (:date) في هيئة الخبراء لدراسة المعاملة رقم (:number) في صالة (:hall) للاطلاع علي الرابط ',
+    'coming_meeting_soon_notification'  => ': تذكير بالاجتماع المقرر في هيئة الخبراء للمعاملة رقم (:number) يوم (:day) بتاريخ (:date)  في صالة (:hall) للاطلاع علي الرابط '
 
 ];
