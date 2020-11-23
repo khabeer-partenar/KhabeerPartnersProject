@@ -18,6 +18,11 @@ use Modules\Users\Entities\User;
 
 class Meeting extends Model
 {
+    const FIRST = 1;
+    const COMPLEMENTARY = 2;
+    const NONCOMPLETE = 0;
+    const COMPLETE = 1;
+
     use SharedModel, SoftDeletes, Log;
 
     protected $fillable = [
@@ -253,13 +258,12 @@ class Meeting extends Model
 
         $this->committee->updateFirstMeetingAt();
         if ($this->can_change_members) {
-            MeetingDelegate::MeetingUpdateDelegatesNotifications($request->delegates,$this->delegates,$this);
+            //MeetingDelegate::MeetingUpdateDelegatesNotifications($request->delegates,$this->delegates,$this, );
             $delegates = MeetingDelegate::prepareForSync($request->delegates ? $request->delegates :[]);
             $this->delegates()->sync($delegates);
             $this->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors : []);
         }
 
-        //MeetingDelegate::MeetingCreateDelegatesNotifications($request->delegates,$this);
 
         return $this;
     }

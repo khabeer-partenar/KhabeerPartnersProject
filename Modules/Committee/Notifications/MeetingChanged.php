@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class MeetingCancelled extends Notification implements ShouldQueue
+class MeetingChanged extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -48,25 +48,36 @@ class MeetingCancelled extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject(__('committee::notifications.meeting_cancelled') . ' ' . $this->committee->subject)
-            ->markdown('committee::emails.meeting_cancelled', ['committee' => $this->committee, 'meeting' => $this->meeting, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')]);
+            ->subject(__('committee::notifications.meeting_data_updated') . ' ' . $this->committee->subject)
+            ->markdown('committee::emails.meeting_changed', ['committee' => $this->committee, 'meeting' => $this->meeting, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->meeting_at, 'l')]);
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param mixed $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
+
     }
 
     public function toMobily($notifiable)
     {
         if($this->meeting->type_id == \Modules\Committee\Entities\Meeting::FIRST)
             return [
-                'message' => __('committee::notifications.cancel_first_meeting', ['number' => $this->committee->resource_staff_number,
+                'message' => __('committee::notifications.update_first_meeting', ['number' => $this->committee->resource_staff_number,
                         'date' => $this->meeting->meeting_at, 'hall'=> $this->meeting->room->name, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')])
 
                     . ' ' . route('committee.meetings.show', [$this->committee, $this->meeting])
             ];
 
         elseif($this->meeting->type_id == \Modules\Committee\Entities\Meeting::COMPLEMENTARY)
-            return[
-                'message' => __('committee::notifications.cancel_complmentary_meeting', ['number' => $this->committee->resource_staff_number,
-                        'date' => $this->meeting->meeting_at, 'hall'=> $this->meeting->room->name, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')])
-                    . ' ' . route('committee.meetings.show', [$this->committee, $this->meeting])
-            ];
+           return[
+               'message' => __('committee::notifications.update_complmentary_meeting', ['number' => $this->committee->resource_staff_number,
+                       'date' => $this->meeting->meeting_at, 'hall'=> $this->meeting->room->name, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')])
+                   . ' ' . route('committee.meetings.show', [$this->committee, $this->meeting])
+           ];
     }
 }

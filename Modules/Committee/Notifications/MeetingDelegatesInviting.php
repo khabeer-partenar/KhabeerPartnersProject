@@ -3,6 +3,7 @@
 namespace Modules\Committee\Notifications;
 
 use App\Channels\MobilyChannel;
+use App\Classes\Date\CarbonHijri;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -48,26 +49,15 @@ class MeetingDelegatesInviting extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(__('committee::notifications.meeting_delegates_invitation') . ' ' . $this->committee->subject)
-            ->markdown('committee::emails.meeting_delegates_invitation', ['committee' => $this->committee, 'meeting' => $this->meeting]);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-
+            ->markdown('committee::emails.meeting_delegates_invitation', ['committee' => $this->committee, 'meeting' => $this->meeting, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->meeting_at, 'l')]);
     }
 
     public function toMobily($notifiable)
     {
         return [
-            'message' => __('committee::notifications.new_meeting_added')
-                . ' ' . $this->committee->subject
-                . ' ' . route('committees.show', $this->committee, $this->meeting)
+            'message' =>__('committee::notifications.urgent_committee_notification',
+                    ['number' => $this->committee->resource_staff_number, 'date' => $this->meeting->meeting_at, 'hall'=> $this->meeting->room->name, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')])
+                . ' ' . route('committee.meetings.show', [$this->committee, $this->meeting])
         ];
     }
 }

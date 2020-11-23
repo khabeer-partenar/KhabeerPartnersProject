@@ -3,6 +3,7 @@
 namespace Modules\Committee\Observers;
 
 use Modules\Committee\Entities\Meeting;
+use Modules\Committee\Entities\MeetingDelegate;
 
 class MeetingObserver
 {
@@ -25,7 +26,20 @@ class MeetingObserver
      */
     public function updated(Meeting $meeting)
     {
-        dd($meeting->getAttributes());
+        $delegates = $meeting->delegates();
+        $old_meeting = $meeting->getOriginal();
+
+        if($old_meeting['type_id'] === Meeting::FIRST )
+        {
+            if($old_meeting['completed'] === Meeting::NONCOMPLETE)
+                MeetingDelegate::MeetingUpdateDelegatesNotifications(request()->delegates,$meeting->delegates,$meeting, 'created');
+            elseif($old_meeting['from'] !== $meeting->from || $old_meeting['to'] !== $meeting->to)
+                MeetingDelegate::MeetingUpdateDelegatesNotifications(request()->delegates,$meeting->delegates,$meeting, 'changed');
+        }
+        else
+            if($old_meeting['from'] !== $meeting->from || $old_meeting['to'] !== $meeting->to)
+                MeetingDelegate::MeetingUpdateDelegatesNotifications(request()->delegates,$meeting->delegates,$meeting, 'changed');
+
     }
 
     /**

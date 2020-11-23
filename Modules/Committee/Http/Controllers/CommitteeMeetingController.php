@@ -5,17 +5,18 @@ namespace Modules\Committee\Http\Controllers;
 use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Notification;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
 use Modules\Committee\Entities\MeetingDocument;
 use Modules\Committee\Entities\MeetingType;
 use Modules\Committee\Http\Requests\SaveMeetingRequest;
 use Modules\SystemManagement\Entities\MeetingRoom;
+use Modules\Users\Entities\User;
 use Modules\Users\Traits\SessionFlash;
 use Modules\Committee\Notifications\MeetingCreated;
 use Modules\Committee\Notifications\MeetingCancelled;
 use Modules\Committee\Notifications\MeetingParticpatingUpdated;
-use Notification;
 
 class CommitteeMeetingController extends UserBaseController
 {
@@ -75,7 +76,6 @@ class CommitteeMeetingController extends UserBaseController
         $meeting->log('create_new_meeting_for_committee : ' . $committee->id);
         $toBeNotifiedUsers = $meeting->participantAdvisors->merge($meeting->committee->participantDepartmentsUsersUnique());
         if($toBeNotifiedUsers->count())
-            Notification::send($toBeNotifiedUsers, new MeetingCreated($meeting->committee,$meeting));
         self::sessionSuccess('committee::meetings.created successfully');
         return redirect()->route('committee.meetings', compact('committee'));
     }
