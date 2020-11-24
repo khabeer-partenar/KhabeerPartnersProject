@@ -2,17 +2,17 @@
 
 namespace Modules\Committee\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserBaseController;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Session;
 use Modules\Committee\Entities\Meeting;
-use Modules\Committee\Entities\MeetingDelegate;
 use Modules\Committee\Entities\Nationality;
 use Modules\Committee\Entities\Religion;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Multimedia;
 use Modules\Committee\Http\Requests\MeetingDelegateNominateRequest;
 use Modules\Committee\Http\Requests\UpdateDelegateMeetingRequest;
+use Modules\Committee\Notifications\MeetingDelegateUploadFiles;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Traits\SessionFlash;
 use Illuminate\Http\Response;
@@ -62,8 +62,14 @@ class DelegateMeetingController extends UserBaseController
      */
     public function update(UpdateDelegateMeetingRequest $request, Committee $committee, Meeting $meeting)
     {
+        $department = Delegate::findOrFail(auth()->user()->id)->department;
         $meeting->updateStatusAndReason($request);
         Multimedia::createMultimedia($request->text, $committee->id, $meeting->id);
+        if($request->text || Session::get('uploadDocuments'))
+        {
+            Notification::send([$committee->advisor, $committee->advisor->secretaries], new MeetingDelegateUploadFiles($committee, $meeting, $department->name));
+            Session::put('uploadDocuments', false);
+        }
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));
         return redirect()->route('committee.meetings', compact('committee'));
     }

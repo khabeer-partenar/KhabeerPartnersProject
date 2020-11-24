@@ -5,6 +5,7 @@ namespace Modules\Committee\Http\Controllers;
 use App\Http\Controllers\UserBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Meeting;
@@ -31,6 +32,7 @@ class DelegateMeetingDocumentController extends UserBaseController
             'committee_id' => $committee->id,
             'meeting_id' => $meeting->id
         ]);
+        Session::put(['uploadDocuments' => true]);
         return response()->json([
             'delegateDocument' => $delegateDocument,
             'delete_url' => route('committee.meeting-document.delete-delegate', compact('committee', 'delegateDocument'))

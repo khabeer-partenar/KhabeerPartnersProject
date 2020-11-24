@@ -26,5 +26,7 @@ return [
     'meeting_data_updated' => 'تغيير بيانات',
     'cancel_first_meeting'  => ': تم الغاء الاجتماع الاولي المقرر انعقاده في هيئة الخبراء يوم (:day) بتاريخ (:date) للمعاملة رقم (:number)  في صالة (:hall) للاطلاع علي الرابط ',
     'cancel_complmentary_meeting'  => ': تم الغاء الاستكمالي المقرر انعقاده في هيئة الخبراء يوم (:day) بتاريخ (:date) للمعاملة رقم (:number)  في صالة (:hall) للاطلاع علي الرابط ',
+    'delegate_upload_documents' => 'تم اضافة مرئيات من قبل المندوب',
+    'delegate_upload_documents_message' => ' : تم اضافة مرئيات  من مندوب (:department) للمعاملة رقم (:number)  للاطلاع علي الرابط',
 
 ];
