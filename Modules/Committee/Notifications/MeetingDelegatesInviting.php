@@ -54,8 +54,15 @@ class MeetingDelegatesInviting extends Notification implements ShouldQueue
 
     public function toMobily($notifiable)
     {
+        if($this->meeting->type_id == \Modules\Committee\Entities\Meeting::FIRST)
         return [
-            'message' =>__('committee::notifications.urgent_committee_notification',
+            'message' =>__('committee::notifications.confirm_first_meeting',
+                    ['number' => $this->committee->resource_staff_number, 'date' => $this->meeting->meeting_at, 'hall'=> $this->meeting->room->name, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')])
+                . ' ' . route('committee.meetings.show', [$this->committee, $this->meeting])
+        ];
+        elseif($this->meeting->type_id == \Modules\Committee\Entities\Meeting::COMPLEMENTARY)
+        return [
+            'message' =>__('committee::notifications.confirm_complmentary_meeting',
                     ['number' => $this->committee->resource_staff_number, 'date' => $this->meeting->meeting_at, 'hall'=> $this->meeting->room->name, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')])
                 . ' ' . route('committee.meetings.show', [$this->committee, $this->meeting])
         ];

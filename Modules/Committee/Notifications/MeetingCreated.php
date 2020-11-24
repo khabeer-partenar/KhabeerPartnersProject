@@ -3,6 +3,7 @@
 namespace Modules\Committee\Notifications;
 
 use App\Channels\MobilyChannel;
+use App\Classes\Date\CarbonHijri;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -48,26 +49,23 @@ class MeetingCreated extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject(__('committee::notifications.new_meeting_added') . ' ' . $this->committee->subject)
-            ->markdown('committee::emails.new_meeting_created', ['committee' => $this->committee, 'meeting' => $this->meeting]);
+            ->markdown('committee::emails.meeting_delegates_invitation', ['committee' => $this->committee, 'meeting' => $this->meeting, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->meeting_at, 'l')]);
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-
-    }
 
     public function toMobily($notifiable)
     {
-        return [
-            'message' => __('committee::notifications.new_meeting_added')
-                . ' ' . $this->committee->subject
-                . ' ' . route('committees.show', $this->committee, $this->meeting)
-        ];
+        if($this->meeting->type_id == \Modules\Committee\Entities\Meeting::FIRST)
+            return [
+                'message' =>__('committee::notifications.confirm_first_meeting',
+                        ['number' => $this->committee->resource_staff_number, 'date' => $this->meeting->meeting_at, 'hall'=> $this->meeting->room->name, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')])
+                    . ' ' . route('committee.meetings.show', [$this->committee, $this->meeting])
+            ];
+        elseif($this->meeting->type_id == \Modules\Committee\Entities\Meeting::COMPLEMENTARY)
+            return [
+                'message' =>__('committee::notifications.confirm_complmentary_meeting',
+                        ['number' => $this->committee->resource_staff_number, 'date' => $this->meeting->meeting_at, 'hall'=> $this->meeting->room->name, 'day' => CarbonHijri::toHijriFromMiladi($this->meeting->from, 'l')])
+                    . ' ' . route('committee.meetings.show', [$this->committee, $this->meeting])
+            ];
     }
 }

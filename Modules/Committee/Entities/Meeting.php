@@ -238,13 +238,11 @@ class Meeting extends Model
             'completed' => true,
             'advisor_id' => $committee->advisor_id
         ], $request->only(['type_id', 'room_id', 'reason', 'description'])));
-        MeetingDelegate::MeetingCreateDelegatesNotifications($request->delegates,$meeting);
         $delegates = MeetingDelegate::prepareForSync($request->delegates ? $request->delegates :[]);
         $meeting->delegates()->sync($delegates);
         $meeting->participantAdvisors()->sync($request->participantAdvisors ? $request->participantAdvisors:[]);
-
+        MeetingDelegate::MeetingCreateDelegatesNotifications($request->delegates,$meeting);
         MeetingDocument::updateDocumentsMeeting($meeting->id, $committee->id);
-
         return $meeting;
     }
 

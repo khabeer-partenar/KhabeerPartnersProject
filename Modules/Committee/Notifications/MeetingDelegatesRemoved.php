@@ -65,7 +65,7 @@ class MeetingDelegatesRemoved extends Notification implements ShouldQueue
     public function toMobily($notifiable)
     {
         return [
-            'message' => __('committee::notifications.new_meeting_added')
+            'message' => __('committee::notifications.meeting_delegates_removed')
                 . ' ' . $this->committee->subject
                 . ' ' . route('committees.show', $this->committee, $this->meeting)
         ];

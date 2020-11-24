@@ -5,6 +5,7 @@ namespace Modules\Committee\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;
 use Modules\Committee\Notifications\MeetingChanged;
+use Modules\Committee\Notifications\MeetingCreated;
 use Modules\Core\Traits\SharedModel;
 use Modules\Users\Entities\Delegate;
 use Modules\Committee\Notifications\MeetingDelegatesInviting;
@@ -65,8 +66,10 @@ class MeetingDelegate extends Model
         {
             $new_delegates = Delegate::whereIn('id', $delegatesIds);
             if($new_delegates->count())
-                Notification::send($new_delegates->get(), new MeetingDelegatesInviting($meeting->committee,$meeting));
+                Notification::send([$new_delegates->get(), $meeting->participantAdvisors], new MeetingDelegatesInviting($meeting->committee,$meeting));
         }
+        Notification::send([$meeting->advisor, $meeting->committee->advisor->secretaries], new MeetingCreated($meeting->committee,$meeting));
+
 
     }
 
@@ -76,14 +79,13 @@ class MeetingDelegate extends Model
         if($delegatesIds)
             {
                 $delegates = Delegate::whereIn('id', $delegatesIds);
-                $toBeNotifiedUsers = $meeting->participantAdvisors->merge($delegates->get());
                 $removed_delegates = Delegate::whereIn('id', array_diff($old_delegates->pluck('id')->toArray(), $delegates->pluck('id')->toArray()));
                 if($removed_delegates->count())
                     Notification::send($removed_delegates->get(), new MeetingDelegatesRemoved($meeting->committee,$meeting));
                 if($type == 'created')
-                    Notification::send($toBeNotifiedUsers, new MeetingDelegatesInviting($meeting->committee,$meeting));
+                    Notification::send([$meeting->participantAdvisors,$delegates->get(), $meeting->advisor, $meeting->committee->advisor->secretaries], new MeetingDelegatesInviting($meeting->committee,$meeting));
                 elseif ($type == 'changed')
-                    Notification::send($toBeNotifiedUsers, new MeetingChanged($meeting->committee,$meeting));
+                    Notification::send([$meeting->participantAdvisors,$delegates->get(), $meeting->advisor, $meeting->committee->advisor->secretaries], new MeetingChanged($meeting->committee,$meeting));
 
             }
             else
