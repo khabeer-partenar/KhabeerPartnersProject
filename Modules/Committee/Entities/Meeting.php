@@ -7,6 +7,8 @@ use Carbon\Carbon;
 use Carbon\Exceptions\InvalidDateException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Notification;
+use Modules\Committee\Notifications\MeetingDelegateUploadFiles;
 use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
@@ -15,6 +17,7 @@ use Modules\Users\Entities\Coordinator;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Entities\Employee;
 use Modules\Users\Entities\User;
+use phpDocumentor\Reflection\Types\Self_;
 
 class Meeting extends Model
 {
@@ -22,7 +25,8 @@ class Meeting extends Model
     const COMPLEMENTARY = 2;
     const NONCOMPLETE = 0;
     const COMPLETE = 1;
-
+    const ACCEPT_MEETING = 1;
+    const APOLOGIZE_MEETING = 2;
     use SharedModel, SoftDeletes, Log;
 
     protected $fillable = [

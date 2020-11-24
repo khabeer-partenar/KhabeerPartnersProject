@@ -12,6 +12,7 @@ use Modules\Committee\Entities\Committee;
 use Modules\Committee\Entities\Multimedia;
 use Modules\Committee\Http\Requests\MeetingDelegateNominateRequest;
 use Modules\Committee\Http\Requests\UpdateDelegateMeetingRequest;
+use Modules\Committee\Notifications\MeetingDelegateAttendace;
 use Modules\Committee\Notifications\MeetingDelegateUploadFiles;
 use Modules\Users\Entities\Delegate;
 use Modules\Users\Traits\SessionFlash;
@@ -70,6 +71,9 @@ class DelegateMeetingController extends UserBaseController
             Notification::send([$committee->advisor, $committee->advisor->secretaries], new MeetingDelegateUploadFiles($committee, $meeting, $department->name));
             Session::put('uploadDocuments', false);
         }
+        if($request->status == Meeting::ACCEPT_MEETING)
+            Notification::send([$committee->advisor, $committee->advisor->secretaries], new MeetingDelegateAttendace($committee, $meeting, $department->name));
+
         self::sessionSuccess(__('committee::delegate_meeting.meeting_updated_successfully'));
         return redirect()->route('committee.meetings', compact('committee'));
     }
