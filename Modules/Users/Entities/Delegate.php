@@ -18,7 +18,6 @@ use Modules\Core\Traits\Log;
 use Modules\Core\Traits\SharedModel;
 use Modules\SystemManagement\Entities\Department;
 use Modules\Committee\Entities\MeetingDriver;
-use Modules\Users\Events\DelegateCreatedEvent;
 use Modules\Users\Notifications\NotifyDeletedDelegate;
 use Notification;
 
@@ -96,7 +95,6 @@ class Delegate extends User
     {
         foreach ($delegates as $delegate_id) {
             $delegate = Delegate::find($delegate_id);
-            event(new DelegateCreatedEvent($delegate, $committee));
         }
 
     }
@@ -142,8 +140,6 @@ class Delegate extends User
         $this->setCommitteeNominationStatus($committee->id);
         $committee->setMembersCount();
         $delegate = Delegate::find($delegate_id);
-        event(new DelegateCreatedEvent($delegate, $committee));
-
     }
 
     public function scopeNotInCommittee($query, $department_id, $committee_id)

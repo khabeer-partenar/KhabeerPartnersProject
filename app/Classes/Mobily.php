@@ -14,12 +14,6 @@ class Mobily
         }
         return $number;
     }
-    /**
-     * API URLS
-     */
-    protected static $sendMessageURL = "http://api.yamamah.com/SendSMSV2";
-    protected static $getBalanceURL = "http://oursms.net/api/getbalance.php";
-
 
     public static function sendMessage($message, $number)
     {
@@ -58,38 +52,5 @@ class Mobily
         echo $result;
         //close connection
         curl_close($ch);
-    }
-
-    /**
-     * Get SMS balance
-     * @return false|string[]
-     */
-    public static function getBalance()
-    {
-        $client = new Client();
-        $response = $client->request('GET', self::$getBalanceURL, [
-                'query' => [
-                    'mobile' => env('MOBILY_USER_NAME'),
-                    'password' => env('MOBILY_PASSWORD')
-                ]
-            ]
-        );
-
-        return explode('/', trim(strip_tags($response->getBody()->getContents())));
-    }
-
-    /**
-     * Get SMS current balance
-     * @return Integer Sms balance
-     */
-    public static function getCurrentBalance() {
-        $responseArray = self::GetBalance();
-        //failure
-        if (count($responseArray) == 1 ) {
-            return 0;
-            //success
-        } else {
-            return $responseArray[1];
-        }
     }
 }
