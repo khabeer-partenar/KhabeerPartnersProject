@@ -23,13 +23,14 @@ class Mobily
 
     public static function sendMessage($message, $number)
     {
-        $url = 'http://api.yamamah.com/SendSMS';
+        $url = 'http://api.yamamah.com/SendSMSV3';
         $fields = array(
-            "Username" => "966500554560",
-            "Password" => "19888",
-            "Tagname"=>"KP.BOE",
+            "Username" => env(env('APP_ENV').'_YAMAMAH_USERNAME'),
+            "Password" => env(env('APP_ENV').'_YAMAMAH_PASSWORD'),
+            "Tagname"=> env(env('APP_ENV').'_YAMAMAH_TAGNAME'),
+            "Code" => env(env('APP_ENV').'_YAMAMAH_CODE'),
             "Message" => $message,
-            "RecepientNumber" => '0596430095',
+            "RecepientNumber" => $number,
             "ReplacementList" =>"",
             "SendDateTime" => "0",
             "EnableDR" =>False,
@@ -89,42 +90,6 @@ class Mobily
             //success
         } else {
             return $responseArray[1];
-        }
-    }
-
-    /**
-     * Get message success or fail with message
-     * @param String $responseCode returned response code
-     */
-    public static function getStatusWithMessage($responseCode)
-    {
-        switch ($responseCode) {
-            case "1":
-                return ["responseCode" => $responseCode, "success" => true, "message" => app('translator')->get('mobily.sent')];
-            case "2":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.no_charge_zero')];
-            case "3":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.no_charge')];
-            case "4":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.null_user_or_mobile')];
-            case "5":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.wrong_password')];
-            case "6":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.try_later')];
-            case "13":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.sender_not_approval')];
-            case "14":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.empty_sender')];
-            case "15":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.empty_numbers')];
-            case "16":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.empty_sender2')];
-            case "17":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.message_not_encoding')];
-            case "18":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.service_stoped')];
-            case "19":
-                return ["responseCode" => $responseCode, "success" => false, "message" => app('translator')->get('mobily.app_error')];
         }
     }
 }
