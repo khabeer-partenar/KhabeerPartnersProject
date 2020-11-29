@@ -43,18 +43,16 @@
                     <tr>
                         <th style="width: 16.66%" scope="row">رقم وارد الهيئة</th>
                         <td>
-                            {{ $committee->resource_staff_number }}
+                            ({{ $committee->resource_staff_number }})
+                            {{ __('committee::committees.on_date') }}
+                            {{ $committee->resource_at_hijri }}
                         </td>
                     </tr>
                     <tr>
                         <th style="width: 16.66%" scope="row">وردت من</th>
                         <td>
                             {{ $committee->resourceDepartment->name }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th style="width: 16.66%" scope="row">رقم وتاريخ صادر الجهة</th>
-                        <td>
+                            {{ __('committee::committees.with_number') }}
                             ({{ $committee->department_out_number }})
                             {{ __('committee::committees.on_date') }}
                             {{ $committee->department_out_date_hijri }}
@@ -77,7 +75,7 @@
                             {{ __('committee::committees.with_number') }}
                             ({{ $committee->treatment_number }})
                             {{ __('committee::committees.on_date') }}
-                            {{ $committee->resource_at_hijri }}
+                            {{ $committee->treatment_time_hijri }}
                         </td>
                     </tr>
                     <tr>
