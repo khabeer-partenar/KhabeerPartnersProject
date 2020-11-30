@@ -14,9 +14,6 @@ class CommitteeReportController extends Controller
 {
     public function show(Committee $committee)
     {
-
-     
-
         $meeting = $committee->firstMeeting()->first();
         $pdf = PDF::loadView('committee::reports.committee_detail_report', compact('committee','meeting'));
         return $pdf->stream($committee->subject . '.pdf');

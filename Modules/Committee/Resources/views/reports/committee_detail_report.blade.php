@@ -25,16 +25,20 @@
         <strong >الجهه المرسل إليها: {{auth()->user()->parentDepartment->name}}</strong>
 
         <p><strong>الموضوع:</strong> {{$committee->subject}}</p>
-        
+
         <label><strong>موعد الاجتماع:</strong> يوم {{__('messages.'.$committee->first_meeting_at->format('D'))}}
-            تاريخ {{ $committee->first_meeting_at_hijri }} هـ الساعة  {{$committee->first_meeting_time}}</label>
+            تاريخ {{ \App\Classes\Date\CarbonHijri::parse($committee->first_meeting_at_hijri)->format('d-m-Y') }} هـ الساعة  {{$committee->first_meeting_time}}</label>
 
         @if($meeting && $meeting->room)
-        <p><strong>مقر الاجتماع:</strong> {{$meeting->room->name}} {{ 'ب'.$meeting->room->city->name }}</p>
-       @endif
+            <p><strong>مقر الاجتماع:</strong>
+                هيئة الخبراء بمجلس الوزراء
+                {{ 'ب' . $meeting->room->name }} - {{ $meeting->room->city->name }}
+            </p>
+        @endif
+
         <p><strong>المستشار المسئول:</strong> {{$committee->advisor->name}}</p>
 
-        <strong> الجهات المشاركة فى الدراسة</strong>
+        <strong> الجهات المشاركة فى الدراسة:</strong>
         <br>
         <table class="table table-striped table-responsive-md">
 
@@ -50,8 +54,10 @@
             @endforeach
             </tbody>
         </table>
-        <p style="line-height: 1.7;"> <strong>المطلوب:</strong>  توجيه من ترون للمشاركة في الاجتماع وترشيحه عن طريق منصة شركاء خبير خلال موعد أقصاه (قبل 24 ساعة من موعد الاجتماع) ولمزيد المعلومات عن الموضوع أمل الرجوع للمنصة عبر الرابط (kp.boe.gov.sa)</p>
-
+        <p style="line-height: 1.7;">
+            &nbsp;&nbsp;&nbsp;
+            نأمل توجيه من ترون وتكليفه للمشاركة في الاجتماع، وترشيحه عن طريق منصة (شركاء خبير) خلال موعد أقصاه (قبل 48 ساعة من موعد الاجتماع)، مع التقيد بما قضى به الأمر السامي التعميمي رقم (17134) وتاريخ 26/3/1441ه.
+        </p>
 
     </div>
 </div>
