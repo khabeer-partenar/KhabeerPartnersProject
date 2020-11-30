@@ -13,13 +13,13 @@ class UserWatermark
         $img = Image::make(public_path('assets/images/watermark.png'));
         $arabic = new I18N_Arabic('Glyphs');
         $text = $arabic->utf8Glyphs(auth()->user()->name);
-        $img->text($text, 250, 80, function($font) {
+        $img->text($text, 800, 750, function($font) {
             $font->file(public_path('assets/fonts/trado.ttf'));
-            $font->size(30);
-            $font->color('#999');
+            $font->size(self::getFontSize(auth()->user()->name));
+            $font->color('#545454');
             $font->align('center');
             $font->valign('bottom');
-            $font->angle(0);
+            $font->angle(45);
         });
         $path = storage_path('app/public/watermarks/');
         if (!file_exists($path)) {
@@ -28,5 +28,19 @@ class UserWatermark
 
         $img->save($path . auth()->id() . '.png');
         return $img->dirname.'/'.$img->basename;
+    }
+
+    public static function getFontSize($string)
+    {
+        $wordsCount = count(explode(' ', $string, 3));
+        switch ($wordsCount) {
+            case 4:
+                return 75;
+            case 3:
+                return 120;
+            case 1:
+            case 2:
+                return 250;
+        }
     }
 }

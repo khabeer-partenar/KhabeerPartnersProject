@@ -55,18 +55,15 @@ class CommitteeDocumentController extends UserBaseController
 
     public function download(CommitteeDocument $document)
     {
-        $extension = explode (".", $document->path)[1];  
+        $extension = explode (".", $document->path)[1];
 
-        if($extension == 'pdf')
-        {
+        if($extension == 'pdf') {
             $watermarkPath = UserWatermark::getWatermarkImage();
             $waterMarker = new WaterMarker($document, $watermarkPath);
             $savedPath = $waterMarker->drawWaterMark();
             return response()->download($savedPath, $document->name);
         }
-        else
-        {
-            return Storage::download($document->path, $document->name);
-        }
+
+        return Storage::download($document->path, $document->name);
     }
 }
