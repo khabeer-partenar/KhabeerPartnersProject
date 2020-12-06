@@ -32,7 +32,7 @@ class UpdateCoordinatorRequest extends FormRequest
             'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::mainDepartment)],
             'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::parentDepartment), new CheckCoordinatorParentDepartmentType(request()->main_department_id)],
             'direct_department' => ['nullable', 'string'],
-            'national_id' => ['required', new NationalIDRule, Rule::unique(User::table())->ignore($coordinator->id)],
+            'national_id' => ['required', new NationalIDRule, 'unique:'. User::table() . ',national_id,' . $coordinator->id .',id,deleted_at,NULL'],
             'name' => ['required', new FilterStringRule, 'string'],
             'phone_number' => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table() . ',phone_number,' . $coordinator->id .',id,deleted_at,NULL'],
             'email' => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table() . ',email,' . $coordinator->id .',id,deleted_at,NULL'],
