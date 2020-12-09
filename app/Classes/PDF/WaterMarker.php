@@ -28,7 +28,7 @@ class WaterMarker
         $watermark->setPosition($this->position);
 
         //Place watermark behind original PDF content. Default behavior places it over the content.
-        $watermark->setAsBackground();
+        $watermark->setAsOverlay();
 
         //Specify the path to the existing pdf, the path to the new pdf file, and the watermark object
         $tempPath = public_path('temp-downloads/');

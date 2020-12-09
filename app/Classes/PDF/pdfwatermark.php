@@ -30,7 +30,7 @@ class PDFWatermark {
 		$this->_file = $this->_prepareImage($file);
 		$this->_getImageSize( $this->_file );
 		$this->_position = 'center';
-		$this->_asBackground = true;
+		$this->_asBackground = false;
 	}
 
 	/**

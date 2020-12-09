@@ -16,11 +16,12 @@ class UserWatermark
         $img->text($text, 800, 750, function($font) {
             $font->file(public_path('assets/fonts/trado.ttf'));
             $font->size(self::getFontSize(auth()->user()->name));
-            $font->color('#545454');
+            $font->color('#3E3E3E');
             $font->align('center');
             $font->valign('bottom');
             $font->angle(45);
-        });
+        })->opacity(50);
+
         $path = storage_path('app/public/watermarks/');
         if (!file_exists($path)) {
             mkdir($path, 666, true);
