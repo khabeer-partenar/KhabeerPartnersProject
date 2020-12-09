@@ -25,7 +25,7 @@ class UpdateEmployeeRequest extends FormRequest
         $employee = $request->employee;
         return [
             'direct_department_id' => ['required', 'integer', 'exists:'. Department::table() .',id'],
-            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table() . ',national_id,' . $employee->id],
+            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table() . ',national_id,' . $employee->id .',id,deleted_at,NULL'],
             'name'                 => ['required', new FilterStringRule, 'string', 'max:255'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table() . ',phone_number,' . $employee->id .',id,deleted_at,NULL'],
             'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table() . ',email,' . $employee->id .',id,deleted_at,NULL'],

@@ -108,11 +108,12 @@
                             {{ $committee->tasks }}
                         </td>
                     </tr>
+
                     @if($committee->president)
                     <tr>
                         <th scope="row">برئاسة</th>
                         <td>
-                            {{ $committee->president}}
+                            {{ $committee->president->name}}
                         </td>
                     </tr>
                     @endif

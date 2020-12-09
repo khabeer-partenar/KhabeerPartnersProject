@@ -27,7 +27,7 @@ class SaveCoordinatorRequest extends FormRequest
             'main_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::mainDepartment)],
             'parent_department_id' => ['required', 'integer', 'exists:'. Department::table(). ',id', new CheckDepartmentType(Department::parentDepartment)],
             'direct_department' => ['nullable', 'string'],
-            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table()],
+            'national_id'          => ['required', new NationalIDRule, 'unique:'. User::table(). ',national_id,NULL,id,deleted_at,NULL'],
             'name'                 => ['required', new FilterStringRule, 'string'],
             'phone_number'         => ['required', new ValidationPhoneNumberRule, 'unique:'. User::table() . ',phone_number,NULL,id,deleted_at,NULL'],
             'email'                => ['required', 'email', new ValidationGovEmailRule, 'unique:'. User::table() . ',email,NULL,id,deleted_at,NULL'],
