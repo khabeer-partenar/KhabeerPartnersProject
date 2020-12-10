@@ -27,7 +27,17 @@ class TreatmentTypesTableSeederTableSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
-                'name' => 'مذكرة',
+                'name' => 'تنظيم',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name' => 'لائحة',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name' => 'تقرير سنوي',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -38,6 +48,21 @@ class TreatmentTypesTableSeederTableSeeder extends Seeder
             ],
             [
                 'name' => 'تقرير',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name' => 'اتفاقية',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name' => 'مذكرة تفاهم',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name' => 'دراسة',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

@@ -44,7 +44,7 @@ return [
     'subject' => 'الموضوع',
     'president_id' => 'رئيس الدراسة',
     'advisor_id' => 'المستشار المسؤول عن الدراسة',
-    'tasks' => 'مهام الاجتماع',
+    'tasks' => 'نبذة عن الموضوع',
     'participant_advisors' => 'مستشارين مشاركين',
     'members_count' => 'عدد الأعضاء',
     'departments to participate' => 'جهات مطلوب مشاركتها',

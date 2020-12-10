@@ -21,7 +21,7 @@ class TreatmentImportanceTableSeederTableSeeder extends Seeder
         DB::table(TreatmentImportance::table())->truncate();
         $importance = [
             [
-                'name' => 'عادي',
+                'name' => 'غير سري',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
@@ -31,7 +31,12 @@ class TreatmentImportanceTableSeederTableSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
-                'name' => 'سري جدا',
+                'name' => 'سري للغاية',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name' => 'غير قابل للتداول',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

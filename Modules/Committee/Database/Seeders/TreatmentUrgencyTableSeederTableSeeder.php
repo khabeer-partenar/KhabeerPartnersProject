@@ -26,12 +26,17 @@ class TreatmentUrgencyTableSeederTableSeeder extends Seeder
                 'updated_at' => Carbon::now()
             ],
             [
-                'name' => 'حالا',
+                'name' => 'عاجل',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
             [
-                'name' => 'عاجل',
+                'name' => 'عاجل جدا',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ],
+            [
+                'name' => 'حالا',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
